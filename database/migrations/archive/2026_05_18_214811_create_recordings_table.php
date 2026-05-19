@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 use SqlMigrations\SqlMigration;
 
-class CreateRecordingsTable extends SqlMigration
+final class CreateRecordingsTable extends SqlMigration
 {
-     public $connection = 'archivio_nomadelfia';
+    public $connection = 'archivio_nomadelfia';
 }

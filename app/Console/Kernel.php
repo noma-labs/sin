@@ -9,9 +9,9 @@ use App\Console\Commands\DetectPhotoIssuesCommand;
 use App\Console\Commands\ExifExtractCommand;
 use App\Console\Commands\ExifJsonImportCommand;
 use App\Console\Commands\RecordingSynchCommand;
+use App\Console\Commands\SynchPeopleOnPhotosCommand;
 use App\Console\Commands\TranscriptsImportCommand;
 use App\Console\Commands\TranscriptSynchCommand;
-use App\Console\Commands\SynchPeopleOnPhotosCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 

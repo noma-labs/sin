@@ -14,7 +14,6 @@ use App\Agraria\Controllers\SearchableMaintenanceController;
 use App\Agraria\Controllers\VehicleHourController;
 use App\Archive\Controllers\ArchiveController;
 use App\Archive\Controllers\SearchableArchiveController;
-use App\Archive\Models\RecordingTranscript;
 use App\Auth\Controllers\LoginController;
 use App\Biblioteca\Controllers\AuthorsController;
 use App\Biblioteca\Controllers\BooksBorrowController;

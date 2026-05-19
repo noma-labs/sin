@@ -142,8 +142,6 @@ final class TranscriptsImportCommand extends Command
 
     /**
      * Decode HTML entities in a string.
-     *
-     * @return string
      */
     private function decode(string $text): string
     {
@@ -159,5 +157,4 @@ final class TranscriptsImportCommand extends Command
 
         return [$heading, $heading];
     }
-
 }

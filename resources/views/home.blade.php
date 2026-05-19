@@ -223,7 +223,8 @@
                         <div class="card-header">Archivio Nomadelfia</div>
                         <div class="card-body">
                             <p class="card-text">
-                                Gestione archivio di Nomadelfia: registrazioni, documenti.
+                                Gestione archivio di Nomadelfia: registrazioni,
+                                documenti.
                             </p>
                         </div>
                         <div class="card-footer">

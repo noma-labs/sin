@@ -45,6 +45,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  */
 final class Recording extends Model
 {
+    public $timestamps = false;
+
     protected $connection = 'archivio_nomadelfia';
 
     protected $table = 'recordings';
@@ -53,7 +55,10 @@ final class Recording extends Model
 
     protected $primaryKey = 'id';
 
-    public $timestamps = false;
+    public function transcript(): HasOne
+    {
+        return $this->hasOne(RecordingTranscript::class, 'recording_id');
+    }
 
     protected function casts(): array
     {
@@ -65,10 +70,5 @@ final class Recording extends Model
             'ORIG' => 'boolean',
             'MS_DATT' => 'boolean',
         ];
-    }
-
-    public function transcript(): HasOne
-    {
-        return $this->hasOne(RecordingTranscript::class, 'recording_id');
     }
 }

@@ -16,25 +16,25 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 final class RecordingTranscript extends Model
 {
+    public $incrementing = false;
+
     protected $connection = 'archivio_nomadelfia';
 
     protected $table = 'recording_transcripts';
 
     protected $primaryKey = 'code';
 
-    public $incrementing = false;
-
     protected $keyType = 'string';
 
     protected $guarded = [];
 
-    protected function casts(): array
-    {
-        return ['recorded_date' => 'date'];
-    }
-
     public function recording(): BelongsTo
     {
         return $this->belongsTo(Recording::class, 'recording_id');
+    }
+
+    protected function casts(): array
+    {
+        return ['recorded_date' => 'date'];
     }
 }

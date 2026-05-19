@@ -2,16 +2,20 @@
 
 @section("content")
     <div class="d-flex align-items-center justify-content-end mb-2">
-         <div class="card border-0 shadow-sm">
+        <div class="card border-0 shadow-sm">
             <div class="card-body py-2 px-3 d-flex align-items-center gap-2">
                 <span class="text-muted small">Foto Analogiche</span>
-                <span class="fw-bold fs-5">{{ number_format($photosCount) }}</span>
+                <span class="fw-bold fs-5">
+                    {{ number_format($photosCount) }}
+                </span>
             </div>
         </div>
         <div class="card border-0 shadow-sm">
             <div class="card-body py-2 px-3 d-flex align-items-center gap-2">
                 <span class="text-muted small">Registrazioni</span>
-                <span class="fw-bold fs-5">{{ number_format($totalCount) }}</span>
+                <span class="fw-bold fs-5">
+                    {{ number_format($totalCount) }}
+                </span>
             </div>
         </div>
     </div>
@@ -109,6 +113,40 @@
                     @endforeach
                 </div>
 
+                {{-- Genere --}}
+                @if ($genreOptions->isNotEmpty())
+                    <p
+                        class="small fw-bold text-uppercase text-muted mb-1 mt-3"
+                        style="font-size: 0.7rem; letter-spacing: 0.05em"
+                    >
+                        Genere
+                    </p>
+                    <div class="list-group list-group-flush mb-3">
+                        <a
+                            href="?year={{ $selectedYear }}@if($selectedMonth)&month={{ $selectedMonth }}@endif @if(request('q'))&q={{ urlencode(request('q')) }}@endif"
+                            class="list-group-item list-group-item-action py-1 px-2 {{ ! $selectedGenere ? "active" : "" }}"
+                            style="font-size: 0.8rem"
+                        >
+                            Tutti
+                        </a>
+                        @foreach ($genreOptions as $genere => $count)
+                            <a
+                                href="?year={{ $selectedYear }}@if($selectedMonth)&month={{ $selectedMonth }}@endif @if(request('q'))&q={{ urlencode(request('q')) }}@endif&genere={{ urlencode($genere) }}"
+                                class="list-group-item list-group-item-action py-1 px-2 {{ $selectedGenere === $genere ? "active" : "" }}"
+                                style="font-size: 0.8rem"
+                            >
+                                {{ $genere }}
+                                <span
+                                    class="float-end text-muted"
+                                    style="font-size: 0.7rem"
+                                >
+                                    {{ $count }}
+                                </span>
+                            </a>
+                        @endforeach
+                    </div>
+                @endif
+
                 {{-- Top words --}}
                 @if ($selectedDocWords->isNotEmpty())
                     <p
@@ -142,13 +180,27 @@
                     style="position: sticky; top: 0; z-index: 10"
                 >
                     <form method="GET" action="{{ route("archive.index") }}">
-                        <input type="hidden" name="year" value="{{ $selectedYear }}" />
+                        <input
+                            type="hidden"
+                            name="year"
+                            value="{{ $selectedYear }}"
+                        />
                         @if ($selectedMonth)
-                            <input type="hidden" name="month" value="{{ $selectedMonth }}" />
+                            <input
+                                type="hidden"
+                                name="month"
+                                value="{{ $selectedMonth }}"
+                            />
                         @endif
+
                         <div class="d-flex align-items-center gap-2">
-                            <h5 class="fw-bold mb-0 me-auto">{{ $selectedYear }}</h5>
-                            <div class="input-group input-group-sm" style="max-width: 220px">
+                            <h5 class="fw-bold mb-0 me-auto">
+                                {{ $selectedYear }}
+                            </h5>
+                            <div
+                                class="input-group input-group-sm"
+                                style="max-width: 220px"
+                            >
                                 <input
                                     type="text"
                                     name="q"
@@ -160,7 +212,9 @@
                                     <a
                                         href="?year={{ $selectedYear }}@if($selectedMonth)&month={{ $selectedMonth }}@endif"
                                         class="btn btn-sm btn-outline-secondary"
-                                    >&times;</a>
+                                    >
+                                        &times;
+                                    </a>
                                 @endif
                             </div>
                         </div>
@@ -171,8 +225,7 @@
 
                         (! $selectedMonth ||
                             ($doc->data &&
-                                \Carbon\Carbon::parse($doc->data)->month ==
-                                    $selectedMonth)) &&
+                                \Carbon\Carbon::parse($doc->data)->month == $selectedMonth)) &&
                         (! request("q") ||
                             str_contains(
                                 strtolower($doc->argomento . " " . $doc->code),
@@ -201,7 +254,6 @@
                                                 &middot; {{ $doc->code }}
                                         @endif
                                     </p>
-
                                 </div>
                             </div>
                         </a>
@@ -233,6 +285,41 @@
                                     &middot; {{ $selectedDoc->code }}
                             @endif
                         </p>
+                        @if ($selectedDoc->AUTORE)
+                            <p
+                                class="text-muted mb-0"
+                                style="font-size: 0.75rem"
+                            >
+                                <span
+                                    class="text-uppercase"
+                                    style="
+                                        font-size: 0.65rem;
+                                        letter-spacing: 0.05em;
+                                    "
+                                >
+                                    Autore
+                                </span>
+                                &middot; {{ $selectedDoc->AUTORE }}
+                            </p>
+                        @endif
+
+                        @if ($selectedDoc->DESTINATARI)
+                            <p
+                                class="text-muted mb-0"
+                                style="font-size: 0.75rem"
+                            >
+                                <span
+                                    class="text-uppercase"
+                                    style="
+                                        font-size: 0.65rem;
+                                        letter-spacing: 0.05em;
+                                    "
+                                >
+                                    Destinatari
+                                </span>
+                                &middot; {{ $selectedDoc->DESTINATARI }}
+                            </p>
+                        @endif
                     </div>
                     <div class="card-body">
                         @if ($selectedDoc->transcript)
@@ -246,7 +333,12 @@
                                 {{ $selectedDoc->transcript->content }}
                             </div>
                         @else
-                            <p class="text-muted mb-0" style="font-size: 0.85rem">Nessuna trascrizione disponibile.</p>
+                            <p
+                                class="text-muted mb-0"
+                                style="font-size: 0.85rem"
+                            >
+                                Nessuna trascrizione disponibile.
+                            </p>
                         @endif
                     </div>
                 </div>

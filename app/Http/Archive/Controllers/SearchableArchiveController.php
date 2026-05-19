@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace App\Archive\Controllers;
 
-use App\Archive\Models\ArchivioDocumento;
 use App\Archive\Models\RecordingTranscript;
-use Illuminate\Http\Request;
 
 final class SearchableArchiveController
 {
-
     public function search()
     {
         $term = request()->query('q', '');
@@ -31,5 +28,4 @@ final class SearchableArchiveController
 
         return view('archive.search', ['results' => $results, 'term' => $term]);
     }
-
 }

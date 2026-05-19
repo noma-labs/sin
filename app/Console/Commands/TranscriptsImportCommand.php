@@ -74,7 +74,7 @@ final class TranscriptsImportCommand extends Command
                     $par = $element->getParagraphStyle();
                     $styleName = $par->getStyleName();
                     if ($styleName === 'Titolo2') {
-                        $headingText = preg_replace('/\s+/', ' ', trim($this->decode($element->getText())));
+                        $headingText = preg_replace('/\s+/', ' ', mb_trim($this->decode($element->getText())));
 
                         // Collect all content lines until next Titolo2 or end
                         $contentLines = [];
@@ -169,24 +169,23 @@ final class TranscriptsImportCommand extends Command
     private function buildCode(string $heading, string $year): string
     {
         // Get first word from heading
-        $words = explode(' ', trim($heading));
+        $words = explode(' ', mb_trim($heading));
         $firstWord = $words[0] ?? '';
 
         // If first word starts with a number, use it as the code
         if ($firstWord && is_numeric($firstWord[0])) {
             // Extract from position 2 onwards (skip YY, keep MMDD[HH][A|B|C]...)
-            $code = substr($firstWord, 2);
+            $code = mb_substr($firstWord, 2);
 
             // If the remaining part is exactly 4 digits (MMDD only, no hour/letter), append '00'
             if (preg_match('/^\d{4}$/', $code)) {
                 $code .= '00';
             }
 
-            return substr($year . $code, 0, 11);
+            return mb_substr($year.$code, 0, 11);
         }
 
         // Default if no numeric code found
-        return $year . '010100';
+        return $year.'010100';
     }
-
 }
