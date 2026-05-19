@@ -97,11 +97,11 @@ return [
             'strict' => true,
             'engine' => null,
         ],
-        'archivio_documenti' => [
+        'archivio_nomadelfia' => [
             'driver' => 'mariadb',
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
-            'database' => 'archivio_documenti',
+            'database' => 'archivio_nomadelfia',
             'username' => env('DB_USERNAME'),
             'password' => env('DB_PASSWORD'),
             'charset' => 'utf8',

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Archive\Controllers;
 
 use App\Archive\Models\ArchivioDocumento;
-use App\Archive\Models\AudioTranscript;
+use App\Archive\Models\RecordingTranscript;
 use App\Photo\Models\Photo;
 use Illuminate\Http\Request;
 
@@ -13,12 +13,12 @@ final class ArchiveController
 {
     public function index()
     {
-        $countByDecade = AudioTranscript::selectRaw('YEAR(recorded_date) as decade, COUNT(*) as count')
+        $countByDecade = RecordingTranscript::selectRaw('YEAR(recorded_date) as decade, COUNT(*) as count')
             ->whereNotNull('recorded_date')
             ->groupBy('decade')
             ->orderBy('decade')
             ->get();
-        $totalCount = AudioTranscript::count();
+        $totalCount = RecordingTranscript::count();
         $photosCount = Photo::count();
 
         $selectedYear = request('year');
@@ -27,10 +27,10 @@ final class ArchiveController
         $countByMonth = collect();
         $transcripts = collect();
         if ($selectedYear) {
-            $query = AudioTranscript::whereYear('recorded_date', $selectedYear)->orderBy('recorded_date');
+            $query = RecordingTranscript::whereYear('recorded_date', $selectedYear)->orderBy('recorded_date');
             $transcripts = $query->get(['id', 'code', 'title', 'description', 'recorded_date', 'content']);
             // Get count by month
-            $countByMonth = AudioTranscript::selectRaw('MONTH(recorded_date) as month, COUNT(*) as count')
+            $countByMonth = RecordingTranscript::selectRaw('MONTH(recorded_date) as month, COUNT(*) as count')
                 ->whereYear('recorded_date', $selectedYear)
                 ->whereNotNull('recorded_date')
                 ->groupBy('month')
@@ -74,7 +74,7 @@ final class ArchiveController
 
     public function show($id)
     {
-        $transcript = AudioTranscript::findOrFail($id);
+        $transcript = RecordingTranscript::findOrFail($id);
         return view('archive.show', ['transcript' => $transcript]);
     }
 }

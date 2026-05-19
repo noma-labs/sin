@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Archive\Controllers;
 
 use App\Archive\Models\ArchivioDocumento;
-use App\Archive\Models\AudioTranscript;
+use App\Archive\Models\RecordingTranscript;
 use Illuminate\Http\Request;
 
 final class SearchableArchiveController
@@ -17,7 +17,7 @@ final class SearchableArchiveController
         $results = [];
 
         if (! empty($term)) {
-            $results = AudioTranscript::selectRaw(
+            $results = RecordingTranscript::selectRaw(
                 '*, MATCH(content) AGAINST(? IN BOOLEAN MODE) as relevance',
                 [$term]
             )->whereRaw(

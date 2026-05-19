@@ -5,28 +5,32 @@ declare(strict_types=1);
 namespace App\Archive\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @property int $id
  * @property string $code
+ * @property int|null $recording_id
  * @property string $title
  * @property string|null $description
  * @property \Illuminate\Support\Carbon|null $recorded_date
- * @property string|null $content
  * @property string $file_path
+ * @property string|null $content
  */
-final class AudioTranscript extends Model
+final class RecordingTranscript extends Model
 {
-    protected $connection = 'archivio_documenti';
+    protected $connection = 'archivio_nomadelfia';
 
-    protected $table = 'audio_transcripts';
-
-    protected $primaryKey = 'id';
+    protected $table = 'recording_transcripts';
 
     protected $guarded = [];
 
     protected function casts(): array
     {
         return ['recorded_date' => 'date'];
+    }
+
+    public function recording(): BelongsTo
+    {
+        return $this->belongsTo(Recording::class, 'recording_id');
     }
 }

@@ -48,7 +48,7 @@ The SIN is an Web-based system that permits to manage a series of subsystem (e..
 
   ```
 CREATE DATABASE IF NOT EXISTS  archivio_biblioteca;
-CREATE DATABASE IF NOT EXISTS  archivio_documenti;
+CREATE DATABASE IF NOT EXISTS  archivio_nomadelfia;
 CREATE DATABASE IF NOT EXISTS  db_admsys;
 CREATE DATABASE IF NOT EXISTS  db_agraria;
 CREATE DATABASE IF NOT EXISTS  db_foto;

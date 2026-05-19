@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use App\Archive\Models\AudioTranscript;
-use App\DocumentChunk;
+use App\Archive\Models\RecordingTranscript;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
@@ -14,7 +13,7 @@ use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\Title;
 use PhpOffice\PhpWord\IOFactory;
 
-final class ImportAudioTranscriptsCommand extends Command
+final class ImportRecordingTranscriptsCommand extends Command
 {
     protected $signature = 'docs:import-transcripts
                                 {file? : DOCX filename from transcripts_originals disk (omit to process all)}';
@@ -70,7 +69,7 @@ final class ImportAudioTranscriptsCommand extends Command
 
         $phpWord = IOFactory::load($filePath);
 
-        /** @var DocumentChunk[] $docs */
+        /** @var array[] $docs */
         $docs = [];
 
         foreach ($phpWord->getSections() as $section) {
@@ -83,7 +82,7 @@ final class ImportAudioTranscriptsCommand extends Command
                     $styleName = $par->getStyleName();
                     if ($styleName === 'Titolo2') {
                         $headingText = $this->decode($element->getText());
-                        [$id, $title] = $this->parseHeading($headingText);
+                        [$code, $title] = $this->parseHeading($headingText);
 
                         $descriptionLines = [];
                         $i++;
@@ -129,12 +128,12 @@ final class ImportAudioTranscriptsCommand extends Command
 
                         $description = implode(' ', $descriptionLines);
 
-                        $docs[] = new DocumentChunk(
-                            id: $id,
-                            title: $title,
-                            description: $description,
-                            content: $contentLines,
-                        );
+                        $docs[] = [
+                            'code' => $code,
+                            'title' => $title,
+                            'description' => $description,
+                            'content' => $contentLines,
+                        ];
                     }
                 }
                 $i++;
@@ -152,14 +151,14 @@ final class ImportAudioTranscriptsCommand extends Command
 
         foreach ($docs as $chunk) {
             try {
-                AudioTranscript::updateOrCreate(
-                    ['code' => $chunk->id],
+                RecordingTranscript::updateOrCreate(
+                    ['code' => $chunk['code']],
                     [
-                        'title' => $chunk->title,
-                        'description' => $chunk->description,
-                        'content' => implode("\n", $chunk->content),
+                        'title' => $chunk['title'],
+                        'description' => $chunk['description'],
+                        'content' => implode("\n", $chunk['content']),
                         'file_path' => (string) $file,
-                        'recorded_date' => $this->extractRecordedAt($chunk->id),
+                        'recorded_date' => $this->extractRecordedAt($chunk['code']),
                     ],
                 );
                 $successCount++;
@@ -168,7 +167,7 @@ final class ImportAudioTranscriptsCommand extends Command
                 $errorMsg = $e instanceof \Illuminate\Database\QueryException
                     ? $e->errorInfo[2] ?? 'Database error'
                     : $e->getMessage();
-                $this->error("Error processing code {$chunk->id} ({$chunk->title}): {$errorMsg}");
+                $this->error("Error processing code {$chunk['code']} ({$chunk['title']}): {$errorMsg}");
             }
         }
 
