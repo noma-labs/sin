@@ -2,7 +2,7 @@
 
 CREATE TABLE `recordings` (
   `id` int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `code` varchar(10) DEFAULT NULL,
+  `code` varchar(11) DEFAULT NULL,
   `DATA` date NOT NULL,
   `ORE` varchar(4) DEFAULT NULL,
   `LOCALITA'` varchar(30) DEFAULT NULL,
@@ -47,10 +47,7 @@ CREATE TABLE `recordings` (
 
 CREATE TABLE `recording_transcripts` (
     `recording_id` int(10) DEFAULT NULL,
-    `code` varchar(255) NOT NULL UNIQUE,
-    `title` text DEFAULT NULL,
-    `description` text DEFAULT NULL,
-    `recorded_date` date DEFAULT NULL,
+    `code` varchar(11) NOT NULL UNIQUE,
     `file_path` varchar(500) NOT NULL,
     `content` longtext DEFAULT NULL,
     `created_at` datetime DEFAULT CURRENT_TIMESTAMP,

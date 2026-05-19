@@ -10,9 +10,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @property string $code
  * @property int|null $recording_id
- * @property string $title
- * @property string|null $description
- * @property \Illuminate\Support\Carbon|null $recorded_date
  * @property string $file_path
  * @property string|null $content
  */
