@@ -8,7 +8,7 @@ use App\Console\Commands\CreateDatabaseCommand;
 use App\Console\Commands\DetectPhotoIssuesCommand;
 use App\Console\Commands\ExifExtractCommand;
 use App\Console\Commands\ExifJsonImportCommand;
-use App\Console\Commands\ImportRecordingTranscriptsCommand;
+use App\Console\Commands\TranscriptsImportCommand;
 use App\Console\Commands\TranscriptSynchCommand;
 use App\Console\Commands\SynchPeopleOnPhotosCommand;
 use Illuminate\Console\Scheduling\Schedule;
@@ -27,7 +27,7 @@ final class Kernel extends ConsoleKernel
         ExifJsonImportCommand::class,
         SynchPeopleOnPhotosCommand::class,
         DetectPhotoIssuesCommand::class,
-        ImportRecordingTranscriptsCommand::class,
+        TranscriptsImportCommand::class,
         TranscriptSynchCommand::class,
     ];
 

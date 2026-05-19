@@ -94,7 +94,6 @@ final class TranscriptsImportCommand extends Command
 
                         $docs[] = [
                             'code' => $code,
-                            'heading' => $headingText,
                             'content' => $contentLines,
                         ];
                     }
@@ -117,7 +116,6 @@ final class TranscriptsImportCommand extends Command
                 RecordingTranscript::updateOrCreate(
                     ['code' => $chunk['code']],
                     [
-                        'heading' => $chunk['heading'] ?? null,
                         'content' => implode("\n", $chunk['content']),
                         'file_path' => (string) $file,
                     ],

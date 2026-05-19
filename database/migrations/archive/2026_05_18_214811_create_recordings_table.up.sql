@@ -37,17 +37,10 @@ CREATE TABLE `recordings` (
   `sintesi PF` varchar(2) DEFAULT NULL
 );
 
--- create the code like YYMMDDHH
--- UPDATE recordings
--- SET code = CONCAT(
---     DATE_FORMAT(STR_TO_DATE(DATA, '%Y-%m-%d'), '%y%m%d'),
---     IFNULL(ORE, '00')
--- )
--- WHERE code IS NULL;
-
 CREATE TABLE `recording_transcripts` (
     `recording_id` int(10) DEFAULT NULL,
     `code` varchar(11) NOT NULL UNIQUE,
+    `heading` varchar(300) DEFAULT NULL,
     `file_path` varchar(500) NOT NULL,
     `content` longtext DEFAULT NULL,
     `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
