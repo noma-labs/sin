@@ -235,15 +235,19 @@
                         </p>
                     </div>
                     <div class="card-body">
-                        <div
-                            style="
-                                white-space: pre-line;
-                                font-size: 0.875rem;
-                                line-height: 1.6;
-                            "
-                        >
-                            {{ $selectedDoc->content ?? "Nessun contenuto." }}
-                        </div>
+                        @if ($selectedDoc->transcript)
+                            <div
+                                style="
+                                    white-space: pre-line;
+                                    font-size: 0.875rem;
+                                    line-height: 1.6;
+                                "
+                            >
+                                {{ $selectedDoc->transcript->content }}
+                            </div>
+                        @else
+                            <p class="text-muted mb-0" style="font-size: 0.85rem">Nessuna trascrizione disponibile.</p>
+                        @endif
                     </div>
                 </div>
             @else

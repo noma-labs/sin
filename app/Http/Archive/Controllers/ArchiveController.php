@@ -27,7 +27,7 @@ final class ArchiveController
         $countByMonth = collect();
         $transcripts = collect();
         if ($selectedYear) {
-            $query = Recording::whereYear('data', $selectedYear)->orderBy('data');
+            $query = Recording::with('transcript')->whereYear('data', $selectedYear)->orderBy('data');
 
             // Get count by month
             $countByMonth = Recording::selectRaw('MONTH(data) as month, COUNT(*) as count')
@@ -75,7 +75,8 @@ final class ArchiveController
 
     public function show($id)
     {
-        $transcript = Recording::findOrFail($id);
+        $transcript = Recording::with('transcript')->findOrFail($id);
+        dd($transcript);
         return view('archive.show', ['transcript' => $transcript]);
     }
 }

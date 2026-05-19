@@ -174,8 +174,13 @@ final class TranscriptsImportCommand extends Command
 
         // If first word starts with a number, use it as the code
         if ($firstWord && is_numeric($firstWord[0])) {
-            // Extract from position 2 onwards (skip YY, keep MDDH[A|B|C]...)
+            // Extract from position 2 onwards (skip YY, keep MMDD[HH][A|B|C]...)
             $code = substr($firstWord, 2);
+
+            // If the remaining part is exactly 4 digits (MMDD only, no hour/letter), append '00'
+            if (preg_match('/^\d{4}$/', $code)) {
+                $code .= '00';
+            }
 
             return substr($year . $code, 0, 11);
         }
