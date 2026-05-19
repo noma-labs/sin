@@ -39,13 +39,13 @@ CREATE TABLE `recordings` (
 
 CREATE TABLE `recording_transcripts` (
     `recording_id` int(10) DEFAULT NULL,
-    `code` varchar(11) NOT NULL UNIQUE,
-    `heading` varchar(300) DEFAULT NULL,
+    `code` varchar(11) DEFAULT NULL UNIQUE,
+    `heading` text NOT NULL,
     `file_path` varchar(500) NOT NULL,
     `content` longtext DEFAULT NULL,
     `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
     `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT `fk_recording_transcripts_recording_id` FOREIGN KEY (`recording_id`) REFERENCES `recordings` (`id`) ON DELETE CASCADE,
-    FULLTEXT KEY `ft_recording_transcripts_content` (`content`)
+    CONSTRAINT `fk_recording_transcripts_recording_id` FOREIGN KEY (`recording_id`) REFERENCES `recordings` (`id`) ON DELETE CASCADE
+    -- FULLTEXT KEY `ft_recording_transcripts_content` (`content`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

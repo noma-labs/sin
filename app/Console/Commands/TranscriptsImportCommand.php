@@ -7,6 +7,7 @@ namespace App\Console\Commands;
 use App\Archive\Models\RecordingTranscript;
 use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\IOFactory;
@@ -20,6 +21,8 @@ final class TranscriptsImportCommand extends Command
 
     public function handle(): int
     {
+        DB::connection('archivio_nomadelfia')->table('recording_transcripts')->truncate();
+
         $file = $this->argument('file');
 
         if ($file === null) {
@@ -69,8 +72,7 @@ final class TranscriptsImportCommand extends Command
                     $par = $element->getParagraphStyle();
                     $styleName = $par->getStyleName();
                     if ($styleName === 'Titolo2') {
-                        $headingText = $this->decode($element->getText());
-                        [$code, $title] = $this->parseHeading($headingText);
+                        $headingText = preg_replace('/\s+/', ' ', trim($this->decode($element->getText())));
 
                         // Collect all content lines until next Titolo2 or end
                         $contentLines = [];
@@ -93,7 +95,7 @@ final class TranscriptsImportCommand extends Command
                         }
 
                         $docs[] = [
-                            'code' => $code,
+                            'heading' => $headingText,
                             'content' => $contentLines,
                         ];
                     }
@@ -113,12 +115,12 @@ final class TranscriptsImportCommand extends Command
 
         foreach ($docs as $chunk) {
             try {
-                RecordingTranscript::updateOrCreate(
-                    ['code' => $chunk['code']],
+                RecordingTranscript::insert(
                     [
+                        'heading' => $chunk['heading'] ?? null,
                         'content' => implode("\n", $chunk['content']),
                         'file_path' => (string) $file,
-                    ],
+                    ]
                 );
                 $successCount++;
             } catch (Exception $e) {
@@ -126,7 +128,7 @@ final class TranscriptsImportCommand extends Command
                 $errorMsg = $e instanceof \Illuminate\Database\QueryException
                     ? $e->errorInfo[2] ?? 'Database error'
                     : $e->getMessage();
-                $this->error("Error processing code {$chunk['code']}: {$errorMsg}");
+                $this->error("Error processing heading {$chunk['heading']}: {$errorMsg}");
             }
         }
 
@@ -138,24 +140,9 @@ final class TranscriptsImportCommand extends Command
         return self::SUCCESS;
     }
 
-    /**
-     * Decode HTML entities in a string.
-     *
-     * @return string
-     */
     private function decode(string $text): string
     {
         return html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-    }
-
-    private function parseHeading(string $heading): array
-    {
-        $heading = mb_trim($heading);
-        if (preg_match('/^(\S+)\s+(.+)$/u', $heading, $matches)) {
-            return [$matches[1], mb_trim($matches[2])];
-        }
-
-        return [$heading, $heading];
     }
 
 }
