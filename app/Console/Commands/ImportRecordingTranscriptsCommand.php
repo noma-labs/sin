@@ -15,7 +15,7 @@ use PhpOffice\PhpWord\IOFactory;
 
 final class ImportRecordingTranscriptsCommand extends Command
 {
-    protected $signature = 'docs:import-transcripts
+    protected $signature = 'transcripts:import-docx
                                 {file? : DOCX filename from transcripts_originals disk (omit to process all)}';
 
     protected $description = 'Import audio transcripts from DOCX files in transcripts_originals disk into the database';

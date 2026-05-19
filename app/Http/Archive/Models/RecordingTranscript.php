@@ -22,6 +22,12 @@ final class RecordingTranscript extends Model
 
     protected $table = 'recording_transcripts';
 
+    protected $primaryKey = 'code';
+
+    public $incrementing = false;
+
+    protected $keyType = 'string';
+
     protected $guarded = [];
 
     protected function casts(): array
