@@ -163,28 +163,24 @@ final class TranscriptsImportCommand extends Command
 
     /**
      * Build code from heading and year: YYYYMMDDHH[A|B|C]
-     * Case 1: heading starts with YYMMDD[HH][LETTER] → YYYYMMDDHH[LETTER]
-     * Case 2: heading has no code → YYYY010100
-     * Case 3: heading has YYMMDD but no HH → YYYYMMDD00[LETTER]
+     * If first word starts with a number, use entire word as code (skip YY prefix, prepend YYYY)
+     * Otherwise default to YYYY010100
      */
     private function buildCode(string $heading, string $year): string
     {
-        // Split heading and get first word
+        // Get first word from heading
         $words = explode(' ', trim($heading));
         $firstWord = $words[0] ?? '';
 
-        // Try to extract 6+ digit code from first word with optional HH and optional letter
-        if (preg_match('/^(\d{6})(\d{0,2})([A-Z])?/', $firstWord, $matches)) {
-            $yymmdd = $matches[1];
-            $hh = str_pad($matches[2] ?? '', 2, '0', STR_PAD_RIGHT);
-            $letter = $matches[3] ?? '';
+        // If first word starts with a number, use it as the code
+        if ($firstWord && is_numeric($firstWord[0])) {
+            // Extract from position 2 onwards (skip YY, keep MDDH[A|B|C]...)
+            $code = substr($firstWord, 2);
 
-            $code = $year . substr($yymmdd, 2) . $hh . $letter;
-
-            return substr($code, 0, 11);
+            return substr($year . $code, 0, 11);
         }
 
-        // No code in heading, use default
+        // Default if no numeric code found
         return $year . '010100';
     }
 
