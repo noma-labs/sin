@@ -84,7 +84,12 @@
                             style="font-size: 0.7rem; font-weight: normal"
                         >
                             {{ $word }}
-                            <span class="badge bg-light text-dark" style="font-size: 0.65rem">{{ $count }}</span>
+                            <span
+                                class="badge bg-light text-dark"
+                                style="font-size: 0.65rem"
+                            >
+                                {{ $count }}
+                            </span>
                         </a>
                     @endforeach
                 </div>
@@ -107,7 +112,7 @@
                         class="float-end text-muted"
                         style="font-size: 0.7rem"
                     >
-                        {{ $transcripts->count() }}
+                        {{ $filteredCount }}
                     </span>
                 </a>
                 @foreach ($months as $num => $name)

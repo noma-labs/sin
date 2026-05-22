@@ -39,7 +39,8 @@ final class ArchiveController
             $query->where('GENERE', $selectedGenere);
         }
 
-        $transcripts = $query->limit(100)->get(['id', 'data', 'AUTORE', 'DESTINATARI', 'GENERE', 'code', 'argomento']);
+        $filteredCount = (clone $query)->count();
+        $transcripts = $query->limit(200)->get(['id', 'data', 'AUTORE', 'DESTINATARI', 'GENERE', 'code', 'argomento']);
 
         $genreQuery = Recording::whereNotNull('GENERE')->where('GENERE', '!=', '');
         $monthQuery = Recording::whereNotNull('data');
@@ -96,7 +97,7 @@ final class ArchiveController
             12 => 'Dicembre',
         ];
 
-        return view('archive.index', compact('countByDecade', 'transcripts', 'selectedDocWords', 'countByMonth', 'genreOptions', 'maxCount', 'totalCount', 'selectedYear', 'selectedDocId', 'selectedMonth', 'selectedGenere', 'selectedDoc', 'months'));
+        return view('archive.index', compact('countByDecade', 'transcripts', 'filteredCount', 'selectedDocWords', 'countByMonth', 'genreOptions', 'maxCount', 'totalCount', 'selectedYear', 'selectedDocId', 'selectedMonth', 'selectedGenere', 'selectedDoc', 'months'));
     }
 
     public function show($id)
@@ -107,3 +108,4 @@ final class ArchiveController
         return view('archive.show', ['transcript' => $transcript]);
     }
 }
+
