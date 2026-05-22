@@ -55,6 +55,48 @@ parameters:
 			path: app/Console/Commands/ExifJsonImportCommand.php
 
 		-
+			message: '#^Call to an undefined static method App\\Archive\\Models\\RecordingTranscript\:\:insert\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: app/Console/Commands/TranscriptsImportCommand.php
+
+		-
+			message: '#^Cannot call method getStyleName\(\) on PhpOffice\\PhpWord\\Style\\Paragraph\|string\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Console/Commands/TranscriptsImportCommand.php
+
+		-
+			message: '#^Cannot cast array\|bool\|float\|int\|string to string\.$#'
+			identifier: cast.string
+			count: 1
+			path: app/Console/Commands/TranscriptsImportCommand.php
+
+		-
+			message: '#^Offset 0 on non\-empty\-list\<string\> on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Console/Commands/TranscriptsImportCommand.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$docs has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Console/Commands/TranscriptsImportCommand.php
+
+		-
+			message: '#^Parameter \#1 \$heading of method App\\Console\\Commands\\TranscriptsImportCommand\:\:buildCode\(\) expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Console/Commands/TranscriptsImportCommand.php
+
+		-
+			message: '#^Class App\\Console\\Commands\\RecordingSynchCommand not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Console/Kernel.php
+
+		-
 			message: '#^Property App\\Console\\Kernel\:\:\$commands type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -709,93 +751,21 @@ parameters:
 			path: app/Http/Agraria/Models/MezzoAgricolo.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$autore\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Archive/Controllers/ArchiveController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$collocazione\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Archive/Controllers/ArchiveController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$editore\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Archive/Controllers/ArchiveController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$titolo\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Archive/Controllers/ArchiveController.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withError\(\)\.$#'
-			identifier: method.notFound
-			count: 3
-			path: app/Http/Archive/Controllers/ArchiveController.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withSuccess\(\)\.$#'
-			identifier: method.notFound
-			count: 4
-			path: app/Http/Archive/Controllers/ArchiveController.php
-
-		-
-			message: '#^Call to an undefined static method App\\Archive\\Models\\ArchivioDocumento\:\:find\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Archive\\Models\\Recording\:\:count\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Archive/Controllers/ArchiveController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Archive\\Models\\ArchivioDocumento\:\:orderby\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Archive\\Models\\Recording\:\:selectRaw\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Archive/Controllers/ArchiveController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Archive\\Models\\ArchivioDocumento\:\:sortable\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Archive/Controllers/ArchiveController.php
-
-		-
-			message: '#^Call to an undefined static method App\\Archive\\Models\\ArchivioDocumento\:\:whereBetween\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Archive\\Models\\Recording\:\:whereNotNull\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 2
-			path: app/Http/Archive/Controllers/ArchiveController.php
-
-		-
-			message: '#^Method App\\Archive\\Controllers\\ArchiveController\:\:aggiungi\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Archive/Controllers/ArchiveController.php
-
-		-
-			message: '#^Method App\\Archive\\Controllers\\ArchiveController\:\:elimina\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Archive/Controllers/ArchiveController.php
-
-		-
-			message: '#^Method App\\Archive\\Controllers\\ArchiveController\:\:eliminaSingolo\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Archive/Controllers/ArchiveController.php
-
-		-
-			message: '#^Method App\\Archive\\Controllers\\ArchiveController\:\:eliminaSingolo\(\) has parameter \$id with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Archive/Controllers/ArchiveController.php
-
-		-
-			message: '#^Method App\\Archive\\Controllers\\ArchiveController\:\:etichette\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
 			path: app/Http/Archive/Controllers/ArchiveController.php
 
 		-
@@ -805,82 +775,82 @@ parameters:
 			path: app/Http/Archive/Controllers/ArchiveController.php
 
 		-
-			message: '#^Method App\\Archive\\Controllers\\ArchiveController\:\:ricerca\(\) has no return type specified\.$#'
+			message: '#^Method App\\Archive\\Controllers\\ArchiveController\:\:show\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: app/Http/Archive/Controllers/ArchiveController.php
 
 		-
-			message: '#^Method App\\Archive\\Models\\ArchivioDocumento\:\:tobePrinted\(\) invoked with 0 parameters, 1 required\.$#'
-			identifier: arguments.count
-			count: 2
+			message: '#^Method App\\Archive\\Controllers\\ArchiveController\:\:show\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
 			path: app/Http/Archive/Controllers/ArchiveController.php
 
 		-
-			message: '#^Static call to instance method App\\Archive\\Models\\ArchivioDocumento\:\:tobePrinted\(\)\.$#'
-			identifier: method.staticCall
-			count: 2
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<int,stdClass\>\:\:flatMap\(\) expects callable\(stdClass, int\)\: \(array\<int\<0, max\>, string\>\|Illuminate\\Support\\Collection\<int\<0, max\>, string\>\), Closure\(mixed\)\: \(list\<string\>\|false\) given\.$#'
+			identifier: argument.type
+			count: 1
 			path: app/Http/Archive/Controllers/ArchiveController.php
 
 		-
-			message: '#^Method App\\Archive\\Models\\ArchivioDocumento\:\:link_to_sorting_action\(\) has parameter \$col with no type specified\.$#'
-			identifier: missingType.parameter
+			message: '#^Parameter \#2 \$operator of method Illuminate\\Database\\Query\\Builder\:\:whereMonth\(\) expects DateTimeInterface\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
-			path: app/Http/Archive/Models/ArchivioDocumento.php
+			path: app/Http/Archive/Controllers/ArchiveController.php
 
 		-
-			message: '#^Method App\\Archive\\Models\\ArchivioDocumento\:\:link_to_sorting_action\(\) has parameter \$title with no type specified\.$#'
-			identifier: missingType.parameter
+			message: '#^Parameter \#2 \$operator of method Illuminate\\Database\\Query\\Builder\:\:whereYear\(\) expects DateTimeInterface\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
-			path: app/Http/Archive/Models/ArchivioDocumento.php
+			path: app/Http/Archive/Controllers/ArchiveController.php
 
 		-
-			message: '#^Method App\\Archive\\Models\\ArchivioDocumento\:\:scopeSortable\(\) has parameter \$column with no type specified\.$#'
-			identifier: missingType.parameter
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
 			count: 1
-			path: app/Http/Archive/Models/ArchivioDocumento.php
+			path: app/Http/Archive/Controllers/ArchiveController.php
 
 		-
-			message: '#^Method App\\Archive\\Models\\ArchivioDocumento\:\:scopeSortable\(\) has parameter \$order with no type specified\.$#'
-			identifier: missingType.parameter
+			message: '#^Call to an undefined static method App\\Archive\\Models\\RecordingTranscript\:\:selectRaw\(\)\.$#'
+			identifier: staticMethod.notFound
 			count: 1
-			path: app/Http/Archive/Models/ArchivioDocumento.php
+			path: app/Http/Archive/Controllers/SearchableArchiveController.php
 
 		-
-			message: '#^Method App\\Archive\\Models\\ArchivioDocumento\:\:scopeSortable\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
+			message: '#^Method App\\Archive\\Controllers\\SearchableArchiveController\:\:search\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
-			path: app/Http/Archive/Models/ArchivioDocumento.php
+			path: app/Http/Archive/Controllers/SearchableArchiveController.php
 
 		-
-			message: '#^Method App\\Archive\\Models\\ArchivioDocumento\:\:scopeSortable\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			message: '#^Call to an undefined static method App\\Archive\\Models\\Recording\:\:whereRaw\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: app/Http/Archive/Controllers/TroubleshootingController.php
+
+		-
+			message: '#^Call to an undefined static method App\\Archive\\Models\\RecordingTranscript\:\:whereNull\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: app/Http/Archive/Controllers/TroubleshootingController.php
+
+		-
+			message: '#^Method App\\Archive\\Controllers\\TroubleshootingController\:\:index\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Archive/Controllers/TroubleshootingController.php
+
+		-
+			message: '#^Method App\\Archive\\Models\\Recording\:\:transcript\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasOne does not specify its types\: TRelatedModel, TDeclaringModel$#'
 			identifier: missingType.generics
 			count: 1
-			path: app/Http/Archive/Models/ArchivioDocumento.php
+			path: app/Http/Archive/Models/Recording.php
 
 		-
-			message: '#^Method App\\Archive\\Models\\ArchivioDocumento\:\:tobePrinted\(\) has no return type specified\.$#'
-			identifier: missingType.return
+			message: '#^Method App\\Archive\\Models\\RecordingTranscript\:\:recording\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
 			count: 1
-			path: app/Http/Archive/Models/ArchivioDocumento.php
-
-		-
-			message: '#^Method App\\Archive\\Models\\ArchivioDocumento\:\:tobePrinted\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Archive/Models/ArchivioDocumento.php
-
-		-
-			message: '#^Parameter \#1 \$name of function route expects BackedEnum\|string, string\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Http/Archive/Models/ArchivioDocumento.php
-
-		-
-			message: '#^Parameter \#1 \.\.\.\$arrays of function array_merge expects array, mixed given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Http/Archive/Models/ArchivioDocumento.php
+			path: app/Http/Archive/Models/RecordingTranscript.php
 
 		-
 			message: '#^Cannot call method hasRole\(\) on Illuminate\\Contracts\\Auth\\Authenticatable\|null\.$#'
