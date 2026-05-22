@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Archive\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -54,6 +55,11 @@ final class Recording extends Model
     protected $guarded = [];
 
     protected $primaryKey = 'id';
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope('before_1981', fn (Builder $query) => $query->where('data', '<=', '1981-01-15'));
+    }
 
     public function transcript(): HasOne
     {
