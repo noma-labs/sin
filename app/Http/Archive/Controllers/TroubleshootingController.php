@@ -56,8 +56,13 @@ final class TroubleshootingController
                 ->withInput();
         }
 
-        $transcript->recording_id = (int) $validated['recording_id'];
-        $transcript->save();
+        $newRecordingId = (int) $validated['recording_id'];
+
+        if ((int) ($transcript->recording_id ?? 0) !== $newRecordingId) {
+            $transcript->recording_id = $newRecordingId;
+            $transcript->updated_at = now();
+            $transcript->save();
+        }
 
         return to_route('archive.troubleshooting', ['page' => (int) ($validated['page'] ?? 1)])
             ->with('status', 'Recording assegnato con successo');
