@@ -60,8 +60,8 @@ final class TroubleshootingController
 
         if ((int) ($transcript->recording_id ?? 0) !== $newRecordingId) {
             $transcript->recording_id = $newRecordingId;
-            $transcript->updated_at = now();
             $transcript->save();
+            $transcript->touch();
         }
 
         return to_route('archive.troubleshooting', ['page' => (int) ($validated['page'] ?? 1)])
