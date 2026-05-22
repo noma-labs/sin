@@ -8,7 +8,6 @@ use App\Console\Commands\CreateDatabaseCommand;
 use App\Console\Commands\DetectPhotoIssuesCommand;
 use App\Console\Commands\ExifExtractCommand;
 use App\Console\Commands\ExifJsonImportCommand;
-use App\Console\Commands\RecordingSynchCommand;
 use App\Console\Commands\SynchPeopleOnPhotosCommand;
 use App\Console\Commands\TranscriptsImportCommand;
 use App\Console\Commands\TranscriptSynchCommand;
@@ -29,7 +28,6 @@ final class Kernel extends ConsoleKernel
         SynchPeopleOnPhotosCommand::class,
         DetectPhotoIssuesCommand::class,
         TranscriptsImportCommand::class,
-        RecordingSynchCommand::class,
         TranscriptSynchCommand::class,
     ];
 

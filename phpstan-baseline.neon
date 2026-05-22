@@ -91,12 +91,6 @@ parameters:
 			path: app/Console/Commands/TranscriptsImportCommand.php
 
 		-
-			message: '#^Class App\\Console\\Commands\\RecordingSynchCommand not found\.$#'
-			identifier: class.notFound
-			count: 1
-			path: app/Console/Kernel.php
-
-		-
 			message: '#^Property App\\Console\\Kernel\:\:\$commands type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
