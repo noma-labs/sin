@@ -96,11 +96,6 @@ return [
             'root' => storage_path('app/media/originals/transcripts'),
             'visibility' => 'private',
         ],
-        'transcripts_previews' => [
-            'driver' => 'local',
-            'root' => storage_path('app/media/previews/transcripts'),
-            'visibility' => 'private',
-        ],
     ],
 
     'links' => [],
