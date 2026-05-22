@@ -56,14 +56,14 @@ final class Recording extends Model
 
     protected $primaryKey = 'id';
 
-    protected static function booted(): void
-    {
-        static::addGlobalScope('before_1981', fn (Builder $query) => $query->where('data', '<=', '1981-01-15'));
-    }
-
     public function transcript(): HasOne
     {
         return $this->hasOne(RecordingTranscript::class, 'recording_id');
+    }
+
+    protected static function booted(): void
+    {
+        self::addGlobalScope('before_1981', fn (Builder $query) => $query->where('data', '<=', '1981-01-15'));
     }
 
     protected function casts(): array
