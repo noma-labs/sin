@@ -38,6 +38,7 @@ CREATE TABLE `recordings` (
 );
 
 CREATE TABLE `recording_transcripts` (
+    `id` int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `recording_id` int(10) DEFAULT NULL,
     `code` varchar(11) DEFAULT NULL,
     `heading` text NOT NULL,
@@ -45,7 +46,7 @@ CREATE TABLE `recording_transcripts` (
     `content` longtext DEFAULT NULL,
     `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
     `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT `fk_recording_transcripts_recording_id` FOREIGN KEY (`recording_id`) REFERENCES `recordings` (`id`) ON DELETE CASCADE
-    -- FULLTEXT KEY `ft_recording_transcripts_content` (`content`)
+    CONSTRAINT `fk_recording_transcripts_recording_id` FOREIGN KEY (`recording_id`) REFERENCES `recordings` (`id`) ON DELETE CASCADE,
+    FULLTEXT KEY `ft_recording_transcripts_content` (`content`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

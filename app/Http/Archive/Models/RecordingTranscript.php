@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
+ * @property int $id
  * @property string $code
  * @property int|null $recording_id
  * @property string|null $heading
@@ -16,15 +17,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 final class RecordingTranscript extends Model
 {
-    public $incrementing = false;
-
     protected $connection = 'archivio_nomadelfia';
 
     protected $table = 'recording_transcripts';
-
-    protected $primaryKey = 'code';
-
-    protected $keyType = 'string';
 
     protected $guarded = [];
 

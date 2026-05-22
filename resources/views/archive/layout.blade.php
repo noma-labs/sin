@@ -9,4 +9,7 @@
     <li class="nav-item">
         <a class="nav-link" href="{{ route("archive.search") }}">Ricerca</a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route("archive.troubleshooting") }}">Risoluzione Problemi</a>
+    </li>
 @endsection
