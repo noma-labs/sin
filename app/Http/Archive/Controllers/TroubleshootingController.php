@@ -59,21 +59,20 @@ final class TroubleshootingController
         $transcript->recording_id = (int) $validated['recording_id'];
         $transcript->save();
 
-        return redirect()
-            ->route('archive.troubleshooting', ['page' => (int) ($validated['page'] ?? 1)])
+        return to_route('archive.troubleshooting', ['page' => (int) ($validated['page'] ?? 1)])
             ->with('status', 'Recording assegnato con successo');
     }
 
     private function extractDateFromCode(string $code): ?string
     {
         // Extract first 6 characters: YYYYMM format
-        if (strlen($code) < 6) {
+        if (mb_strlen($code) < 6) {
             return null;
         }
 
-        $year = substr($code, 0, 4);
-        $month = substr($code, 4, 2);
+        $year = mb_substr($code, 0, 4);
+        $month = mb_substr($code, 4, 2);
 
-        return $year . '-' . $month;
+        return $year.'-'.$month;
     }
 }

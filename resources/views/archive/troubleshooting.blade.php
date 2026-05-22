@@ -4,9 +4,9 @@
     <div class="mb-4">
         <h1 class="h3 mb-3">Risoluzione Problemi</h1>
 
-        @if (session('status'))
+        @if (session("status"))
             <div class="alert alert-success" role="alert">
-                {{ session('status') }}
+                {{ session("status") }}
             </div>
         @endif
 
@@ -18,7 +18,10 @@
 
         <div class="alert alert-info" role="alert">
             <strong>Transcript senza Recording associato</strong>
-            <p class="mb-0">Totale: {{ $orphanedTranscripts->total() }} transcript necessitano di risoluzione.</p>
+            <p class="mb-0">
+                Totale: {{ $orphanedTranscripts->total() }} transcript
+                necessitano di risoluzione.
+            </p>
         </div>
     </div>
 
@@ -26,10 +29,13 @@
         <div class="row mb-3">
             <div class="col">
                 <div class="card border-0 shadow-sm">
-                    <div class="card-body py-2 px-3 d-flex align-items-center gap-2">
+                    <div
+                        class="card-body py-2 px-3 d-flex align-items-center gap-2"
+                    >
                         <span class="text-muted small">Transcript</span>
                         <span class="fw-bold fs-5">
-                            {{ $orphanedTranscripts->currentPage() }} di {{ $orphanedTranscripts->lastPage() }}
+                            {{ $orphanedTranscripts->currentPage() }} di
+                            {{ $orphanedTranscripts->lastPage() }}
                         </span>
                     </div>
                 </div>
@@ -44,7 +50,9 @@
                             <div class="card bg-light border-0">
                                 <div class="card-body">
                                     @if ($transcript->heading)
-                                        <h6 class="card-subtitle mb-3 text-muted">
+                                        <h6
+                                            class="card-subtitle mb-3 text-muted"
+                                        >
                                             {{ $transcript->heading }}
                                         </h6>
                                     @endif
@@ -53,17 +61,27 @@
                                         <small class="text-muted d-block mb-2">
                                             <strong>File:</strong>
                                             <br />
-                                            <code class="text-break">{{ $transcript->file_path }}</code>
+                                            <code class="text-break">
+                                                {{ $transcript->file_path }}
+                                            </code>
                                         </small>
                                     </div>
 
                                     <hr />
 
                                     <div class="preview-content">
-                                        <h6 class="small mb-2">Anteprima Contenuto:</h6>
-                                        <p class="small text-justify" style="max-height: 300px; overflow-y: auto">
-                                            {{ implode(' ', array_slice(explode(' ', $transcript->content ?? ''), 0, 250)) }}
-                                            @if (str_word_count($transcript->content ?? '') > 250)
+                                        <h6 class="small mb-2">
+                                            Anteprima Contenuto:
+                                        </h6>
+                                        <p
+                                            class="small text-justify"
+                                            style="
+                                                max-height: 300px;
+                                                overflow-y: auto;
+                                            "
+                                        >
+                                            {{ implode(" ", array_slice(explode(" ", $transcript->content ?? ""), 0, 250)) }}
+                                            @if (str_word_count($transcript->content ?? "") > 250)
                                                 ...
                                             @endif
                                         </p>
@@ -75,61 +93,126 @@
                         <div class="col-lg-8">
                             <div class="card border-0">
                                 <div class="card-header bg-light">
-                                    <h6 class="mb-0">Seleziona Recording da Assegnare</h6>
+                                    <h6 class="mb-0">
+                                        Seleziona Recording da Assegnare
+                                    </h6>
                                 </div>
                                 <div class="card-body">
                                     @if ($matchingRecordings->count() > 0)
-                                        <form method="POST" action="{{ route('archive.troubleshooting.assign') }}" class="mb-3">
+                                        <form
+                                            method="POST"
+                                            action="{{ route("archive.troubleshooting.assign") }}"
+                                            class="mb-3"
+                                        >
                                             @csrf
-                                            <input type="hidden" name="transcript_id" value="{{ $transcript->id }}" />
-                                            <input type="hidden" name="page" value="{{ $orphanedTranscripts->currentPage() }}" />
+                                            <input
+                                                type="hidden"
+                                                name="transcript_id"
+                                                value="{{ $transcript->id }}"
+                                            />
+                                            <input
+                                                type="hidden"
+                                                name="page"
+                                                value="{{ $orphanedTranscripts->currentPage() }}"
+                                            />
                                             <p class="text-muted mb-3">
-                                                Recording trovati: <strong>{{ $matchingRecordings->count() }}</strong>
+                                                Recording trovati:
+                                                <strong>
+                                                    {{ $matchingRecordings->count() }}
+                                                </strong>
                                             </p>
 
-                                            <div class="list-group" style="max-height: 520px; overflow-y: auto;">
+                                            <div
+                                                class="list-group"
+                                                style="
+                                                    max-height: 520px;
+                                                    overflow-y: auto;
+                                                "
+                                            >
                                                 @foreach ($matchingRecordings as $recording)
-                                                    <label class="list-group-item d-flex gap-3 p-3 cursor-pointer" style="cursor: pointer;">
+                                                    <label
+                                                        class="list-group-item d-flex gap-3 p-3 cursor-pointer"
+                                                        style="cursor: pointer"
+                                                    >
                                                         <input
                                                             type="radio"
                                                             name="recording_id"
                                                             value="{{ $recording->id }}"
                                                             class="form-check-input mt-1"
-                                                            style="cursor: pointer;"
+                                                            style="
+                                                                cursor: pointer;
+                                                            "
                                                             required
                                                         />
-                                                        <div class="flex-grow-1">
+                                                        <div
+                                                            class="flex-grow-1"
+                                                        >
                                                             <div class="mb-1">
-                                                                <strong>{{ $recording->code ?? 'N/A' }}</strong>
+                                                                <strong>
+                                                                    {{ $recording->code ?? "N/A" }}
+                                                                </strong>
                                                                 @if ($recording->GENERE)
-                                                                    <span class="badge text-bg-info ms-2">{{ $recording->GENERE }}</span>
+                                                                    <span
+                                                                        class="badge text-bg-info ms-2"
+                                                                    >
+                                                                        {{ $recording->GENERE }}
+                                                                    </span>
                                                                 @endif
                                                             </div>
-                                                            <small class="text-muted d-block">
-                                                                <strong>Data:</strong> {{ $recording->DATA?->format('d/m/Y') ?? 'N/A' }}
+                                                            <small
+                                                                class="text-muted d-block"
+                                                            >
+                                                                <strong>
+                                                                    Data:
+                                                                </strong>
+                                                                {{ $recording->DATA?->format("d/m/Y") ?? "N/A" }}
                                                                 @if ($recording->ORE)
-                                                                    · Ore: {{ $recording->ORE }}
+                                                                    · Ore:
+                                                                    {{ $recording->ORE }}
                                                                 @endif
                                                             </small>
                                                             @if ($recording->AUTORE)
-                                                                <small class="text-muted d-block">
-                                                                    <strong>Autore:</strong> {{ $recording->AUTORE }}
+                                                                <small
+                                                                    class="text-muted d-block"
+                                                                >
+                                                                    <strong>
+                                                                        Autore:
+                                                                    </strong>
+                                                                    {{ $recording->AUTORE }}
                                                                 </small>
                                                             @endif
+
                                                             @if ($recording->DESTINATARI)
-                                                                <small class="text-muted d-block">
-                                                                    <strong>Destinatari:</strong> {{ $recording->DESTINATARI }}
+                                                                <small
+                                                                    class="text-muted d-block"
+                                                                >
+                                                                    <strong>
+                                                                        Destinatari:
+                                                                    </strong>
+                                                                    {{ $recording->DESTINATARI }}
                                                                 </small>
                                                             @endif
+
                                                             @php($localita = $recording->getAttribute('LOCALITA\''))
                                                             @if ($localita)
-                                                                <small class="text-muted d-block">
-                                                                    <strong>Luogo:</strong> {{ $localita }}
+                                                                <small
+                                                                    class="text-muted d-block"
+                                                                >
+                                                                    <strong>
+                                                                        Luogo:
+                                                                    </strong>
+                                                                    {{ $localita }}
                                                                 </small>
                                                             @endif
+
                                                             @if ($recording->ARGOMENTO)
-                                                                <small class="text-muted d-block">
-                                                                    <strong>Argomento:</strong> {{ $recording->ARGOMENTO }}
+                                                                <small
+                                                                    class="text-muted d-block"
+                                                                >
+                                                                    <strong>
+                                                                        Argomento:
+                                                                    </strong>
+                                                                    {{ $recording->ARGOMENTO }}
                                                                 </small>
                                                             @endif
                                                         </div>
@@ -138,14 +221,21 @@
                                             </div>
 
                                             <div class="mt-3">
-                                                <button type="submit" class="btn btn-primary btn-sm" id="assignBtn" disabled>
+                                                <button
+                                                    type="submit"
+                                                    class="btn btn-primary btn-sm"
+                                                    id="assignBtn"
+                                                    disabled
+                                                >
                                                     Assegna Recording
                                                 </button>
                                             </div>
                                         </form>
                                     @else
                                         <div class="alert alert-warning mb-0">
-                                            Nessun recording trovato per il periodo {{ substr($transcript->code, 0, 6) }}.
+                                            Nessun recording trovato per il
+                                            periodo
+                                            {{ substr($transcript->code, 0, 6) }}.
                                         </div>
                                     @endif
                                 </div>
@@ -153,17 +243,26 @@
                         </div>
 
                         <script>
-                            document.querySelectorAll('input[name="recording_id"]').forEach(radio => {
-                                radio.addEventListener('change', function() {
-                                    document.getElementById('assignBtn').disabled = !this.checked;
+                            document
+                                .querySelectorAll('input[name="recording_id"]')
+                                .forEach((radio) => {
+                                    radio.addEventListener(
+                                        'change',
+                                        function () {
+                                            document.getElementById(
+                                                'assignBtn',
+                                            ).disabled = !this.checked;
+                                        },
+                                    );
                                 });
-                            });
                         </script>
                     </div>
                 @endforeach
             </div>
 
-            <div class="card-footer d-flex justify-content-between align-items-center">
+            <div
+                class="card-footer d-flex justify-content-between align-items-center"
+            >
                 @if ($orphanedTranscripts->onFirstPage())
                     <button class="btn btn-secondary" disabled>
                         ← Indietro
