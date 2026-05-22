@@ -12,7 +12,9 @@ use App\Agraria\Controllers\MezziController;
 use App\Agraria\Controllers\PlannedMaintenanceController;
 use App\Agraria\Controllers\SearchableMaintenanceController;
 use App\Agraria\Controllers\VehicleHourController;
-use App\ArchivioDocumenti\Controllers\ArchivioDocumentiController;
+use App\Archive\Controllers\ArchiveController;
+use App\Archive\Controllers\SearchableArchiveController;
+use App\Archive\Controllers\TroubleshootingController;
 use App\Auth\Controllers\LoginController;
 use App\Biblioteca\Controllers\AuthorsController;
 use App\Biblioteca\Controllers\BooksBorrowController;
@@ -425,15 +427,12 @@ Route::prefix('patente')->middleware('auth')->group(function () {
     Route::put('/{numero}/cqc', [PatenteCQCController::class, 'update'])->middleware('can:scuolaguida.patente.modifica')->name('patente.cqc.modifica');
 });
 
-Route::prefix('archiviodocumenti')->middleware('auth')->group(function () {
-    Route::get('/', [ArchivioDocumentiController::class, 'index'])->name('archiviodocumenti');
-    Route::get('/libri/ricerca', [ArchivioDocumentiController::class, 'ricerca'])->name('archiviodocumenti.libri.ricerca');
-
-    Route::get('/etichette', [ArchivioDocumentiController::class, 'etichette'])->name('archiviodocumenti.etichette');
-    Route::get('/etichette/export', [ArchivioDocumentiController::class, 'esporta'])->name('libri.etichette.esporta');
-    Route::delete('/etichette/delete', [ArchivioDocumentiController::class, 'elimina'])->name('archiviodocumenti.etichette.delete');
-    Route::post('/etichette/aggiungi', [ArchivioDocumentiController::class, 'aggiungi'])->name('archiviodocumenti.etichette.aggiungi');
-    Route::delete('/etichette/delete/{id}', [ArchivioDocumentiController::class, 'eliminaSingolo'])->name('archiviodocumenti.etichette.rimuovi.singolo');
+Route::prefix('archive')->middleware('auth')->group(function () {
+    Route::get('/', [ArchiveController::class, 'index'])->name('archive.index');
+    Route::get('/search', [SearchableArchiveController::class, 'search'])->name('archive.search');
+    Route::get('/troubleshooting', [TroubleshootingController::class, 'index'])->name('archive.troubleshooting');
+    Route::post('/troubleshooting/assign', [TroubleshootingController::class, 'assign'])->name('archive.troubleshooting.assign');
+    Route::get('/{id}/', [ArchiveController::class, 'show'])->name('archive.show');
 });
 
 Route::prefix('rtn')->middleware('auth')->group(function () {
@@ -443,7 +442,6 @@ Route::prefix('rtn')->middleware('auth')->group(function () {
 });
 
 Route::prefix('photos')->middleware('auth')->group(function () {
-
     Route::get('/', [PhotoController::class, 'index'])->middleware('can:photo.view')->name('photos.index');
     Route::get('/folders', [PhotoFolderController::class, 'index'])->middleware('can:photo.view')->name('photos.folders.index');
     Route::get('/folders/{path}', [PhotoFolderController::class, 'show'])

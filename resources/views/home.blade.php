@@ -220,15 +220,16 @@
             @can("archivio.visualizza")
                 <div class="col">
                     <div class="card text-center h-100">
-                        <div class="card-header">Archivio Libri</div>
+                        <div class="card-header">Archivio Nomadelfia</div>
                         <div class="card-body">
                             <p class="card-text">
-                                Gestione archivio libri di Nomadelfia
+                                Gestione archivio di Nomadelfia: registrazioni,
+                                documenti.
                             </p>
                         </div>
                         <div class="card-footer">
                             <a
-                                href="{{ route("archiviodocumenti") }}"
+                                href="{{ route("archive.index") }}"
                                 class="btn btn-primary"
                             >
                                 Accedi

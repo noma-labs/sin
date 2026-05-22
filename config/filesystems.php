@@ -91,6 +91,11 @@ return [
             'root' => env('PHOTOS_PATH', storage_path('app/media/originals')),
             'visibility' => 'private',
         ],
+        'transcripts_originals' => [
+            'driver' => 'local',
+            'root' => storage_path('app/media/originals/transcripts'),
+            'visibility' => 'private',
+        ],
     ],
 
     'links' => [],
