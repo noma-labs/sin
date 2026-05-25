@@ -6,7 +6,7 @@
     <div class="container-fluid my-2">
         <div class="row" style="height: calc(100vh - 200px)">
             <!-- Master Panel (Left) -->
-            <div class="col-md-2 border-end">
+            <div class="col-md-3 border-end">
                 <form
                     method="GET"
                     action="{{ route("archive.search") }}"
@@ -75,8 +75,11 @@
                                             </span>
                                         </div>
                                         @if ($transcript->recording?->code)
-                                            <span class="badge bg-primary">{{ $transcript->recording->code }}</span>
+                                            <span class="badge bg-primary">
+                                                {{ $transcript->recording->code }}
+                                            </span>
                                         @endif
+
                                         <p
                                             class="card-text small text-muted mt-2 mb-0"
                                         >
@@ -101,7 +104,7 @@
             </div>
 
             <!-- Detail Panel (Right) -->
-            <div class="col-md-10 ps-4">
+            <div class="col-md-9 ps-4">
                 @if (! empty($term) && request("selected"))
                     @php
                         $selected = $results->firstWhere("id", request("selected"));
@@ -114,10 +117,7 @@
                                 overflow-y: auto;
                             "
                         >
-                            <h2 class="mb-3">{{ $selected->heading ?: $selected->code }}</h2>
-                            <span class="badge bg-primary mb-2">
-                                {{ $selected->code }}
-                            </span>
+                            <h2 class="mb-3">{{ $selected->heading }}</h2>
 
                             @if ($selected->recording?->code)
                                 <span class="badge bg-info mb-2">
@@ -131,18 +131,43 @@
                                 </span>
                             @endif
 
-                            @if ($selected->recording?->AUTORE || $selected->recording?->ARGOMENTO || $selected->recording?->LOCALITA)
+                            @if ($selected->recording?->AUTORE || $selected->recording?->ARGOMENTO || $selected->recording?->LOCALITA || $selected->recording?->DESTINATARI || $selected->recording?->GENERE)
                                 <div
                                     class="bg-light border-start border-5 border-primary ps-2 py-2 mb-3"
                                 >
                                     @if ($selected->recording?->AUTORE)
-                                        <p class="mb-1 text-dark"><strong>Autore:</strong> {{ $selected->recording->AUTORE }}</p>
+                                        <p class="mb-1 text-dark">
+                                            <strong>Autore:</strong>
+                                            {{ $selected->recording->AUTORE }}
+                                        </p>
                                     @endif
+
                                     @if ($selected->recording?->ARGOMENTO)
-                                        <p class="mb-1 text-dark"><strong>Argomento:</strong> {{ $selected->recording->ARGOMENTO }}</p>
+                                        <p class="mb-1 text-dark">
+                                            <strong>Argomento:</strong>
+                                            {{ $selected->recording->ARGOMENTO }}
+                                        </p>
                                     @endif
+
                                     @if ($selected->recording?->LOCALITA)
-                                        <p class="mb-0 text-dark"><strong>Localita:</strong> {{ $selected->recording->LOCALITA }}</p>
+                                        <p class="mb-1 text-dark">
+                                            <strong>Localita:</strong>
+                                            {{ $selected->recording->LOCALITA }}
+                                        </p>
+                                    @endif
+
+                                    @if ($selected->recording?->DESTINATARI)
+                                        <p class="mb-1 text-dark">
+                                            <strong>Destinatari:</strong>
+                                            {{ $selected->recording->DESTINATARI }}
+                                        </p>
+                                    @endif
+
+                                    @if ($selected->recording?->GENERE)
+                                        <p class="mb-0 text-dark">
+                                            <strong>Genere:</strong>
+                                            {{ $selected->recording->GENERE }}
+                                        </p>
                                     @endif
                                 </div>
                             @endif

@@ -19,7 +19,7 @@ final class SearchableArchiveController
                 ->selectRaw('MATCH(recording_transcripts.content) AGAINST(? IN BOOLEAN MODE) as relevance', [$term])
                 ->whereRaw('MATCH(recording_transcripts.content) AGAINST(? IN BOOLEAN MODE)', [$term])
                 ->with([
-                    'recording:id,code,DATA,ORE,AUTORE,ARGOMENTO,LOCALITA',
+                    'recording:id,code,DATA,ORE,AUTORE,ARGOMENTO,LOCALITA,DESTINATARI,GENERE',
                 ])
                 ->orderByDesc('relevance')
                 ->get();
