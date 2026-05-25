@@ -14,13 +14,12 @@ final class SearchableArchiveController
         $results = [];
 
         if (! empty($term)) {
-            $results = RecordingTranscript::query()
+            $results = RecordingTranscript::with([
+                'recording:id,code,DATA,ORE,AUTORE,ARGOMENTO,LOCALITA,DESTINATARI,GENERE',
+            ])
                 ->select('recording_transcripts.*')
                 ->selectRaw('MATCH(recording_transcripts.content) AGAINST(? IN BOOLEAN MODE) as relevance', [$term])
                 ->whereRaw('MATCH(recording_transcripts.content) AGAINST(? IN BOOLEAN MODE)', [$term])
-                ->with([
-                    'recording:id,code,DATA,ORE,AUTORE,ARGOMENTO,LOCALITA,DESTINATARI,GENERE',
-                ])
                 ->orderByDesc('relevance')
                 ->get();
         }
