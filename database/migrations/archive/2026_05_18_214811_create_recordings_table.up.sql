@@ -35,7 +35,7 @@ CREATE TABLE `recordings` (
   `S` varchar(1) DEFAULT NULL,
   `NOTE` varchar(3) DEFAULT NULL,
   `sintesi PF` varchar(2) DEFAULT NULL
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `recording_transcripts` (
     `id` int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -48,5 +48,5 @@ CREATE TABLE `recording_transcripts` (
     `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT `fk_recording_transcripts_recording_id` FOREIGN KEY (`recording_id`) REFERENCES `recordings` (`id`) ON DELETE CASCADE,
     FULLTEXT KEY `ft_recording_transcripts_content` (`content`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
