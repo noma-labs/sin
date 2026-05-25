@@ -7,7 +7,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
-final class TranscriptSynchCommand extends Command
+final class TranscriptsSyncCommand extends Command
 {
     protected $signature = 'transcripts:sync';
 
