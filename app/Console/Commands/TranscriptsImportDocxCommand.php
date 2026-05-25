@@ -118,7 +118,7 @@ final class TranscriptsImportDocxCommand extends Command
 
         foreach ($docs as $chunk) {
             try {
-                RecordingTranscript::insert(
+                RecordingTranscript::query()->insert(
                     [
                         'code' => $chunk['code'],
                         'heading' => $chunk['heading'] ?? null,
