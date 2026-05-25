@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\IOFactory;
 
-final class TranscriptsImportCommand extends Command
+final class TranscriptsImportDocxCommand extends Command
 {
     protected $signature = 'transcripts:import-docx
                                 {file? : DOCX filename from transcripts_originals disk (omit to process all)}';
@@ -118,7 +118,7 @@ final class TranscriptsImportCommand extends Command
 
         foreach ($docs as $chunk) {
             try {
-                RecordingTranscript::insert(
+                RecordingTranscript::query()->insert(
                     [
                         'code' => $chunk['code'],
                         'heading' => $chunk['heading'] ?? null,
