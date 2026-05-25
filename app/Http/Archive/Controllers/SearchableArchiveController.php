@@ -14,16 +14,14 @@ final class SearchableArchiveController
         $results = [];
 
         if (! empty($term)) {
-            $results = RecordingTranscript::selectRaw(
-                '*, MATCH(content) AGAINST(? IN BOOLEAN MODE) as relevance',
-                [$term]
-            )->whereRaw(
-                'MATCH(content) AGAINST(? IN BOOLEAN MODE)',
-                [$term]
-            )->orderByRaw(
-                'MATCH(content) AGAINST(? IN BOOLEAN MODE) DESC',
-                [$term]
-            )->get();
+            $results = RecordingTranscript::with([
+                'recording:id,code,DATA,ORE,AUTORE,ARGOMENTO,LOCALITA,DESTINATARI,GENERE',
+            ])
+                ->select('recording_transcripts.*')
+                ->selectRaw('MATCH(recording_transcripts.content) AGAINST(? IN BOOLEAN MODE) as relevance', [$term])
+                ->whereRaw('MATCH(recording_transcripts.content) AGAINST(? IN BOOLEAN MODE)', [$term])
+                ->orderByDesc('relevance')
+                ->get();
         }
 
         return view('archive.search', ['results' => $results, 'term' => $term]);
