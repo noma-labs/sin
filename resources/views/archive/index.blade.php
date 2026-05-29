@@ -63,6 +63,52 @@
         </form>
     </div>
 
+    <div class="mb-3">
+        <form method="GET" action="{{ route("archive.index") }}">
+            @if ($selectedYear)
+                <input
+                    type="hidden"
+                    name="year"
+                    value="{{ $selectedYear }}"
+                />
+            @endif
+
+            @if ($selectedMonth)
+                <input
+                    type="hidden"
+                    name="month"
+                    value="{{ $selectedMonth }}"
+                />
+            @endif
+
+            @if ($selectedGenere)
+                <input
+                    type="hidden"
+                    name="genere"
+                    value="{{ $selectedGenere }}"
+                />
+            @endif
+
+            <div class="input-group">
+                <input
+                    type="text"
+                    name="q"
+                    class="form-control"
+                    placeholder="Cerca nel testo..."
+                    value="{{ request("q") }}"
+                />
+                @if (request("q"))
+                    <a
+                        href="?{{ http_build_query(array_filter(["year" => $selectedYear, "month" => $selectedMonth, "genere" => $selectedGenere])) }}"
+                        class="btn btn-outline-secondary"
+                    >
+                        &times;
+                    </a>
+                @endif
+            </div>
+        </form>
+    </div>
+
     <div class="row g-2" style="min-height: 70vh">
         <div
             class="col-md-2"
@@ -173,71 +219,7 @@
             class="col-md-4"
             style="max-height: calc(100vh - 260px); overflow-y: auto"
         >
-            <div
-                class="pb-2 mb-2 border-bottom bg-white"
-                style="position: sticky; top: 0; z-index: 10"
-            >
-                <form method="GET" action="{{ route("archive.index") }}">
-                    @if ($selectedYear)
-                        <input
-                            type="hidden"
-                            name="year"
-                            value="{{ $selectedYear }}"
-                        />
-                    @endif
-
-                    @if ($selectedMonth)
-                        <input
-                            type="hidden"
-                            name="month"
-                            value="{{ $selectedMonth }}"
-                        />
-                    @endif
-
-                    <div class="d-flex align-items-center gap-2">
-                        @if ($selectedYear)
-                            <h5 class="fw-bold mb-0 me-auto">
-                                {{ $selectedYear }}
-                            </h5>
-                        @else
-                            <h5
-                                class="fw-bold mb-0 me-auto text-muted"
-                                style="font-size: 0.9rem"
-                            >
-                                Tutte le registrazioni
-                            </h5>
-                        @endif
-                        <div
-                            class="input-group input-group-sm"
-                            style="max-width: 220px"
-                        >
-                            <input
-                                type="text"
-                                name="q"
-                                class="form-control form-control-sm"
-                                placeholder="Cerca titolo o codice..."
-                                value="{{ request("q") }}"
-                            />
-                            @if (request("q"))
-                                <a
-                                    href="?{{ http_build_query(array_filter(["year" => $selectedYear, "month" => $selectedMonth])) }}"
-                                    class="btn btn-sm btn-outline-secondary"
-                                >
-                                    &times;
-                                </a>
-                            @endif
-                        </div>
-                    </div>
-                </form>
-            </div>
             @foreach ($transcripts as $doc)
-                @if (
-
-                    ! request("q") ||
-                    str_contains(
-                        strtolower($doc->argomento . " " . $doc->code),
-                        strtolower(request("q"))
-                    )                )
                     @php
                         $params = array_filter([
                             "year" => $selectedYear,
@@ -272,10 +254,17 @@
                                             &middot; {{ $doc->AUTORE }}
                                     @endif
                                 </p>
+                                @if (isset($doc->relevance) && $doc->relevance !== null)
+                                    <span
+                                        class="badge bg-primary bg-opacity-10 text-primary"
+                                        style="font-size: 0.65rem"
+                                    >
+                                        rilevanza {{ number_format((float) $doc->relevance, 2) }}
+                                    </span>
+                                @endif
                             </div>
                         </div>
                     </a>
-                @endif
             @endforeach
         </div>
 

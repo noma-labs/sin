@@ -21,11 +21,13 @@ final class ArchiveController
         $selectedMonth = request('month');
         $selectedDocId = request('doc');
         $selectedGenere = request('genere');
+        $q = request('q', '');
         $selectedDocWords = collect();
         $countByMonth = collect();
         $genreOptions = collect();
 
-        $query = Recording::with('transcript')->orderBy('data');
+        $query = Recording::with('transcript')
+            ->select('recordings.id', 'recordings.data', 'recordings.AUTORE', 'recordings.DESTINATARI', 'recordings.GENERE', 'recordings.code', 'recordings.argomento');
 
         if ($selectedYear) {
             $query->whereYear('data', $selectedYear);
@@ -39,9 +41,21 @@ final class ArchiveController
             $query->where('GENERE', $selectedGenere);
         }
 
-        $filteredCount = (clone $query)->count();
-        $transcripts = $query->limit(200)->get(['id', 'data', 'AUTORE', 'DESTINATARI', 'GENERE', 'code', 'argomento']);
+        if (! empty($q)) {
+            $query->join('recording_transcripts', 'recording_transcripts.recording_id', '=', 'recordings.id')
+                ->selectRaw('MATCH(recording_transcripts.content) AGAINST(? IN BOOLEAN MODE) as relevance', [$q])
+                ->whereRaw('MATCH(recording_transcripts.content) AGAINST(? IN BOOLEAN MODE)', [$q])
+                ->orderByDesc('relevance');
+        } else {
+            $query->orderBy('data');
+        }
 
+        // dd($query->toSql(), $query->getBindings());
+        $filteredCount = (clone $query)->count();
+        $transcripts = $query->limit(200)->get();
+
+
+        // dd($transcripts->first());
         $genreQuery = Recording::whereNotNull('GENERE')->where('GENERE', '!=', '');
         $monthQuery = Recording::whereNotNull('data');
 
