@@ -81,4 +81,5 @@ final class ArchiveController
 
         return view('archive.show', ['transcript' => $transcript]);
     }
+
 }

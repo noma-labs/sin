@@ -12,7 +12,6 @@
                     />
                 @endif
 
-
                 @if ($selectedGenere)
                     <input
                         type="hidden"
@@ -29,12 +28,7 @@
                         placeholder="Cerca nel testo..."
                         value="{{ request("q") }}"
                     />
-                    <button
-                        type="submit"
-                        class="btn btn-primary"
-                    >
-                        Cerca
-                    </button>
+                    <button type="submit" class="btn btn-primary">Cerca</button>
                     @if (request("q"))
                         <a
                             href="?{{ http_build_query(array_filter(["year" => $selectedYear, "genere" => $selectedGenere])) }}"
@@ -68,11 +62,7 @@
             @endif
 
             @if (request("q"))
-                <input
-                    type="hidden"
-                    name="q"
-                    value="{{ request("q") }}"
-                />
+                <input type="hidden" name="q" value="{{ request("q") }}" />
             @endif
 
             <div
@@ -123,7 +113,9 @@
             style="max-height: calc(100vh - 260px); overflow-y: auto"
         >
             <div class="card border-0 bg-light mb-3">
-                <div class="card-body py-2 px-2 d-flex align-items-center gap-2">
+                <div
+                    class="card-body py-2 px-2 d-flex align-items-center gap-2"
+                >
                     <span class="text-muted small">Totale</span>
                     <span class="fw-bold fs-6">
                         {{ number_format($totalCount) }}
@@ -170,58 +162,59 @@
             style="max-height: calc(100vh - 260px); overflow-y: auto"
         >
             @foreach ($transcripts as $doc)
-                    @php
-                        $params = array_filter(
-                            [
-                                "year" => $selectedYear,
-                                "genere" => $selectedGenere,
-                                "q" => request("q"),
-                                "doc" => $doc->id,
-                            ],
-                            fn ($value) => $value !== null && $value !== ""
-                        );
-                        $docUrl = "?" . http_build_query($params);
-                    @endphp
+                @php
+                    $params = array_filter(
+                        [
+                            "year" => $selectedYear,
+                            "genere" => $selectedGenere,
+                            "q" => request("q"),
+                            "doc" => $doc->id,
+                        ],
+                        fn ($value) => $value !== null && $value !== "",
+                    );
+                    $docUrl = "?" . http_build_query($params);
+                @endphp
 
-                    <a href="{{ $docUrl }}" class="text-decoration-none">
-                        <div
-                            class="card border-0 shadow-sm mb-2 {{ $selectedDocId == $doc->id ? "border-start border-primary border-3" : "" }}"
-                        >
-                            <div class="card-body py-2">
-                                <p
-                                    class="fw-semibold mb-1 text-truncate"
-                                    style="font-size: 0.85rem"
-                                >
-                                    {{ $doc->argomento }}
-                                </p>
-                                <p
-                                    class="text-muted mb-1"
-                                    style="font-size: 0.75rem"
-                                >
-                                    {{ $doc->data ? \Carbon\Carbon::parse($doc->data)->format("d/m/Y") : "Data sconosciuta" }}
-                                    @if ($doc->code)
-                                            &middot; {{ $doc->code }}
-                                    @endif
-
-                                    @if ($doc->AUTORE)
-                                            &middot; {{ $doc->AUTORE }}
-                                    @endif
-
-                                    @if ($doc->LOCALITA)
-                                            &middot; {{ $doc->LOCALITA }}
-                                    @endif
-                                </p>
-                                @if (isset($doc->relevance) && $doc->relevance !== null)
-                                    <span
-                                        class="badge bg-primary bg-opacity-10 text-primary"
-                                        style="font-size: 0.65rem"
-                                    >
-                                        rilevanza {{ number_format((float) $doc->relevance, 2) }}
-                                    </span>
+                <a href="{{ $docUrl }}" class="text-decoration-none">
+                    <div
+                        class="card border-0 shadow-sm mb-2 {{ $selectedDocId == $doc->id ? "border-start border-primary border-3" : "" }}"
+                    >
+                        <div class="card-body py-2">
+                            <p
+                                class="fw-semibold mb-1 text-truncate"
+                                style="font-size: 0.85rem"
+                            >
+                                {{ $doc->argomento }}
+                            </p>
+                            <p
+                                class="text-muted mb-1"
+                                style="font-size: 0.75rem"
+                            >
+                                {{ $doc->data ? \Carbon\Carbon::parse($doc->data)->format("d/m/Y") : "Data sconosciuta" }}
+                                @if ($doc->code)
+                                        &middot; {{ $doc->code }}
                                 @endif
-                            </div>
+
+                                @if ($doc->AUTORE)
+                                        &middot; {{ $doc->AUTORE }}
+                                @endif
+
+                                @if ($doc->LOCALITA)
+                                        &middot; {{ $doc->LOCALITA }}
+                                @endif
+                            </p>
+                            @if (isset($doc->relevance) && $doc->relevance !== null)
+                                <span
+                                    class="badge bg-primary bg-opacity-10 text-primary"
+                                    style="font-size: 0.65rem"
+                                >
+                                    rilevanza
+                                    {{ number_format((float) $doc->relevance, 2) }}
+                                </span>
+                            @endif
                         </div>
-                    </a>
+                    </div>
+                </a>
             @endforeach
         </div>
 
@@ -242,11 +235,21 @@
                             @endif
                         </p>
                         @if ($selectedDoc->AUTORE || $selectedDoc->DESTINATARI || $selectedDoc->LOCALITA)
-                            <p class="text-muted mb-0 text-truncate" style="font-size: 0.74rem">
+                            <p
+                                class="text-muted mb-0 text-truncate"
+                                style="font-size: 0.74rem"
+                            >
                                 @if ($selectedDoc->AUTORE)
-                                    <span class="text-uppercase" style="font-size: 0.62rem; letter-spacing: 0.05em">
+                                    <span
+                                        class="text-uppercase"
+                                        style="
+                                            font-size: 0.62rem;
+                                            letter-spacing: 0.05em;
+                                        "
+                                    >
                                         Autore
-                                    </span>:
+                                    </span>
+                                    :
                                     {{ $selectedDoc->AUTORE }}
                                 @endif
 
@@ -254,9 +257,17 @@
                                     @if ($selectedDoc->AUTORE)
                                         &middot;
                                     @endif
-                                    <span class="text-uppercase" style="font-size: 0.62rem; letter-spacing: 0.05em">
+
+                                    <span
+                                        class="text-uppercase"
+                                        style="
+                                            font-size: 0.62rem;
+                                            letter-spacing: 0.05em;
+                                        "
+                                    >
                                         Destinatari
-                                    </span>:
+                                    </span>
+                                    :
                                     {{ $selectedDoc->DESTINATARI }}
                                 @endif
 
@@ -264,20 +275,28 @@
                                     @if ($selectedDoc->AUTORE || $selectedDoc->DESTINATARI)
                                         &middot;
                                     @endif
-                                    <span class="text-uppercase" style="font-size: 0.62rem; letter-spacing: 0.05em">
+
+                                    <span
+                                        class="text-uppercase"
+                                        style="
+                                            font-size: 0.62rem;
+                                            letter-spacing: 0.05em;
+                                        "
+                                    >
                                         Localita
-                                    </span>:
+                                    </span>
+                                    :
                                     {{ $selectedDoc->LOCALITA }}
                                 @endif
                             </p>
                         @endif
                     </div>
-                    <div class="card-body p-3">
+                    <div class="card-body p-2">
                         @if ($selectedDoc->transcript)
                             <div class="bg-light rounded-2 p-3 border">
                                 <div
                                     style="
-                                        white-space: pre-line;
+                                        white-space: pre-wrap;
                                         font-size: 0.95rem;
                                         line-height: 1.75;
                                         color: #1f2937;

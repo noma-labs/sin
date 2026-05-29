@@ -86,9 +86,7 @@
                         <div class="col-lg-8">
                             <div class="card border-0">
                                 <div class="card-header bg-light">
-                                    <h6 class="mb-0">
-                                        Seleziona trascrizione
-                                    </h6>
+                                    <h6 class="mb-0">Seleziona trascrizione</h6>
                                 </div>
                                 <div class="card-body">
                                     @if ($matchingRecordings->count() > 0)
@@ -186,7 +184,7 @@
                                                                 </small>
                                                             @endif
 
-                                                            @php($localita = $recording->getAttribute('LOCALITA'))
+                                                            @php($localita = $recording->getAttribute("LOCALITA"))
                                                             @if ($localita)
                                                                 <small
                                                                     class="text-muted d-block"
