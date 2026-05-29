@@ -146,47 +146,6 @@
                 </div>
             @endif
 
-
-
-            <p
-                class="small fw-bold text-uppercase text-muted mb-1"
-                style="font-size: 0.7rem; letter-spacing: 0.05em"
-            >
-                Mese
-            </p>
-            <div class="list-group list-group-flush mb-3">
-                <a
-                    href="?{{ http_build_query(array_filter(["year" => $selectedYear, "q" => request("q"), "genere" => $selectedGenere])) }}"
-                    class="list-group-item list-group-item-action py-1 px-2 {{ ! $selectedMonth ? "active" : "" }}"
-                    style="font-size: 0.8rem"
-                >
-                    Tutti
-                    <span
-                        class="float-end text-muted"
-                        style="font-size: 0.7rem"
-                    >
-                        {{ $filteredCount }}
-                    </span>
-                </a>
-                @foreach ($months as $num => $name)
-                    @if ($countByMonth->get($num, 0) > 0)
-                        <a
-                            href="?{{ http_build_query(array_filter(["year" => $selectedYear, "month" => $num, "q" => request("q"), "genere" => $selectedGenere])) }}"
-                            class="list-group-item list-group-item-action py-1 px-2 {{ $selectedMonth == $num ? "active" : "" }}"
-                            style="font-size: 0.8rem"
-                        >
-                            {{ $name }}
-                            <span
-                                class="float-end text-muted"
-                                style="font-size: 0.7rem"
-                            >
-                                {{ $countByMonth->get($num, 0) }}
-                            </span>
-                        </a>
-                    @endif
-                @endforeach
-            </div>
-
             {{-- Genere --}}
             @if ($genreOptions->isNotEmpty())
                 <p

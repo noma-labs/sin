@@ -11,6 +11,10 @@ final class ArchiveController
     public function index()
     {
         $q = request('q', '');
+        $selectedYear = request('year');
+        $selectedMonth = request('month');
+        $selectedDocId = request('doc');
+        $selectedGenere = request('genere');
 
         $countByDecadeQuery = Recording::selectRaw('YEAR(data) as decade, COUNT(*) as count')
             ->whereNotNull('data');
@@ -18,6 +22,10 @@ final class ArchiveController
         if (! empty($q)) {
             $countByDecadeQuery->join('recording_transcripts', 'recording_transcripts.recording_id', '=', 'recordings.id')
                 ->whereRaw('MATCH(recording_transcripts.content) AGAINST(? IN BOOLEAN MODE)', [$q]);
+        }
+
+        if ($selectedGenere) {
+            $countByDecadeQuery->where('GENERE', $selectedGenere);
         }
 
         $countByDecade = $countByDecadeQuery
@@ -30,14 +38,12 @@ final class ArchiveController
             $totalCountQuery->join('recording_transcripts', 'recording_transcripts.recording_id', '=', 'recordings.id')
                 ->whereRaw('MATCH(recording_transcripts.content) AGAINST(? IN BOOLEAN MODE)', [$q]);
         }
+        if ($selectedGenere) {
+            $totalCountQuery->where('GENERE', $selectedGenere);
+        }
         $totalCount = $totalCountQuery->count();
 
-        $selectedYear = request('year');
-        $selectedMonth = request('month');
-        $selectedDocId = request('doc');
-        $selectedGenere = request('genere');
         $selectedDocWords = collect();
-        $countByMonth = collect();
         $genreOptions = collect();
 
         $query = Recording::with('transcript')
@@ -71,15 +77,14 @@ final class ArchiveController
 
         // dd($transcripts->first());
         $genreQuery = Recording::whereNotNull('GENERE')->where('GENERE', '!=', '');
-        $monthQuery = Recording::whereNotNull('data');
+
+        if (! empty($q)) {
+            $genreQuery->join('recording_transcripts', 'recording_transcripts.recording_id', '=', 'recordings.id')
+                ->whereRaw('MATCH(recording_transcripts.content) AGAINST(? IN BOOLEAN MODE)', [$q]);
+        }
 
         if ($selectedYear) {
             $genreQuery->whereYear('data', $selectedYear);
-            $monthQuery->whereYear('data', $selectedYear);
-        }
-
-        if ($selectedMonth) {
-            $genreQuery->whereMonth('data', $selectedMonth);
         }
 
         $genreOptions = $genreQuery
@@ -87,12 +92,6 @@ final class ArchiveController
             ->groupBy('GENERE')
             ->orderByDesc('count')
             ->pluck('count', 'GENERE');
-
-        $countByMonth = $monthQuery
-            ->selectRaw('MONTH(data) as month, COUNT(*) as count')
-            ->groupBy('month')
-            ->orderBy('month')
-            ->pluck('count', 'month');
 
         // Collect all words from all titles
         $stopwords = [
@@ -110,22 +109,8 @@ final class ArchiveController
         $maxCount = $countByDecade->max('count') ?: 1;
 
         $selectedDoc = $selectedDocId ? $transcripts->firstWhere('id', $selectedDocId) : null;
-        $months = [
-            1 => 'Gennaio',
-            2 => 'Febbraio',
-            3 => 'Marzo',
-            4 => 'Aprile',
-            5 => 'Maggio',
-            6 => 'Giugno',
-            7 => 'Luglio',
-            8 => 'Agosto',
-            9 => 'Settembre',
-            10 => 'Ottobre',
-            11 => 'Novembre',
-            12 => 'Dicembre',
-        ];
 
-        return view('archive.index', compact('countByDecade', 'transcripts', 'filteredCount', 'selectedDocWords', 'countByMonth', 'genreOptions', 'maxCount', 'totalCount', 'selectedYear', 'selectedDocId', 'selectedMonth', 'selectedGenere', 'selectedDoc', 'months'));
+        return view('archive.index', compact('countByDecade', 'transcripts', 'filteredCount', 'selectedDocWords', 'genreOptions', 'maxCount', 'totalCount', 'selectedYear', 'selectedDocId', 'selectedMonth', 'selectedGenere', 'selectedDoc'));
     }
 
     public function show($id)
