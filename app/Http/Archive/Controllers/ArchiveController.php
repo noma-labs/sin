@@ -12,50 +12,10 @@ final class ArchiveController
     {
         $q = request('q', '');
         $selectedYear = request('year');
-        $selectedMonth = request('month');
-        $selectedDocId = request('doc');
         $selectedGenere = request('genere');
+        $selectedDocId = request('doc');
 
-        $countByDecadeQuery = Recording::selectRaw('YEAR(data) as decade, COUNT(*) as count')
-            ->whereNotNull('data');
-
-        if (! empty($q)) {
-            $countByDecadeQuery->join('recording_transcripts', 'recording_transcripts.recording_id', '=', 'recordings.id')
-                ->whereRaw('MATCH(recording_transcripts.content) AGAINST(? IN BOOLEAN MODE)', [$q]);
-        }
-
-        if ($selectedGenere) {
-            $countByDecadeQuery->where('GENERE', $selectedGenere);
-        }
-
-        $countByDecade = $countByDecadeQuery
-            ->groupBy('decade')
-            ->orderBy('decade')
-            ->get();
-
-        $totalCountQuery = Recording::query();
-        if (! empty($q)) {
-            $totalCountQuery->join('recording_transcripts', 'recording_transcripts.recording_id', '=', 'recordings.id')
-                ->whereRaw('MATCH(recording_transcripts.content) AGAINST(? IN BOOLEAN MODE)', [$q]);
-        }
-        if ($selectedGenere) {
-            $totalCountQuery->where('GENERE', $selectedGenere);
-        }
-        $totalCount = $totalCountQuery->count();
-
-        $selectedDocWords = collect();
-        $genreOptions = collect();
-
-        $query = Recording::with('transcript')
-            ->select('recordings.id', 'recordings.data', 'recordings.AUTORE', 'recordings.DESTINATARI', 'recordings.GENERE', 'recordings.code', 'recordings.argomento');
-
-        if ($selectedYear) {
-            $query->whereYear('data', $selectedYear);
-        }
-
-        if ($selectedMonth) {
-            $query->whereMonth('data', $selectedMonth);
-        }
+        $query = Recording::query();
 
         if ($selectedGenere) {
             $query->where('GENERE', $selectedGenere);
@@ -63,25 +23,38 @@ final class ArchiveController
 
         if (! empty($q)) {
             $query->join('recording_transcripts', 'recording_transcripts.recording_id', '=', 'recordings.id')
+                ->whereRaw('MATCH(recording_transcripts.content) AGAINST(? IN BOOLEAN MODE)', [$q]);
+        }
+
+        $countByDecade = (clone $query)
+            ->whereNotNull('data')
+            ->selectRaw('YEAR(data) as decade, COUNT(*) as count')
+            ->groupBy('decade')
+            ->orderBy('decade')
+            ->get();
+
+        $totalCount = (clone $query)->count();
+
+        $genreQuery = (clone $query)->whereNotNull('GENERE')->where('GENERE', '!=', '');
+
+        $query = $query
+            ->with('transcript')
+            ->select('recordings.id', 'recordings.data', 'recordings.AUTORE', 'recordings.DESTINATARI', 'recordings.GENERE', 'recordings.code', 'recordings.argomento');
+
+        if ($selectedYear) {
+            $query->whereYear('data', $selectedYear);
+        }
+
+        if (! empty($q)) {
+            $query
                 ->selectRaw('MATCH(recording_transcripts.content) AGAINST(? IN BOOLEAN MODE) as relevance', [$q])
-                ->whereRaw('MATCH(recording_transcripts.content) AGAINST(? IN BOOLEAN MODE)', [$q])
                 ->orderByDesc('relevance');
         } else {
             $query->orderBy('data');
         }
 
-        // dd($query->toSql(), $query->getBindings());
         $filteredCount = (clone $query)->count();
         $transcripts = $query->limit(200)->get();
-
-
-        // dd($transcripts->first());
-        $genreQuery = Recording::whereNotNull('GENERE')->where('GENERE', '!=', '');
-
-        if (! empty($q)) {
-            $genreQuery->join('recording_transcripts', 'recording_transcripts.recording_id', '=', 'recordings.id')
-                ->whereRaw('MATCH(recording_transcripts.content) AGAINST(? IN BOOLEAN MODE)', [$q]);
-        }
 
         if ($selectedYear) {
             $genreQuery->whereYear('data', $selectedYear);
@@ -97,7 +70,7 @@ final class ArchiveController
 
         $selectedDoc = $selectedDocId ? $transcripts->firstWhere('id', $selectedDocId) : null;
 
-        return view('archive.index', compact('countByDecade', 'transcripts', 'filteredCount', 'genreOptions', 'maxCount', 'totalCount', 'selectedYear', 'selectedDocId', 'selectedMonth', 'selectedGenere', 'selectedDoc'));
+        return view('archive.index', compact('countByDecade', 'transcripts', 'filteredCount', 'genreOptions', 'maxCount', 'totalCount', 'selectedYear', 'selectedDocId', 'selectedGenere', 'selectedDoc'));
     }
 
     public function show($id)

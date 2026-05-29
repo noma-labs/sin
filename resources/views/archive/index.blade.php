@@ -12,13 +12,6 @@
                     />
                 @endif
 
-                @if ($selectedMonth)
-                    <input
-                        type="hidden"
-                        name="month"
-                        value="{{ $selectedMonth }}"
-                    />
-                @endif
 
                 @if ($selectedGenere)
                     <input
@@ -44,7 +37,7 @@
                     </button>
                     @if (request("q"))
                         <a
-                            href="?{{ http_build_query(array_filter(["year" => $selectedYear, "month" => $selectedMonth, "genere" => $selectedGenere])) }}"
+                            href="?{{ http_build_query(array_filter(["year" => $selectedYear, "genere" => $selectedGenere])) }}"
                             class="btn btn-outline-secondary"
                         >
                             &times;
@@ -57,11 +50,19 @@
 
     <div class="rounded-2 mb-3 px-3 pt-3 pb-1" style="background: #2c3e50">
         <form method="GET" action="{{ route("archive.index") }}">
-            @if ($selectedMonth)
+            @if ($selectedGenere)
                 <input
                     type="hidden"
-                    name="month"
-                    value="{{ $selectedMonth }}"
+                    name="genere"
+                    value="{{ $selectedGenere }}"
+                />
+            @endif
+
+            @if (request("q"))
+                <input
+                    type="hidden"
+                    name="q"
+                    value="{{ request("q") }}"
                 />
             @endif
 
@@ -131,7 +132,7 @@
                 </p>
                 <div class="list-group list-group-flush mb-3">
                     <a
-                        href="?{{ http_build_query(array_filter(["year" => $selectedYear, "month" => $selectedMonth, "q" => request("q")])) }}"
+                        href="?{{ http_build_query(array_filter(["year" => $selectedYear, "q" => request("q")])) }}"
                         class="list-group-item list-group-item-action py-1 px-2 {{ ! $selectedGenere ? "active" : "" }}"
                         style="font-size: 0.8rem"
                     >
@@ -139,7 +140,7 @@
                     </a>
                     @foreach ($genreOptions as $genere => $count)
                         <a
-                            href="?{{ http_build_query(array_filter(["year" => $selectedYear, "month" => $selectedMonth, "q" => request("q"), "genere" => $genere])) }}"
+                            href="?{{ http_build_query(array_filter(["year" => $selectedYear, "q" => request("q"), "genere" => $genere])) }}"
                             class="list-group-item list-group-item-action py-1 px-2 {{ $selectedGenere === $genere ? "active" : "" }}"
                             style="font-size: 0.8rem"
                         >
@@ -162,12 +163,15 @@
         >
             @foreach ($transcripts as $doc)
                     @php
-                        $params = array_filter([
-                            "year" => $selectedYear,
-                            "month" => $selectedMonth,
-                            "q" => request("q"),
-                            "doc" => $doc->id,
-                        ]);
+                        $params = array_filter(
+                            [
+                                "year" => $selectedYear,
+                                "genere" => $selectedGenere,
+                                "q" => request("q"),
+                                "doc" => $doc->id,
+                            ],
+                            fn ($value) => $value !== null && $value !== ""
+                        );
                         $docUrl = "?" . http_build_query($params);
                     @endphp
 
