@@ -131,7 +131,6 @@
                 </div>
             </div>
 
-            {{-- Genere --}}
             @if ($genreOptions->isNotEmpty())
                 <p
                     class="small fw-bold text-uppercase text-muted mb-1 mt-3"
@@ -232,62 +231,60 @@
                     class="card border-0 shadow"
                     style="max-height: calc(100vh - 260px); overflow-y: auto"
                 >
-                    <div class="card-header bg-white border-bottom py-2">
-                        <p class="fw-bold mb-0" style="font-size: 0.9rem">
+                    <div class="card-header bg-white border-bottom py-3 px-3">
+                        <h2 class="h6 fw-bold mb-2">
                             {{ $selectedDoc->argomento }}
-                        </p>
-                        <p class="text-muted mb-0" style="font-size: 0.75rem">
+                        </h2>
+                        <p class="text-muted mb-2" style="font-size: 0.8rem">
                             {{ $selectedDoc->data ? \Carbon\Carbon::parse($selectedDoc->data)->format("d/m/Y") : "Data sconosciuta" }}
                             @if ($selectedDoc->code)
                                     &middot; {{ $selectedDoc->code }}
                             @endif
                         </p>
-                        @if ($selectedDoc->AUTORE)
-                            <p
-                                class="text-muted mb-0"
-                                style="font-size: 0.75rem"
-                            >
-                                <span
-                                    class="text-uppercase"
-                                    style="
-                                        font-size: 0.65rem;
-                                        letter-spacing: 0.05em;
-                                    "
-                                >
-                                    Autore
-                                </span>
-                                &middot; {{ $selectedDoc->AUTORE }}
-                            </p>
-                        @endif
+                        @if ($selectedDoc->AUTORE || $selectedDoc->DESTINATARI || $selectedDoc->LOCALITA)
+                            <p class="text-muted mb-0 text-truncate" style="font-size: 0.74rem">
+                                @if ($selectedDoc->AUTORE)
+                                    <span class="text-uppercase" style="font-size: 0.62rem; letter-spacing: 0.05em">
+                                        Autore
+                                    </span>:
+                                    {{ $selectedDoc->AUTORE }}
+                                @endif
 
-                        @if ($selectedDoc->DESTINATARI)
-                            <p
-                                class="text-muted mb-0"
-                                style="font-size: 0.75rem"
-                            >
-                                <span
-                                    class="text-uppercase"
-                                    style="
-                                        font-size: 0.65rem;
-                                        letter-spacing: 0.05em;
-                                    "
-                                >
-                                    Destinatari
-                                </span>
-                                &middot; {{ $selectedDoc->DESTINATARI }}
+                                @if ($selectedDoc->DESTINATARI)
+                                    @if ($selectedDoc->AUTORE)
+                                        &middot;
+                                    @endif
+                                    <span class="text-uppercase" style="font-size: 0.62rem; letter-spacing: 0.05em">
+                                        Destinatari
+                                    </span>:
+                                    {{ $selectedDoc->DESTINATARI }}
+                                @endif
+
+                                @if ($selectedDoc->LOCALITA)
+                                    @if ($selectedDoc->AUTORE || $selectedDoc->DESTINATARI)
+                                        &middot;
+                                    @endif
+                                    <span class="text-uppercase" style="font-size: 0.62rem; letter-spacing: 0.05em">
+                                        Localita
+                                    </span>:
+                                    {{ $selectedDoc->LOCALITA }}
+                                @endif
                             </p>
                         @endif
                     </div>
-                    <div class="card-body">
+                    <div class="card-body p-3">
                         @if ($selectedDoc->transcript)
-                            <div
-                                style="
-                                    white-space: pre-line;
-                                    font-size: 0.875rem;
-                                    line-height: 1.6;
-                                "
-                            >
-                                {{ $selectedDoc->transcript->content }}
+                            <div class="bg-light rounded-2 p-3 border">
+                                <div
+                                    style="
+                                        white-space: pre-line;
+                                        font-size: 0.95rem;
+                                        line-height: 1.75;
+                                        color: #1f2937;
+                                    "
+                                >
+                                    {{ $selectedDoc->transcript->content }}
+                                </div>
                             </div>
                         @else
                             <p
