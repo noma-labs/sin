@@ -34,6 +34,7 @@ final class ArchiveController
             ->get();
 
         $totalCount = (clone $query)->count();
+        $genreOptions = collect();
 
         $genreQuery = (clone $query)->whereNotNull('GENERE')->where('GENERE', '!=', '');
 

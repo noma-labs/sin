@@ -841,12 +841,6 @@ parameters:
 			path: app/Http/Archive/Controllers/ArchiveController.php
 
 		-
-			message: '#^Method App\\Archive\\Controllers\\SearchableArchiveController\:\:search\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Archive/Controllers/SearchableArchiveController.php
-
-		-
 			message: '#^Call to an undefined static method App\\Archive\\Models\\Recording\:\:whereRaw\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
