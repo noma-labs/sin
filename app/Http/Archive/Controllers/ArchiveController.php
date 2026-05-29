@@ -40,7 +40,7 @@ final class ArchiveController
 
         $query = $query
             ->with('transcript')
-            ->select('recordings.id', 'recordings.data', 'recordings.AUTORE', 'recordings.DESTINATARI', 'recordings.GENERE', 'recordings.code', 'recordings.argomento');
+            ->select('recordings.id', 'recordings.data', 'recordings.AUTORE', 'recordings.DESTINATARI', 'recordings.GENERE', 'recordings.code', 'recordings.argomento', 'recordings.LOCALITA');
 
         if ($selectedYear) {
             $query->whereYear('data', $selectedYear);

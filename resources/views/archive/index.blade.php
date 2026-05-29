@@ -43,6 +43,15 @@
                             &times;
                         </a>
                     @endif
+
+                    @if ($selectedYear || $selectedGenere || request("q") || $selectedDocId)
+                        <a
+                            href="{{ route("archive.index") }}"
+                            class="btn btn-outline-secondary"
+                        >
+                            Reset filtri
+                        </a>
+                    @endif
                 </div>
             </form>
         </div>
@@ -197,6 +206,10 @@
 
                                     @if ($doc->AUTORE)
                                             &middot; {{ $doc->AUTORE }}
+                                    @endif
+
+                                    @if ($doc->LOCALITA)
+                                            &middot; {{ $doc->LOCALITA }}
                                     @endif
                                 </p>
                                 @if (isset($doc->relevance) && $doc->relevance !== null)
