@@ -1,16 +1,60 @@
 @extends("archive.layout")
 
 @section("content")
-    <div class="d-flex align-items-center justify-content-end mb-2">
-        <div class="card border-0 shadow-sm">
-            <div class="card-body py-2 px-3 d-flex align-items-center gap-2">
-                <span class="text-muted small">Registrazioni</span>
-                <span class="fw-bold fs-5">
-                    {{ number_format($totalCount) }}
-                </span>
-            </div>
+    <div class="row mb-3">
+        <div class="col-md-4 offset-md-4 mt-3">
+            <form method="GET" action="{{ route("archive.index") }}">
+                @if ($selectedYear)
+                    <input
+                        type="hidden"
+                        name="year"
+                        value="{{ $selectedYear }}"
+                    />
+                @endif
+
+                @if ($selectedMonth)
+                    <input
+                        type="hidden"
+                        name="month"
+                        value="{{ $selectedMonth }}"
+                    />
+                @endif
+
+                @if ($selectedGenere)
+                    <input
+                        type="hidden"
+                        name="genere"
+                        value="{{ $selectedGenere }}"
+                    />
+                @endif
+
+                <div class="input-group">
+                    <input
+                        type="text"
+                        name="q"
+                        class="form-control"
+                        placeholder="Cerca nel testo..."
+                        value="{{ request("q") }}"
+                    />
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        Cerca
+                    </button>
+                    @if (request("q"))
+                        <a
+                            href="?{{ http_build_query(array_filter(["year" => $selectedYear, "month" => $selectedMonth, "genere" => $selectedGenere])) }}"
+                            class="btn btn-outline-secondary"
+                        >
+                            &times;
+                        </a>
+                    @endif
+                </div>
+            </form>
         </div>
     </div>
+
     <div class="rounded-2 mb-3 px-3 pt-3 pb-1" style="background: #2c3e50">
         <form method="GET" action="{{ route("archive.index") }}">
             @if ($selectedMonth)
@@ -63,58 +107,19 @@
         </form>
     </div>
 
-    <div class="mb-3">
-        <form method="GET" action="{{ route("archive.index") }}">
-            @if ($selectedYear)
-                <input
-                    type="hidden"
-                    name="year"
-                    value="{{ $selectedYear }}"
-                />
-            @endif
-
-            @if ($selectedMonth)
-                <input
-                    type="hidden"
-                    name="month"
-                    value="{{ $selectedMonth }}"
-                />
-            @endif
-
-            @if ($selectedGenere)
-                <input
-                    type="hidden"
-                    name="genere"
-                    value="{{ $selectedGenere }}"
-                />
-            @endif
-
-            <div class="input-group">
-                <input
-                    type="text"
-                    name="q"
-                    class="form-control"
-                    placeholder="Cerca nel testo..."
-                    value="{{ request("q") }}"
-                />
-                @if (request("q"))
-                    <a
-                        href="?{{ http_build_query(array_filter(["year" => $selectedYear, "month" => $selectedMonth, "genere" => $selectedGenere])) }}"
-                        class="btn btn-outline-secondary"
-                    >
-                        &times;
-                    </a>
-                @endif
-            </div>
-        </form>
-    </div>
-
     <div class="row g-2" style="min-height: 70vh">
         <div
             class="col-md-2"
             style="max-height: calc(100vh - 260px); overflow-y: auto"
         >
-            {{-- Top words --}}
+            <div class="card border-0 bg-light mb-3">
+                <div class="card-body py-2 px-2 d-flex align-items-center gap-2">
+                    <span class="text-muted small">Totale</span>
+                    <span class="fw-bold fs-6">
+                        {{ number_format($totalCount) }}
+                    </span>
+                </div>
+            </div>
             @if ($selectedDocWords->isNotEmpty())
                 <p
                     class="small fw-bold text-uppercase text-muted mb-1"
@@ -140,6 +145,8 @@
                     @endforeach
                 </div>
             @endif
+
+
 
             <p
                 class="small fw-bold text-uppercase text-muted mb-1"
