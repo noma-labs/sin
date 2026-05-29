@@ -120,31 +120,6 @@
                     </span>
                 </div>
             </div>
-            @if ($selectedDocWords->isNotEmpty())
-                <p
-                    class="small fw-bold text-uppercase text-muted mb-1"
-                    style="font-size: 0.7rem; letter-spacing: 0.05em"
-                >
-                    Argomento
-                </p>
-                <div class="d-flex flex-wrap gap-1 mb-3">
-                    @foreach ($selectedDocWords as $word => $count)
-                        <a
-                            href="?{{ http_build_query(array_filter(["year" => $selectedYear, "month" => $selectedMonth, "q" => $word])) }}"
-                            class="badge bg-secondary text-decoration-none d-inline-flex align-items-center gap-1"
-                            style="font-size: 0.7rem; font-weight: normal"
-                        >
-                            {{ $word }}
-                            <span
-                                class="badge bg-light text-dark"
-                                style="font-size: 0.65rem"
-                            >
-                                {{ $count }}
-                            </span>
-                        </a>
-                    @endforeach
-                </div>
-            @endif
 
             {{-- Genere --}}
             @if ($genreOptions->isNotEmpty())

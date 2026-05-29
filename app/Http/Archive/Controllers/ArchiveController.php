@@ -93,24 +93,11 @@ final class ArchiveController
             ->orderByDesc('count')
             ->pluck('count', 'GENERE');
 
-        // Collect all words from all titles
-        $stopwords = [
-            'del', 'della', 'delle', 'dello', 'dell', 'dei', 'degli', 'dai', 'dagli', 'dal', 'dalla', 'dalle', 'nella',
-            'con', 'per', 'tra', 'fra', 'sul', 'sulla', 'sulle', 'sugli', 'sui', 'sul', 'su',
-            'che', 'non', 'una', 'uno', 'un', 'le', 'la', 'il', 'lo', 'gli', 'i', 'in', 'di', 'a', 'e', 'o', 'ed', 'al', 'ai', 'agli', 'nel', 'all', 'alla', 'alle', 'ma', 'se', 'da', 'ha', 'ho', 'hanno', 'sono', 'era', 'erano', 'come', 'più', 'meno', 'anche', 'questo', 'questa', 'questi', 'queste', 'quello', 'quella', 'quelli', 'quelle', 'ci', 'vi', 'ne', 'mi', 'ti', 'si', 'vi', 'loro', 'noi', 'voi', 'tu', 'io', 'lui', 'lei', 'mio', 'tuo', 'suo', 'nostro', 'vostro', 'loro', 'il', 'la', 'i', 'gli', 'le', 'un', 'una', 'uno', 'di', 'a', 'da', 'in', 'con', 'su', 'per', 'tra', 'fra', 'al', 'allo', 'ai', 'agli', 'alla', 'alle', 'del', 'dello', 'dei', 'degli', 'della', 'delle', 'sul', 'sullo', 'sui', 'sugli', 'sulla', 'sulle', 'e', 'o', 'ma', 'anche', 'come', 'dove', 'quando', 'che', 'chi', 'cui', 'quale', 'quali', 'quanto', 'quanta', 'quanti', 'quante', 'il', 'lo', 'la', 'i', 'gli', 'le', 'un', 'uno', 'una', 'di', 'a', 'da', 'in', 'con', 'su', 'per', 'tra', 'fra', 'al', 'allo', 'ai', 'agli', 'alla', 'alle', 'del', 'dello', 'dei', 'degli', 'della', 'delle', 'sul', 'sullo', 'sui', 'sugli', 'sulla', 'sulle', 'e', 'o', 'ma', 'anche', 'come', 'dove', 'quando', 'che', 'chi', 'cui', 'quale', 'quali', 'quanto', 'quanta', 'quanti', 'quante',
-        ];
-        $allWords = $transcripts->flatMap(fn ($doc) => preg_split('/\W+/', mb_strtolower($doc->argomento ?? '')));
-        $selectedDocWords = collect($allWords)
-            ->filter(fn ($w) => mb_strlen((string) $w) > 2 && ! in_array($w, $stopwords))
-            ->countBy()
-            ->sortDesc()
-            ->take(20);
-
         $maxCount = $countByDecade->max('count') ?: 1;
 
         $selectedDoc = $selectedDocId ? $transcripts->firstWhere('id', $selectedDocId) : null;
 
-        return view('archive.index', compact('countByDecade', 'transcripts', 'filteredCount', 'selectedDocWords', 'genreOptions', 'maxCount', 'totalCount', 'selectedYear', 'selectedDocId', 'selectedMonth', 'selectedGenere', 'selectedDoc'));
+        return view('archive.index', compact('countByDecade', 'transcripts', 'filteredCount', 'genreOptions', 'maxCount', 'totalCount', 'selectedYear', 'selectedDocId', 'selectedMonth', 'selectedGenere', 'selectedDoc'));
     }
 
     public function show($id)
