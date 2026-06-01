@@ -197,7 +197,7 @@
                                             white-space: nowrap;
                                         "
                                     >
-                                        ⚠ No transcript
+                                        ⚠ Senza trascrizione
                                     </span>
                                 @endif
                             </div>
