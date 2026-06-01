@@ -180,17 +180,22 @@
                         class="card border-0 shadow-sm mb-2 {{ $selectedDocId == $doc->id ? "border-start border-primary border-3" : "" }}"
                     >
                         <div class="card-body py-2">
-                            <div class="d-flex justify-content-between align-items-start mb-1 gap-2">
+                            <div
+                                class="d-flex justify-content-between align-items-start mb-1 gap-2"
+                            >
                                 <p
                                     class="fw-semibold mb-0 text-truncate"
                                     style="font-size: 0.85rem"
                                 >
                                     {{ $doc->argomento }}
                                 </p>
-                                @if (!$doc->transcript)
+                                @if (! $doc->transcript)
                                     <span
                                         class="badge bg-danger text-white flex-shrink-0"
-                                        style="font-size: 0.6rem; white-space: nowrap"
+                                        style="
+                                            font-size: 0.6rem;
+                                            white-space: nowrap;
+                                        "
                                     >
                                         ⚠ No transcript
                                     </span>
@@ -304,7 +309,14 @@
                     <div class="card-body p-2">
                         @if ($selectedDoc->transcript)
                             <div class="bg-light rounded-2 p-3 border">
-                                <div style="white-space: pre-wrap; font-size: 0.95rem; line-height: 1.75; color: #1f2937;">
+                                <div
+                                    style="
+                                        white-space: pre-wrap;
+                                        font-size: 0.95rem;
+                                        line-height: 1.75;
+                                        color: #1f2937;
+                                    "
+                                >
                                     {{ $selectedDoc->transcript->content }}
                                 </div>
                             </div>
