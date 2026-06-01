@@ -15,47 +15,35 @@ final class ArchiveController
         $selectedGenere = request('genere');
         $selectedDocId = request('doc');
 
-        $query = Recording::query();
+        // Execute MATCH once to get filtered IDs
+        $matchQuery = Recording::query();
 
         if ($selectedGenere) {
-            $query->where('GENERE', $selectedGenere);
+            $matchQuery->where('GENERE', $selectedGenere);
         }
 
         if (! empty($q)) {
-            $query->join('recording_transcripts', 'recording_transcripts.recording_id', '=', 'recordings.id')
-                ->whereRaw('MATCH(recording_transcripts.content) AGAINST(? IN BOOLEAN MODE)', [$q]);
+            $matchQuery->join('recording_transcripts', 'recording_transcripts.recording_id', '=', 'recordings.id')
+                ->whereRaw('MATCH(recording_transcripts.content) AGAINST(? IN BOOLEAN MODE)', [$q])
+                ->distinct()
+                ->select('recordings.id');
         }
 
-        $countByDecade = (clone $query)
+        $filteredIds = $matchQuery->pluck('id')->toArray();
+
+        // Build base query using filtered IDs (no MATCH needed)
+        $baseQuery = Recording::whereIn('recordings.id', $filteredIds);
+
+        $countByDecade = (clone $baseQuery)
             ->whereNotNull('data')
             ->selectRaw('YEAR(data) as decade, COUNT(*) as count')
             ->groupBy('decade')
             ->orderBy('decade')
             ->get();
 
-        $totalCount = (clone $query)->count();
-        $genreOptions = collect();
+        $totalCount = count($filteredIds);
 
-        $genreQuery = (clone $query)->whereNotNull('GENERE')->where('GENERE', '!=', '');
-
-        $query = $query
-            ->with('transcript')
-            ->select('recordings.id', 'recordings.data', 'recordings.AUTORE', 'recordings.DESTINATARI', 'recordings.GENERE', 'recordings.code', 'recordings.argomento', 'recordings.LOCALITA');
-
-        if ($selectedYear) {
-            $query->whereYear('data', $selectedYear);
-        }
-
-        if (! empty($q)) {
-            $query
-                ->selectRaw('MATCH(recording_transcripts.content) AGAINST(? IN BOOLEAN MODE) as relevance', [$q])
-                ->orderByDesc('relevance');
-        } else {
-            $query->orderBy('data');
-        }
-
-        $filteredCount = (clone $query)->count();
-        $transcripts = $query->limit(200)->get();
+        $genreQuery = (clone $baseQuery)->whereNotNull('GENERE')->where('GENERE', '!=', '');
 
         if ($selectedYear) {
             $genreQuery->whereYear('data', $selectedYear);
@@ -66,6 +54,27 @@ final class ArchiveController
             ->groupBy('GENERE')
             ->orderByDesc('count')
             ->pluck('count', 'GENERE');
+
+        // Main results query - keep MATCH only for relevance ordering
+        $resultsQuery = Recording::whereIn('recordings.id', $filteredIds)
+            ->with('transcript')
+            ->select('recordings.id', 'recordings.data', 'recordings.AUTORE', 'recordings.DESTINATARI', 'recordings.GENERE', 'recordings.code', 'recordings.argomento', 'recordings.LOCALITA');
+
+        if ($selectedYear) {
+            $resultsQuery->whereYear('data', $selectedYear);
+        }
+
+        if (! empty($q)) {
+            $resultsQuery
+                ->join('recording_transcripts', 'recording_transcripts.recording_id', '=', 'recordings.id')
+                ->selectRaw('MATCH(recording_transcripts.content) AGAINST(? IN BOOLEAN MODE) as relevance', [$q])
+                ->orderByDesc('relevance');
+        } else {
+            $resultsQuery->orderBy('data');
+        }
+
+        $filteredCount = (clone $resultsQuery)->count();
+        $transcripts = $resultsQuery->limit(200)->get();
 
         $maxCount = $countByDecade->max('count') ?: 1;
 

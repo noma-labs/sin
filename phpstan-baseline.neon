@@ -781,6 +781,24 @@ parameters:
 			path: app/Http/Agraria/Models/MezzoAgricolo.php
 
 		-
+			message: '#^Call to an undefined method object\:\:count\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Archive/Controllers/ArchiveController.php
+
+		-
+			message: '#^Call to an undefined method object\:\:whereNotNull\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Http/Archive/Controllers/ArchiveController.php
+
+		-
+			message: '#^Call to an undefined static method App\\Archive\\Models\\Recording\:\:whereIn\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: app/Http/Archive/Controllers/ArchiveController.php
+
+		-
 			message: '#^Method App\\Archive\\Controllers\\ArchiveController\:\:index\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -796,12 +814,6 @@ parameters:
 			message: '#^Method App\\Archive\\Controllers\\ArchiveController\:\:show\(\) has parameter \$id with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Archive/Controllers/ArchiveController.php
-
-		-
-			message: '#^Parameter \#2 \$operator of method Illuminate\\Database\\Query\\Builder\:\:whereYear\(\) expects DateTimeInterface\|int\|string\|null, mixed given\.$#'
-			identifier: argument.type
-			count: 2
 			path: app/Http/Archive/Controllers/ArchiveController.php
 
 		-
