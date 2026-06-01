@@ -64,6 +64,7 @@ final class Recording extends Model
     protected static function booted(): void
     {
         self::addGlobalScope('before_1981', fn (Builder $query) => $query->where('data', '<=', '1981-01-15'));
+        self::addGlobalScope('saltini_don_zeno', fn (Builder $query) => $query->where('AUTORE', 'Saltini Don Zeno'));
     }
 
     protected function casts(): array
