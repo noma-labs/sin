@@ -26,7 +26,7 @@ final class TroubleshootingController
             if ($dateStr) {
                 $matchingRecordings = Recording::whereRaw("DATE_FORMAT(DATA, '%Y-%m') = ?", [$dateStr])
                     ->orderBy('DATA')
-                    ->get(['id', 'code', 'DATA', 'ORE', 'AUTORE', 'ARGOMENTO', 'GENERE', 'LOCALITA\'', 'DESTINATARI']);
+                    ->get(['id', 'code', 'DATA', 'ORE', 'AUTORE', 'ARGOMENTO', 'GENERE', 'LOCALITA', 'DESTINATARI']);
             }
         }
 

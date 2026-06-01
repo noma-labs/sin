@@ -15,14 +15,6 @@
                 {{ $errors->first() }}
             </div>
         @endif
-
-        <div class="alert alert-info" role="alert">
-            <strong>Transcript senza Recording associato</strong>
-            <p class="mb-0">
-                Totale: {{ $orphanedTranscripts->total() }} transcript
-                necessitano di risoluzione.
-            </p>
-        </div>
     </div>
 
     @if ($orphanedTranscripts->total() > 0)
@@ -32,11 +24,12 @@
                     <div
                         class="card-body py-2 px-3 d-flex align-items-center gap-2"
                     >
-                        <span class="text-muted small">Transcript</span>
+                        <span class="text-muted small">Problemi</span>
                         <span class="fw-bold fs-5">
                             {{ $orphanedTranscripts->currentPage() }} di
                             {{ $orphanedTranscripts->lastPage() }}
                         </span>
+                        discorsi senza transcrizioni associate.
                     </div>
                 </div>
             </div>
@@ -93,9 +86,7 @@
                         <div class="col-lg-8">
                             <div class="card border-0">
                                 <div class="card-header bg-light">
-                                    <h6 class="mb-0">
-                                        Seleziona Recording da Assegnare
-                                    </h6>
+                                    <h6 class="mb-0">Seleziona trascrizione</h6>
                                 </div>
                                 <div class="card-body">
                                     @if ($matchingRecordings->count() > 0)
@@ -193,7 +184,7 @@
                                                                 </small>
                                                             @endif
 
-                                                            @php($localita = $recording->getAttribute('LOCALITA\''))
+                                                            @php($localita = $recording->getAttribute("LOCALITA"))
                                                             @if ($localita)
                                                                 <small
                                                                     class="text-muted d-block"
@@ -227,7 +218,7 @@
                                                     id="assignBtn"
                                                     disabled
                                                 >
-                                                    Assegna Recording
+                                                    Assegna trascrizione
                                                 </button>
                                             </div>
                                         </form>

@@ -1,24 +1,68 @@
 @extends("archive.layout")
 
 @section("content")
-    <div class="d-flex align-items-center justify-content-end mb-2">
-        <div class="card border-0 shadow-sm">
-            <div class="card-body py-2 px-3 d-flex align-items-center gap-2">
-                <span class="text-muted small">Registrazioni</span>
-                <span class="fw-bold fs-5">
-                    {{ number_format($totalCount) }}
-                </span>
-            </div>
+    <div class="row mb-3">
+        <div class="col-md-4 offset-md-4 mt-3">
+            <form method="GET" action="{{ route("archive.index") }}">
+                @if ($selectedYear)
+                    <input
+                        type="hidden"
+                        name="year"
+                        value="{{ $selectedYear }}"
+                    />
+                @endif
+
+                @if ($selectedGenere)
+                    <input
+                        type="hidden"
+                        name="genere"
+                        value="{{ $selectedGenere }}"
+                    />
+                @endif
+
+                <div class="input-group">
+                    <input
+                        type="text"
+                        name="q"
+                        class="form-control"
+                        placeholder="Cerca nel testo..."
+                        value="{{ request("q") }}"
+                    />
+                    <button type="submit" class="btn btn-primary">Cerca</button>
+                    @if (request("q"))
+                        <a
+                            href="?{{ http_build_query(array_filter(["year" => $selectedYear, "genere" => $selectedGenere])) }}"
+                            class="btn btn-outline-secondary"
+                        >
+                            &times;
+                        </a>
+                    @endif
+
+                    @if ($selectedYear || $selectedGenere || request("q") || $selectedDocId)
+                        <a
+                            href="{{ route("archive.index") }}"
+                            class="btn btn-outline-secondary"
+                        >
+                            Reset filtri
+                        </a>
+                    @endif
+                </div>
+            </form>
         </div>
     </div>
+
     <div class="rounded-2 mb-3 px-3 pt-3 pb-1" style="background: #2c3e50">
         <form method="GET" action="{{ route("archive.index") }}">
-            @if ($selectedMonth)
+            @if ($selectedGenere)
                 <input
                     type="hidden"
-                    name="month"
-                    value="{{ $selectedMonth }}"
+                    name="genere"
+                    value="{{ $selectedGenere }}"
                 />
+            @endif
+
+            @if (request("q"))
+                <input type="hidden" name="q" value="{{ request("q") }}" />
             @endif
 
             <div
@@ -68,73 +112,17 @@
             class="col-md-2"
             style="max-height: calc(100vh - 260px); overflow-y: auto"
         >
-            {{-- Top words --}}
-            @if ($selectedDocWords->isNotEmpty())
-                <p
-                    class="small fw-bold text-uppercase text-muted mb-1"
-                    style="font-size: 0.7rem; letter-spacing: 0.05em"
+            <div class="card border-0 bg-light mb-3">
+                <div
+                    class="card-body py-2 px-2 d-flex align-items-center gap-2"
                 >
-                    Argomento
-                </p>
-                <div class="d-flex flex-wrap gap-1 mb-3">
-                    @foreach ($selectedDocWords as $word => $count)
-                        <a
-                            href="?{{ http_build_query(array_filter(["year" => $selectedYear, "month" => $selectedMonth, "q" => $word])) }}"
-                            class="badge bg-secondary text-decoration-none d-inline-flex align-items-center gap-1"
-                            style="font-size: 0.7rem; font-weight: normal"
-                        >
-                            {{ $word }}
-                            <span
-                                class="badge bg-light text-dark"
-                                style="font-size: 0.65rem"
-                            >
-                                {{ $count }}
-                            </span>
-                        </a>
-                    @endforeach
-                </div>
-            @endif
-
-            <p
-                class="small fw-bold text-uppercase text-muted mb-1"
-                style="font-size: 0.7rem; letter-spacing: 0.05em"
-            >
-                Mese
-            </p>
-            <div class="list-group list-group-flush mb-3">
-                <a
-                    href="?{{ http_build_query(array_filter(["year" => $selectedYear, "q" => request("q"), "genere" => $selectedGenere])) }}"
-                    class="list-group-item list-group-item-action py-1 px-2 {{ ! $selectedMonth ? "active" : "" }}"
-                    style="font-size: 0.8rem"
-                >
-                    Tutti
-                    <span
-                        class="float-end text-muted"
-                        style="font-size: 0.7rem"
-                    >
-                        {{ $filteredCount }}
+                    <span class="text-muted small">Totale</span>
+                    <span class="fw-bold fs-6">
+                        {{ number_format($totalCount) }}
                     </span>
-                </a>
-                @foreach ($months as $num => $name)
-                    @if ($countByMonth->get($num, 0) > 0)
-                        <a
-                            href="?{{ http_build_query(array_filter(["year" => $selectedYear, "month" => $num, "q" => request("q"), "genere" => $selectedGenere])) }}"
-                            class="list-group-item list-group-item-action py-1 px-2 {{ $selectedMonth == $num ? "active" : "" }}"
-                            style="font-size: 0.8rem"
-                        >
-                            {{ $name }}
-                            <span
-                                class="float-end text-muted"
-                                style="font-size: 0.7rem"
-                            >
-                                {{ $countByMonth->get($num, 0) }}
-                            </span>
-                        </a>
-                    @endif
-                @endforeach
+                </div>
             </div>
 
-            {{-- Genere --}}
             @if ($genreOptions->isNotEmpty())
                 <p
                     class="small fw-bold text-uppercase text-muted mb-1 mt-3"
@@ -144,7 +132,7 @@
                 </p>
                 <div class="list-group list-group-flush mb-3">
                     <a
-                        href="?{{ http_build_query(array_filter(["year" => $selectedYear, "month" => $selectedMonth, "q" => request("q")])) }}"
+                        href="?{{ http_build_query(array_filter(["year" => $selectedYear, "q" => request("q")])) }}"
                         class="list-group-item list-group-item-action py-1 px-2 {{ ! $selectedGenere ? "active" : "" }}"
                         style="font-size: 0.8rem"
                     >
@@ -152,7 +140,7 @@
                     </a>
                     @foreach ($genreOptions as $genere => $count)
                         <a
-                            href="?{{ http_build_query(array_filter(["year" => $selectedYear, "month" => $selectedMonth, "q" => request("q"), "genere" => $genere])) }}"
+                            href="?{{ http_build_query(array_filter(["year" => $selectedYear, "q" => request("q"), "genere" => $genere])) }}"
                             class="list-group-item list-group-item-action py-1 px-2 {{ $selectedGenere === $genere ? "active" : "" }}"
                             style="font-size: 0.8rem"
                         >
@@ -173,109 +161,75 @@
             class="col-md-4"
             style="max-height: calc(100vh - 260px); overflow-y: auto"
         >
-            <div
-                class="pb-2 mb-2 border-bottom bg-white"
-                style="position: sticky; top: 0; z-index: 10"
-            >
-                <form method="GET" action="{{ route("archive.index") }}">
-                    @if ($selectedYear)
-                        <input
-                            type="hidden"
-                            name="year"
-                            value="{{ $selectedYear }}"
-                        />
-                    @endif
-
-                    @if ($selectedMonth)
-                        <input
-                            type="hidden"
-                            name="month"
-                            value="{{ $selectedMonth }}"
-                        />
-                    @endif
-
-                    <div class="d-flex align-items-center gap-2">
-                        @if ($selectedYear)
-                            <h5 class="fw-bold mb-0 me-auto">
-                                {{ $selectedYear }}
-                            </h5>
-                        @else
-                            <h5
-                                class="fw-bold mb-0 me-auto text-muted"
-                                style="font-size: 0.9rem"
-                            >
-                                Tutte le registrazioni
-                            </h5>
-                        @endif
-                        <div
-                            class="input-group input-group-sm"
-                            style="max-width: 220px"
-                        >
-                            <input
-                                type="text"
-                                name="q"
-                                class="form-control form-control-sm"
-                                placeholder="Cerca titolo o codice..."
-                                value="{{ request("q") }}"
-                            />
-                            @if (request("q"))
-                                <a
-                                    href="?{{ http_build_query(array_filter(["year" => $selectedYear, "month" => $selectedMonth])) }}"
-                                    class="btn btn-sm btn-outline-secondary"
-                                >
-                                    &times;
-                                </a>
-                            @endif
-                        </div>
-                    </div>
-                </form>
-            </div>
             @foreach ($transcripts as $doc)
-                @if (
-
-                    ! request("q") ||
-                    str_contains(
-                        strtolower($doc->argomento . " " . $doc->code),
-                        strtolower(request("q"))
-                    )                )
-                    @php
-                        $params = array_filter([
+                @php
+                    $params = array_filter(
+                        [
                             "year" => $selectedYear,
-                            "month" => $selectedMonth,
+                            "genere" => $selectedGenere,
                             "q" => request("q"),
                             "doc" => $doc->id,
-                        ]);
-                        $docUrl = "?" . http_build_query($params);
-                    @endphp
+                        ],
+                        fn ($value) => $value !== null && $value !== "",
+                    );
+                    $docUrl = "?" . http_build_query($params);
+                @endphp
 
-                    <a href="{{ $docUrl }}" class="text-decoration-none">
-                        <div
-                            class="card border-0 shadow-sm mb-2 {{ $selectedDocId == $doc->id ? "border-start border-primary border-3" : "" }}"
-                        >
-                            <div class="card-body py-2">
+                <a href="{{ $docUrl }}" class="text-decoration-none">
+                    <div
+                        class="card border-0 shadow-sm mb-2 {{ $selectedDocId == $doc->id ? "border-start border-primary border-3" : "" }}"
+                    >
+                        <div class="card-body py-2">
+                            <div
+                                class="d-flex justify-content-between align-items-start mb-1 gap-2"
+                            >
                                 <p
-                                    class="fw-semibold mb-1 text-truncate"
+                                    class="fw-semibold mb-0 text-truncate"
                                     style="font-size: 0.85rem"
                                 >
                                     {{ $doc->argomento }}
                                 </p>
-                                <p
-                                    class="text-muted mb-1"
-                                    style="font-size: 0.75rem"
-                                >
-                                    {{ $doc->data ? \Carbon\Carbon::parse($doc->data)->format("d/m/Y") : "Data sconosciuta" }}
-                                    @if ($doc->code)
-                                            &middot; {{ $doc->code }}
-                                    @endif
-
-                                    @if ($doc->AUTORE)
-                                            &middot; {{ $doc->AUTORE }}
-                                    @endif
-                                </p>
+                                @if (! $doc->transcript)
+                                    <span
+                                        class="badge bg-danger text-white flex-shrink-0"
+                                        style="
+                                            font-size: 0.6rem;
+                                            white-space: nowrap;
+                                        "
+                                    >
+                                        ⚠ Senza trascrizione213
+                                    </span>
+                                @endif
                             </div>
+                            <p
+                                class="text-muted mb-1"
+                                style="font-size: 0.75rem"
+                            >
+                                {{ $doc->data ? \Carbon\Carbon::parse($doc->data)->format("d/m/Y") : "Data sconosciuta" }}
+                                @if ($doc->code)
+                                        &middot; {{ $doc->code }}
+                                @endif
+
+                                @if ($doc->AUTORE)
+                                        &middot; {{ $doc->AUTORE }}
+                                @endif
+
+                                @if ($doc->LOCALITA)
+                                        &middot; {{ $doc->LOCALITA }}
+                                @endif
+                            </p>
+                            @if (isset($doc->relevance) && $doc->relevance !== null)
+                                <span
+                                    class="badge bg-primary bg-opacity-10 text-primary"
+                                    style="font-size: 0.65rem"
+                                >
+                                    rilevanza
+                                    {{ number_format((float) $doc->relevance, 2) }}
+                                </span>
+                            @endif
                         </div>
-                    </a>
-                @endif
+                    </div>
+                </a>
             @endforeach
         </div>
 
@@ -285,62 +239,86 @@
                     class="card border-0 shadow"
                     style="max-height: calc(100vh - 260px); overflow-y: auto"
                 >
-                    <div class="card-header bg-white border-bottom py-2">
-                        <p class="fw-bold mb-0" style="font-size: 0.9rem">
+                    <div class="card-header bg-white border-bottom py-3 px-3">
+                        <h2 class="h6 fw-bold mb-2">
                             {{ $selectedDoc->argomento }}
-                        </p>
-                        <p class="text-muted mb-0" style="font-size: 0.75rem">
+                        </h2>
+                        <p class="text-muted mb-2" style="font-size: 0.8rem">
                             {{ $selectedDoc->data ? \Carbon\Carbon::parse($selectedDoc->data)->format("d/m/Y") : "Data sconosciuta" }}
                             @if ($selectedDoc->code)
                                     &middot; {{ $selectedDoc->code }}
                             @endif
                         </p>
-                        @if ($selectedDoc->AUTORE)
+                        @if ($selectedDoc->AUTORE || $selectedDoc->DESTINATARI || $selectedDoc->LOCALITA)
                             <p
-                                class="text-muted mb-0"
-                                style="font-size: 0.75rem"
+                                class="text-muted mb-0 text-truncate"
+                                style="font-size: 0.74rem"
                             >
-                                <span
-                                    class="text-uppercase"
-                                    style="
-                                        font-size: 0.65rem;
-                                        letter-spacing: 0.05em;
-                                    "
-                                >
-                                    Autore
-                                </span>
-                                &middot; {{ $selectedDoc->AUTORE }}
-                            </p>
-                        @endif
+                                @if ($selectedDoc->AUTORE)
+                                    <span
+                                        class="text-uppercase"
+                                        style="
+                                            font-size: 0.62rem;
+                                            letter-spacing: 0.05em;
+                                        "
+                                    >
+                                        Autore
+                                    </span>
+                                    :
+                                    {{ $selectedDoc->AUTORE }}
+                                @endif
 
-                        @if ($selectedDoc->DESTINATARI)
-                            <p
-                                class="text-muted mb-0"
-                                style="font-size: 0.75rem"
-                            >
-                                <span
-                                    class="text-uppercase"
-                                    style="
-                                        font-size: 0.65rem;
-                                        letter-spacing: 0.05em;
-                                    "
-                                >
-                                    Destinatari
-                                </span>
-                                &middot; {{ $selectedDoc->DESTINATARI }}
+                                @if ($selectedDoc->DESTINATARI)
+                                    @if ($selectedDoc->AUTORE)
+                                        &middot;
+                                    @endif
+
+                                    <span
+                                        class="text-uppercase"
+                                        style="
+                                            font-size: 0.62rem;
+                                            letter-spacing: 0.05em;
+                                        "
+                                    >
+                                        Destinatari
+                                    </span>
+                                    :
+                                    {{ $selectedDoc->DESTINATARI }}
+                                @endif
+
+                                @if ($selectedDoc->LOCALITA)
+                                    @if ($selectedDoc->AUTORE || $selectedDoc->DESTINATARI)
+                                        &middot;
+                                    @endif
+
+                                    <span
+                                        class="text-uppercase"
+                                        style="
+                                            font-size: 0.62rem;
+                                            letter-spacing: 0.05em;
+                                        "
+                                    >
+                                        Localita
+                                    </span>
+                                    :
+                                    {{ $selectedDoc->LOCALITA }}
+                                @endif
                             </p>
                         @endif
                     </div>
-                    <div class="card-body">
+                    <div class="card-body p-2">
                         @if ($selectedDoc->transcript)
-                            <div
-                                style="
-                                    white-space: pre-line;
-                                    font-size: 0.875rem;
-                                    line-height: 1.6;
-                                "
-                            >
-                                {{ $selectedDoc->transcript->content }}
+                            <div class="bg-light rounded-2 p-3 border">
+                                <div
+                                    style="
+                                        white-space: pre-wrap;
+                                        font-size: 0.95rem;
+                                        line-height: 1.75;
+                                        color: #1f2937;
+                                    "
+                                >
+                                    {{ $selectedDoc->transcript->content }}
+                                </div>
                             </div>
                         @else
                             <p
