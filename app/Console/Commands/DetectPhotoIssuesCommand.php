@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 
 final class DetectPhotoIssuesCommand extends Command
 {
+    private const INSERT_CHUNK_SIZE = 1000;
+
     protected $signature = 'photos:detect-issues {--dry-run : Run without persisting to database}';
 
     protected $description = 'Detect photos with chronological issues and persist them to the photos_issues table';
@@ -66,9 +68,7 @@ final class DetectPhotoIssuesCommand extends Command
         if ($this->option('dry-run')) {
             $this->warn('DRY RUN: Not persisting to database');
         } else {
-            $insertedChronological = DB::connection('db_foto')
-                ->table('photos_issues')
-                ->insertOrIgnore($rows);
+            $insertedChronological = $this->insertIssuesInChunks($rows);
         }
 
         $this->info(sprintf('%d chronological issues detected: %d inserted, %d skipped.', count($rows), $insertedChronological, count($rows) - $insertedChronological));
@@ -112,9 +112,7 @@ final class DetectPhotoIssuesCommand extends Command
 
         $insertedWrongYear = 0;
         if (! $this->option('dry-run')) {
-            $insertedWrongYear = DB::connection('db_foto')
-                ->table('photos_issues')
-                ->insertOrIgnore($wrongYearRows);
+            $insertedWrongYear = $this->insertIssuesInChunks($wrongYearRows);
         }
 
         $this->info(sprintf('%d year_mismatch_description issues detected: %d inserted, %d skipped.', count($wrongYearRows), $insertedWrongYear, count($wrongYearRows) - $insertedWrongYear));
@@ -139,9 +137,7 @@ final class DetectPhotoIssuesCommand extends Command
 
         $insertedYearLikeNumbers = 0;
         if (! $this->option('dry-run')) {
-            $insertedYearLikeNumbers = DB::connection('db_foto')
-                ->table('photos_issues')
-                ->insertOrIgnore($yearLikeNumbersRows);
+            $insertedYearLikeNumbers = $this->insertIssuesInChunks($yearLikeNumbersRows);
         }
 
         $this->info(sprintf('%d year_like_number_in_description issues detected: %d inserted, %d skipped.', count($yearLikeNumbersRows), $insertedYearLikeNumbers, count($yearLikeNumbersRows) - $insertedYearLikeNumbers));
@@ -151,5 +147,25 @@ final class DetectPhotoIssuesCommand extends Command
         $this->info(sprintf('Done. %d total detected, %d inserted, %d skipped.', count($rows) + count($wrongYearRows) + count($yearLikeNumbersRows), $totalInserted, $totalSkipped));
 
         return self::SUCCESS;
+    }
+
+    /**
+     * @param  array<int, array<string, mixed>>  $rows
+     */
+    private function insertIssuesInChunks(array $rows): int
+    {
+        if ($rows === []) {
+            return 0;
+        }
+
+        $inserted = 0;
+
+        foreach (array_chunk($rows, self::INSERT_CHUNK_SIZE) as $chunk) {
+            $inserted += DB::connection('db_foto')
+                ->table('photos_issues')
+                ->insertOrIgnore($chunk);
+        }
+
+        return $inserted;
     }
 }
