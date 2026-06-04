@@ -80,7 +80,6 @@ final class DetectPhotoIssuesCommand extends Command
                 JOIN dbf_all d ON p.dbf_id = d.id
                 WHERE
                     p.taken_at IS NOT NULL
-                    AND d.tp IN (\'RA\', \'RB\', \'RD\', \'RS\')
                     AND p.id NOT IN (SELECT photo_id FROM photos_issues)
                     AND (
                         -- 4-digit years (1900-2025)
@@ -93,8 +92,8 @@ final class DetectPhotoIssuesCommand extends Command
                         (
                             d.descrizione REGEXP \'[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{2}\'
                             AND YEAR(p.taken_at) != (
-                                CASE 
-                                    WHEN CAST(RIGHT(REGEXP_SUBSTR(d.descrizione, \'[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{2}\'), 2) AS UNSIGNED) <= 26 
+                                CASE
+                                    WHEN CAST(RIGHT(REGEXP_SUBSTR(d.descrizione, \'[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{2}\'), 2) AS UNSIGNED) <= 26
                                     THEN 2000 + CAST(RIGHT(REGEXP_SUBSTR(d.descrizione, \'[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{2}\'), 2) AS UNSIGNED)
                                     ELSE 1900 + CAST(RIGHT(REGEXP_SUBSTR(d.descrizione, \'[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{2}\'), 2) AS UNSIGNED)
                                 END
@@ -127,7 +126,6 @@ final class DetectPhotoIssuesCommand extends Command
                 JOIN dbf_all d ON p.dbf_id = d.id
                 WHERE
                     d.descrizione REGEXP \'[0-9]{2}|19[0-9][0-9]|200[0-9]|201[0-9]|202[0-5]\'
-                    AND d.tp IN (\'RA\', \'RB\', \'RD\', \'RS\')
                     AND p.id NOT IN (SELECT photo_id FROM photos_issues)
             ');
 
