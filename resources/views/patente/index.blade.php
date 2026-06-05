@@ -3,42 +3,42 @@
 @section("title", "Patente")
 
 @section("navbar-link")
-<li class="nav-item dropdown">
+  <li class="nav-item dropdown">
     <a
-        class="nav-link dropdown-toggle"
-        id="navbarDropdown"
-        role="button"
-        data-bs-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false"
+      class="nav-link dropdown-toggle"
+      id="navbarDropdown"
+      role="button"
+      data-bs-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
     >
-        Patenti
+      Patenti
     </a>
 
     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <a class="dropdown-item" href="{{ route("patente.scadenze") }}">
-            Scadenze patenti
+      <a class="dropdown-item" href="{{ route("patente.scadenze") }}">
+        Scadenze patenti
+      </a>
+      @can("scuolaguida.inserisci")
+        <a class="dropdown-item" href="{{ route("patente.create") }}">
+          Aggiungi patente
         </a>
-        @can("scuolaguida.inserisci")
-            <a class="dropdown-item" href="{{ route("patente.create") }}">
-                Aggiungi patente
-            </a>
-        @endcan
+      @endcan
 
-        <a class="dropdown-item" href="{{ route("patente.ricerca") }}">
-            Ricerca patente
-        </a>
+      <a class="dropdown-item" href="{{ route("patente.ricerca") }}">
+        Ricerca patente
+      </a>
 
-        <div class="dropdown-divider"></div>
+      <div class="dropdown-divider"></div>
 
-        <a class="dropdown-item" href="{{ route("patente.trash") }}">
-            Patenti eliminate
-        </a>
+      <a class="dropdown-item" href="{{ route("patente.trash") }}">
+        Patenti eliminate
+      </a>
     </div>
-</li>
-<li class="nav-item">
+  </li>
+  <li class="nav-item">
     <a class="nav-link" href="{{ route("patente.elenchi") }}">
-        Elenchi patenti
+      Elenchi patenti
     </a>
-</li>
+  </li>
 @append

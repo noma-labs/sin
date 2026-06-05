@@ -3,76 +3,76 @@
 @section("title", "Prenotazioni Calendario")
 
 @section("content")
-    <div class="d-flex align-items-center justify-content-between my-3">
-        <h3 class="fw-bold mb-0">
-            {{ $date->isoFormat("dddd D MMMM YYYY") }}
-            <span>{{ $now->format("H:i") }}</span>
-        </h3>
-        <form
-            method="GET"
-            action="{{ route("officina.calendario") }}"
-            class="d-flex align-items-center gap-2"
-        >
-            <input
-                type="date"
-                name="date"
-                class="form-control form-control-sm"
-                value="{{ $date->toDateString() }}"
-            />
-            <button type="submit" class="btn btn-sm btn-outline-secondary">
-                Vai
-            </button>
-            <a
-                href="{{ route("officina.calendario") }}"
-                class="btn btn-sm btn-outline-primary"
-            >
-                Oggi
-            </a>
-        </form>
-    </div>
-    <div
-        class="table-responsive"
-        style="height: calc(100vh - 100px); overflow-y: auto"
+  <div class="d-flex align-items-center justify-content-between my-3">
+    <h3 class="fw-bold mb-0">
+      {{ $date->isoFormat("dddd D MMMM YYYY") }}
+      <span>{{ $now->format("H:i") }}</span>
+    </h3>
+    <form
+      method="GET"
+      action="{{ route("officina.calendario") }}"
+      class="d-flex align-items-center gap-2"
     >
-        <table class="table table-bordered table-striped-columns">
-            <thead class="sticky-top">
-                <tr class="table-primary">
-                    <th
-                        scope="col"
-                        class="text-nowrap text-white text-uppercase fw-bold fs-5 py-3"
-                    >
-                        Ora
-                    </th>
-                    @foreach ($vehicles as $vehicle)
-                        <th
-                            scope="col"
-                            class="text-center text-white text-nowrap text-uppercase fw-bold fs-5 py-3"
-                        >
-                            {{ $vehicle->nome }}
-                        </th>
-                    @endforeach
-                </tr>
-            </thead>
-            <tbody>
-                @php
+      <input
+        type="date"
+        name="date"
+        class="form-control form-control-sm"
+        value="{{ $date->toDateString() }}"
+      />
+      <button type="submit" class="btn btn-sm btn-outline-secondary">
+        Vai
+      </button>
+      <a
+        href="{{ route("officina.calendario") }}"
+        class="btn btn-sm btn-outline-primary"
+      >
+        Oggi
+      </a>
+    </form>
+  </div>
+  <div
+    class="table-responsive"
+    style="height: calc(100vh - 100px); overflow-y: auto"
+  >
+    <table class="table table-bordered table-striped-columns">
+      <thead class="sticky-top">
+        <tr class="table-primary">
+          <th
+            scope="col"
+            class="text-nowrap text-white text-uppercase fw-bold fs-5 py-3"
+          >
+            Ora
+          </th>
+          @foreach ($vehicles as $vehicle)
+            <th
+              scope="col"
+              class="text-center text-white text-nowrap text-uppercase fw-bold fs-5 py-3"
+            >
+              {{ $vehicle->nome }}
+            </th>
+          @endforeach
+        </tr>
+      </thead>
+      <tbody>
+        @php
                     $currentHour = $now->hour;
                     $currentMinute = $now->minute;
                 @endphp
 
-                @for ($hour = 0; $hour < 24; $hour++)
-                    <tr
-                        class="border-bottom"
-                        style="height: 45px"
-                        @if ($hour === $currentHour) id="current-hour-row" @endif
-                    >
-                        <td
-                            class="text-muted fw-semibold align-top text-nowrap small"
-                            style="position: relative"
-                        >
-                            {{ str_pad($hour, 2, "0", STR_PAD_LEFT) }}:00
-                            @if ($hour === $currentHour)
-                                <div
-                                    style="
+        @for ($hour = 0; $hour < 24; $hour++)
+          <tr
+            class="border-bottom"
+            style="height: 45px"
+            @if ($hour === $currentHour) id="current-hour-row" @endif
+          >
+            <td
+              class="text-muted fw-semibold align-top text-nowrap small"
+              style="position: relative"
+            >
+              {{ str_pad($hour, 2, "0", STR_PAD_LEFT) }}:00
+              @if ($hour === $currentHour)
+                <div
+                  style="
                                         position: absolute;
                                         left: 0;
                                         right: 0;
@@ -81,28 +81,28 @@
                                         z-index: 10;
                                         top: {{ round(($currentMinute / 60) * 100) }}%;
                                     "
-                                >
-                                    <span
-                                        style="
-                                            position: absolute;
-                                            right: 0;
-                                            top: 2px;
-                                            font-size: 0.7rem;
-                                            color: #dc3545;
-                                            line-height: 1;
-                                            font-weight: 600;
-                                        "
-                                    >
-                                        {{ $now->format("H:i") }}
-                                    </span>
-                                </div>
-                            @endif
-                        </td>
-                        @foreach ($vehicles as $vehicle)
-                            <td class="align-top" style="position: relative">
-                                @if ($hour === $currentHour)
-                                    <div
-                                        style="
+                >
+                  <span
+                    style="
+                      position: absolute;
+                      right: 0;
+                      top: 2px;
+                      font-size: 0.7rem;
+                      color: #dc3545;
+                      line-height: 1;
+                      font-weight: 600;
+                    "
+                  >
+                    {{ $now->format("H:i") }}
+                  </span>
+                </div>
+              @endif
+            </td>
+            @foreach ($vehicles as $vehicle)
+              <td class="align-top" style="position: relative">
+                @if ($hour === $currentHour)
+                  <div
+                    style="
                                             position: absolute;
                                             left: 0;
                                             right: 0;
@@ -111,19 +111,18 @@
                                             z-index: 10;
                                             top: {{ round(($currentMinute / 60) * 100) }}%;
                                         "
-                                    ></div>
-                                @endif
+                  ></div>
+                @endif
 
-                                @foreach ($reservationsByVehicle[$vehicle->id][$hour] ?? [] as $pren)
-                                    @php
+                @foreach ($reservationsByVehicle[$vehicle->id][$hour] ?? [] as $pren)
+                  @php
                                         $info = $multiDayInfo[$pren->id];
                                         // Only show if it starts today or ends today
                                         if (! ($info["startsToday"] || $info["endsToday"])) {
                                             continue;
                                         }
                                     @endphp
-
-                                    @php
+                  @php
                                         $sParts = explode(":", $pren->ora_partenza);
                                         $eParts = explode(":", $pren->ora_arrivo);
                                         $sMin = (int) ($sParts[1] ?? 0);
@@ -156,10 +155,9 @@
                                         }
                                         $boxTop = ($sMin / 60) * $rowHeight;
                                     @endphp
-
-                                    <div
-                                        class="text-white rounded p-1"
-                                        style="
+                  <div
+                    class="text-white rounded p-1"
+                    style="
                                             background-color: {{ $reservationColors[$pren->id] }};
                                             position: absolute;
                                             top: {{ $boxTop }}px;
@@ -169,28 +167,28 @@
                                             z-index: 5;
                                             overflow: hidden;
                                         "
-                                    >
-                                        <div class="fw-semibold">
-                                            {{ $pren->cliente->nominativo }}
-                                        </div>
-                                        <div class="opacity-75">
-                                            {{ substr($pren->ora_partenza, 0, 5) }}-{{ substr($pren->ora_arrivo, 0, 5) }}
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </td>
-                        @endforeach
-                    </tr>
-                @endfor
-            </tbody>
-        </table>
-    </div>
-    <script>
-        const row = document.getElementById('current-hour-row');
-        if (row) {
-            row.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
+                  >
+                    <div class="fw-semibold">
+                      {{ $pren->cliente->nominativo }}
+                    </div>
+                    <div class="opacity-75">
+                      {{ substr($pren->ora_partenza, 0, 5) }}-{{ substr($pren->ora_arrivo, 0, 5) }}
+                    </div>
+                  </div>
+                @endforeach
+              </td>
+            @endforeach
+          </tr>
+        @endfor
+      </tbody>
+    </table>
+  </div>
+  <script>
+    const row = document.getElementById("current-hour-row");
+    if (row) {
+      row.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
 
-        setTimeout(() => location.reload(), 1000 * 60);
-    </script>
+    setTimeout(() => location.reload(), 1000 * 60);
+  </script>
 @endsection

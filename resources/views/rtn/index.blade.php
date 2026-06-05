@@ -3,16 +3,16 @@
 @section("title", "Gestione RTN")
 
 @section("navbar-link")
-<li class="nav-item">
+  <li class="nav-item">
     <a
-        class="nav-link dropdown-toggle"
-        id="navbarVideo"
-        role="button"
-        data-bs-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false"
+      class="nav-link dropdown-toggle"
+      id="navbarVideo"
+      role="button"
+      data-bs-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
     >
-        Video
+      Video
     </a>
-</li>
+  </li>
 @append

@@ -3,135 +3,124 @@
 @section("title", "Gestione Nomadelfia")
 
 @section("navbar-link")
-<li class="nav-item">
+  <li class="nav-item">
     <a class="nav-link" href="{{ route("nomadelfia.index") }}">Nomadelfia</a>
-</li>
-<li class="nav-item dropdown">
+  </li>
+  <li class="nav-item dropdown">
     <a
-        class="nav-link dropdown-toggle"
-        id="navbarPopolazione"
-        role="button"
-        data-bs-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false"
+      class="nav-link dropdown-toggle"
+      id="navbarPopolazione"
+      role="button"
+      data-bs-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
     >
-        Popolazione
+      Popolazione
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarPopolazione">
-        <a class="dropdown-item" href="{{ route("nomadelfia.popolazione") }}">
-            Popolazione
-        </a>
-        <a
-            class="dropdown-item"
-            href="{{ route("nomadelfia.popolazione.maggiorenni") }}"
-        >
-            Maggiorenni
-        </a>
-        <a
-            class="dropdown-item"
-            href="{{ route("nomadelfia.popolazione.posizione.effettivi") }}"
-        >
-            Effettivi
-        </a>
-        <a
-            class="dropdown-item"
-            href="{{ route("nomadelfia.popolazione.posizione.postulanti") }}"
-        >
-            Postulanti
-        </a>
-        <a
-            class="dropdown-item"
-            href="{{ route("nomadelfia.popolazione.posizione.ospiti") }}"
-        >
-            Ospiti
-        </a>
-        <a
-            class="dropdown-item"
-            href="{{ route("nomadelfia.popolazione.posizione.figli.maggiorenni") }}"
-        >
-            Figli Mag.
-        </a>
-        <a
-            class="dropdown-item"
-            href="{{ route("nomadelfia.popolazione.posizione.figli.minorenni") }}"
-        >
-            Figli Min.
-        </a>
+      <a class="dropdown-item" href="{{ route("nomadelfia.popolazione") }}">
+        Popolazione
+      </a>
+      <a
+        class="dropdown-item"
+        href="{{ route("nomadelfia.popolazione.maggiorenni") }}"
+      >
+        Maggiorenni
+      </a>
+      <a
+        class="dropdown-item"
+        href="{{ route("nomadelfia.popolazione.posizione.effettivi") }}"
+      >
+        Effettivi
+      </a>
+      <a
+        class="dropdown-item"
+        href="{{ route("nomadelfia.popolazione.posizione.postulanti") }}"
+      >
+        Postulanti
+      </a>
+      <a
+        class="dropdown-item"
+        href="{{ route("nomadelfia.popolazione.posizione.ospiti") }}"
+      >
+        Ospiti
+      </a>
+      <a
+        class="dropdown-item"
+        href="{{ route("nomadelfia.popolazione.posizione.figli.maggiorenni") }}"
+      >
+        Figli Mag.
+      </a>
+      <a
+        class="dropdown-item"
+        href="{{ route("nomadelfia.popolazione.posizione.figli.minorenni") }}"
+      >
+        Figli Min.
+      </a>
     </div>
-</li>
-
-<li class="nav-item dropdown">
+  </li>
+  <li class="nav-item dropdown">
     <a
-        class="nav-link dropdown-toggle"
-        id="navbarPesone"
-        role="button"
-        data-bs-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false"
+      class="nav-link dropdown-toggle"
+      id="navbarPesone"
+      role="button"
+      data-bs-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
     >
-        Persone
+      Persone
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarPesone">
-        <a
-            class="dropdown-item"
-            href="{{ route("nomadelfia.people.search") }}"
-        >
-            Ricerca persone
-        </a>
-        <a
-            class="dropdown-item"
-            href="{{ route("nomadelfia.person.create") }}"
-        >
-            Inserisci Persona
-        </a>
+      <a class="dropdown-item" href="{{ route("nomadelfia.people.search") }}">
+        Ricerca persone
+      </a>
+      <a class="dropdown-item" href="{{ route("nomadelfia.person.create") }}">
+        Inserisci Persona
+      </a>
     </div>
-</li>
-
-<li class="nav-item dropdown">
+  </li>
+  <li class="nav-item dropdown">
     <a
-        class="nav-link dropdown-toggle"
-        id="navbarFamiglie"
-        role="button"
-        data-bs-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false"
+      class="nav-link dropdown-toggle"
+      id="navbarFamiglie"
+      role="button"
+      data-bs-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
     >
-        Famiglie
+      Famiglie
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarFamiglie">
-        <a class="dropdown-item" href="{{ route("nomadelfia.families") }}">
-            Gestione famiglie
-        </a>
-        <a
-            class="dropdown-item"
-            href="{{ route("nomadelfia.marriage.create") }}"
-        >
-            Nuovo Matrimonio
-        </a>
+      <a class="dropdown-item" href="{{ route("nomadelfia.families") }}">
+        Gestione famiglie
+      </a>
+      <a class="dropdown-item" href="{{ route("nomadelfia.marriage.create") }}">
+        Nuovo Matrimonio
+      </a>
     </div>
-</li>
-<li class="nav-item">
+  </li>
+  <li class="nav-item">
     <a class="nav-link" href="{{ route("nomadelfia.gruppifamiliari") }}">
-        Gruppi familiari
+      Gruppi familiari
     </a>
-</li>
-<li class="nav-item">
+  </li>
+  <li class="nav-item">
     <a class="nav-link" href="{{ route("nomadelfia.aziende") }}">Aziende</a>
-</li>
-<li class="nav-item">
+  </li>
+  <li class="nav-item">
     <a class="nav-link" href="{{ route("nomadelfia.incarichi.index") }}">
-        Incarichi
+      Incarichi
     </a>
-</li>
-<li class="nav-item">
+  </li>
+  <li class="nav-item">
     <a class="nav-link" href="{{ route("nomadelfia.esercizi") }}">
-        Es. Spirituali
+      Es. Spirituali
     </a>
-</li>
-<li class="nav-item">
+  </li>
+  <li class="nav-item">
     <a class="nav-link" href="{{ route("nomadelfia.cariche.index") }}">
-        Cariche
+      Cariche
     </a>
-</li>
+  </li>
 
 @append
