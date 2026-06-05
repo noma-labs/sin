@@ -289,9 +289,10 @@
           style="min-height: 200px; max-height: calc(100vh - 260px)"
         >
           <div class="card-body text-center">
-            <p class="mb-0" style="
-                font-size: 0.85rem;
-              ">Seleziona un documento per vedere il contenuto</p>
+            <p
+              class="mb-0"
+              style="font-size: 0.85rem"
+            >Seleziona un documento per vedere il contenuto</p>
           </div>
         </div>
       @endif
