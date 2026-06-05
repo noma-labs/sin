@@ -3,26 +3,26 @@
 @section("title", "Agraria")
 
 @section("navbar-link")
-<li class="nav-item">
+  <li class="nav-item">
     <a class="nav-link" href="{{ route("agraria.index") }}">Agraria</a>
-</li>
-<li class="nav-item">
+  </li>
+  <li class="nav-item">
     <a class="nav-link" href="{{ route("agraria.vehichles.index") }}">
-        Mezzi Agricoli
+      Mezzi Agricoli
     </a>
-</li>
-<li class="nav-item">
+  </li>
+  <li class="nav-item">
     <a class="nav-link" href="{{ route("agraria.maintenanace.search.show") }}">
-        Manutenzioni
+      Manutenzioni
     </a>
-</li>
-<li class="nav-item">
+  </li>
+  <li class="nav-item">
     <a
-        class="nav-link"
-        href="{{ route("agraria.maintenanace.planned.index") }}"
+      class="nav-link"
+      href="{{ route("agraria.maintenanace.planned.index") }}"
     >
-        Manutenzioni Programmate
+      Manutenzioni Programmate
     </a>
-</li>
+  </li>
 
 @append
