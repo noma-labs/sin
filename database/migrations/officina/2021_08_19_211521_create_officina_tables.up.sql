@@ -550,12 +550,8 @@ AS select `db_nomadelfia`.`persone`.`id` AS `id`,`db_nomadelfia`.`persone`.`nomi
     where id = 0;
 
 CREATE VIEW IF NOT EXISTS `v_lavoratori_meccanica`
-AS select `db_nomadelfia`.`aziende_persone`.`azienda_id` AS `azienda_id`,`db_nomadelfia`.`aziende_persone`.`persona_id` AS `persona_id`,`db_nomadelfia`.`persone`.`nominativo` AS `nominativo`,`db_nomadelfia`.`aziende_persone`.`stato` AS `stato`,`db_nomadelfia`.`aziende_persone`.`mansione` AS `mansione`,`db_nomadelfia`.`aziende_persone`.`data_inizio_azienda` AS `data_inizio_azienda`,`db_nomadelfia`.`aziende_persone`.`data_fine_azienda` AS `data_fine_azienda` from ((`db_nomadelfia`.`aziende_persone` join `db_nomadelfia`.`persone`) join `db_nomadelfia`.`aziende` on((`db_nomadelfia`.`aziende`.`id` = `db_nomadelfia`.`aziende_persone`.`azienda_id`))) where ((`db_nomadelfia`.`aziende`.`nome_azienda` = 'Officina Meccanica') and (`db_nomadelfia`.`persone`.`id` = `db_nomadelfia`.`aziende_persone`.`persona_id`) and (`db_nomadelfia`.`persone`.`id` <> 127)) order by `db_nomadelfia`.`aziende_persone`.`mansione` ;
--- --------------------------------------------------------
+AS select `db_nomadelfia`.`aziende_persone`.`azienda_id` AS `azienda_id`,`db_nomadelfia`.`aziende_persone`.`persona_id` AS `persona_id`,`db_nomadelfia`.`persone`.`nominativo` AS `nominativo`,`db_nomadelfia`.`aziende_persone`.`stato` AS `stato`,`db_nomadelfia`.`aziende_persone`.`mansione` AS `mansione`,`db_nomadelfia`.`aziende_persone`.`data_inizio_azienda` AS `data_inizio_azienda`,`db_nomadelfia`.`aziende_persone`.`data_fine_azienda` AS `data_fine_azienda` from ((`db_nomadelfia`.`aziende_persone` join `db_nomadelfia`.`persone`) join `db_nomadelfia`.`aziende` on(`db_nomadelfia`.`aziende`.`id` = `db_nomadelfia`.`aziende_persone`.`azienda_id`)) where `db_nomadelfia`.`aziende`.`nome_azienda` = 'Officina Meccanica' and `db_nomadelfia`.`persone`.`id` = `db_nomadelfia`.`aziende_persone`.`persona_id` and `db_nomadelfia`.`persone`.`id` <> 127 and `db_nomadelfia`.`aziende_persone`.`stato` = 'Attivo' order by `db_nomadelfia`.`aziende_persone`.`mansione`;
 
---
--- Indici per le tabelle scaricate
---
 
 --
 -- Indici per le tabelle `alimentazione`
