@@ -8887,7 +8887,7 @@ parameters:
 			path: app/Http/Scuola/Controllers/ElaboratiController.php
 
 		-
-			message: '#^Parameter \#2 \$direction of method Illuminate\\Database\\Query\\Builder\:\:orderBy\(\) expects string, array\|string\|null given\.$#'
+			message: '#^Parameter \#2 \$direction of method Illuminate\\Database\\Query\\Builder\:\:orderBy\(\) expects ''asc''\|''desc''\|SortDirection, array\|string\|null given\.$#'
 			identifier: argument.type
 			count: 1
 			path: app/Http/Scuola/Controllers/ElaboratiController.php

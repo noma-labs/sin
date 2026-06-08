@@ -46,7 +46,7 @@ final class Incarico extends Model
             ->whereNull('incarichi_persone.data_fine')
             ->groupBy('persone.id')
             ->having('count', '>=', $minNum)
-            ->orderBy('count', 'DESC')
+            ->orderBy('count', 'desc')
             // ->limit($limit)
             // ->limit($limit)
             ->get();
