@@ -41,7 +41,7 @@ final class GruppoFamiliareQueryBuilder extends Builder
                 'FIGLIO NATO',
                 'FIGLIO ACCOLTO'])
             ->orderBy('famiglie.nome_famiglia')
-            ->orderBy('persone.data_nascita', 'ASC');
+            ->orderBy('persone.data_nascita', 'asc');
 
         //        DB::raw("SELECT famiglie_persone.famiglia_id, famiglie.nome_famiglia, persone.id as persona_id, persone.nominativo, famiglie_persone.posizione_famiglia, persone.data_nascita
         //      FROM gruppi_persone

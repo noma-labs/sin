@@ -35,7 +35,7 @@ final class ElaboratiController
             ->leftjoin('archivio_biblioteca.libro', 'elaborati.libro_id', '=', 'libro.id')
             ->select('elaborati.*', 'libro.autore')
             ->orderBy($order, $by)
-            ->orderBy('elaborati.collocazione', 'DESC');
+            ->orderBy('elaborati.collocazione', 'desc');
         if (! $filterYear->isEmpty()) {
             $query->where('anno_scolastico', $filterYear);
         }

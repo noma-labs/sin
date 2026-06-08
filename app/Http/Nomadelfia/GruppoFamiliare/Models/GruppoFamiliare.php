@@ -137,7 +137,7 @@ final class GruppoFamiliare extends Model
     {
         return $this->belongsToMany(Persona::class, 'gruppi_persone', 'gruppo_famigliare_id', 'persona_id')
             ->withPivot('stato')
-            ->orderBy('data_nascita', 'ASC');
+            ->orderBy('data_nascita', 'asc');
     }
 
     public function personeAttuale()
