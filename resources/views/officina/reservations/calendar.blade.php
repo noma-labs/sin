@@ -3,6 +3,34 @@
 @section("title", "Prenotazioni Calendario")
 
 @section("content")
+  <style>
+    .calendar-table {
+      table-layout: fixed;
+      width: 100%;
+    }
+
+    .calendar-table th,
+    .calendar-table td {
+      min-width: 0;
+    }
+
+    .calendar-hour-col {
+      width: 80px;
+    }
+
+    .calendar-vehicle-col {
+      white-space: normal;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      line-height: 1.1;
+    }
+
+    .reservation-text {
+      white-space: normal;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+  </style>
   <div class="d-flex align-items-center justify-content-between my-3">
     <h3 class="fw-bold mb-0">
       {{ $date->isoFormat("dddd D MMMM YYYY") }}
@@ -34,19 +62,19 @@
     class="table-responsive"
     style="height: calc(100vh - 100px); overflow-y: auto"
   >
-    <table class="table table-bordered table-striped-columns">
+    <table class="table table-bordered table-striped-columns calendar-table">
       <thead class="sticky-top">
         <tr class="table-primary">
           <th
             scope="col"
-            class="text-nowrap text-white text-uppercase fw-bold fs-5 py-3"
+            class="text-nowrap text-white text-uppercase fw-bold fs-5 py-3 calendar-hour-col"
           >
             Ora
           </th>
           @foreach ($vehicles as $vehicle)
             <th
               scope="col"
-              class="text-center text-white text-nowrap text-uppercase fw-bold fs-5 py-3"
+              class="text-center text-white text-uppercase fw-bold fs-5 py-3 calendar-vehicle-col"
             >
               {{ $vehicle->nome }}
             </th>
@@ -168,10 +196,10 @@
                                             overflow: hidden;
                                         "
                   >
-                    <div class="fw-semibold">
+                    <div class="fw-semibold reservation-text">
                       {{ $pren->cliente->nominativo }}
                     </div>
-                    <div class="opacity-75">
+                    <div class="opacity-75 reservation-text">
                       {{ substr($pren->ora_partenza, 0, 5) }}-{{ substr($pren->ora_arrivo, 0, 5) }}
                     </div>
                   </div>

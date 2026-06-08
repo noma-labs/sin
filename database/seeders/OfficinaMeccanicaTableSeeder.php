@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Nomadelfia\Azienda\Models\Azienda;
+use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use App\Officina\Models\Impiego;
 use App\Officina\Models\Prenotazioni;
 use App\Officina\Models\Veicolo;
@@ -17,7 +19,10 @@ final class OfficinaMeccanicaTableSeeder extends Seeder
     public function run()
     {
         $meccanica = Azienda::where('nome_azienda', 'like', 'Officina%')->first();
+
         $persona = Persona::factory()->maggiorenne()->maschio()->create();
+        $act = app(EntrataMaggiorenneSingleAction::class);
+        $act->execute($persona, Carbon::now(), GruppoFamiliare::all()->random());
 
         $persona->aziende()->attach($meccanica, [
             'stato' => 'Attivo',
@@ -59,7 +64,7 @@ final class OfficinaMeccanicaTableSeeder extends Seeder
 
         foreach ($impieghiTipologie as $impiego => $tipologie) {
             foreach ($tipologie as $tipologia) {
-                $randomCount = rand(1, 5);
+                $randomCount = rand(1, 15);
                 Veicolo::factory($randomCount)
                     ->{$impiego}()
                     ->{$tipologia}()
@@ -68,35 +73,45 @@ final class OfficinaMeccanicaTableSeeder extends Seeder
         }
 
         $impiegoGrossetoId = Impiego::where('nome', 'Grosseto')->first()->id;
-        $veicoloGrosseto = Veicolo::where('impiego_id', $impiegoGrossetoId)->first();
-        $veicoloGrosseto2 = Veicolo::where('impiego_id', $impiegoGrossetoId)->skip(1)->first();
-        $veicoloGrosseto3 = Veicolo::where('impiego_id', $impiegoGrossetoId)->skip(3)->first();
+        $veicoliGrosseto = Veicolo::where('impiego_id', $impiegoGrossetoId)->get();
 
-        Prenotazioni::factory()
-            ->prenotata(Carbon::now(), Carbon::now()->addHours(2))
-            ->veicolo($veicoloGrosseto)
-            ->create();
+        if ($veicoliGrosseto->isEmpty()) {
+            return;
+        }
 
-        Prenotazioni::factory()
-            ->prenotata(Carbon::now(), Carbon::now()->addHours(2))
-            ->veicolo($veicoloGrosseto2)
-            ->create();
+        $base = Carbon::now()->startOfDay()->setHour(7);
 
-        Prenotazioni::factory()
-            ->prenotata(Carbon::now()->addHours(2), Carbon::now()->addHours(4))
-            ->veicolo($veicoloGrosseto2)
-            ->create();
+        $timeSlots = [
+            [$base->copy()->addMinutes(0), $base->copy()->addMinutes(60)],
+            [$base->copy()->addMinutes(30), $base->copy()->addMinutes(90)],
+            [$base->copy()->addMinutes(60), $base->copy()->addMinutes(120)],
+            [$base->copy()->addMinutes(90), $base->copy()->addMinutes(150)],
+            [$base->copy()->addMinutes(120), $base->copy()->addMinutes(180)],
+            [$base->copy()->addMinutes(150), $base->copy()->addMinutes(210)],
+            [$base->copy()->addMinutes(180), $base->copy()->addMinutes(240)],
+            [$base->copy()->addMinutes(210), $base->copy()->addMinutes(270)],
+            [$base->copy()->addMinutes(240), $base->copy()->addMinutes(300)],
+            [$base->copy()->addMinutes(270), $base->copy()->addMinutes(330)],
+            [$base->copy()->addMinutes(300), $base->copy()->addMinutes(360)],
+            [$base->copy()->addMinutes(330), $base->copy()->addMinutes(390)],
+            [$base->copy()->addMinutes(360), $base->copy()->addMinutes(420)],
+            [$base->copy()->addMinutes(390), $base->copy()->addMinutes(450)],
+            [$base->copy()->addMinutes(420), $base->copy()->addMinutes(480)],
+            [$base->copy()->addMinutes(450), $base->copy()->addMinutes(510)],
+            [$base->copy()->addMinutes(480), $base->copy()->addMinutes(540)],
+            [$base->copy()->addMinutes(510), $base->copy()->addMinutes(570)],
+            [$base->copy()->addMinutes(540), $base->copy()->addMinutes(600)],
+            [$base->copy()->addMinutes(570), $base->copy()->addMinutes(630)],
+        ];
 
-        Prenotazioni::factory()
-            ->prenotata(Carbon::now()->addHours(3), Carbon::now()->addHours(5))
-            ->veicolo($veicoloGrosseto3)
-            ->create();
+        foreach ($timeSlots as $index => [$partenza, $arrivo]) {
+            $veicolo = $veicoliGrosseto[$index % $veicoliGrosseto->count()];
 
-        // Multi-day reservation spanning yesterday to tomorrow
-        Prenotazioni::factory()
-            ->prenotata(Carbon::now()->subDay()->setHour(14), Carbon::now()->addDay()->setHour(10))
-            ->veicolo($veicoloGrosseto)
-            ->create();
+            Prenotazioni::factory()
+                ->prenotata($partenza, $arrivo)
+                ->veicolo($veicolo)
+                ->create();
+        }
 
     }
 }
