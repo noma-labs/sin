@@ -82,12 +82,4 @@ final class ArchiveController
 
         return view('archive.index', compact('countByDecade', 'transcripts', 'filteredCount', 'genreOptions', 'maxCount', 'totalCount', 'selectedYear', 'selectedDocId', 'selectedGenere', 'selectedDoc'));
     }
-
-    public function show($id)
-    {
-        $transcript = Recording::with('transcript')->findOrFail($id);
-        dd($transcript);
-
-        return view('archive.show', ['transcript' => $transcript]);
-    }
 }
