@@ -13,7 +13,6 @@ use App\Agraria\Controllers\PlannedMaintenanceController;
 use App\Agraria\Controllers\SearchableMaintenanceController;
 use App\Agraria\Controllers\VehicleHourController;
 use App\Archive\Controllers\ArchiveController;
-use App\Archive\Controllers\TroubleshootingController;
 use App\Auth\Controllers\LoginController;
 use App\Biblioteca\Controllers\AuthorsController;
 use App\Biblioteca\Controllers\BooksBorrowController;
@@ -428,9 +427,6 @@ Route::prefix('patente')->middleware('auth')->group(function () {
 
 Route::prefix('archive')->middleware('auth')->group(function () {
     Route::get('/', [ArchiveController::class, 'index'])->name('archive.index');
-    Route::get('/troubleshooting', [TroubleshootingController::class, 'index'])->name('archive.troubleshooting');
-    Route::post('/troubleshooting/assign', [TroubleshootingController::class, 'assign'])->name('archive.troubleshooting.assign');
-    Route::get('/{id}/', [ArchiveController::class, 'show'])->name('archive.show');
 });
 
 Route::prefix('rtn')->middleware('auth')->group(function () {

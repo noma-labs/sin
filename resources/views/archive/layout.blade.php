@@ -6,9 +6,4 @@
   <li class="nav-item">
     <a class="nav-link" href="{{ route("archive.index") }}"> Registrazioni </a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" href="{{ route("archive.troubleshooting") }}">
-      Risoluzione Problemi
-    </a>
-  </li>
 @endsection
