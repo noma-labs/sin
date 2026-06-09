@@ -93,7 +93,7 @@ return [
         ],
         'transcripts_originals' => [
             'driver' => 'local',
-            'root' => storage_path('app/media/originals/transcripts'),
+            'root' => env('TRANSCRIPTS_PATH', storage_path('app/media/originals/transcripts')),
             'visibility' => 'private',
         ],
     ],
