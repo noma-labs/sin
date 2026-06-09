@@ -11,11 +11,18 @@ final class TranscriptsSyncCommand extends Command
 {
     protected $signature = 'transcripts:sync';
 
-    protected $description = 'Sync recordings code from DATA/ORE columns and link transcripts to recordings by code match';
+    protected $description = 'Sync docx/mp3 files to recordings table by code extracted from file name or heading';
 
     public function handle(): int
     {
-        $updated = DB::connection('archivio_nomadelfia')->update(<<<'SQL'
+        $this->syncDocxFiles();
+        $this->syncAudioFiles();
+        return self::SUCCESS;
+    }
+
+    private function syncDocxFiles(): void
+    {
+          $updated = DB::connection('archivio_nomadelfia')->update(<<<'SQL'
             UPDATE recordings
             SET code = CONCAT(
                 DATE_FORMAT(`DATA`, '%Y%m%d'),
@@ -27,8 +34,6 @@ final class TranscriptsSyncCommand extends Command
             WHERE `DATA` IS NOT NULL
         SQL);
 
-        $this->info('Synced recordings code. Rows affected: '.$updated);
-
         $linked = DB::connection('archivio_nomadelfia')->update(<<<'SQL'
             UPDATE recording_transcripts rt
             INNER JOIN recordings r ON r.code = rt.code
@@ -36,8 +41,29 @@ final class TranscriptsSyncCommand extends Command
             WHERE rt.recording_id IS NULL AND r.code IS NOT NULL
         SQL);
 
-        $this->info('Linked transcripts to recordings by code match. Rows affected: '.$linked);
+        $this->info("Linked transcripts to recordings by code match. Rows affected: {$linked}");
+    }
 
-        return self::SUCCESS;
+    private function syncAudioFiles(): void
+    {
+        // Extract code from file_name and update recording_audio table
+        $updated = DB::connection('archivio_nomadelfia')->update(<<<'SQL'
+            UPDATE recording_audio
+            SET code = SUBSTRING(
+                REGEXP_SUBSTR(file_name, '[0-9]{4}[0-9]{2}[0-9]{2}[0-9]{2}[A-Z0-9]?'),
+                1,
+                11
+            )
+            WHERE code IS NULL AND file_name REGEXP '[0-9]{4}[0-9]{2}[0-9]{2}'
+        SQL);
+
+        $linked = DB::connection('archivio_nomadelfia')->update(<<<'SQL'
+            UPDATE recording_audio ra
+            INNER JOIN recordings r ON r.code = ra.code
+            SET ra.recording_id = r.id
+            WHERE ra.recording_id IS NULL AND ra.code IS NOT NULL
+        SQL);
+
+        $this->info("Linked audio files to recordings by code match. Rows affected: {$linked}");
     }
 }
