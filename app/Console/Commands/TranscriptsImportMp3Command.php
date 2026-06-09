@@ -7,27 +7,20 @@ namespace App\Console\Commands;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 final class TranscriptsImportMp3Command extends Command
 {
     protected $signature = 'transcripts:import-mp3
-                                {path : Root folder containing year-based subfolders (e.g., 1940-1981)}
                                 {--truncate : Truncate table before import}
                                 {--dry-run : Parse files without inserting rows}';
 
-    protected $description = 'Import MP3 audio files from year-based folder structure into recording_audio table';
+    protected $description = 'Import MP3 audio files from audio_originals disk into recording_audio table';
 
     public function handle(): int
     {
-        $rootPath = (string) $this->argument('path');
         $dryRun = (bool) $this->option('dry-run');
-
-        if (! is_dir($rootPath)) {
-            $this->error("Directory not found: {$rootPath}");
-
-            return self::FAILURE;
-        }
-
+        $audioDisk = Storage::disk('audio_originals');
         $connection = DB::connection('archivio_nomadelfia');
 
         if ((bool) $this->option('truncate') && ! $dryRun) {
@@ -43,50 +36,37 @@ final class TranscriptsImportMp3Command extends Command
         $skippedFiles = 0;
         $chunkSize = 500;
 
-        // Scan year folders: 1949, 1950, ..., 1981
-        $yearFolders = array_filter(
-            scandir($rootPath),
-            static fn (string $folder): bool => is_dir("{$rootPath}/{$folder}") && preg_match('/^\d{4}$/', $folder)
-        );
+        $mp3Files = array_values(array_filter(
+            $audioDisk->allFiles(),
+            static fn (string $path): bool => mb_strtolower(pathinfo($path, PATHINFO_EXTENSION)) === 'mp3'
+        ));
 
-        sort($yearFolders);
+        sort($mp3Files);
 
-        foreach ($yearFolders as $yearFolder) {
-            $yearPath = "{$rootPath}/{$yearFolder}";
+        foreach ($mp3Files as $mp3Path) {
+            if (! $audioDisk->exists($mp3Path)) {
+                $skippedFiles++;
 
-            // Scan MP3 files in year folder
-            $mp3Files = array_filter(
-                scandir($yearPath) ?: [],
-                static fn (string $file): bool => mb_strtolower(pathinfo($file, PATHINFO_EXTENSION)) === 'mp3'
-            );
+                continue;
+            }
 
-            foreach ($mp3Files as $mp3File) {
-                $filePath = "{$yearPath}/{$mp3File}";
+            $processedFiles++;
 
-                if (! file_exists($filePath)) {
-                    $skippedFiles++;
+            try {
+                $fileSize = (float) $audioDisk->size($mp3Path) / (1024 * 1024);
 
-                    continue;
+                $batch[] = [
+                    'file_name' => basename($mp3Path),
+                    'file_path' => $mp3Path,
+                    'file_size_mb' => $fileSize,
+                ];
+
+                if (count($batch) >= $chunkSize) {
+                    $insertedRows += $this->flushBatch($connection, $batch, $dryRun);
+                    $batch = [];
                 }
-
-                $processedFiles++;
-
-                try {
-                    $fileSize = (float) filesize($filePath) / (1024 * 1024); // Convert bytes to MB
-
-                    $batch[] = [
-                        'file_name' => $mp3File,
-                        'file_path' => $filePath,
-                        'file_size_mb' => $fileSize,
-                    ];
-
-                    if (count($batch) >= $chunkSize) {
-                        $insertedRows += $this->flushBatch($connection, $batch, $dryRun);
-                        $batch = [];
-                    }
-                } catch (Exception $e) {
-                    $this->error("Error processing {$mp3File}: {$e->getMessage()}");
-                }
+            } catch (Exception $e) {
+                $this->error('Error processing '.basename($mp3Path).': '.$e->getMessage());
             }
         }
 

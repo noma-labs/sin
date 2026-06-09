@@ -96,6 +96,11 @@ return [
             'root' => env('TRANSCRIPTS_PATH', storage_path('app/media/originals/transcripts')),
             'visibility' => 'private',
         ],
+        'audio_originals' => [
+            'driver' => 'local',
+            'root' => env('AUDIO_PATH', storage_path('app/media/originals/audio')),
+            'visibility' => 'private',
+        ],
     ],
 
     'links' => [],
