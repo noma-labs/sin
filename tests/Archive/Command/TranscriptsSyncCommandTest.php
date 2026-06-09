@@ -22,11 +22,31 @@ it('syncs mp3 audio rows to recordings by extracted code', function (): void {
         'recording_id' => null,
     ]);
 
+    $recordingIdWithSuffix = $connection->table('recordings')->insertGetId([
+        'code' => '1976042800',
+        'DATA' => '1976-04-28',
+        'ORE' => '00',
+        'LOCALITA' => 'Nomadelfia',
+    ]);
+
+    $audioIdWithSuffix = $connection->table('recording_audio')->insertGetId([
+        'file_name' => '76042800 Gioacchino.mp3',
+        'file_path' => '1976/76042800 Gioacchino.mp3',
+        'file_size_bytes' => 2048,
+        'code' => null,
+        'recording_id' => null,
+    ]);
+
     $this->artisan('transcripts:sync')->assertSuccessful();
 
     $audioRow = $connection->table('recording_audio')->where('id', $audioId)->first();
+    $audioRowWithSuffix = $connection->table('recording_audio')->where('id', $audioIdWithSuffix)->first();
 
     expect($audioRow)->not->toBeNull();
     expect($audioRow->code)->toBe('1949110800A');
     expect($audioRow->recording_id)->toBe($recordingId);
+
+    expect($audioRowWithSuffix)->not->toBeNull();
+    expect($audioRowWithSuffix->code)->toBe('1976042800');
+    expect($audioRowWithSuffix->recording_id)->toBe($recordingIdWithSuffix);
 });
