@@ -27,7 +27,7 @@ final class RecordingAudio extends Model
     protected $guarded = [];
 
     /**
-     * @return BelongsTo<Recording, self>
+     * @return BelongsTo<Recording, $this>
      */
     public function recording(): BelongsTo
     {
