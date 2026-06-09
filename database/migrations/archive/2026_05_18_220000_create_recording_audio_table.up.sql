@@ -4,7 +4,7 @@ CREATE TABLE `recording_audio` (
   `code` varchar(11) DEFAULT NULL,
   `file_name` varchar(255) NOT NULL,
   `file_path` varchar(1000) NOT NULL,
-  `file_size_mb` decimal(10, 2) NOT NULL,
+  `file_size_bytes` bigint unsigned NOT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   CONSTRAINT `fk_recording_audio_recording_id` FOREIGN KEY (`recording_id`) REFERENCES `recordings` (`id`) ON DELETE CASCADE

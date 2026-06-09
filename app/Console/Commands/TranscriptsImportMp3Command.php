@@ -36,10 +36,10 @@ final class TranscriptsImportMp3Command extends Command
         $skippedFiles = 0;
         $chunkSize = 500;
 
-        $mp3Files = array_values(array_filter(
-            $audioDisk->allFiles(),
-            static fn (string $path): bool => mb_strtolower(pathinfo($path, PATHINFO_EXTENSION)) === 'mp3'
-        ));
+        $mp3Files = collect($audioDisk->allFiles())
+            ->filter(static fn (string $path): bool => str($path)->lower()->endsWith('.mp3'))
+            ->values()
+            ->all();
 
         sort($mp3Files);
 
@@ -53,12 +53,12 @@ final class TranscriptsImportMp3Command extends Command
             $processedFiles++;
 
             try {
-                $fileSize = (float) $audioDisk->size($mp3Path) / (1024 * 1024);
+                $fileSizeBytes = $audioDisk->size($mp3Path);
 
                 $batch[] = [
                     'file_name' => basename($mp3Path),
                     'file_path' => $mp3Path,
-                    'file_size_mb' => $fileSize,
+                    'file_size_bytes' => $fileSizeBytes,
                 ];
 
                 if (count($batch) >= $chunkSize) {

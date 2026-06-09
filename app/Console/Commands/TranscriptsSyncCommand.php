@@ -46,15 +46,11 @@ final class TranscriptsSyncCommand extends Command
 
     private function syncAudioFiles(): void
     {
-        // Extract code from file_name and update recording_audio table
         $updated = DB::connection('archivio_nomadelfia')->update(<<<'SQL'
             UPDATE recording_audio
-            SET code = SUBSTRING(
-                REGEXP_SUBSTR(file_name, '[0-9]{4}[0-9]{2}[0-9]{2}[0-9]{2}[A-Z0-9]?'),
-                1,
-                11
-            )
-            WHERE code IS NULL AND file_name REGEXP '[0-9]{4}[0-9]{2}[0-9]{2}'
+            SET code = CONCAT('19', LEFT(file_name, CHAR_LENGTH(file_name) - 4))
+            WHERE code IS NULL
+              AND file_name REGEXP '^[0-9]{8}[A-Z0-9]?\.mp3$'
         SQL);
 
         $linked = DB::connection('archivio_nomadelfia')->update(<<<'SQL'

@@ -14,7 +14,7 @@ use Illuminate\Support\Carbon;
  * @property string|null $code
  * @property string $file_name
  * @property string $file_path
- * @property float $file_size_mb
+ * @property int $file_size_bytes
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
@@ -34,7 +34,7 @@ final class RecordingAudio extends Model
     protected function casts(): array
     {
         return [
-            'file_size_mb' => 'float',
+            'file_size_bytes' => 'int',
         ];
     }
 }
