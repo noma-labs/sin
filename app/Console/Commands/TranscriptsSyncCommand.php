@@ -17,12 +17,13 @@ final class TranscriptsSyncCommand extends Command
     {
         $this->syncDocxFiles();
         $this->syncAudioFiles();
+
         return self::SUCCESS;
     }
 
     private function syncDocxFiles(): void
     {
-          $updated = DB::connection('archivio_nomadelfia')->update(<<<'SQL'
+        $updated = DB::connection('archivio_nomadelfia')->update(<<<'SQL'
             UPDATE recordings
             SET code = CONCAT(
                 DATE_FORMAT(`DATA`, '%Y%m%d'),

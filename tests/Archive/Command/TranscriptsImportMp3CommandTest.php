@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 beforeEach(function (): void {
     Storage::fake('audio_originals');
     Storage::disk('audio_originals')->put('1950/49110800A.mp3', 'test audio content 1');
-    Storage::disk('audio_originals')->put('1950/50121600.mp3', 'test audio content 2' . str_repeat('x', 1000));
+    Storage::disk('audio_originals')->put('1950/50121600.mp3', 'test audio content 2'.str_repeat('x', 1000));
 });
 
 it('imports mp3 files from audio_originals disk', function (): void {

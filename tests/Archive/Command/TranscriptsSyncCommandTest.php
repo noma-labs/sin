@@ -8,7 +8,7 @@ it('syncs mp3 audio rows to recordings by extracted code', function (): void {
     $connection = DB::connection('archivio_nomadelfia');
 
     $recordingId = $connection->table('recordings')->insertGetId([
-        "code" => '1949110800A',
+        'code' => '1949110800A',
         'DATA' => '1949-11-08',
         'ORE' => '00A',
         'LOCALITA' => 'Nomadelfia',
