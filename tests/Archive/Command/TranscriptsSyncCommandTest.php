@@ -1,0 +1,32 @@
+<?php
+
+declare(strict_types=1);
+
+use Illuminate\Support\Facades\DB;
+
+it('syncs mp3 audio rows to recordings by extracted code', function (): void {
+    $connection = DB::connection('archivio_nomadelfia');
+
+    $recordingId = $connection->table('recordings')->insertGetId([
+        'code' => '1949110800A',
+        'DATA' => '1949-11-08',
+        'ORE' => '00A',
+        'LOCALITA' => 'Nomadelfia',
+    ]);
+
+    $audioId = $connection->table('recording_audio')->insertGetId([
+        'file_name' => '49110800A.mp3',
+        'file_path' => '1950/49110800A.mp3',
+        'file_size_bytes' => 1024,
+        'code' => null,
+        'recording_id' => null,
+    ]);
+
+    $this->artisan('transcripts:sync')->assertSuccessful();
+
+    $audioRow = $connection->table('recording_audio')->where('id', $audioId)->first();
+
+    expect($audioRow)->not->toBeNull();
+    expect($audioRow->code)->toBe('1949110800A');
+    expect($audioRow->recording_id)->toBe($recordingId);
+});

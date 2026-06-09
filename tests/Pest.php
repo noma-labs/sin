@@ -12,7 +12,7 @@ use Tests\TestCasePest;
 use function Pest\Laravel\actingAs;
 
 pest()->extends(TestCasePest::class)
-    ->in('Agraria', 'Biblioteca', 'Scuola', 'Popolazione', 'Officina', 'AdminSys', 'Photo', 'Livewire', 'Patente');
+    ->in('Agraria', 'Biblioteca', 'Scuola', 'Popolazione', 'Officina', 'AdminSys', 'Photo', 'Livewire', 'Patente', 'Archive');
 
 function login(?User $user = null): User
 {
