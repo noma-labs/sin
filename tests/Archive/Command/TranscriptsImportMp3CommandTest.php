@@ -25,4 +25,4 @@ it('imports mp3 files from audio_originals disk', function (): void {
     expect($records[1]->file_name)->toBe('50121600.mp3');
     expect($records[1]->file_path)->toContain('1950/50121600.mp3');
     expect($records[1]->file_size_bytes)->toBeInt();
-})->only();
+});
