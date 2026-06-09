@@ -6,6 +6,7 @@ namespace App\Console\Commands;
 
 use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Database\Connection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -85,7 +86,7 @@ final class TranscriptsImportMp3Command extends Command
     /**
      * @param  array<int, array<string, mixed>>  $batch
      */
-    private function flushBatch(object $connection, array $batch, bool $dryRun): int
+    private function flushBatch(Connection $connection, array $batch, bool $dryRun): int
     {
         if ($batch === []) {
             return 0;

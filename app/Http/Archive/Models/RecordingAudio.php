@@ -26,6 +26,9 @@ final class RecordingAudio extends Model
 
     protected $guarded = [];
 
+    /**
+     * @return BelongsTo<Recording, self>
+     */
     public function recording(): BelongsTo
     {
         return $this->belongsTo(Recording::class, 'recording_id');
