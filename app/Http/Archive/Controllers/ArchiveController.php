@@ -7,7 +7,7 @@ namespace App\Archive\Controllers;
 use App\Archive\Models\Recording;
 use App\Archive\Models\RecordingAudio;
 use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 final class ArchiveController
 {
@@ -86,16 +86,15 @@ final class ArchiveController
         return view('archive.index', compact('countByDecade', 'transcripts', 'filteredCount', 'genreOptions', 'maxCount', 'totalCount', 'selectedYear', 'selectedDocId', 'selectedGenere', 'selectedDoc'));
     }
 
-    public function audio(int $id): StreamedResponse
+    public function audio(int $id): BinaryFileResponse
     {
-        $audio = RecordingAudio::findOrFail($id);
+        $audio = RecordingAudio::query()->findOrFail($id);
         $disk = Storage::disk('audio_originals');
 
         abort_unless($disk->exists($audio->file_path), 404);
 
-        return $disk->response($audio->file_path, $audio->file_name, [
+        return response()->file($disk->path($audio->file_path), [
             'Content-Type' => 'audio/mpeg',
-            'Accept-Ranges' => 'bytes',
         ]);
     }
 }

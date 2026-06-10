@@ -805,12 +805,6 @@ parameters:
 			path: app/Http/Archive/Controllers/ArchiveController.php
 
 		-
-			message: '#^Method App\\Archive\\Models\\Recording\:\:transcript\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasOne does not specify its types\: TRelatedModel, TDeclaringModel$#'
-			identifier: missingType.generics
-			count: 1
-			path: app/Http/Archive/Models/Recording.php
-
-		-
 			message: '#^Method App\\Archive\\Models\\RecordingTranscript\:\:recording\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
 			identifier: missingType.generics
 			count: 1
