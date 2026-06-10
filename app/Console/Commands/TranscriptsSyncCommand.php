@@ -49,9 +49,20 @@ final class TranscriptsSyncCommand extends Command
     {
         $updated = DB::connection('archivio_nomadelfia')->update(<<<'SQL'
             UPDATE recording_audio
-                        SET code = CONCAT('19', REGEXP_SUBSTR(file_name, '^[0-9]{8}[A-Z0-9]?'))
+            SET code = CONCAT(
+                '19',
+                CASE
+                    WHEN REGEXP_SUBSTR(file_name, '^[0-9]{8}[A-Z0-9]?') REGEXP '^[0-9]{6}00[[:alpha:]]$'
+                        THEN CONCAT(
+                            SUBSTRING(REGEXP_SUBSTR(file_name, '^[0-9]{8}[A-Z0-9]?'), 1, 6),
+                            '0',
+                            SUBSTRING(REGEXP_SUBSTR(file_name, '^[0-9]{8}[A-Z0-9]?'), 9, 1)
+                        )
+                    ELSE REGEXP_SUBSTR(file_name, '^[0-9]{8}[A-Z0-9]?')
+                END
+            )
             WHERE code IS NULL
-                            AND file_name REGEXP '^[0-9]{8}[A-Z0-9]?( .*)?\.mp3$'
+                AND file_name REGEXP '^[0-9]{8}[A-Z0-9]?( .*)?\.mp3$'
         SQL);
 
         $linked = DB::connection('archivio_nomadelfia')->update(<<<'SQL'
