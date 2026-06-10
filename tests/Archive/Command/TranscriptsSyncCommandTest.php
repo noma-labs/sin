@@ -8,15 +8,15 @@ it('syncs mp3 audio rows to recordings by extracted code', function (): void {
     $connection = DB::connection('archivio_nomadelfia');
 
     $recordingId = $connection->table('recordings')->insertGetId([
-        'code' => '1949110800A',
+        'code' => '194911080M',
         'DATA' => '1949-11-08',
-        'ORE' => '00A',
+        'ORE' => '0M',
         'LOCALITA' => 'Nomadelfia',
     ]);
 
     $audioId = $connection->table('recording_audio')->insertGetId([
-        'file_name' => '49110800A.mp3',
-        'file_path' => '1950/49110800A.mp3',
+        'file_name' => '49110800M.mp3',
+        'file_path' => '1950/49110800M.mp3',
         'file_size_bytes' => 1024,
         'code' => null,
         'recording_id' => null,
@@ -43,7 +43,7 @@ it('syncs mp3 audio rows to recordings by extracted code', function (): void {
     $audioRowWithSuffix = $connection->table('recording_audio')->where('id', $audioIdWithSuffix)->first();
 
     expect($audioRow)->not->toBeNull();
-    expect($audioRow->code)->toBe('1949110800A');
+    expect($audioRow->code)->toBe('194911080M');
     expect($audioRow->recording_id)->toBe($recordingId);
 
     expect($audioRowWithSuffix)->not->toBeNull();
