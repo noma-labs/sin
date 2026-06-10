@@ -263,12 +263,12 @@
           </div>
           <div class="card-body p-2">
             @if ($selectedDoc->audio)
-              <audio
-                controls
-                class="w-100 mb-3"
-                style="height: 36px"
-                src="{{ route('archive.audio', $selectedDoc->audio->id) }}"
-              ></audio>
+              <audio controls class="w-100 mb-3" style="height: 36px">
+                <source
+                  src="{{ route('archive.audio', $selectedDoc->audio->id) }}"
+                  type="audio/mpeg"
+                />
+              </audio>
             @endif
             @if ($selectedDoc->transcript)
               <div class="bg-light rounded-2 p-3 border">
