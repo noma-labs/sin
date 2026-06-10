@@ -21,6 +21,7 @@ final class DatabaseSeeder extends Seeder
             $this->call(PhotoTableSeeder::class);
             $this->call(MezzoAgricoloTableSeeder::class);
             $this->call(PatenteTableSeeder::class);
+            $this->call(ArchiveTranscriptSqlSeeder::class);
         }
     }
 

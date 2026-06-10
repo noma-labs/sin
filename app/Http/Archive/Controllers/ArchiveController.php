@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Archive\Controllers;
 
 use App\Archive\Models\Recording;
+use App\Archive\Models\RecordingAudio;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 final class ArchiveController
 {
@@ -57,7 +60,7 @@ final class ArchiveController
 
         // Main results query - keep MATCH only for relevance ordering
         $resultsQuery = Recording::whereIn('recordings.id', $filteredIds)
-            ->with('transcript')
+            ->with(['transcript', 'audio'])
             ->select('recordings.id', 'recordings.data', 'recordings.AUTORE', 'recordings.DESTINATARI', 'recordings.GENERE', 'recordings.code', 'recordings.argomento', 'recordings.LOCALITA');
 
         if ($selectedYear) {
@@ -81,5 +84,18 @@ final class ArchiveController
         $selectedDoc = $selectedDocId ? $transcripts->firstWhere('id', $selectedDocId) : null;
 
         return view('archive.index', compact('countByDecade', 'transcripts', 'filteredCount', 'genreOptions', 'maxCount', 'totalCount', 'selectedYear', 'selectedDocId', 'selectedGenere', 'selectedDoc'));
+    }
+
+    public function audio(int $id): StreamedResponse
+    {
+        $audio = RecordingAudio::findOrFail($id);
+        $disk = Storage::disk('audio_originals');
+
+        abort_unless($disk->exists($audio->file_path), 404);
+
+        return $disk->response($audio->file_path, $audio->file_name, [
+            'Content-Type' => 'audio/mpeg',
+            'Accept-Ranges' => 'bytes',
+        ]);
     }
 }

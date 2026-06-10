@@ -427,6 +427,7 @@ Route::prefix('patente')->middleware('auth')->group(function () {
 
 Route::prefix('archive')->middleware('auth')->group(function () {
     Route::get('/', [ArchiveController::class, 'index'])->name('archive.index');
+    Route::get('/audio/{id}', [ArchiveController::class, 'audio'])->name('archive.audio');
 });
 
 Route::prefix('rtn')->middleware('auth')->group(function () {
