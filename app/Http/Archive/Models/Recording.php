@@ -61,6 +61,11 @@ final class Recording extends Model
         return $this->hasOne(RecordingTranscript::class, 'recording_id');
     }
 
+    public function audio(): HasOne
+    {
+        return $this->hasOne(RecordingAudio::class, 'recording_id');
+    }
+
     protected static function booted(): void
     {
         self::addGlobalScope('before_1981', fn (Builder $query) => $query->where('data', '<=', '1981-01-15'));
