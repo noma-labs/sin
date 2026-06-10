@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use RuntimeException;
 
 final class ArchiveTranscriptSqlSeeder extends Seeder
 {
@@ -31,17 +32,17 @@ final class ArchiveTranscriptSqlSeeder extends Seeder
         $fixturePath = base_path('database/seeders/fixtures/fra_martino.mp3');
 
         if (! is_dir($absoluteAudioDir) && ! @mkdir($absoluteAudioDir, 0777, true) && ! is_dir($absoluteAudioDir)) {
-            throw new \RuntimeException(sprintf('Unable to create audio directory: %s', $absoluteAudioDir));
+            throw new RuntimeException(sprintf('Unable to create audio directory: %s', $absoluteAudioDir));
         }
 
         if (! is_file($fixturePath)) {
-            throw new \RuntimeException(sprintf('Missing seed audio fixture: %s', $fixturePath));
+            throw new RuntimeException(sprintf('Missing seed audio fixture: %s', $fixturePath));
         }
 
         $audioContents = file_get_contents($fixturePath);
 
         if ($audioContents === false) {
-            throw new \RuntimeException(sprintf('Unable to read seed audio fixture: %s', $fixturePath));
+            throw new RuntimeException(sprintf('Unable to read seed audio fixture: %s', $fixturePath));
         }
 
         $audioDisk->put($audioFilePath, $audioContents);
@@ -65,7 +66,7 @@ final class ArchiveTranscriptSqlSeeder extends Seeder
         $recordingId = (int) ($recordingIdResult[0]->id ?? 0);
 
         if ($recordingId <= 0) {
-            throw new \RuntimeException('Unable to read LAST_INSERT_ID for recordings insert.');
+            throw new RuntimeException('Unable to read LAST_INSERT_ID for recordings insert.');
         }
 
         $connection->insert(
