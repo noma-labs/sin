@@ -56,11 +56,13 @@ final class Recording extends Model
 
     protected $primaryKey = 'id';
 
+    /** @return HasOne<RecordingTranscript, $this> */
     public function transcript(): HasOne
     {
         return $this->hasOne(RecordingTranscript::class, 'recording_id');
     }
 
+    /** @return HasOne<RecordingAudio, $this> */
     public function audio(): HasOne
     {
         return $this->hasOne(RecordingAudio::class, 'recording_id');
