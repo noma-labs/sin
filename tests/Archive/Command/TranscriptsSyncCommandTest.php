@@ -9,8 +9,8 @@ it('syncs mp3 audio rows to recordings by extracted code', function (): void {
 
     $recordingId = $connection->table('recordings')->insertGetId(
         [
-        'DATA' => '1949-11-08',
-        'ORE' => '12',
+            'DATA' => '1949-11-08',
+            'ORE' => '12',
         ],
 
     );

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Archive;
 
 use InvalidArgumentException;
+use Stringable;
 
-
-final readonly class TranscriptCode
+final readonly class TranscriptCode implements Stringable
 {
     public int $year;
 
@@ -49,7 +49,7 @@ final readonly class TranscriptCode
             $normalizedHour = '0'.mb_strtoupper($matches[1]);
         }
 
-         if (! preg_match('/^(?:\d{1,2}[A-Za-z]?)$/', $normalizedHour)) {
+        if (! preg_match('/^(?:\d{1,2}[A-Za-z]?)$/', $normalizedHour)) {
             throw new InvalidArgumentException("Invalid hour segment: '{$normalizedHour}'. Expected empty string or 1-2 digits with optional Letter suffix.");
         }
 
@@ -79,9 +79,9 @@ final readonly class TranscriptCode
 
     public function toString(): string
     {
-        return str_pad((string) $this->year, 2, '0', STR_PAD_LEFT)
-            .str_pad((string) $this->month, 2, '0', STR_PAD_LEFT)
-            .str_pad((string) $this->day, 2, '0', STR_PAD_LEFT)
+        return mb_str_pad((string) $this->year, 2, '0', STR_PAD_LEFT)
+            .mb_str_pad((string) $this->month, 2, '0', STR_PAD_LEFT)
+            .mb_str_pad((string) $this->day, 2, '0', STR_PAD_LEFT)
             .$this->hour;
     }
 }

@@ -100,5 +100,4 @@ final class TranscriptsImportMp3Command extends Command
 
         return count($batch);
     }
-
 }

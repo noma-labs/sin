@@ -27,7 +27,6 @@ it('parses transcript code parts from dataset', function (
     'with 00B suffix hour' => ['49110800B', 49, 11, 8, '0B', '4911080B'],
 ]);
 
-
 it('throws for codes shorter than six characters', function (string $rawCode): void {
     expect(fn () => TranscriptCode::fromString($rawCode))
         ->toThrow(InvalidArgumentException::class);

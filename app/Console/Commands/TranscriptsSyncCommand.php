@@ -8,6 +8,7 @@ use App\Http\Archive\TranscriptCode;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 
 final class TranscriptsSyncCommand extends Command
 {
@@ -38,14 +39,13 @@ final class TranscriptsSyncCommand extends Command
 
         foreach ($recordings as $recording) {
             $dateStr = (string) $recording->data_ymd;
-            $hourStr = trim($recording->ORE ?? '');
+            $hourStr = mb_trim($recording->ORE ?? '');
             $rawCode = $dateStr.$hourStr;
 
             try {
                 $code = TranscriptCode::fromString($rawCode);
                 $updates[] = [$recording->id, $code->toString()];
-            } catch (\InvalidArgumentException $e) {
-                dd($recording, $rawCode, $e->getMessage());
+            } catch (InvalidArgumentException $e) {
                 $this->warn("Skipped recording {$recording->id}: {$e->getMessage()}");
             }
         }
@@ -88,6 +88,7 @@ final class TranscriptsSyncCommand extends Command
 
             if (empty($extractedCode)) {
                 $this->warn("Could not extract code from heading in transcript {$transcript->id}");
+
                 continue;
             }
 
@@ -98,7 +99,7 @@ final class TranscriptsSyncCommand extends Command
                 if ($transcript->code !== $normalizedCode) {
                     $updates[] = [$transcript->id, $normalizedCode];
                 }
-            } catch (\InvalidArgumentException $e) {
+            } catch (InvalidArgumentException $e) {
                 $this->warn("Skipped transcript {$transcript->id}: {$e->getMessage()}");
             }
         }
@@ -141,6 +142,7 @@ final class TranscriptsSyncCommand extends Command
 
             if (empty($fileNameWithoutExt)) {
                 $this->warn("Could not extract code from file name in audio {$audio->id}");
+
                 continue;
             }
 
@@ -151,7 +153,7 @@ final class TranscriptsSyncCommand extends Command
                 if ($audio->code !== $normalizedCode) {
                     $updates[] = [$audio->id, $normalizedCode];
                 }
-            } catch (\InvalidArgumentException $e) {
+            } catch (InvalidArgumentException $e) {
                 $this->warn("Skipped audio {$audio->id}: {$e->getMessage()}");
             }
         }
