@@ -15,26 +15,31 @@ final class TranscriptsSyncCommand extends Command
 
     public function handle(): int
     {
+        $this->buildRecordingCode();
         $this->syncDocxFiles();
         $this->syncAudioFiles();
 
         return self::SUCCESS;
     }
 
-    private function syncDocxFiles(): void
+    private function buildRecordingCode(): void
     {
         $updated = DB::connection('archivio_nomadelfia')->update(<<<'SQL'
             UPDATE recordings
             SET code = CONCAT(
                 DATE_FORMAT(`DATA`, '%Y%m%d'),
                 CASE
-                    WHEN `ORE` IS NULL OR TRIM(`ORE`) = '' THEN '00'
-                    ELSE SUBSTRING(TRIM(`ORE`), 1, 3)
+                    WHEN `ORE` IS NULL OR TRIM(`ORE`) = '' THEN '0A'
+                    ELSE TRIM(`ORE`)
                 END
             )
             WHERE `DATA` IS NOT NULL
         SQL);
+        $this->info("Built recording code. Rows affected: {$updated}");
+    }
 
+    private function syncDocxFiles(): void
+    {
         $linked = DB::connection('archivio_nomadelfia')->update(<<<'SQL'
             UPDATE recording_transcripts rt
             INNER JOIN recordings r ON r.code = rt.code
@@ -47,24 +52,6 @@ final class TranscriptsSyncCommand extends Command
 
     private function syncAudioFiles(): void
     {
-        $updated = DB::connection('archivio_nomadelfia')->update(<<<'SQL'
-            UPDATE recording_audio
-            SET code = CONCAT(
-                '19',
-                CASE
-                    WHEN REGEXP_SUBSTR(file_name, '^[0-9]{8}[A-Z0-9]?') REGEXP '^[0-9]{6}00[[:alpha:]]$'
-                        THEN CONCAT(
-                            SUBSTRING(REGEXP_SUBSTR(file_name, '^[0-9]{8}[A-Z0-9]?'), 1, 6),
-                            '0',
-                            SUBSTRING(REGEXP_SUBSTR(file_name, '^[0-9]{8}[A-Z0-9]?'), 9, 1)
-                        )
-                    ELSE REGEXP_SUBSTR(file_name, '^[0-9]{8}[A-Z0-9]?')
-                END
-            )
-            WHERE code IS NULL
-                AND file_name REGEXP '^[0-9]{8}[A-Z0-9]?( .*)?\.mp3$'
-        SQL);
-
         $linked = DB::connection('archivio_nomadelfia')->update(<<<'SQL'
             UPDATE recording_audio ra
             INNER JOIN recordings r ON r.code = ra.code

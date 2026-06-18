@@ -9,6 +9,7 @@ use Illuminate\Console\Command;
 use Illuminate\Database\Connection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 final class TranscriptsImportMp3Command extends Command
 {
@@ -38,7 +39,7 @@ final class TranscriptsImportMp3Command extends Command
         $chunkSize = 500;
 
         $mp3Files = collect($audioDisk->allFiles())
-            ->filter(static fn (string $path): bool => str($path)->lower()->endsWith('.mp3'))
+            ->filter(static fn (string $path): bool => Str::of($path)->lower()->endsWith('.mp3'))
             ->values()
             ->all();
 
@@ -55,9 +56,11 @@ final class TranscriptsImportMp3Command extends Command
 
             try {
                 $fileSizeBytes = $audioDisk->size($mp3Path);
+                $fileName = basename($mp3Path);
 
                 $batch[] = [
-                    'file_name' => basename($mp3Path),
+                    'file_name' => $fileName,
+                    'code' => $this->buildCode($fileName),
                     'file_path' => $mp3Path,
                     'file_size_bytes' => $fileSizeBytes,
                 ];
@@ -97,5 +100,14 @@ final class TranscriptsImportMp3Command extends Command
         }
 
         return count($batch);
+    }
+
+    private function buildCode(string $fileName): string
+    {
+        return (string) Str::of($fileName)
+            ->replaceEnd('.mp3', '')
+            ->replaceEnd('.MP3', '')
+            ->squish()
+            ->before(' ');
     }
 }

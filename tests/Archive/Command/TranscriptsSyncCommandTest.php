@@ -43,10 +43,10 @@ it('syncs mp3 audio rows to recordings by extracted code', function (): void {
     $audioRowWithSuffix = $connection->table('recording_audio')->where('id', $audioIdWithSuffix)->first();
 
     expect($audioRow)->not->toBeNull();
-    expect($audioRow->code)->toBe('194911080M');
+    expect($audioRow->code)->toBe('4911080M');
     expect($audioRow->recording_id)->toBe($recordingId);
 
     expect($audioRowWithSuffix)->not->toBeNull();
-    expect($audioRowWithSuffix->code)->toBe('1976042800');
+    expect($audioRowWithSuffix->code)->toBe('76042800');
     expect($audioRowWithSuffix->recording_id)->toBe($recordingIdWithSuffix);
 });
