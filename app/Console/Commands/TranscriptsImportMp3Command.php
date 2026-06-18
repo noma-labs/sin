@@ -60,7 +60,6 @@ final class TranscriptsImportMp3Command extends Command
 
                 $batch[] = [
                     'file_name' => $fileName,
-                    'code' => $this->buildCode($fileName),
                     'file_path' => $mp3Path,
                     'file_size_bytes' => $fileSizeBytes,
                 ];
@@ -102,12 +101,4 @@ final class TranscriptsImportMp3Command extends Command
         return count($batch);
     }
 
-    private function buildCode(string $fileName): string
-    {
-        return (string) Str::of($fileName)
-            ->replaceEnd('.mp3', '')
-            ->replaceEnd('.MP3', '')
-            ->squish()
-            ->before(' ');
-    }
 }
