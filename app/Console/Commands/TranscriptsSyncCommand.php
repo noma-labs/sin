@@ -185,7 +185,7 @@ final class TranscriptsSyncCommand extends Command
             UPDATE recording_transcripts rt
             INNER JOIN recordings r ON r.code = rt.code
             SET rt.recording_id = r.id
-            WHERE rt.recording_id IS NULL AND r.code IS NOT NULL
+            WHERE r.code IS NOT NULL
         SQL);
 
         $this->info("Linked transcripts to recordings by code match. Rows affected: {$linked}");
@@ -197,7 +197,7 @@ final class TranscriptsSyncCommand extends Command
             UPDATE recording_audio ra
             INNER JOIN recordings r ON r.code = ra.code
             SET ra.recording_id = r.id
-            WHERE ra.recording_id IS NULL AND ra.code IS NOT NULL
+            WHERE r.code IS NOT NULL
         SQL);
 
         $this->info("Linked audio files to recordings by code match. Rows affected: {$linked}");
