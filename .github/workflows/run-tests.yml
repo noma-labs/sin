@@ -10,9 +10,6 @@ jobs:
     runs-on: ubuntu-24.04
     container:
       image: kirschbaumdevelopment/laravel-test-runner:8.5
-    env:
-      EXIFTOOL_VERSION: "13.59" # Change also the EXIFTOOL_VERSION in the dockerfile
-
     services:
       # NOTE: the container name is the same of the docker-compose.yml in order to
       # have the same .env.testing file working fot both laravel Sail and github actions.
@@ -31,10 +28,9 @@ jobs:
 
       - name: Install exiftool
         run: |
-          apt-get update && \
-          apt-get install -y wget make && \
-          wget https://exiftool.org/Image-ExifTool-${{ env.EXIFTOOL_VERSION }}.tar.gz && tar -xzvf Image-ExifTool-${{ env.EXIFTOOL_VERSION }}.tar.gz &&  rm -rf Image-ExifTool-${{ env.EXIFTOOL_VERSION }}.tar.gz && \
-          cd Image-ExifTool-*  && \
+          cd docker/exiftool/8.5 && \
+          tar -xzf Image-ExifTool-*.tar.gz && \
+          cd Image-ExifTool-* && \
           perl Makefile.PL && \
           make install && \
           exiftool -ver
