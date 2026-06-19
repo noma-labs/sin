@@ -134,4 +134,4 @@ it('extracts audio code from mp3 file name', function (string $fileName, string 
     'with non-mp3 extension' => ['4911080A.wav', '4911080A'],
     'with additional text in file name' => ['4911080A MY AUDIO.mp3', '4911080A'],
     'with spaces' => ['   4911080B .mp3', '4911080B'],
-])->only();
+]);
