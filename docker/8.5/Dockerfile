@@ -7,8 +7,6 @@ ARG NODE_VERSION=24
 ARG MYSQL_CLIENT="mysql-client"
 ARG POSTGRES_VERSION=18
 
-ARG EXIFTOOL_VERSION="13.59"
-
 WORKDIR /var/www/html
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -78,11 +76,11 @@ RUN apt-get update && apt-get upgrade -y \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # install exiftool
-RUN  cd /tmp && \
-    apt-get update && apt-get install -y wget && \
-    wget https://exiftool.org/Image-ExifTool-$EXIFTOOL_VERSION.tar.gz && \
-    tar -xzvf Image-ExifTool-*.tar.gz && \
-    rm -rf Image-ExifTool-*.tar.gz && \
+COPY ./Image-ExifTool-*.tar.gz /tmp/
+
+RUN cd /tmp && \
+    tar -xzf Image-ExifTool-*.tar.gz && \
+    rm -f Image-ExifTool-*.tar.gz && \
     cd Image-ExifTool-* && \
     perl Makefile.PL && \
     make install

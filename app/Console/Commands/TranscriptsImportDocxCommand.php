@@ -58,8 +58,6 @@ final class TranscriptsImportDocxCommand extends Command
             return self::FAILURE;
         }
 
-        $yearFromFile = $this->extractYearFromFilename($file);
-
         $phpWord = IOFactory::load($filePath);
 
         /** @var array[] $docs */
@@ -99,7 +97,6 @@ final class TranscriptsImportDocxCommand extends Command
                         $docs[] = [
                             'heading' => $headingText,
                             'content' => $contentLines,
-                            'code' => $this->buildCode($headingText, $yearFromFile),
                         ];
                     }
                 }
@@ -147,45 +144,5 @@ final class TranscriptsImportDocxCommand extends Command
     private function decode(string $text): string
     {
         return html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-    }
-
-    /**
-     * Extract year from filename (e.g., '1949registrazioni.docx' → '1949')
-     */
-    private function extractYearFromFilename(string $filename): string
-    {
-        if (preg_match('/(\d{4})/', $filename, $matches)) {
-            return $matches[1];
-        }
-
-        return '0000';
-    }
-
-    /**
-     * Build code from heading and year: YYYYMMDDHH[A|B|C]
-     * If first word starts with a number, use entire word as code (skip YY prefix, prepend YYYY)
-     * Otherwise default to YYYY010100
-     */
-    private function buildCode(string $heading, string $year): string
-    {
-        // Get first word from heading
-        $words = explode(' ', mb_trim($heading));
-        $firstWord = $words[0] ?? '';
-
-        // If first word starts with a number, use it as the code
-        if ($firstWord && is_numeric($firstWord[0])) {
-            // Extract from position 2 onwards (skip YY, keep MMDD[HH][A|B|C]...)
-            $code = mb_substr($firstWord, 2);
-
-            // If the remaining part is exactly 4 digits (MMDD only, no hour/letter), append '00'
-            if (preg_match('/^\d{4}$/', $code)) {
-                $code .= '00';
-            }
-
-            return mb_substr($year.$code, 0, 11);
-        }
-
-        // Default if no numeric code found
-        return $year.'010100';
     }
 }
