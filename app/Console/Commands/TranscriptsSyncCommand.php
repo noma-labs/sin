@@ -18,6 +18,7 @@ final class TranscriptsSyncCommand extends Command
 
     public function handle(): int
     {
+        $this->truncateCodesAndRecordingLinks();
         $this->buildRecordingCode();
         $this->buildRecordingCodeFromDocx();
         $this->buildRecordingCodeFromAudio();
@@ -25,6 +26,29 @@ final class TranscriptsSyncCommand extends Command
         $this->syncAudioFiles();
 
         return self::SUCCESS;
+    }
+
+    private function truncateCodesAndRecordingLinks(): void
+    {
+        $connection = DB::connection('archivio_nomadelfia');
+
+        $updatedRecordings = $connection->table('recordings')->update([
+            'code' => null,
+        ]);
+
+        $updatedTranscripts = $connection->table('recording_transcripts')->update([
+            'code' => null,
+            'recording_id' => null,
+        ]);
+
+        $updatedAudio = $connection->table('recording_audio')->update([
+            'code' => null,
+            'recording_id' => null,
+        ]);
+
+        $this->info(
+            "Cleared sync columns. recordings: {$updatedRecordings}, recording_transcripts: {$updatedTranscripts}, recording_audio: {$updatedAudio}"
+        );
     }
 
     private function buildRecordingCode(): void
@@ -46,7 +70,7 @@ final class TranscriptsSyncCommand extends Command
                 $code = TranscriptCode::fromString($rawCode);
                 $updates[] = [$recording->id, $code->toString()];
             } catch (InvalidArgumentException $e) {
-                $this->warn("Skipped recording {$recording->id}: {$e->getMessage()}");
+                $this->warn("Skipped recording {$rawCode}: {$e->getMessage()}");
             }
         }
 
@@ -100,7 +124,7 @@ final class TranscriptsSyncCommand extends Command
                     $updates[] = [$transcript->id, $normalizedCode];
                 }
             } catch (InvalidArgumentException $e) {
-                $this->warn("Skipped transcript {$transcript->id}: {$e->getMessage()}");
+                $this->warn("Skipped transcript {$extractedCode}: {$e->getMessage()}");
             }
         }
 
@@ -138,23 +162,23 @@ final class TranscriptsSyncCommand extends Command
         $updates = [];
 
         foreach ($audioFiles as $audio) {
-            $fileNameWithoutExt = (string) preg_replace('/\.mp3$/i', '', (string) $audio->file_name);
+            $rawCode = $this->extractAudioCodeFromFileName((string) $audio->file_name);
 
-            if (empty($fileNameWithoutExt)) {
+            if (empty($rawCode)) {
                 $this->warn("Could not extract code from file name in audio {$audio->id}");
 
                 continue;
             }
 
             try {
-                $code = TranscriptCode::fromString($fileNameWithoutExt);
+                $code = TranscriptCode::fromString($rawCode);
                 $normalizedCode = $code->toString();
 
                 if ($audio->code !== $normalizedCode) {
                     $updates[] = [$audio->id, $normalizedCode];
                 }
             } catch (InvalidArgumentException $e) {
-                $this->warn("Skipped audio {$audio->id}: {$e->getMessage()}");
+                $this->warn("Skipped audio {$rawCode}: {$e->getMessage()}");
             }
         }
 
@@ -179,6 +203,13 @@ final class TranscriptsSyncCommand extends Command
         });
 
         $this->info("Built recording code from audio. Rows affected: {$count}");
+    }
+
+    private function extractAudioCodeFromFileName(string $fileName): string
+    {
+        $fileName = Str::beforeLast($fileName, '.'); // remove extension
+
+        return Str::of($fileName)->squish()->before(' ')->toString();
     }
 
     private function syncDocxFiles(): void

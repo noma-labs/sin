@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Console\Commands\TranscriptsSyncCommand;
 use Illuminate\Support\Facades\DB;
 
 it('syncs mp3 audio rows to recordings by extracted code', function (): void {
@@ -12,7 +13,6 @@ it('syncs mp3 audio rows to recordings by extracted code', function (): void {
             'DATA' => '1949-11-08',
             'ORE' => '12',
         ],
-
     );
 
     $audioId = $connection->table('recording_audio')->insertGetId([
@@ -43,7 +43,6 @@ it('syncs mp3 audio rows to recordings by extracted code', function (): void {
     expect($transcriptRecordingId)
         ->not->toBeNull()
         ->toBe($recordingId);
-
 });
 
 it('syncs rows when ORE is null and maps to 0A code', function (): void {
@@ -121,3 +120,18 @@ it('syncs rows when ORE is already 0A', function (): void {
         ->not->toBeNull()
         ->toBe($recordingId);
 });
+
+it('extracts audio code from mp3 file name', function (string $fileName, string $expectedCode): void {
+    $command = new TranscriptsSyncCommand();
+
+    $method = new ReflectionMethod(TranscriptsSyncCommand::class, 'extractAudioCodeFromFileName');
+    $method->setAccessible(true);
+
+    expect($method->invoke($command, $fileName))->toBe($expectedCode);
+})->with([
+    'with standard file name' => ['49110812.mp3', '49110812'],
+    'with 0A suffix hour' => ['4911080A.MP3', '4911080A'],
+    'with non-mp3 extension' => ['4911080A.wav', '4911080A'],
+    'with additional text in file name' => ['4911080A MY AUDIO.mp3', '4911080A'],
+    'with spaces' => ['   4911080B .mp3', '4911080B'],
+])->only();
