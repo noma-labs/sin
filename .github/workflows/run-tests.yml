@@ -22,13 +22,16 @@ jobs:
         options: --health-cmd="mariadb-admin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
       - name: Fix APT repository label change issue
         run: |
           apt-get update --allow-releaseinfo-change
 
       - name: Install exiftool
         run: |
-          cd docker/exiftool/8.5 && \
+          cd docker/exiftool && \
           tar -xzf Image-ExifTool-*.tar.gz && \
           cd Image-ExifTool-* && \
           perl Makefile.PL && \
@@ -39,9 +42,6 @@ jobs:
         uses: arduino/setup-task@v2
         with:
           version: 3.x
-
-      - name: Checkout code
-        uses: actions/checkout@v6
 
       - name: Cache dependencies
         uses: actions/cache@v5
