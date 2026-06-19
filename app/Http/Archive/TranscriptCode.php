@@ -41,8 +41,12 @@ final readonly class TranscriptCode implements Stringable
 
         $normalizedHour = $hour;
 
-        if ($normalizedHour === null || $normalizedHour === '') {
+        if ($normalizedHour === null || $normalizedHour === '' || $normalizedHour === '??' ) {
             $normalizedHour = '0A';
+        }
+
+        if (preg_match('/^[A-Za-z]$/', $normalizedHour) === 1) {
+            $normalizedHour = '0'.mb_strtoupper($normalizedHour);
         }
 
         if (preg_match('/^00([A-Za-z])$/', $normalizedHour, $matches) === 1) {

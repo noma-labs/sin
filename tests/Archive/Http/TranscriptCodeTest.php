@@ -21,6 +21,7 @@ it('parses transcript code parts from dataset', function (
         ->and($code->toString())->toBe($normalizedCode);
 })->with([
     'without hour part' => ['501216', 50, 12, 16, '0A', '5012160A'],
+    'with unknown hour placeholder' => ['501216??', 50, 12, 16, '0A', '5012160A'],
     'with numeric hour' => ['50121600', 50, 12, 16, '00', '50121600'],
     'with 0A suffix hour' => ['4912070A', 49, 12, 7, '0A', '4912070A'],
     'with 00A suffix hour' => ['49110800A', 49, 11, 8, '0A', '4911080A'],
