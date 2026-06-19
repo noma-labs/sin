@@ -23,8 +23,10 @@ final readonly class TranscriptCode implements Stringable
         int $day,
         ?string $hour,
     ) {
-        if ($year < 1 || $year > 99) {
-            throw new InvalidArgumentException("Invalid year segment: '{$year}'. Expected a value between 1 and 99.");
+        if ($year < 1949 || $year > 2040) {
+            // for me of the future, if you are reading this in 2040 or later, please update the year validation to allow for years beyond 2040.
+            // we are not able to distinguish from 49 to be 1949 or 2049, so we are limiting the range to 1949-2040 for now.
+            throw new InvalidArgumentException("Invalid year segment: '{$year}'. Expected a value between 1949 and 2040.");
         }
 
         if ($month < 1 || $month > 12) {
@@ -41,7 +43,7 @@ final readonly class TranscriptCode implements Stringable
 
         $normalizedHour = $hour;
 
-        if ($normalizedHour === null || $normalizedHour === '' || $normalizedHour === '??' ) {
+        if ($normalizedHour === null || $normalizedHour === '' || $normalizedHour === '??') {
             $normalizedHour = '0A';
         }
 
@@ -73,8 +75,12 @@ final readonly class TranscriptCode implements Stringable
             throw new InvalidArgumentException("Cannot parse TranscriptCode from '{$trimmedCode}'.");
         }
 
+        $twoDigitYear = mb_substr($trimmedCode, 0, 2);
+        $firstDigit = $twoDigitYear[0];
+        $fourDigitYear = (int) (in_array($firstDigit, ['0', '1', '2', '3'], true) ? '20'.$twoDigitYear : '19'.$twoDigitYear);
+
         return new self(
-            year: (int) mb_substr($trimmedCode, 0, 2),
+            year: $fourDigitYear,
             month: (int) mb_substr($trimmedCode, 2, 2),
             day: (int) mb_substr($trimmedCode, 4, 2),
             hour: mb_substr($trimmedCode, 6),
@@ -83,7 +89,9 @@ final readonly class TranscriptCode implements Stringable
 
     public function toString(): string
     {
-        return mb_str_pad((string) $this->year, 2, '0', STR_PAD_LEFT)
+        $lastTwoDigitsOfYear = $this->year % 100;
+
+        return mb_str_pad((string) $lastTwoDigitsOfYear, 2, '0', STR_PAD_LEFT)
             .mb_str_pad((string) $this->month, 2, '0', STR_PAD_LEFT)
             .mb_str_pad((string) $this->day, 2, '0', STR_PAD_LEFT)
             .$this->hour;
