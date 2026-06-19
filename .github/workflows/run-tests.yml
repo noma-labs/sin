@@ -31,7 +31,7 @@ jobs:
 
       - name: Install exiftool
         run: |
-          cd docker/exiftool && \
+          cd docker/8.5 && \
           tar -xzf Image-ExifTool-*.tar.gz && \
           cd Image-ExifTool-* && \
           perl Makefile.PL && \
