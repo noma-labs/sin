@@ -116,10 +116,7 @@ final class TranscriptsImportDocxCommand extends Command
                                     $i--; // Back up so the outer loop processes this Titolo2
                                     break;
                                 }
-                                $text = $this->decode($nextElement->getText());
-                                if ($text !== '') {
-                                    $contentLines[] = $text;
-                                }
+                                $contentLines[] = $this->decode($nextElement->getText());
                             }
                             $i++;
                         }
@@ -148,7 +145,7 @@ final class TranscriptsImportDocxCommand extends Command
                 RecordingTranscript::query()->insert(
                     [
                         'heading' => $chunk['heading'] ?? null,
-                        'content' => implode("\n", $chunk['content']),
+                        'content' => trim(implode("\n", $chunk['content'])),
                         'file_path' => (string) $file,
                     ]
                 );
