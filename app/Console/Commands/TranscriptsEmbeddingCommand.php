@@ -33,7 +33,7 @@ final class TranscriptsEmbeddingCommand extends Command
                 ->where('content', '!=', '');
 
             if (! $force) {
-                $query->whereNull('embedding');
+                $query->whereNull('chunk_embeddings');
             }
 
             $transcripts = $query->limit($limit)->get();
@@ -50,24 +50,20 @@ final class TranscriptsEmbeddingCommand extends Command
             foreach ($transcripts as $transcript) {
                 $this->info("Processing transcript ID {$transcript->id}: {$transcript->heading}");
 
-                $chunks = $this->chunk($transcript->content, 600);
+                $chunks = $this->recursiveChunk($transcript->content, 1200);
                 $this->info('Chunks: '.count($chunks));
 
                 $chunkEmbeddings = [];
                 foreach ($chunks as $index => $chunk) {
                     $this->line("  chunk ".($index + 1)."/".count($chunks)." (".mb_strlen($chunk)." chars)");
                     $result = $extractor($chunk, normalize: true, pooling: 'mean');
-                    $chunkEmbeddings[] = $result[0];
+                    $chunkEmbeddings[] = ['text' => $chunk, 'embedding' => $result[0]];
                 }
 
-                $embedding = count($chunkEmbeddings) === 1
-                    ? $chunkEmbeddings[0]
-                    : $this->averageEmbeddings($chunkEmbeddings);
-
-                $transcript->embedding = $embedding;
+                $transcript->chunk_embeddings = $chunkEmbeddings;
                 $transcript->save();
 
-                $this->line('<fg=green>✓</> Saved embedding ('.count($embedding).' dims)');
+                $this->line('<fg=green>✓</> Saved '.count($chunkEmbeddings).' chunk embeddings');
                 $this->newLine();
             }
 
@@ -79,25 +75,54 @@ final class TranscriptsEmbeddingCommand extends Command
         }
     }
 
-    public function chunk(string $text, int $maxChars = 600): array
+    /**
+     * @param  string[]  $separators
+     * @return string[]
+     */
+    private function recursiveChunk(string $text, int $maxChars, array $separators = ["\n\n", "\n", " ", ""]): array
     {
-        $paragraphs = preg_split('/\n\s*\n/', trim($text));
+        if ($text === '' || mb_strlen($text) <= $maxChars) {
+            return $text !== '' ? [$text] : [];
+        }
+
+        $separator = '';
+        $nextSeparators = [];
+        foreach ($separators as $i => $sep) {
+            if ($sep === '' || str_contains($text, $sep)) {
+                $separator = $sep;
+                $nextSeparators = array_slice($separators, $i + 1);
+                break;
+            }
+        }
+
+        $pieces = $separator !== '' ? explode($separator, $text) : mb_str_split($text);
+
         $chunks = [];
         $current = '';
 
-        foreach ($paragraphs as $paragraph) {
-            $paragraph = trim($paragraph);
-
-            if ($paragraph === '') {
+        foreach ($pieces as $piece) {
+            if ($piece === '') {
                 continue;
             }
 
-            if ($current !== '' && mb_strlen($current) + mb_strlen($paragraph) + 2 > $maxChars) {
-                $chunks[] = $current;
-                $current = '';
-            }
+            $joined = $current === '' ? $piece : $current.$separator.$piece;
 
-            $current = $current === '' ? $paragraph : $current."\n\n".$paragraph;
+            if (mb_strlen($joined) <= $maxChars) {
+                $current = $joined;
+            } else {
+                if ($current !== '') {
+                    $chunks[] = $current;
+                    $current = '';
+                }
+
+                if (mb_strlen($piece) > $maxChars) {
+                    foreach ($this->recursiveChunk($piece, $maxChars, $nextSeparators) as $sub) {
+                        $chunks[] = $sub;
+                    }
+                } else {
+                    $current = $piece;
+                }
+            }
         }
 
         if ($current !== '') {
@@ -105,38 +130,5 @@ final class TranscriptsEmbeddingCommand extends Command
         }
 
         return $chunks;
-    }
-
-    /**
-     * @param  array<array<float>>  $embeddings
-     * @return array<float>
-     */
-    private function averageEmbeddings(array $embeddings): array
-    {
-        $dims = count($embeddings[0]);
-        $avg = array_fill(0, $dims, 0.0);
-
-        foreach ($embeddings as $vec) {
-            for ($i = 0; $i < $dims; $i++) {
-                $avg[$i] += $vec[$i];
-            }
-        }
-
-        $n = count($embeddings);
-        $norm = 0.0;
-        for ($i = 0; $i < $dims; $i++) {
-            $avg[$i] /= $n;
-            $norm += $avg[$i] * $avg[$i];
-        }
-
-        // Re-normalize after averaging
-        $norm = sqrt($norm);
-        if ($norm > 0.0) {
-            for ($i = 0; $i < $dims; $i++) {
-                $avg[$i] /= $norm;
-            }
-        }
-
-        return $avg;
     }
 }

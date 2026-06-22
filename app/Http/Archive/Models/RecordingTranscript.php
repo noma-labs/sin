@@ -15,7 +15,7 @@ use Illuminate\Support\Carbon;
  * @property string|null $heading
  * @property string $file_path
  * @property string|null $content
- * @property array|null $embedding
+ * @property array|null $chunk_embeddings
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
@@ -36,7 +36,7 @@ final class RecordingTranscript extends Model
     {
         return [
             'recorded_date' => 'date',
-            'embedding' => 'array',
+            'chunk_embeddings' => 'array',
         ];
     }
 }

@@ -28,10 +28,10 @@ final class TranscriptsSearchCommand extends Command
             $result = $extractor($query, normalize: true, pooling: 'mean');
             $queryEmbedding = $result[0];
 
-            $transcripts = RecordingTranscript::whereNotNull('embedding')->get();
+            $transcripts = RecordingTranscript::whereNotNull('chunk_embeddings')->get();
 
             if ($transcripts->isEmpty()) {
-                $this->warn('No transcripts with embeddings found. Run transcripts:embedding first.');
+                $this->warn('No transcripts with chunk embeddings found. Run transcripts:embedding first.');
 
                 return self::FAILURE;
             }
@@ -40,8 +40,19 @@ final class TranscriptsSearchCommand extends Command
             $this->newLine();
 
             $scores = [];
+            $bestChunks = [];
             foreach ($transcripts as $transcript) {
-                $scores[$transcript->id] = $this->dotProduct($queryEmbedding, $transcript->embedding);
+                $bestScore = -PHP_FLOAT_MAX;
+                $bestText = '';
+                foreach ($transcript->chunk_embeddings as $chunk) {
+                    $score = $this->dotProduct($queryEmbedding, $chunk['embedding']);
+                    if ($score > $bestScore) {
+                        $bestScore = $score;
+                        $bestText = $chunk['text'];
+                    }
+                }
+                $scores[$transcript->id] = $bestScore;
+                $bestChunks[$transcript->id] = $bestText;
             }
 
             arsort($scores);
@@ -55,10 +66,11 @@ final class TranscriptsSearchCommand extends Command
                     $transcript->code ?? '-',
                     mb_strimwidth($transcript->heading ?? '-', 0, 60, '…'),
                     number_format($scores[$id], 4),
+                    mb_strimwidth($bestChunks[$id], 0, 80, '…'),
                 ];
             }
 
-            $this->table(['ID', 'Code', 'Heading', 'Score'], $rows);
+            $this->table(['ID', 'Code', 'Heading', 'Score', 'Chunk'], $rows);
 
             return self::SUCCESS;
         } catch (Exception $e) {
