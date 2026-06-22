@@ -44,6 +44,7 @@ CREATE TABLE `recording_transcripts` (
     `heading` text NOT NULL,
     `file_path` varchar(500) NOT NULL,
     `content` longtext DEFAULT NULL,
+    `embedding` JSON DEFAULT NULL,
     `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
     `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT `fk_recording_transcripts_recording_id` FOREIGN KEY (`recording_id`) REFERENCES `recordings` (`id`) ON DELETE CASCADE,

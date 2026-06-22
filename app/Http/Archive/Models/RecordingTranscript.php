@@ -15,6 +15,7 @@ use Illuminate\Support\Carbon;
  * @property string|null $heading
  * @property string $file_path
  * @property string|null $content
+ * @property array|null $embedding
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
@@ -33,6 +34,9 @@ final class RecordingTranscript extends Model
 
     protected function casts(): array
     {
-        return ['recorded_date' => 'date'];
+        return [
+            'recorded_date' => 'date',
+            'embedding' => 'array',
+        ];
     }
 }

@@ -15,6 +15,7 @@ use App\Console\Commands\TranscriptsImportExcelCommand;
 use App\Console\Commands\TranscriptsImportMp3Command;
 use App\Console\Commands\TranscriptsSyncCommand;
 use App\Console\Commands\TranscriptsEmbeddingCommand;
+use App\Console\Commands\TranscriptsSearchCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -37,6 +38,7 @@ final class Kernel extends ConsoleKernel
         TranscriptsImportExcelCommand::class,
         TranscriptsImportMp3Command::class,
         TranscriptsEmbeddingCommand::class,
+        TranscriptsSearchCommand::class,
     ];
 
     /**
