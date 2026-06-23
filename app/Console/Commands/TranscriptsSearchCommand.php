@@ -20,16 +20,22 @@ final class TranscriptsSearchCommand extends Command
 
     public function handle(): int
     {
-        $query = (string) $this->argument('query');
+        $query = $this->argument('query');
+        if (! is_string($query)) {
+            $this->error('Missing query argument.');
+
+            return self::FAILURE;
+        }
         $top = (int) $this->option('top');
 
         try {
             $this->info("Loading model and embedding query: \"{$query}\"");
             $extractor = pipeline('embeddings', 'Xenova/all-MiniLM-L6-v2');
+            /** @var array<int, float[]> $result */
             $result = $extractor($query, normalize: true, pooling: 'mean');
             $queryEmbedding = $result[0];
 
-            $chunks = TranscriptChunk::whereNotNull('embedding')->with('transcript')->get();
+            $chunks = TranscriptChunk::query()->with('transcript')->whereNotNull('embedding')->get();
 
             if ($chunks->isEmpty()) {
                 $this->warn('No chunks with embeddings found. Run transcripts:embedding first.');
