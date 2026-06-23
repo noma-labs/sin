@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use function Codewithkyrian\Transformers\Pipelines\pipeline;
 use App\Archive\Models\RecordingTranscript;
 use App\Archive\Models\TranscriptChunk;
 use Exception;
 use Illuminate\Console\Command;
+
+use function Codewithkyrian\Transformers\Pipelines\pipeline;
 
 final class TranscriptsEmbeddingCommand extends Command
 {
@@ -57,7 +58,7 @@ final class TranscriptsEmbeddingCommand extends Command
                 $transcript->chunks()->delete();
 
                 foreach ($chunks as $index => $chunk) {
-                    $this->line("  chunk ".($index + 1)."/".count($chunks)." (".mb_strlen($chunk)." chars)");
+                    $this->line('  chunk '.($index + 1).'/'.count($chunks).' ('.mb_strlen($chunk).' chars)');
                     $result = $extractor($chunk, normalize: true, pooling: 'mean');
                     TranscriptChunk::create([
                         'recording_transcript_id' => $transcript->id,
@@ -83,7 +84,7 @@ final class TranscriptsEmbeddingCommand extends Command
      * @param  string[]  $separators
      * @return string[]
      */
-    private function recursiveChunk(string $text, int $maxChars, array $separators = ["\n\n", "\n", " ", ""]): array
+    private function recursiveChunk(string $text, int $maxChars, array $separators = ["\n\n", "\n", ' ', '']): array
     {
         if ($text === '' || mb_strlen($text) <= $maxChars) {
             return $text !== '' ? [$text] : [];

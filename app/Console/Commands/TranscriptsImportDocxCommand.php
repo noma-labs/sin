@@ -149,7 +149,7 @@ final class TranscriptsImportDocxCommand extends Command
                 RecordingTranscript::query()->insert(
                     [
                         'heading' => $chunk['heading'] ?? null,
-                        'content' => trim(implode("\n", $chunk['content'])),
+                        'content' => mb_trim(implode("\n", $chunk['content'])),
                         'file_path' => (string) $file,
                     ]
                 );
