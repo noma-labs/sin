@@ -6,6 +6,7 @@ namespace App\Console;
 
 use App\Console\Commands\CreateDatabaseCommand;
 use App\Console\Commands\DetectPhotoIssuesCommand;
+use App\Console\Commands\EmbeddingsTestCommand;
 use App\Console\Commands\ExifExtractCommand;
 use App\Console\Commands\ExifJsonImportCommand;
 use App\Console\Commands\SynchPeopleOnPhotosCommand;
@@ -25,6 +26,7 @@ final class Kernel extends ConsoleKernel
      */
     protected $commands = [
         CreateDatabaseCommand::class,
+        EmbeddingsTestCommand::class,
         ExifExtractCommand::class,
         ExifJsonImportCommand::class,
         SynchPeopleOnPhotosCommand::class,

@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Ai\Providers\TransformersProvider;
 use App\Biblioteca\Models\Libro;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Ai\AiManager;
 
 final class AppServiceProvider extends ServiceProvider
 {
@@ -24,7 +27,15 @@ final class AppServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      */
-    public function register(): void {}
+    public function register(): void
+    {
+        $this->app->resolving(AiManager::class, function (AiManager $manager, $app): void {
+            $manager->extend('transformers', fn ($app, array $config) => new TransformersProvider(
+                $config,
+                $app->make(Dispatcher::class),
+            ));
+        });
+    }
 
     /**
      * Configure the application's models.
