@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use function Codewithkyrian\Transformers\Pipelines\pipeline;
 use App\Archive\Models\TranscriptChunk;
 use Exception;
 use Illuminate\Console\Command;
+
+use function Codewithkyrian\Transformers\Pipelines\pipeline;
 
 final class TranscriptsSearchCommand extends Command
 {
@@ -62,7 +63,7 @@ final class TranscriptsSearchCommand extends Command
                     $transcript->code ?? '-',
                     mb_strimwidth($transcript->heading ?? '-', 0, 60, '…'),
                     number_format($scores[$transcriptId], 4),
-                    mb_strimwidth($chunk->content, 0, 80, '…'),
+                    mb_strimwidth((string) $chunk->content, 0, 80, '…'),
                 ];
             }
 

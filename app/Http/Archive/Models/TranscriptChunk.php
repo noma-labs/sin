@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
- * @property int $id
  * @property int $recording_transcript_id
  * @property int $chunk_index
  * @property string $content
@@ -22,6 +21,10 @@ final class TranscriptChunk extends Model
     protected $connection = 'archivio_nomadelfia';
 
     protected $table = 'recording_transcript_chunks';
+
+    public $incrementing = false;
+
+    protected $primaryKey = null;
 
     protected $guarded = [];
 
