@@ -12,7 +12,7 @@ use Illuminate\Support\Carbon;
  * @property int $recording_transcript_id
  * @property int $chunk_index
  * @property string $content
- * @property array|null $embedding
+ * @property array<int, float>|null $embedding
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
@@ -28,6 +28,7 @@ final class TranscriptChunk extends Model
 
     protected $guarded = [];
 
+    /** @return BelongsTo<RecordingTranscript, $this> */
     public function transcript(): BelongsTo
     {
         return $this->belongsTo(RecordingTranscript::class, 'recording_transcript_id');

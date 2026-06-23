@@ -32,6 +32,7 @@ final class RecordingTranscript extends Model
         return $this->belongsTo(Recording::class, 'recording_id');
     }
 
+    /** @return HasMany<TranscriptChunk, $this> */
     public function chunks(): HasMany
     {
         return $this->hasMany(TranscriptChunk::class, 'recording_transcript_id');

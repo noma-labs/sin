@@ -31,7 +31,9 @@ final class TranscriptsEmbeddingCommand extends Command
             $this->info('Loading embeddings model: Xenova/all-MiniLM-L6-v2');
             $extractor = pipeline('embeddings', 'Xenova/all-MiniLM-L6-v2');
 
-            $query = RecordingTranscript::whereNotNull('content')
+            /** @var \Illuminate\Database\Eloquent\Builder<RecordingTranscript> $query */
+            $query = RecordingTranscript::query()
+                ->whereNotNull('content')
                 ->where('content', '!=', '');
 
             if (! $force) {
@@ -59,8 +61,9 @@ final class TranscriptsEmbeddingCommand extends Command
 
                 foreach ($chunks as $index => $chunk) {
                     $this->line('  chunk '.($index + 1).'/'.count($chunks).' ('.mb_strlen($chunk).' chars)');
+                    /** @var array<int, float[]> $result */
                     $result = $extractor($chunk, normalize: true, pooling: 'mean');
-                    TranscriptChunk::create([
+                    TranscriptChunk::query()->create([
                         'recording_transcript_id' => $transcript->id,
                         'chunk_index' => $index,
                         'content' => $chunk,
