@@ -40,6 +40,7 @@ final class TranscriptsEmbeddingCommand extends Command
                 $query->whereDoesntHave('chunks');
             }
 
+            /** @var \Illuminate\Database\Eloquent\Collection<int, RecordingTranscript> $transcripts */
             $transcripts = $query->limit($limit)->get();
 
             if ($transcripts->isEmpty()) {
@@ -87,10 +88,10 @@ final class TranscriptsEmbeddingCommand extends Command
      * @param  string[]  $separators
      * @return string[]
      */
-    private function recursiveChunk(string $text, int $maxChars, array $separators = ["\n\n", "\n", ' ', '']): array
+    private function recursiveChunk(string|null $text, int $maxChars, array $separators = ["\n\n", "\n", ' ', '']): array
     {
-        if ($text === '' || mb_strlen($text) <= $maxChars) {
-            return $text !== '' ? [$text] : [];
+        if ($text === '' || $text === null || mb_strlen($text) <= $maxChars) {
+            return $text !== '' && $text !== null ? [$text] : [];
         }
 
         $separator = '';
