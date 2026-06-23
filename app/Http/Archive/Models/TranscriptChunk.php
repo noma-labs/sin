@@ -18,11 +18,11 @@ use Illuminate\Support\Carbon;
  */
 final class TranscriptChunk extends Model
 {
+    public $incrementing = false;
+
     protected $connection = 'archivio_nomadelfia';
 
     protected $table = 'recording_transcript_chunks';
-
-    public $incrementing = false;
 
     protected $primaryKey = null;
 
