@@ -6,6 +6,7 @@ namespace App\Console\Commands;
 
 use function Codewithkyrian\Transformers\Pipelines\pipeline;
 use App\Archive\Models\RecordingTranscript;
+use App\Archive\Models\TranscriptChunk;
 use Exception;
 use Illuminate\Console\Command;
 
@@ -33,7 +34,7 @@ final class TranscriptsEmbeddingCommand extends Command
                 ->where('content', '!=', '');
 
             if (! $force) {
-                $query->whereNull('chunk_embeddings');
+                $query->whereDoesntHave('chunks');
             }
 
             $transcripts = $query->limit($limit)->get();
@@ -53,17 +54,20 @@ final class TranscriptsEmbeddingCommand extends Command
                 $chunks = $this->recursiveChunk($transcript->content, 1200);
                 $this->info('Chunks: '.count($chunks));
 
-                $chunkEmbeddings = [];
+                $transcript->chunks()->delete();
+
                 foreach ($chunks as $index => $chunk) {
                     $this->line("  chunk ".($index + 1)."/".count($chunks)." (".mb_strlen($chunk)." chars)");
                     $result = $extractor($chunk, normalize: true, pooling: 'mean');
-                    $chunkEmbeddings[] = ['text' => $chunk, 'embedding' => $result[0]];
+                    TranscriptChunk::create([
+                        'recording_transcript_id' => $transcript->id,
+                        'chunk_index' => $index,
+                        'content' => $chunk,
+                        'embedding' => $result[0],
+                    ]);
                 }
 
-                $transcript->chunk_embeddings = $chunkEmbeddings;
-                $transcript->save();
-
-                $this->line('<fg=green>✓</> Saved '.count($chunkEmbeddings).' chunk embeddings');
+                $this->line('<fg=green>✓</> Saved '.count($chunks).' chunks');
                 $this->newLine();
             }
 
