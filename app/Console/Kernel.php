@@ -10,6 +10,7 @@ use App\Console\Commands\EmbeddingsTestCommand;
 use App\Console\Commands\ExifExtractCommand;
 use App\Console\Commands\ExifJsonImportCommand;
 use App\Console\Commands\SynchPeopleOnPhotosCommand;
+use App\Console\Commands\TranscriptsChunkCommand;
 use App\Console\Commands\TranscriptsEmbeddingCommand;
 use App\Console\Commands\TranscriptsImportDocxCommand;
 use App\Console\Commands\TranscriptsImportExcelCommand;
@@ -37,6 +38,7 @@ final class Kernel extends ConsoleKernel
         TranscriptsSyncCommand::class,
         TranscriptsImportExcelCommand::class,
         TranscriptsImportMp3Command::class,
+        TranscriptsChunkCommand::class,
         TranscriptsEmbeddingCommand::class,
         TranscriptsSearchCommand::class,
     ];
