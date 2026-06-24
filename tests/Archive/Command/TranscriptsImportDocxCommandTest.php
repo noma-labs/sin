@@ -34,4 +34,4 @@ it('imports docx transcript preserving paragraph boundaries', function (): void 
     expect($imported)
         ->toHaveCount(count($expected))
         ->toBe($expected);
-})->only();
+});
