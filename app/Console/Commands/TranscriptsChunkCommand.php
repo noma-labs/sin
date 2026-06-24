@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\Archive\UniversityAlbum;
 use App\Archive\Models\RecordingTranscript;
 use App\Archive\Models\TranscriptChunk;
 use Exception;
@@ -11,9 +12,7 @@ use Illuminate\Console\Command;
 
 final class TranscriptsChunkCommand extends Command
 {
-    protected $signature = 'transcripts:chunk
-                            {--limit=5 : Number of transcripts to process}
-                            {--truncate : Truncate the chunks table before processing}';
+    protected $signature = 'transcripts:chunk';
 
     protected $description = 'Split recording transcripts into text chunks';
 
@@ -23,22 +22,12 @@ final class TranscriptsChunkCommand extends Command
         $this->newLine();
 
         try {
-            $limit = (int) $this->option('limit');
-            $truncate = (bool) $this->option('truncate');
-
-            if ($truncate) {
-                TranscriptChunk::query()->truncate();
-                $this->info('Chunks table truncated.');
-            }
-
-            /** @var \Illuminate\Database\Eloquent\Builder<RecordingTranscript> $query */
-            $query = RecordingTranscript::query()
+            $transcripts = RecordingTranscript::query()
+                ->whereIn('code', UniversityAlbum::CODES)
                 ->whereNotNull('content')
                 ->where('content', '!=', '')
-                ->whereDoesntHave('chunks');
+                ->get();
 
-            /** @var \Illuminate\Database\Eloquent\Collection<int, RecordingTranscript> $transcripts */
-            $transcripts = $query->limit($limit)->get();
 
             if ($transcripts->isEmpty()) {
                 $this->warn('No transcripts to process.');
@@ -47,16 +36,18 @@ final class TranscriptsChunkCommand extends Command
             }
 
             $this->info("Found {$transcripts->count()} transcripts to chunk");
-            $this->newLine();
+
+            if (! $this->confirm('This will truncate the chunks table. Continue?')) {
+                return self::FAILURE;
+            }
+
+            TranscriptChunk::query()->truncate();
+            $this->info('Chunks table truncated.');
 
             foreach ($transcripts as $transcript) {
-                $this->info("Processing transcript ID {$transcript->id}: {$transcript->heading}");
-
                 $chunks = $this->recursiveChunk($transcript->content, 1200);
-                $this->info('Chunks: '.count($chunks));
 
                 foreach ($chunks as $index => $chunk) {
-                    $this->line('  chunk '.($index + 1).'/'.count($chunks).' ('.mb_strlen($chunk).' chars)');
                     TranscriptChunk::query()->create([
                         'recording_transcript_id' => $transcript->id,
                         'chunk_index' => $index,
@@ -64,8 +55,7 @@ final class TranscriptsChunkCommand extends Command
                     ]);
                 }
 
-                $this->line('<fg=green>✓</> Saved '.count($chunks).' chunks');
-                $this->newLine();
+                $this->line("<fg=green>✓</> {$transcript->heading} — ".count($chunks).' chunks');
             }
 
             return self::SUCCESS;

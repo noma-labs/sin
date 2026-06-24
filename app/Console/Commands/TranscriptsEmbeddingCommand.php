@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\Archive\UniversityAlbum;
 use App\Archive\Models\RecordingTranscript;
 use App\Archive\Models\TranscriptChunk;
 use Exception;
@@ -12,9 +13,9 @@ use Laravel\Ai\Embeddings;
 
 final class TranscriptsEmbeddingCommand extends Command
 {
+
     protected $signature = 'transcripts:embedding
-                            {--limit=5 : Number of transcripts to process}
-                            {--force : Re-generate embeddings even if they already exist}';
+                            {--limit=100 : Number of transcripts to process}';
 
     protected $description = 'Create embeddings for transcript chunks using the Transformers pipeline';
 
@@ -25,45 +26,47 @@ final class TranscriptsEmbeddingCommand extends Command
 
         try {
             $limit = (int) $this->option('limit');
-            $force = (bool) $this->option('force');
 
             /** @var \Illuminate\Database\Eloquent\Builder<RecordingTranscript> $query */
-            $query = RecordingTranscript::query()->has('chunks');
-
-            if (! $force) {
-                $query->whereHas('chunks', fn ($q) => $q->whereNull('embedding'));
-            }
+            $query = RecordingTranscript::query()
+                ->whereIn('code', UniversityAlbum::CODES)
+                ->has('chunks');
 
             /** @var \Illuminate\Database\Eloquent\Collection<int, RecordingTranscript> $transcripts */
             $transcripts = $query->limit($limit)->get();
 
             if ($transcripts->isEmpty()) {
-                $this->warn('No transcripts to process (use --force to re-generate existing embeddings).');
+                $this->warn('No transcripts with chunks found. Run transcripts:chunk first.');
 
                 return self::FAILURE;
             }
 
             $this->info("Found {$transcripts->count()} transcripts to embed");
-            $this->newLine();
+
+            if (! $this->confirm('This will clear existing embeddings for the selected transcripts. Continue?')) {
+                return self::FAILURE;
+            }
 
             foreach ($transcripts as $transcript) {
-                $this->info("Processing transcript ID {$transcript->id}: {$transcript->heading}");
+                $transcript->chunks()->update(['embedding' => null]);
 
                 /** @var \Illuminate\Database\Eloquent\Collection<int, TranscriptChunk> $chunks */
-                $chunks = $transcript->chunks()
-                    ->when(! $force, fn ($q) => $q->whereNull('embedding'))
-                    ->get();
+                $chunks = $transcript->chunks()->get();
+
+                if ($chunks->isEmpty()) {
+                    $this->warn("{$transcript->heading} — no chunks, run transcripts:chunk first");
+
+                    continue;
+                }
 
                 $contents = $chunks->pluck('content')->toArray();
                 $response = Embeddings::for($contents)->generate('transformers');
 
                 foreach ($chunks as $index => $chunk) {
-                    $this->line('  chunk '.($index + 1).'/'.count($contents).' ('.mb_strlen($chunk->content).' chars)');
                     $chunk->update(['embedding' => $response->embeddings[$index]]);
                 }
 
-                $this->line('<fg=green>✓</> Saved '.count($contents).' embeddings');
-                $this->newLine();
+                $this->line("<fg=green>✓</> {$transcript->heading} — ".count($contents).' embeddings');
             }
 
             return self::SUCCESS;
