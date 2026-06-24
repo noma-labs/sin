@@ -17,6 +17,9 @@ final class TransformersProvider extends Provider implements EmbeddingProvider
     use GeneratesEmbeddings;
     use HasEmbeddingGateway;
 
+    /**
+     * @param  array<string, mixed>  $config
+     */
     public function __construct(
         protected array $config,
         protected Dispatcher $events,
@@ -29,11 +32,13 @@ final class TransformersProvider extends Provider implements EmbeddingProvider
 
     public function defaultEmbeddingsModel(): string
     {
+        // @phpstan-ignore-next-line
         return $this->config['models']['embeddings']['default'] ?? 'Xenova/all-MiniLM-L6-v2';
     }
 
     public function defaultEmbeddingsDimensions(): int
     {
+        // @phpstan-ignore-next-line
         return $this->config['models']['embeddings']['dimensions'] ?? 384;
     }
 }

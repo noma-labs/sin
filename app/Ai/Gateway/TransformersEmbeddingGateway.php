@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Ai\Gateway;
 
+use Codewithkyrian\Transformers\Pipelines\Pipeline;
 use Laravel\Ai\Contracts\Gateway\EmbeddingGateway;
 use Laravel\Ai\Contracts\Providers\EmbeddingProvider;
+use Laravel\Ai\Providers\Provider;
 use Laravel\Ai\Responses\Data\Meta;
 use Laravel\Ai\Responses\EmbeddingsResponse;
 
@@ -13,8 +15,7 @@ use function Codewithkyrian\Transformers\Pipelines\pipeline;
 
 final class TransformersEmbeddingGateway implements EmbeddingGateway
 {
-    /** @var array<string, FeatureExtractionPipeline> */
-    private array $pipelines = [];
+    private ?Pipeline $pipeline = null;
 
     public function generateEmbeddings(
         EmbeddingProvider $provider,
@@ -24,17 +25,15 @@ final class TransformersEmbeddingGateway implements EmbeddingGateway
         int $timeout = 30,
         array $providerOptions = [],
     ): EmbeddingsResponse {
-        $pipe = $this->pipelines[$model] ??= pipeline('feature-extraction', $model);
+        $pipe = $this->pipeline ??= pipeline('embeddings', $model);
 
-        $embeddings = array_map(
-            fn (string $input) => $pipe($input, pooling: 'mean', normalize: true)[0],
-            $inputs,
-        );
+        /** @var array<int, array<float>> $embeddings */
+        $embeddings = $pipe($inputs, pooling: 'mean', normalize: true);
 
         return new EmbeddingsResponse(
             embeddings: $embeddings,
-            tokens: 0,
-            meta: new Meta($provider->name(), $model),
+            tokens: 0, // token count (for billing/tracking); we pass 0 since Transformers runs locally
+            meta: new Meta($provider instanceof Provider ? $provider->name() : null, $model),
         );
     }
 }

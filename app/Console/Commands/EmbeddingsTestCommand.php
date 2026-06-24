@@ -16,17 +16,20 @@ final class EmbeddingsTestCommand extends Command
 
     public function handle(): int
     {
-        $texts = $this->argument('text');
-        $provider = $this->option('provider');
+        $rawTexts = $this->argument('text');
+        $texts = is_array($rawTexts) ? array_values(array_filter($rawTexts, is_string(...))) : [];
+
+        $rawProvider = $this->option('provider');
+        $provider = is_string($rawProvider) ? $rawProvider : 'transformers';
 
         $this->info("Provider: {$provider}");
         $this->info('Generating embeddings for '.count($texts).' input(s)...');
 
         $response = Embeddings::for($texts)->generate($provider);
 
-        foreach ($response as $i => $embedding) {
+        foreach ($response->embeddings as $i => $embedding) {
             $dimensions = count($embedding);
-            $preview = implode(', ', array_map(fn ($v) => round($v, 4), array_slice($embedding, 0, 5)));
+            $preview = implode(', ', array_map(fn (float $v) => round($v, 4), array_slice($embedding, 0, 5)));
 
             $this->line("  [{$i}] \"{$texts[$i]}\"");
             $this->line("       dimensions: {$dimensions} | first 5 values: [{$preview}, ...]");
