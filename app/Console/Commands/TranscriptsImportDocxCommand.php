@@ -21,7 +21,11 @@ final class TranscriptsImportDocxCommand extends Command
 
     public function handle(): int
     {
-        DB::connection('archivio_nomadelfia')->table('recording_transcripts')->truncate();
+        $db = DB::connection('archivio_nomadelfia');
+        $db->statement('SET FOREIGN_KEY_CHECKS=0');
+        $db->table('recording_transcript_chunks')->truncate();
+        $db->table('recording_transcripts')->truncate();
+        $db->statement('SET FOREIGN_KEY_CHECKS=1');
 
         $file = $this->argument('file');
 
@@ -86,10 +90,7 @@ final class TranscriptsImportDocxCommand extends Command
                                     $i--; // Back up so the outer loop processes this Titolo2
                                     break;
                                 }
-                                $text = $this->decode($nextElement->getText());
-                                if ($text !== '') {
-                                    $contentLines[] = $text;
-                                }
+                                $contentLines[] = $this->decode($nextElement->getText());
                             }
                             $i++;
                         }
@@ -118,7 +119,7 @@ final class TranscriptsImportDocxCommand extends Command
                 RecordingTranscript::query()->insert(
                     [
                         'heading' => $chunk['heading'] ?? null,
-                        'content' => implode("\n", $chunk['content']),
+                        'content' => mb_trim(implode("\n", $chunk['content'])),
                         'file_path' => (string) $file,
                     ]
                 );
