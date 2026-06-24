@@ -26,3 +26,4 @@ storage/*.json
 .idea/
 .vagrant/
 .cache/
+.transformers-cache/
