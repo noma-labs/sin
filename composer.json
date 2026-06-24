@@ -86,6 +86,7 @@
     "optimize-autoloader": true,
     "allow-plugins": {
       "codewithkyrian/platform-package-installer": true,
+      "codewithkyrian/platform-package-installer": true,
       "pestphp/pest-plugin": true,
       "php-http/discovery": true
     }
