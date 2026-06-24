@@ -8,8 +8,7 @@ use App\Archive\Models\RecordingTranscript;
 use App\Archive\Models\TranscriptChunk;
 use Exception;
 use Illuminate\Console\Command;
-
-use function Codewithkyrian\Transformers\Pipelines\pipeline;
+use Laravel\Ai\Embeddings;
 
 final class TranscriptsEmbeddingCommand extends Command
 {
@@ -27,9 +26,6 @@ final class TranscriptsEmbeddingCommand extends Command
         try {
             $limit = (int) $this->option('limit');
             $force = (bool) $this->option('force');
-
-            $this->info('Loading embeddings model: Xenova/all-MiniLM-L6-v2');
-            $extractor = pipeline('embeddings', 'Xenova/all-MiniLM-L6-v2');
 
             /** @var \Illuminate\Database\Eloquent\Builder<RecordingTranscript> $query */
             $query = RecordingTranscript::query()
@@ -60,15 +56,15 @@ final class TranscriptsEmbeddingCommand extends Command
 
                 $transcript->chunks()->delete();
 
+                $response = Embeddings::for($chunks)->generate('transformers');
+
                 foreach ($chunks as $index => $chunk) {
                     $this->line('  chunk '.($index + 1).'/'.count($chunks).' ('.mb_strlen($chunk).' chars)');
-                    /** @var array<int, float[]> $result */
-                    $result = $extractor($chunk, normalize: true, pooling: 'mean');
                     TranscriptChunk::query()->create([
                         'recording_transcript_id' => $transcript->id,
                         'chunk_index' => $index,
                         'content' => $chunk,
-                        'embedding' => $result[0],
+                        'embedding' => $response->embeddings[$index],
                     ]);
                 }
 
@@ -88,7 +84,7 @@ final class TranscriptsEmbeddingCommand extends Command
      * @param  string[]  $separators
      * @return string[]
      */
-    private function recursiveChunk(string|null $text, int $maxChars, array $separators = ["\n\n", "\n", ' ', '']): array
+    private function recursiveChunk(?string $text, int $maxChars, array $separators = ["\n\n", "\n", ' ', '']): array
     {
         if ($text === '' || $text === null || mb_strlen($text) <= $maxChars) {
             return $text !== '' && $text !== null ? [$text] : [];
