@@ -16,11 +16,11 @@ final class TranscriptsEmbeddingCommand extends Command
                             {--limit=5 : Number of transcripts to process}
                             {--force : Re-generate embeddings even if they already exist}';
 
-    protected $description = 'Create embeddings for recording transcripts using the Transformers pipeline';
+    protected $description = 'Create embeddings for transcript chunks using the Transformers pipeline';
 
     public function handle(): int
     {
-        $this->info('Creating embeddings for transcripts...');
+        $this->info('Creating embeddings for transcript chunks...');
         $this->newLine();
 
         try {
@@ -28,12 +28,10 @@ final class TranscriptsEmbeddingCommand extends Command
             $force = (bool) $this->option('force');
 
             /** @var \Illuminate\Database\Eloquent\Builder<RecordingTranscript> $query */
-            $query = RecordingTranscript::query()
-                ->whereNotNull('content')
-                ->where('content', '!=', '');
+            $query = RecordingTranscript::query()->has('chunks');
 
             if (! $force) {
-                $query->whereDoesntHave('chunks');
+                $query->whereHas('chunks', fn ($q) => $q->whereNull('embedding'));
             }
 
             /** @var \Illuminate\Database\Eloquent\Collection<int, RecordingTranscript> $transcripts */
@@ -51,24 +49,20 @@ final class TranscriptsEmbeddingCommand extends Command
             foreach ($transcripts as $transcript) {
                 $this->info("Processing transcript ID {$transcript->id}: {$transcript->heading}");
 
-                $chunks = $this->recursiveChunk($transcript->content, 1200);
-                $this->info('Chunks: '.count($chunks));
+                /** @var \Illuminate\Database\Eloquent\Collection<int, TranscriptChunk> $chunks */
+                $chunks = $transcript->chunks()
+                    ->when(! $force, fn ($q) => $q->whereNull('embedding'))
+                    ->get();
 
-                $transcript->chunks()->delete();
-
-                $response = Embeddings::for($chunks)->generate('transformers');
+                $contents = $chunks->pluck('content')->toArray();
+                $response = Embeddings::for($contents)->generate('transformers');
 
                 foreach ($chunks as $index => $chunk) {
-                    $this->line('  chunk '.($index + 1).'/'.count($chunks).' ('.mb_strlen($chunk).' chars)');
-                    TranscriptChunk::query()->create([
-                        'recording_transcript_id' => $transcript->id,
-                        'chunk_index' => $index,
-                        'content' => $chunk,
-                        'embedding' => $response->embeddings[$index],
-                    ]);
+                    $this->line('  chunk '.($index + 1).'/'.count($contents).' ('.mb_strlen($chunk->content).' chars)');
+                    $chunk->update(['embedding' => $response->embeddings[$index]]);
                 }
 
-                $this->line('<fg=green>✓</> Saved '.count($chunks).' chunks');
+                $this->line('<fg=green>✓</> Saved '.count($contents).' embeddings');
                 $this->newLine();
             }
 
@@ -78,62 +72,5 @@ final class TranscriptsEmbeddingCommand extends Command
 
             return self::FAILURE;
         }
-    }
-
-    /**
-     * @param  string[]  $separators
-     * @return string[]
-     */
-    private function recursiveChunk(?string $text, int $maxChars, array $separators = ["\n\n", "\n", ' ', '']): array
-    {
-        if ($text === '' || $text === null || mb_strlen($text) <= $maxChars) {
-            return $text !== '' && $text !== null ? [$text] : [];
-        }
-
-        $separator = '';
-        $nextSeparators = [];
-        foreach ($separators as $i => $sep) {
-            if ($sep === '' || str_contains($text, $sep)) {
-                $separator = $sep;
-                $nextSeparators = array_slice($separators, $i + 1);
-                break;
-            }
-        }
-
-        $pieces = $separator !== '' ? explode($separator, $text) : mb_str_split($text);
-
-        $chunks = [];
-        $current = '';
-
-        foreach ($pieces as $piece) {
-            if ($piece === '') {
-                continue;
-            }
-
-            $joined = $current === '' ? $piece : $current.$separator.$piece;
-
-            if (mb_strlen($joined) <= $maxChars) {
-                $current = $joined;
-            } else {
-                if ($current !== '') {
-                    $chunks[] = $current;
-                    $current = '';
-                }
-
-                if (mb_strlen($piece) > $maxChars) {
-                    foreach ($this->recursiveChunk($piece, $maxChars, $nextSeparators) as $sub) {
-                        $chunks[] = $sub;
-                    }
-                } else {
-                    $current = $piece;
-                }
-            }
-        }
-
-        if ($current !== '') {
-            $chunks[] = $current;
-        }
-
-        return $chunks;
     }
 }
