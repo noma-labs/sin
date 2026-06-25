@@ -12,6 +12,10 @@ use App\Photo\Models\PhotoIssue;
 use function Pest\Laravel\get;
 use function Pest\Laravel\put;
 
+beforeEach(function (): void {
+    PhotoIssue::query()->update(['resolved_at' => now()]);
+});
+
 it('renders the bulk update index page with grouped issues', function (): void {
     $strip = DbfAll::factory()->create(['datnum' => '01234', 'anum' => '01236']);
     $photo = Photo::factory()->create(['dbf_id' => $strip->id]);
@@ -26,7 +30,11 @@ it('renders the bulk update index page with grouped issues', function (): void {
 });
 
 it('shows the strip date as a suggestion in the date input', function (): void {
-    $strip = DbfAll::factory()->create(['data' => '1990-06-15']);
+    $strip = DbfAll::factory()->create([
+        'datnum' => '00001',
+        'anum' => '00001',
+        'data' => '1990-06-15',
+    ]);
     $photo = Photo::factory()->create(['dbf_id' => $strip->id]);
     PhotoIssue::factory()->create(['photo_id' => $photo->id]);
 

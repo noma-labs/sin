@@ -15,8 +15,22 @@ final class PhotosIssuesBulkUpdateController
 {
     public function index(Request $request): View
     {
-        $datnumGroups = DB::connection('db_foto')
+        $openIssuesQuery = DB::connection('db_foto')
             ->table('photos_issues')
+            ->leftJoin('photos', 'photos.id', '=', 'photos_issues.photo_id')
+            ->leftJoin('dbf_all', 'dbf_all.id', '=', 'photos.dbf_id')
+            ->whereNull('photos_issues.resolved_at')
+            ->whereNotNull('dbf_all.datnum');
+
+        $photosWithIssuesCount = (clone $openIssuesQuery)
+            ->distinct()
+            ->count('photos_issues.photo_id');
+
+        $stripesWithIssuesCount = (clone $openIssuesQuery)
+            ->distinct()
+            ->count('dbf_all.datnum');
+
+        $datnumGroups = (clone $openIssuesQuery)
             ->selectRaw('
                 photos_issues.issue_type,
                 dbf_all.datnum,
@@ -26,10 +40,6 @@ final class PhotosIssuesBulkUpdateController
                 MIN(dbf_all.data) as strip_date,
                 COUNT(photos_issues.id) as issue_count
             ')
-            ->leftJoin('photos', 'photos.id', '=', 'photos_issues.photo_id')
-            ->leftJoin('dbf_all', 'dbf_all.id', '=', 'photos.dbf_id')
-            ->whereNull('photos_issues.resolved_at')
-            ->whereNotNull('dbf_all.datnum')
             ->groupBy('photos_issues.issue_type', 'dbf_all.datnum')
             ->orderBy('dbf_all.datnum', 'asc')
             ->orderBy('photos_issues.issue_type', 'asc')
@@ -73,7 +83,12 @@ final class PhotosIssuesBulkUpdateController
                 ->get()
             : collect();
 
-        return view('photo.issues.bulk', compact('datnumGroups', 'issues'));
+        return view('photo.issues.bulk', compact(
+            'datnumGroups',
+            'issues',
+            'photosWithIssuesCount',
+            'stripesWithIssuesCount',
+        ));
     }
 
     public function bulkUpdate(Request $request): RedirectResponse

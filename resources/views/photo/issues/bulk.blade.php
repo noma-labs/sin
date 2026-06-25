@@ -18,17 +18,32 @@
 @section("title", "Aggiornamento Foto Per Striscia")
 
 @section("content")
-  <div class="d-flex justify-content-between align-items-center mb-3">
+  <div class="d-flex justify-content-between align-items-center my-3">
     <h5 class="mb-0">Aggiornamento Foto Per Striscia</h5>
-    <a
-      href="{{ route("photos.issues.index") }}"
-      class="btn btn-sm btn-outline-secondary"
-    >
-      ← Problemi singoli
-    </a>
   </div>
   @include("partials.flash")
-
+  <div class="row g-2 mb-3">
+    <div class="col-md-6">
+      <div class="card bg-light border-0">
+        <div
+          class="card-body py-2 d-flex justify-content-between align-items-center"
+        >
+          <p class="small text-muted mb-0">Foto con problemi aperti</p>
+          <p class="h5 mb-0 text-danger">{{ $photosWithIssuesCount }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card bg-light border-0">
+        <div
+          class="card-body py-2 d-flex justify-content-between align-items-center"
+        >
+          <p class="small text-muted mb-0">Strisce con problemi aperti</p>
+          <p class="h5 mb-0 text-danger">{{ $stripesWithIssuesCount }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
   @if ($datnumGroups->total() > 0 && $currentGroup)
     <div class="card border-danger">
       <div class="card-header bg-danger text-white">
@@ -45,7 +60,7 @@
             </small>
           </div>
           <span class="badge text-bg-light text-danger">
-            {{ $datnumGroups->total() }} strisce con problemi
+            {{ $stripesWithIssuesCount }} strisce con problemi
           </span>
         </div>
       </div>
@@ -117,12 +132,8 @@
             </div>
 
             <div class="d-flex align-items-center gap-2">
-              <label class="form-label mb-0 text-nowrap"> Nuova data: </label>
-              <span
-                id="taken_at_bulk_display"
-                class="badge text-bg-info"
-                style="min-width: 120px"
-              >
+              <label class="form-label mb-0 text-nowrap">Data foto:</label>
+              <span id="taken_at_bulk_display" class="fw-semibold">
                 {{ old("taken_at", $suggestedDate) !== "" ? old("taken_at", $suggestedDate) : "N/A" }}
               </span>
               <input

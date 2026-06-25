@@ -24,7 +24,7 @@ final class DbfAllFactory extends Factory
             'hdint' => '',
             'hdext' => '',
             'sc' => '',
-            'fi' => 'analog',
+            'fi' => 'MD',
             'tp' => '',
             'nfo' => $this->faker->numberBetween(1, 50),
             'data' => $this->faker->dateTime(),
