@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Photo\Models;
 
 use Carbon\Carbon;
+use Database\Factories\PhotoIssueFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -22,6 +24,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 final class PhotoIssue extends Model
 {
+    /** @use HasFactory<PhotoIssueFactory> */
+    use HasFactory;
+
     protected $connection = 'db_foto';
 
     protected $table = 'photos_issues';
@@ -39,6 +44,11 @@ final class PhotoIssue extends Model
     public function photo(): BelongsTo
     {
         return $this->belongsTo(Photo::class);
+    }
+
+    protected static function newFactory(): PhotoIssueFactory
+    {
+        return PhotoIssueFactory::new();
     }
 
     /** @return array<string, string> */

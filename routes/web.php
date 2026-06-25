@@ -79,6 +79,7 @@ use App\Photo\Controllers\FavouritesController;
 use App\Photo\Controllers\LegendController;
 use App\Photo\Controllers\PhotoController;
 use App\Photo\Controllers\PhotoFolderController;
+use App\Photo\Controllers\PhotosIssuesBulkUpdateController;
 use App\Photo\Controllers\PhotosIssuesController;
 use App\Photo\Controllers\ReconciliationController;
 use App\Photo\Controllers\SlideshowController;
@@ -458,6 +459,9 @@ Route::prefix('photos')->middleware('auth')->group(function () {
 
     Route::get('/faces', [FaceController::class, 'index'])->middleware('can:photo.view')->name('photos.face.index');
     Route::get('/faces/{name}', [FaceController::class, 'show'])->middleware('can:photo.view')->name('photos.face.show');
+
+    Route::get('/issues/bulk', [PhotosIssuesBulkUpdateController::class, 'index'])->middleware('can:photo.view')->name('photos.issues.bulk.index');
+    Route::put('/issues/bulk', [PhotosIssuesBulkUpdateController::class, 'bulkUpdate'])->middleware('can:photo.update')->name('photos.issues.bulk.update');
 
     Route::get('/issues', [PhotosIssuesController::class, 'index'])->middleware('can:photo.view')->name('photos.issues.index');
     Route::put('/issues/{id}', [PhotosIssuesController::class, 'update'])->middleware('can:photo.update')->name('photos.issues.update');
