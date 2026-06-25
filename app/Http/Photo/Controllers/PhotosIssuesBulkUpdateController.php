@@ -9,6 +9,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use stdClass;
 
 final class PhotosIssuesBulkUpdateController
 {
@@ -34,6 +35,7 @@ final class PhotosIssuesBulkUpdateController
             ->orderBy('photos_issues.issue_type', 'asc')
             ->paginate(1);
 
+        /** @var stdClass|null $currentGroup */
         $currentGroup = $datnumGroups->first();
 
         $issues = $currentGroup
@@ -67,7 +69,7 @@ final class PhotosIssuesBulkUpdateController
                 ->whereNull('photos_issues.resolved_at')
                 ->where('dbf_all.datnum', $currentGroup->datnum)
                 ->where('photos_issues.issue_type', $currentGroup->issue_type)
-                ->orderBy('photos.taken_at', 'asc')
+                ->oldest('photos.taken_at')
                 ->get()
             : collect();
 
@@ -82,6 +84,7 @@ final class PhotosIssuesBulkUpdateController
             'issue_ids.*' => ['required', 'integer'],
         ]);
 
+        /** @var \Illuminate\Database\Eloquent\Collection<int, PhotoIssue> $issues */
         $issues = PhotoIssue::query()
             ->with('photo')
             ->whereIn('id', $validated['issue_ids'])
@@ -90,6 +93,7 @@ final class PhotosIssuesBulkUpdateController
         $resolvedAt = now();
 
         foreach ($issues as $issue) {
+            /** @var PhotoIssue $issue */
             $oldDate = $issue->photo->taken_at
                 ? $issue->photo->taken_at->format('Y-m-d')
                 : 'null';

@@ -27,7 +27,6 @@
       ← Problemi singoli
     </a>
   </div>
-
   @include("partials.flash")
 
   @if ($datnumGroups->total() > 0 && $currentGroup)
@@ -42,8 +41,7 @@
               {{ $issueLabels[$currentGroup->issue_type] ?? $currentGroup->issue_type }}
             </span>
             <small class="ms-2 opacity-75">
-              striscia {{ $datnumGroups->currentPage() }} di
-              {{ $datnumGroups->lastPage() }}
+              striscia {{ $datnumGroups->currentPage() }} di {{ $datnumGroups->lastPage() }}
             </small>
           </div>
           <span class="badge text-bg-light text-danger">
@@ -119,9 +117,7 @@
             </div>
 
             <div class="d-flex align-items-center gap-2">
-              <label class="form-label mb-0 text-nowrap">
-                Nuova data:
-              </label>
+              <label class="form-label mb-0 text-nowrap"> Nuova data: </label>
               <span
                 id="taken_at_bulk_display"
                 class="badge text-bg-info"
@@ -140,7 +136,11 @@
                 class="btn btn-sm btn-outline-primary"
                 data-bs-toggle="modal"
                 data-bs-target="#{{ $editDateModalId }}"
-                onclick="event.preventDefault(); event.stopPropagation(); syncTakenAtModalInput();"
+                onclick="
+                  event.preventDefault();
+                  event.stopPropagation();
+                  syncTakenAtModalInput();
+                "
               >
                 ✏️ Modifica
               </button>
@@ -149,19 +149,12 @@
               @enderror
             </div>
 
-            <button
-              type="submit"
-              id="submit-btn"
-              class="btn btn-sm btn-primary"
-              disabled
-            >
-              Aggiorna
-              <span
-                id="selected-count"
-                class="badge text-bg-light text-primary ms-1"
-              >0</span>
-              foto
-            </button>
+            <p class="mb-0 fw-semibold">
+              Foto selezionate:
+              <span id="selected-count" class="badge text-bg-primary ms-1"
+                >0</span
+              >
+            </p>
           </div>
 
           @error("issue_ids")
@@ -191,19 +184,24 @@
                   <img
                     src="{{ route("photos.preview", [$issue->photo_id]) }}"
                     alt="{{ $issue->file_name }}"
-                    style="width: 80px; height: 60px; object-fit: cover; flex-shrink: 0"
+                    style="
+                      width: 80px;
+                      height: 60px;
+                      object-fit: cover;
+                      flex-shrink: 0;
+                    "
                     loading="lazy"
                   />
 
                   <div class="flex-grow-1 overflow-hidden">
-                    <p
-                      class="mb-0 text-truncate"
-                      style="font-size: 0.8rem"
-                    >
+                    <p class="mb-0 text-truncate" style="font-size: 0.8rem">
                       <a
                         href="{{ route("photos.show", $issue->photo_id) }}"
                         class="text-decoration-none"
-                        onclick="event.preventDefault(); event.stopPropagation();"
+                        onclick="
+                          event.preventDefault();
+                          event.stopPropagation();
+                        "
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -223,8 +221,7 @@
                       style="font-size: 0.75rem"
                     >
                       <span>
-                        📅
-                        {{ $issue->taken_at ? \Illuminate\Support\Carbon::parse($issue->taken_at)->format("Y-m-d") : "N/A" }}
+                        📅 {{ $issue->taken_at ? \Illuminate\Support\Carbon::parse($issue->taken_at)->format("Y-m-d") : "N/A" }}
                       </span>
 
                       @if ($issue->photo_persona_name)
@@ -273,7 +270,9 @@
       <x-modal modal-title="Modifica Data Foto" :modal-id="$editDateModalId">
         <x-slot:body>
           <div class="mb-0">
-            <label for="taken_at_modal_input" class="form-label">Data Foto</label>
+            <label for="taken_at_modal_input" class="form-label"
+              >Data Foto</label
+            >
             <input
               type="text"
               id="taken_at_modal_input"
@@ -285,12 +284,19 @@
           </div>
         </x-slot:body>
         <x-slot:footer>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
             Annulla
           </button>
           <button
-            type="button"
+            type="submit"
+            id="confirm-bulk-update-btn"
             class="btn btn-primary"
+            form="bulk-update-form"
+            disabled
             data-bs-dismiss="modal"
             onclick="applyTakenAtFromModal()"
           >
@@ -310,9 +316,11 @@
 <script>
   function updateCounts() {
     const selectedCount = document.getElementById("selected-count");
-    const submitButton = document.getElementById("submit-btn");
+    const confirmBulkUpdateButton = document.getElementById(
+      "confirm-bulk-update-btn",
+    );
     const selectAll = document.getElementById("selectAll");
-    if (!selectedCount || !submitButton || !selectAll) {
+    if (!selectedCount || !confirmBulkUpdateButton || !selectAll) {
       return;
     }
 
@@ -321,7 +329,7 @@
     const count = checked.length;
 
     selectedCount.textContent = count;
-    submitButton.disabled = count === 0;
+    confirmBulkUpdateButton.disabled = count === 0;
 
     if (count === 0) {
       selectAll.indeterminate = false;
