@@ -186,7 +186,9 @@
                   for="issue-{{ $issue->id }}"
                 >
                   <div class="card-body p-2">
-                    <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div
+                      class="d-flex justify-content-between align-items-start mb-2"
+                    >
                       <input
                         type="checkbox"
                         class="form-check-input photo-checkbox"
@@ -203,10 +205,7 @@
                       src="{{ route("photos.preview", [$issue->photo_id]) }}"
                       alt="{{ $issue->file_name }}"
                       class="w-100 rounded mb-2"
-                      style="
-                        height: 220px;
-                        object-fit: cover;
-                      "
+                      style="height: 220px; object-fit: cover"
                       loading="lazy"
                     />
 
@@ -224,7 +223,6 @@
                         {{ $issue->file_name }}
                       </a>
                     </p>
-
 
                     <div
                       class="d-flex gap-2 flex-wrap mt-1"
@@ -302,7 +300,8 @@
               rows="3"
               maxlength="1000"
               placeholder="Inserisci una nota"
-            >{{ old("description", "") }}</textarea>
+              >{{ old("description", "") }}</textarea
+            >
           </div>
         </x-slot:body>
         <x-slot:footer>
@@ -380,7 +379,12 @@
     const hiddenDescription = document.getElementById("description_bulk");
     const modalInput = document.getElementById("taken_at_modal_input");
     const noteModalInput = document.getElementById("note_modal_input");
-    if (!hiddenTakenAt || !hiddenDescription || !modalInput || !noteModalInput) {
+    if (
+      !hiddenTakenAt ||
+      !hiddenDescription ||
+      !modalInput ||
+      !noteModalInput
+    ) {
       return;
     }
 
