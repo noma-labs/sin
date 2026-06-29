@@ -6,6 +6,7 @@ namespace App\Archive\Controllers;
 
 use App\Archive\Models\Recording;
 use App\Archive\Models\RecordingAudio;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
@@ -13,12 +14,18 @@ final class ArchiveController
 {
     public function index()
     {
-        $q = request('q', '');
-        $selectedYear = request('year');
-        $selectedGenere = request('genere');
-        $selectedDocId = request('doc');
+        $qInput = request('q', '');
+        $selectedYearInput = request('year');
+        $selectedGenereInput = request('genere');
+        $selectedDocIdInput = request('doc');
+
+        $q = is_string($qInput) ? $qInput : '';
+        $selectedYear = is_numeric($selectedYearInput) ? (int) $selectedYearInput : null;
+        $selectedGenere = is_string($selectedGenereInput) && $selectedGenereInput !== '' ? $selectedGenereInput : null;
+        $selectedDocId = is_numeric($selectedDocIdInput) ? (int) $selectedDocIdInput : null;
 
         // Execute MATCH once to get filtered IDs
+        /** @var EloquentBuilder<Recording> $matchQuery */
         $matchQuery = Recording::query();
 
         if ($selectedGenere) {
@@ -35,6 +42,7 @@ final class ArchiveController
         $filteredIds = $matchQuery->pluck('id')->toArray();
 
         // Build base query using filtered IDs (no MATCH needed)
+        /** @var EloquentBuilder<Recording> $baseQuery */
         $baseQuery = Recording::query()->whereIn('recordings.id', $filteredIds);
 
         $countByDecade = (clone $baseQuery)
@@ -46,6 +54,7 @@ final class ArchiveController
 
         $totalCount = count($filteredIds);
 
+        /** @var EloquentBuilder<Recording> $problemsQuery */
         $problemsQuery = Recording::query()->whereIn('recordings.id', $filteredIds);
 
         if ($selectedYear) {
@@ -55,6 +64,7 @@ final class ArchiveController
         $missingTranscriptCount = (clone $problemsQuery)->whereDoesntHave('transcript')->count();
         $missingMp3Count = (clone $problemsQuery)->whereDoesntHave('audio')->count();
 
+        /** @var EloquentBuilder<Recording> $genreQuery */
         $genreQuery = (clone $baseQuery)->whereNotNull('GENERE')->where('GENERE', '!=', '');
 
         if ($selectedYear) {
@@ -68,9 +78,11 @@ final class ArchiveController
             ->pluck('count', 'GENERE');
 
         // Main results query - keep MATCH only for relevance ordering
-        $resultsQuery = Recording::query()->whereIn('recordings.id', $filteredIds)
-            ->with(['transcript', 'audio'])
-            ->select('recordings.id', 'recordings.data', 'recordings.AUTORE', 'recordings.DESTINATARI', 'recordings.GENERE', 'recordings.code', 'recordings.argomento', 'recordings.LOCALITA');
+        /** @var EloquentBuilder<Recording> $resultsQuery */
+        $resultsQuery = Recording::query();
+        $resultsQuery->whereIn('recordings.id', $filteredIds);
+        $resultsQuery->with(['transcript', 'audio']);
+        $resultsQuery->select('recordings.id', 'recordings.data', 'recordings.AUTORE', 'recordings.DESTINATARI', 'recordings.GENERE', 'recordings.code', 'recordings.argomento', 'recordings.LOCALITA');
 
         if ($selectedYear) {
             $resultsQuery->whereYear('data', $selectedYear);
