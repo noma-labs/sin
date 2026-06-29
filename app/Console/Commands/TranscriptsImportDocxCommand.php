@@ -29,6 +29,7 @@ final class TranscriptsImportDocxCommand extends Command
         $db->table('recording_transcript_chunks')->truncate();
         $db->table('recording_transcripts')->truncate();
         $db->statement('SET FOREIGN_KEY_CHECKS=1');
+        $this->dropFullTextIndexIfExists($db);
 
         try {
             $file = $this->argument('file');
