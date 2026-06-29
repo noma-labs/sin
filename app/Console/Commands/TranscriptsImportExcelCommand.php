@@ -17,7 +17,6 @@ final class TranscriptsImportExcelCommand extends Command
     protected $signature = 'transcripts:import-xlsx
                             {file? : XLSX filename from transcripts_originals disk}
                             {--chunk=500 : Number of rows per insert query}
-                            {--truncate : Truncate table before import}
                             {--dry-run : Parse file without inserting rows}';
 
     protected $description = 'Import transcript rows from transcripts_originals XLSX into archivio_nomadelfia.recordings';
@@ -45,7 +44,7 @@ final class TranscriptsImportExcelCommand extends Command
         $dryRun = (bool) $this->option('dry-run');
         $connection = DB::connection('archivio_nomadelfia');
 
-        if ((bool) $this->option('truncate') && ! $dryRun) {
+        if (! $dryRun) {
             $connection->statement('SET FOREIGN_KEY_CHECKS=0');
             $connection->table('recordings')->truncate();
             $connection->statement('SET FOREIGN_KEY_CHECKS=1');

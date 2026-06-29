@@ -37,3 +37,19 @@ it('imports mp3 files from audio_originals disk', function (): void {
     expect($records[2]->file_path)->toContain('1950/50121600.mp3');
     expect($records[2]->file_size_bytes)->toBeInt();
 });
+
+it('truncates recording_audio by default before import', function (): void {
+    $connection = DB::connection('archivio_nomadelfia');
+    $connection->table('recording_audio')->insert([
+        'file_name' => 'old.mp3',
+        'file_path' => 'old/old.mp3',
+        'file_size_bytes' => 123,
+    ]);
+
+    $this->artisan('transcripts:import-mp3')->assertSuccessful();
+
+    $records = $connection->table('recording_audio')->get();
+
+    expect($records)->toHaveCount(3);
+    expect($records->pluck('file_name')->all())->not->toContain('old.mp3');
+});
