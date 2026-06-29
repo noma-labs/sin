@@ -14,7 +14,6 @@ use Illuminate\Support\Str;
 final class TranscriptsImportMp3Command extends Command
 {
     protected $signature = 'transcripts:import-mp3
-                                {--truncate : Truncate table before import}
                                 {--dry-run : Parse files without inserting rows}';
 
     protected $description = 'Import MP3 audio files from audio_originals disk into recording_audio table';
@@ -25,7 +24,7 @@ final class TranscriptsImportMp3Command extends Command
         $audioDisk = Storage::disk('audio_originals');
         $connection = DB::connection('archivio_nomadelfia');
 
-        if ((bool) $this->option('truncate') && ! $dryRun) {
+        if (! $dryRun) {
             $connection->statement('SET FOREIGN_KEY_CHECKS=0');
             $connection->table('recording_audio')->truncate();
             $connection->statement('SET FOREIGN_KEY_CHECKS=1');

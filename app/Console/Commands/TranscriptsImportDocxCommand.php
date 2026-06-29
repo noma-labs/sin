@@ -7,6 +7,7 @@ namespace App\Console\Commands;
 use App\Archive\Models\RecordingTranscript;
 use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Database\ConnectionInterface;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\Element\TextRun;
@@ -21,31 +22,60 @@ final class TranscriptsImportDocxCommand extends Command
 
     public function handle(): int
     {
-        DB::connection('archivio_nomadelfia')->table('recording_transcripts')->truncate();
+        $connection = DB::connection('archivio_nomadelfia');
+        $connection->table('recording_transcripts')->truncate();
+        $this->dropFullTextIndexIfExists($connection);
 
-        $file = $this->argument('file');
+        try {
+            $file = $this->argument('file');
 
-        if ($file === null) {
-            $files = Storage::disk('transcripts_originals')->files();
-            $docxFiles = array_filter($files, fn (string $f) => mb_strtolower(pathinfo($f, PATHINFO_EXTENSION)) === 'docx');
+            if ($file === null) {
+                $files = Storage::disk('transcripts_originals')->files();
+                $docxFiles = array_filter($files, fn (string $f) => mb_strtolower(pathinfo($f, PATHINFO_EXTENSION)) === 'docx');
 
-            if (empty($docxFiles)) {
-                $this->warn('No DOCX files found in transcripts_originals.');
+                if (empty($docxFiles)) {
+                    $this->warn('No DOCX files found in transcripts_originals.');
 
-                return self::FAILURE;
-            }
-
-            $exitCode = self::SUCCESS;
-            foreach ($docxFiles as $docxFile) {
-                if ($this->processFile($docxFile) === self::FAILURE) {
-                    $exitCode = self::FAILURE;
+                    return self::FAILURE;
                 }
+
+                $exitCode = self::SUCCESS;
+                foreach ($docxFiles as $docxFile) {
+                    if ($this->processFile($docxFile) === self::FAILURE) {
+                        $exitCode = self::FAILURE;
+                    }
+                }
+
+                return $exitCode;
             }
 
-            return $exitCode;
+            return $this->processFile((string) $file);
+        } finally {
+            $this->addFullTextIndexIfMissing($connection);
+        }
+    }
+
+    private function dropFullTextIndexIfExists(ConnectionInterface $connection): void
+    {
+        if (! $this->fullTextIndexExists($connection)) {
+            return;
         }
 
-        return $this->processFile((string) $file);
+        $connection->statement('ALTER TABLE recording_transcripts DROP INDEX ft_recording_transcripts_content');
+    }
+
+    private function addFullTextIndexIfMissing(ConnectionInterface $connection): void
+    {
+        if ($this->fullTextIndexExists($connection)) {
+            return;
+        }
+
+        $connection->statement('ALTER TABLE recording_transcripts ADD FULLTEXT INDEX ft_recording_transcripts_content (content)');
+    }
+
+    private function fullTextIndexExists(ConnectionInterface $connection): bool
+    {
+        return $connection->select("SHOW INDEX FROM recording_transcripts WHERE Key_name = 'ft_recording_transcripts_content'") !== [];
     }
 
     private function processFile(string $file): int
