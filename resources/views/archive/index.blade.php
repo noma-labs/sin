@@ -103,6 +103,27 @@
           <span class="fw-bold fs-6"> {{ number_format($totalCount) }} </span>
         </div>
       </div>
+      <div class="card border-0 bg-light mb-3">
+        <div class="card-header py-2 px-2 bg-light border-0">
+          <p class="small text-muted mb-0">Problemi archivio</p>
+        </div>
+        <div class="card-body py-2 px-2">
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="small text-muted">Senza trascrizione</span>
+            <span
+              class="badge text-bg-warning"
+              >{{ number_format($missingTranscriptCount) }}</span
+            >
+          </div>
+          <div class="d-flex justify-content-between align-items-center mt-1">
+            <span class="small text-muted">Senza MP3</span>
+            <span
+              class="badge text-bg-warning"
+              >{{ number_format($missingMp3Count) }}</span
+            >
+          </div>
+        </div>
+      </div>
 
       @if ($genreOptions->isNotEmpty())
         <p
@@ -164,13 +185,25 @@
                 >
                   {{ $doc->argomento }}
                 </p>
-                @if (! $doc->transcript)
-                  <span
-                    class="badge bg-danger text-white flex-shrink-0"
-                    style="font-size: 0.6rem; white-space: nowrap"
-                  >
-                    ⚠ Senza trascrizione213
-                  </span>
+                @if (! $doc->transcript || ! $doc->audio)
+                  <div class="d-flex flex-column align-items-end gap-1">
+                    @if (! $doc->transcript)
+                      <span
+                        class="badge bg-danger text-white flex-shrink-0"
+                        style="font-size: 0.6rem; white-space: nowrap"
+                      >
+                        ⚠ Senza trascrizione
+                      </span>
+                    @endif
+                    @if (! $doc->audio)
+                      <span
+                        class="badge bg-danger text-white flex-shrink-0"
+                        style="font-size: 0.6rem; white-space: nowrap"
+                      >
+                        ⚠ Senza MP3
+                      </span>
+                    @endif
+                  </div>
                 @endif
               </div>
               <p class="text-muted mb-1" style="font-size: 0.75rem">
