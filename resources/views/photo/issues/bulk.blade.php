@@ -21,7 +21,6 @@
   <div class="d-flex justify-content-between align-items-center my-3">
     <h5 class="mb-0">Aggiornamento Foto Per Striscia</h5>
   </div>
-  @include("partials.flash")
   <div class="row g-2 mb-3">
     <div class="col-md-6">
       <div class="card bg-light border-0">
@@ -104,7 +103,7 @@
               <dt class="col-sm-3">Data Striscia</dt>
               <dd class="col-sm-9">
                 <span class="badge text-bg-info">
-                  {{ \Illuminate\Support\Carbon::parse($currentGroup->strip_date)->format("d/m/Y") }}
+                  {{ \Illuminate\Support\Carbon::parse($currentGroup->strip_date)->format("Y-m-d") }}
                 </span>
                 <small class="text-muted ms-1">
                   (usata come suggerimento per la data foto)
@@ -142,6 +141,12 @@
                 name="taken_at"
                 value="{{ old("taken_at", $suggestedDate) }}"
               />
+              <input
+                type="hidden"
+                id="description_bulk"
+                name="description"
+                value="{{ old("description", "") }}"
+              />
               <button
                 type="button"
                 class="btn btn-sm btn-outline-primary"
@@ -172,39 +177,39 @@
             <div class="alert alert-danger py-2">{{ $message }}</div>
           @enderror
 
-          {{-- Photo list with checkboxes --}}
-          <div class="list-group list-group-flush">
+          {{-- Photo grid with checkboxes --}}
+          <div class="row g-3">
             @foreach ($issues as $issue)
-              <label
-                class="list-group-item list-group-item-action py-2 px-2"
-                for="issue-{{ $issue->id }}"
-              >
-                <div class="d-flex gap-2 align-items-start">
-                  <div class="pt-1">
-                    <input
-                      type="checkbox"
-                      class="form-check-input photo-checkbox"
-                      id="issue-{{ $issue->id }}"
-                      name="issue_ids[]"
-                      value="{{ $issue->id }}"
-                      onchange="updateCounts()"
-                      @if (is_array(old("issue_ids")) && in_array((string) $issue->id, old("issue_ids"))) checked @endif
+              <div class="col-md-6 col-xl-4">
+                <label
+                  class="card h-100 list-group-item-action"
+                  for="issue-{{ $issue->id }}"
+                >
+                  <div class="card-body p-2">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                      <input
+                        type="checkbox"
+                        class="form-check-input photo-checkbox"
+                        id="issue-{{ $issue->id }}"
+                        name="issue_ids[]"
+                        value="{{ $issue->id }}"
+                        onchange="updateCounts()"
+                        @if (is_array(old("issue_ids")) && in_array((string) $issue->id, old("issue_ids"))) checked @endif
+                      />
+                      {{ $issue->file_name }}
+                    </div>
+
+                    <img
+                      src="{{ route("photos.preview", [$issue->photo_id]) }}"
+                      alt="{{ $issue->file_name }}"
+                      class="w-100 rounded mb-2"
+                      style="
+                        height: 220px;
+                        object-fit: cover;
+                      "
+                      loading="lazy"
                     />
-                  </div>
 
-                  <img
-                    src="{{ route("photos.preview", [$issue->photo_id]) }}"
-                    alt="{{ $issue->file_name }}"
-                    style="
-                      width: 80px;
-                      height: 60px;
-                      object-fit: cover;
-                      flex-shrink: 0;
-                    "
-                    loading="lazy"
-                  />
-
-                  <div class="flex-grow-1 overflow-hidden">
                     <p class="mb-0 text-truncate" style="font-size: 0.8rem">
                       <a
                         href="{{ route("photos.show", $issue->photo_id) }}"
@@ -220,12 +225,6 @@
                       </a>
                     </p>
 
-                    <p
-                      class="mb-0 text-muted text-truncate"
-                      style="font-size: 0.7rem"
-                    >
-                      {{ $issue->source_file }}
-                    </p>
 
                     <div
                       class="d-flex gap-2 flex-wrap mt-1"
@@ -245,8 +244,8 @@
                       @endif
                     </div>
                   </div>
-                </div>
-              </label>
+                </label>
+              </div>
             @endforeach
           </div>
         </div>
@@ -292,6 +291,18 @@
               placeholder="yyyy-mm-dd"
               pattern="\d{4}-\d{2}-\d{2}"
             />
+          </div>
+          <div class="mt-3 mb-0">
+            <label for="note_modal_input" class="form-label">
+              Nota aggiornamento (opzionale)
+            </label>
+            <textarea
+              id="note_modal_input"
+              class="form-control"
+              rows="3"
+              maxlength="1000"
+              placeholder="Inserisci una nota"
+            >{{ old("description", "") }}</textarea>
           </div>
         </x-slot:body>
         <x-slot:footer>
@@ -366,24 +377,37 @@
 
   function syncTakenAtModalInput() {
     const hiddenTakenAt = document.getElementById("taken_at_bulk");
+    const hiddenDescription = document.getElementById("description_bulk");
     const modalInput = document.getElementById("taken_at_modal_input");
-    if (!hiddenTakenAt || !modalInput) {
+    const noteModalInput = document.getElementById("note_modal_input");
+    if (!hiddenTakenAt || !hiddenDescription || !modalInput || !noteModalInput) {
       return;
     }
 
     modalInput.value = hiddenTakenAt.value;
+    noteModalInput.value = hiddenDescription.value;
   }
 
   function applyTakenAtFromModal() {
     const hiddenTakenAt = document.getElementById("taken_at_bulk");
+    const hiddenDescription = document.getElementById("description_bulk");
     const displayTakenAt = document.getElementById("taken_at_bulk_display");
     const modalInput = document.getElementById("taken_at_modal_input");
-    if (!hiddenTakenAt || !displayTakenAt || !modalInput) {
+    const noteModalInput = document.getElementById("note_modal_input");
+    if (
+      !hiddenTakenAt ||
+      !hiddenDescription ||
+      !displayTakenAt ||
+      !modalInput ||
+      !noteModalInput
+    ) {
       return;
     }
 
     const selectedDate = modalInput.value.trim();
+    const selectedNote = noteModalInput.value.trim();
     hiddenTakenAt.value = selectedDate;
+    hiddenDescription.value = selectedNote;
     displayTakenAt.textContent = selectedDate !== "" ? selectedDate : "N/A";
   }
 
