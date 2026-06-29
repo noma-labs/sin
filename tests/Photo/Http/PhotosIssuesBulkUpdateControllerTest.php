@@ -191,6 +191,22 @@ it('appends old and new taken_at to the issue note after bulk update', function 
     expect($updated->note)->toContain('new_taken_at=1985-06-20');
 });
 
+it('appends a bulk update description to the issue note when provided', function (): void {
+    $photo = Photo::factory()->create(['taken_at' => '1980-03-10']);
+    $issue = PhotoIssue::factory()->create(['photo_id' => $photo->id, 'note' => null]);
+
+    login();
+
+    put(action([PhotosIssuesBulkUpdateController::class, 'bulkUpdate']), [
+        'taken_at' => '1985-06-20',
+        'issue_ids' => [$issue->id],
+        'description' => 'Correzione data in blocco da revisione striscia',
+    ])->assertRedirect();
+
+    $updated = $issue->fresh();
+    expect($updated->note)->toContain('Correzione data in blocco da revisione striscia');
+});
+
 it('requires taken_at for bulk update', function (): void {
     $issue = PhotoIssue::factory()->create();
 

@@ -97,6 +97,7 @@ final class PhotosIssuesBulkUpdateController
             'taken_at' => ['required', 'date'],
             'issue_ids' => ['required', 'array', 'min:1'],
             'issue_ids.*' => ['required', 'integer'],
+            'description' => ['nullable', 'string', 'max:1000'],
         ]);
 
         /** @var \Illuminate\Database\Eloquent\Collection<int, PhotoIssue> $issues */
@@ -106,6 +107,8 @@ final class PhotosIssuesBulkUpdateController
             ->get();
 
         $resolvedAt = now();
+        $description = mb_trim((string) ($validated['description'] ?? ''));
+        $descriptionNote = $description !== '' ? $description : null;
 
         foreach ($issues as $issue) {
             /** @var PhotoIssue $issue */
@@ -119,7 +122,7 @@ final class PhotosIssuesBulkUpdateController
             $dateMeta = "old_taken_at={$oldDate}|new_taken_at={$newDate}";
             $existing = $issue->note;
             $issue->update([
-                'note' => $existing ? "{$existing}|{$dateMeta}" : $dateMeta,
+                'note' => collect([$existing, $dateMeta, $descriptionNote])->filter()->implode('|'),
                 'resolved_at' => $resolvedAt,
             ]);
         }
