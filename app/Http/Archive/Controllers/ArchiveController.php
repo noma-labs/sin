@@ -35,7 +35,7 @@ final class ArchiveController
         $filteredIds = $matchQuery->pluck('id')->toArray();
 
         // Build base query using filtered IDs (no MATCH needed)
-        $baseQuery = Recording::whereIn('recordings.id', $filteredIds);
+        $baseQuery = Recording::query()->whereIn('recordings.id', $filteredIds);
 
         $countByDecade = (clone $baseQuery)
             ->whereNotNull('data')
@@ -45,6 +45,15 @@ final class ArchiveController
             ->get();
 
         $totalCount = count($filteredIds);
+
+        $problemsQuery = Recording::query()->whereIn('recordings.id', $filteredIds);
+
+        if ($selectedYear) {
+            $problemsQuery->whereYear('data', $selectedYear);
+        }
+
+        $missingTranscriptCount = (clone $problemsQuery)->whereDoesntHave('transcript')->count();
+        $missingMp3Count = (clone $problemsQuery)->whereDoesntHave('audio')->count();
 
         $genreQuery = (clone $baseQuery)->whereNotNull('GENERE')->where('GENERE', '!=', '');
 
@@ -59,7 +68,7 @@ final class ArchiveController
             ->pluck('count', 'GENERE');
 
         // Main results query - keep MATCH only for relevance ordering
-        $resultsQuery = Recording::whereIn('recordings.id', $filteredIds)
+        $resultsQuery = Recording::query()->whereIn('recordings.id', $filteredIds)
             ->with(['transcript', 'audio'])
             ->select('recordings.id', 'recordings.data', 'recordings.AUTORE', 'recordings.DESTINATARI', 'recordings.GENERE', 'recordings.code', 'recordings.argomento', 'recordings.LOCALITA');
 
@@ -83,7 +92,7 @@ final class ArchiveController
 
         $selectedDoc = $selectedDocId ? $transcripts->firstWhere('id', $selectedDocId) : null;
 
-        return view('archive.index', compact('countByDecade', 'transcripts', 'filteredCount', 'genreOptions', 'maxCount', 'totalCount', 'selectedYear', 'selectedDocId', 'selectedGenere', 'selectedDoc'));
+        return view('archive.index', compact('countByDecade', 'transcripts', 'filteredCount', 'genreOptions', 'maxCount', 'totalCount', 'selectedYear', 'selectedDocId', 'selectedGenere', 'selectedDoc', 'missingTranscriptCount', 'missingMp3Count'));
     }
 
     public function audio(int $id): BinaryFileResponse
