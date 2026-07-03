@@ -4,7 +4,7 @@ on:
   push:
 
 jobs:
-  phplint:
+  lint:
     runs-on: ubuntu-latest
     container:
       image: kirschbaumdevelopment/laravel-test-runner:8.5
@@ -27,5 +27,27 @@ jobs:
         run: npm install
 
       - run: task lint:check:ci
+
+  analyse:
+    runs-on: ubuntu-latest
+    container:
+      image: kirschbaumdevelopment/laravel-test-runner:8.5
+
+    steps:
+      - name: Install Task
+        uses: arduino/setup-task@v2
+        with:
+          version: 3.x
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Install composer deps
+        run: composer install  --ignore-platform-req=ext-gd --ignore-platform-req=ext-exif
+
+      - name: Install npm deps
+        run: npm install
 
       - run: task analyse:ci
