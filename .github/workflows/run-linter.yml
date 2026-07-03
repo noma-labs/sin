@@ -16,7 +16,7 @@ jobs:
           version: 3.x
 
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: ${{ github.head_ref }}
 
@@ -40,7 +40,7 @@ jobs:
           version: 3.x
 
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: ${{ github.head_ref }}
 
