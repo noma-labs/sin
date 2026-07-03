@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Console\Commands\TranscriptsImportDocxCommand;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Console\Commands\TranscriptsImportDocxCommand;
 
 beforeEach(function (): void {
     Storage::fake('transcripts_originals');
