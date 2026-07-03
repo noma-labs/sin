@@ -7,8 +7,7 @@ namespace App\Console\Commands;
 use App\Archive\Models\TranscriptChunk;
 use Exception;
 use Illuminate\Console\Command;
-
-use function Codewithkyrian\Transformers\Pipelines\pipeline;
+use Laravel\Ai\Embeddings;
 
 final class TranscriptsSearchCommand extends Command
 {
@@ -29,11 +28,9 @@ final class TranscriptsSearchCommand extends Command
         $top = (int) $this->option('top');
 
         try {
-            $this->info("Loading model and embedding query: \"{$query}\"");
-            $extractor = pipeline('embeddings', 'Xenova/all-MiniLM-L6-v2');
-            /** @var array<int, float[]> $result */
-            $result = $extractor($query, normalize: true, pooling: 'mean');
-            $queryEmbedding = $result[0];
+            $this->info("Embedding query: \"{$query}\"");
+            $response = Embeddings::for([$query])->generate('transformers');
+            $queryEmbedding = $response->embeddings[0];
 
             $chunks = TranscriptChunk::query()->with('transcript')->whereNotNull('embedding')->get();
 

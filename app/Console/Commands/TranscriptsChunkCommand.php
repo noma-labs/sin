@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use App\Archive\UniversityAlbum;
 use App\Archive\Models\RecordingTranscript;
 use App\Archive\Models\TranscriptChunk;
+use App\Archive\UniversityAlbum;
 use Exception;
 use Illuminate\Console\Command;
 
@@ -27,7 +27,6 @@ final class TranscriptsChunkCommand extends Command
                 ->whereNotNull('content')
                 ->where('content', '!=', '')
                 ->get();
-
 
             if ($transcripts->isEmpty()) {
                 $this->warn('No transcripts to process.');
@@ -57,7 +56,7 @@ final class TranscriptsChunkCommand extends Command
                     array_keys($chunks),
                 );
 
-                TranscriptChunk::insert($rows);
+                TranscriptChunk::query()->insert($rows);
 
                 $this->line("<fg=green>✓</> {$transcript->heading} — ".count($chunks).' chunks');
             }

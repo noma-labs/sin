@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use App\Archive\UniversityAlbum;
 use App\Archive\Models\RecordingTranscript;
 use App\Archive\Models\TranscriptChunk;
+use App\Archive\UniversityAlbum;
 use Exception;
 use Illuminate\Console\Command;
 use Laravel\Ai\Embeddings;
 
 final class TranscriptsEmbeddingCommand extends Command
 {
-
     protected $signature = 'transcripts:embedding
                             {--limit=100 : Number of transcripts to process}';
 
