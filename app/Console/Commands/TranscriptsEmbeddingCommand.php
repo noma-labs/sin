@@ -26,13 +26,11 @@ final class TranscriptsEmbeddingCommand extends Command
         try {
             $limit = (int) $this->option('limit');
 
-            /** @var \Illuminate\Database\Eloquent\Builder<RecordingTranscript> $query */
-            $query = RecordingTranscript::query()
-                ->whereIn('code', UniversityAlbum::CODES)
-                ->has('chunks');
+            /** @var \Illuminate\Database\Eloquent\Builder<RecordingTranscript> $builder */
+            $builder = RecordingTranscript::query()->whereIn('code', UniversityAlbum::CODES);
 
             /** @var \Illuminate\Database\Eloquent\Collection<int, RecordingTranscript> $transcripts */
-            $transcripts = $query->limit($limit)->get();
+            $transcripts = $builder->has('chunks')->limit($limit)->get();
 
             if ($transcripts->isEmpty()) {
                 $this->warn('No transcripts with chunks found. Run transcripts:chunk first.');
@@ -50,7 +48,8 @@ final class TranscriptsEmbeddingCommand extends Command
                 /** @var \Illuminate\Database\Eloquent\Collection<int, TranscriptChunk> $chunks */
                 $chunks = $transcript->chunks()->orderBy('chunk_index')->get();
 
-                $contents = $chunks->pluck('content')->toArray();
+                /** @var array<string> $contents */
+                $contents = $chunks->map(fn (TranscriptChunk $chunk): string => $chunk->content)->all();
                 $response = Embeddings::for($contents)->generate('transformers');
 
                 $upsertRows = $chunks->map(fn (TranscriptChunk $chunk, int $i) => [
@@ -60,7 +59,7 @@ final class TranscriptsEmbeddingCommand extends Command
                     'embedding' => json_encode($response->embeddings[$i]),
                 ])->all();
 
-                TranscriptChunk::upsert($upsertRows, ['recording_transcript_id', 'chunk_index'], ['embedding']);
+                TranscriptChunk::query()->upsert($upsertRows, ['recording_transcript_id', 'chunk_index'], ['embedding']);
 
                 $this->line("<fg=green>✓</> {$transcript->heading} — ".count($contents).' embeddings');
             }
