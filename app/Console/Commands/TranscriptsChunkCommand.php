@@ -47,13 +47,17 @@ final class TranscriptsChunkCommand extends Command
             foreach ($transcripts as $transcript) {
                 $chunks = $this->recursiveChunk($transcript->content, 1200);
 
-                foreach ($chunks as $index => $chunk) {
-                    TranscriptChunk::query()->create([
+                $rows = array_map(
+                    fn (string $chunk, int $index) => [
                         'recording_transcript_id' => $transcript->id,
                         'chunk_index' => $index,
                         'content' => $chunk,
-                    ]);
-                }
+                    ],
+                    $chunks,
+                    array_keys($chunks),
+                );
+
+                TranscriptChunk::insert($rows);
 
                 $this->line("<fg=green>✓</> {$transcript->heading} — ".count($chunks).' chunks');
             }

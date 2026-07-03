@@ -48,23 +48,20 @@ final class TranscriptsEmbeddingCommand extends Command
             }
 
             foreach ($transcripts as $transcript) {
-                $transcript->chunks()->update(['embedding' => null]);
-
                 /** @var \Illuminate\Database\Eloquent\Collection<int, TranscriptChunk> $chunks */
-                $chunks = $transcript->chunks()->get();
-
-                if ($chunks->isEmpty()) {
-                    $this->warn("{$transcript->heading} — no chunks, run transcripts:chunk first");
-
-                    continue;
-                }
+                $chunks = $transcript->chunks()->orderBy('chunk_index')->get();
 
                 $contents = $chunks->pluck('content')->toArray();
                 $response = Embeddings::for($contents)->generate('transformers');
 
-                foreach ($chunks as $index => $chunk) {
-                    $chunk->update(['embedding' => $response->embeddings[$index]]);
-                }
+                $upsertRows = $chunks->map(fn (TranscriptChunk $chunk, int $i) => [
+                    'recording_transcript_id' => $chunk->recording_transcript_id,
+                    'chunk_index' => $chunk->chunk_index,
+                    'content' => $chunk->content,
+                    'embedding' => json_encode($response->embeddings[$i]),
+                ])->all();
+
+                TranscriptChunk::upsert($upsertRows, ['recording_transcript_id', 'chunk_index'], ['embedding']);
 
                 $this->line("<fg=green>✓</> {$transcript->heading} — ".count($contents).' embeddings');
             }
