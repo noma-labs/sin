@@ -7903,12 +7903,6 @@ parameters:
 			path: app/Http/Photo/Actions/StoreExifIntoDBAction.php
 
 		-
-			message: '#^Parameter \#1 \$content of method Illuminate\\Contracts\\Routing\\ResponseFactory\:\:make\(\) expects array\|string, string\|false given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Http/Photo/Controllers/PhotoController.php
-
-		-
 			message: '#^Parameter \#1 \$content of method Illuminate\\Contracts\\Routing\\ResponseFactory\:\:make\(\) expects array\|string, string\|null given\.$#'
 			identifier: argument.type
 			count: 2
