@@ -6,6 +6,7 @@ namespace App\Archive\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
@@ -31,8 +32,16 @@ final class RecordingTranscript extends Model
         return $this->belongsTo(Recording::class, 'recording_id');
     }
 
+    /** @return HasMany<TranscriptChunk, $this> */
+    public function chunks(): HasMany
+    {
+        return $this->hasMany(TranscriptChunk::class, 'recording_transcript_id');
+    }
+
     protected function casts(): array
     {
-        return ['recorded_date' => 'date'];
+        return [
+            'recorded_date' => 'date',
+        ];
     }
 }

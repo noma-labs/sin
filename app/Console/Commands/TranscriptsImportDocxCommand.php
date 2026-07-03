@@ -22,9 +22,14 @@ final class TranscriptsImportDocxCommand extends Command
 
     public function handle(): int
     {
-        $connection = DB::connection('archivio_nomadelfia');
-        $connection->table('recording_transcripts')->truncate();
-        $this->dropFullTextIndexIfExists($connection);
+
+        $db = DB::connection('archivio_nomadelfia');
+        $this->dropFullTextIndexIfExists($db);
+        $db->statement('SET FOREIGN_KEY_CHECKS=0');
+        $db->table('recording_transcript_chunks')->truncate();
+        $db->table('recording_transcripts')->truncate();
+        $db->statement('SET FOREIGN_KEY_CHECKS=1');
+        $this->dropFullTextIndexIfExists($db);
 
         try {
             $file = $this->argument('file');
@@ -51,7 +56,7 @@ final class TranscriptsImportDocxCommand extends Command
 
             return $this->processFile((string) $file);
         } finally {
-            $this->addFullTextIndexIfMissing($connection);
+            $this->addFullTextIndexIfMissing($db);
         }
     }
 
@@ -116,10 +121,7 @@ final class TranscriptsImportDocxCommand extends Command
                                     $i--; // Back up so the outer loop processes this Titolo2
                                     break;
                                 }
-                                $text = $this->decode($nextElement->getText());
-                                if ($text !== '') {
-                                    $contentLines[] = $text;
-                                }
+                                $contentLines[] = $this->decode($nextElement->getText());
                             }
                             $i++;
                         }
@@ -148,7 +150,7 @@ final class TranscriptsImportDocxCommand extends Command
                 RecordingTranscript::query()->insert(
                     [
                         'heading' => $chunk['heading'] ?? null,
-                        'content' => implode("\n", $chunk['content']),
+                        'content' => mb_trim(implode("\n", $chunk['content'])),
                         'file_path' => (string) $file,
                     ]
                 );

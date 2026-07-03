@@ -9,6 +9,8 @@
     "cerbero/json-parser": "^1.1",
     "codewithkyrian/transformers": "^0.6.2",
     "laravel/ai": "^0.8.0",
+    "codewithkyrian/transformers": "^0.6.2",
+    "laravel/ai": "^0.8.0",
     "laravel/framework": "^13.0",
     "laravel/tinker": "^3.0",
     "laravel/ui": "^4.6",
