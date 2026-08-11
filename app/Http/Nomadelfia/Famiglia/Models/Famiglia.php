@@ -15,6 +15,7 @@ use App\Traits\Enums;
 use Carbon\Carbon;
 use Database\Factories\FamigliaFactory;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -86,10 +87,18 @@ final class Famiglia extends Model
         );
     }
 
-    public static function OnlyCapofamiglia()
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function onlyCapoFamiglia(Builder $query): Builder
     {
-        /** @phpstan-ignore-next-line */
-        return self::FamigliePerPosizioni('CAPO FAMIGLIA');
+        return $query->select('famiglie.*', 'persone.sesso', 'famiglie_persone.posizione_famiglia',
+            'famiglie_persone.stato')
+            ->join('famiglie_persone', 'famiglie_persone.famiglia_id', '=', 'famiglie.id')
+            ->join('persone', 'famiglie_persone.persona_id', '=', 'persone.id')
+            ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
+            ->whereNull('popolazione.data_uscita')
+            ->where('posizione_famiglia', 'CAPO FAMIGLIA')
+            ->where('famiglie_persone.stato', '1')
+            ->orderBy('famiglie.nome_famiglia');
     }
 
     public static function famiglieNumerose(int $min_componenti = 5)
@@ -550,20 +559,6 @@ final class Famiglia extends Model
     protected function ordered($query)
     {
         return $query->orderBy('nome_famiglia', 'asc')->get();
-    }
-
-    #[\Illuminate\Database\Eloquent\Attributes\Scope]
-    protected function famigliePerPosizioni($query, $posizione, $stato = '1')
-    {
-        return $query->select('famiglie.*', 'persone.sesso', 'famiglie_persone.posizione_famiglia',
-            'famiglie_persone.stato')
-            ->join('famiglie_persone', 'famiglie_persone.famiglia_id', '=', 'famiglie.id')
-            ->join('persone', 'famiglie_persone.persona_id', '=', 'persone.id')
-            ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
-            ->whereNull('popolazione.data_uscita')
-            ->where('posizione_famiglia', $posizione)
-            ->where('famiglie_persone.stato', $stato)
-            ->orderBy('famiglie.nome_famiglia');
     }
 
     #[\Illuminate\Database\Eloquent\Attributes\Scope]

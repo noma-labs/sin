@@ -18,14 +18,14 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
 
 #[Middleware('auth')]
-final class JoinCommunityController
+final readonly class JoinCommunityController
 {
     public function __construct(
-        private readonly EntrataDallaNascitaAction $entrataDallaNascitaAction,
-        private readonly EntrataMinorenneAccoltoAction $entrataMinorenneAccoltoAction,
-        private readonly EntrataMinorenneConFamigliaAction $entrataMinorenneConFamigliaAction,
-        private readonly EntrataMaggiorenneSingleAction $entrataMaggiorenneSingleAction,
-        private readonly EntrataMaggiorenneConFamigliaAction $entrataMaggiorenneConFamigliaAction,
+        private EntrataDallaNascitaAction $entrataDallaNascitaAction,
+        private EntrataMinorenneAccoltoAction $entrataMinorenneAccoltoAction,
+        private EntrataMinorenneConFamigliaAction $entrataMinorenneConFamigliaAction,
+        private EntrataMaggiorenneSingleAction $entrataMaggiorenneSingleAction,
+        private EntrataMaggiorenneConFamigliaAction $entrataMaggiorenneConFamigliaAction,
     ) {}
 
     #[Middleware('can:popolazione.persona.inserisci')]
