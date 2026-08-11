@@ -20,6 +20,14 @@ use Illuminate\Routing\Attributes\Controllers\Middleware;
 #[Middleware('auth')]
 final class JoinCommunityController
 {
+    public function __construct(
+        private readonly EntrataDallaNascitaAction $entrataDallaNascitaAction,
+        private readonly EntrataMinorenneAccoltoAction $entrataMinorenneAccoltoAction,
+        private readonly EntrataMinorenneConFamigliaAction $entrataMinorenneConFamigliaAction,
+        private readonly EntrataMaggiorenneSingleAction $entrataMaggiorenneSingleAction,
+        private readonly EntrataMaggiorenneConFamigliaAction $entrataMaggiorenneConFamigliaAction,
+    ) {}
+
     #[Middleware('can:popolazione.persona.inserisci')]
     public function create($id)
     {
@@ -39,35 +47,29 @@ final class JoinCommunityController
         switch ($request->tipologia) {
             case 'dalla_nascita':
                 $famiglia = Famiglia::findOrFail($request->input('famiglia_id'));
-                $action = resolve(EntrataDallaNascitaAction::class);
-                $action->execute($persona, $famiglia);
+                $this->entrataDallaNascitaAction->execute($persona, $famiglia);
                 break;
             case 'minorenne_accolto':
                 $famiglia = Famiglia::findOrFail($request->input('famiglia_id'));
-                $action = resolve(EntrataMinorenneAccoltoAction::class);
-                $action->execute($persona, $data_entrata, $famiglia);
+                $this->entrataMinorenneAccoltoAction->execute($persona, $data_entrata, $famiglia);
                 break;
             case 'minorenne_famiglia':
                 $famiglia = Famiglia::findOrFail($request->input('famiglia_id'));
-                $action = resolve(EntrataMinorenneConFamigliaAction::class);
-                $action->execute($persona, $data_entrata, $famiglia);
+                $this->entrataMinorenneConFamigliaAction->execute($persona, $data_entrata, $famiglia);
                 break;
             case 'maggiorenne_single':
                 $gruppoFamiliare = GruppoFamiliare::findOrFail($request->input('gruppo_id'));
-                $action = resolve(EntrataMaggiorenneSingleAction::class);
-                $action->execute($persona, $data_entrata, $gruppoFamiliare);
+                $this->entrataMaggiorenneSingleAction->execute($persona, $data_entrata, $gruppoFamiliare);
                 break;
             case 'maggiorenne_famiglia':
                 $gruppoFamiliare = GruppoFamiliare::findOrFail($request->input('gruppo_id'));
-                $act = resolve(EntrataMaggiorenneConFamigliaAction::class);
-                $act->execute($persona, $data_entrata, $gruppoFamiliare);
+                $this->entrataMaggiorenneConFamigliaAction->execute($persona, $data_entrata, $gruppoFamiliare);
                 break;
             default:
                 return back()->withErrore("Tipologia di entrata per $request->tipologia non riconosciuta.");
-
         }
 
-        return to_route('nomadelfia.person.show', $persona->id)->withSuccess('Persona '.$persona->nominativo.'inserita correttamente.');
+        return to_route('nomadelfia.person.show', $persona->id)->withSuccess('Persona '.$persona->nominativo.' inserita correttamente.');
     }
 
     #[Middleware('can:popolazione.persona.modifica')]

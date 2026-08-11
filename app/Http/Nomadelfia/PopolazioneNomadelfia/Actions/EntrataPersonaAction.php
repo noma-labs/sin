@@ -80,7 +80,7 @@ final readonly class EntrataPersonaAction
 
         } catch (Exception $e) {
             DB::connection('db_nomadelfia')->rollback();
-            dd($e);
+            throw $e;
         }
     }
 }

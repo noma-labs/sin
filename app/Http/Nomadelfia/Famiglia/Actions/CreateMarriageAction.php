@@ -39,7 +39,7 @@ final class CreateMarriageAction
 
         } catch (Exception $e) {
             DB::connection('db_nomadelfia')->rollback();
-            dd($e);
+            throw $e;
         }
 
         return $fam;

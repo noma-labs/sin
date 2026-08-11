@@ -13,8 +13,8 @@ final class EntrataPersonaRequest extends FormRequest
         return [
             'tipologia' => ['required'],
             'data_entrata' => ['required_unless:tipologia,dalla_nascita'],
-            'famiglia_id' => ['required_unless:tipologia,maggiorenne_single,maggiorenne_famiglia'],
-            'gruppo_id' => ['required_if:tipologia,maggiorenne_single,maggiorenne_famiglia'],
+            'famiglia_id' => ['required_unless:tipologia,maggiorenne_single', 'required_unless:tipologia,maggiorenne_famiglia'],
+            'gruppo_id' => ['required_if:tipologia,maggiorenne_single', 'required_if:tipologia,maggiorenne_famiglia'],
         ];
     }
 

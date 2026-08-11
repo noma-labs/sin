@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Nomadelfia\Persona\Controllers;
 
 use App\Nomadelfia\Persona\Models\Persona;
-use Illuminate\Http\Request;
+use App\Nomadelfia\Persona\Requests\StorePersonaRequest;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Illuminate\Support\Facades\DB;
 
@@ -19,38 +19,17 @@ final class PersonController
     }
 
     #[Middleware('can:popolazione.persona.inserisci')]
-    public function store(Request $request)
+    public function store(StorePersonaRequest $request)
     {
-        $request->validate([
-            'nominativo' => ['required'],
-            'nome' => ['required'],
-            'cognome' => ['required'],
-            'data_nascita' => ['required', 'date'],
-            'luogo_nascita' => ['required'],
-            'sesso' => ['required'],
-        ], [
-            'nominativo.required' => 'Il nominativo è obbligatorio',
-            'nominativo.unique' => 'IL nominativo inserito esiste già.',
-            'nome.required' => 'Il nome è obbligatorie',
-            'cognome.required' => 'Il cognome è obbligatorio',
-            'data_nascita.required' => 'La data di nascita è obbligatoria',
-            'luogo_nascita.required' => 'IL luogo di nascita è obbligatorio',
-            'sesso.required' => 'Il sesso della persona è obbligatorio',
+        $persona = Persona::create([
+            'nominativo' => $request->input('nominativo'),
+            'sesso' => $request->input('sesso'),
+            'nome' => $request->input('nome'),
+            'cognome' => $request->input('cognome'),
+            'provincia_nascita' => $request->input('luogo_nascita'),
+            'data_nascita' => $request->input('data_nascita'),
+            'id_arch_pietro' => 0,
         ]);
-
-        // TODO: check the UNIQUE constraint on the persone table
-        $persona = Persona::create(
-            [
-                'nominativo' => $request->input('nominativo'),
-                'sesso' => $request->input('sesso'),
-                'nome' => $request->input('nome'),
-                'cognome' => $request->input('cognome'),
-                'provincia_nascita' => $request->input('luogo_nascita'),
-                'data_nascita' => $request->input('data_nascita'),
-                'id_arch_pietro' => 0,
-            ]
-        );
-        $persona->save();
 
         return redirect(route('nomadelfia.join.create', $persona->id))->withSuccess("Dati anagrafici di $persona->nominativo inseriti correttamente.");
     }
