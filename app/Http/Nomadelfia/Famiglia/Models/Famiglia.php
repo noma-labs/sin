@@ -74,19 +74,6 @@ final class Famiglia extends Model
         return collect(self::getEnum('Posizione'))->filter(fn ($value, $key) => Str::startsWith($value, 'FIGLIO'));
     }
 
-    public static function conCapofamiglia()
-    {
-        $expression = DB::raw("SELECT famiglie.*
-              FROM `famiglie`
-              INNER JOIN famiglie_persone on famiglie_persone.famiglia_id = famiglie.id
-              WHERE famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA'
-              ORDER BY famiglie.nome_famiglia");
-
-        return DB::connection('db_nomadelfia')->select(
-            $expression->getValue(DB::connection()->getQueryGrammar()),
-        );
-    }
-
     #[\Illuminate\Database\Eloquent\Attributes\Scope]
     protected function onlyCapoFamiglia(Builder $query): Builder
     {
