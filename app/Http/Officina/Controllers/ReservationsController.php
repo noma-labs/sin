@@ -195,28 +195,24 @@ final class ReservationsController
             ]);
         }
 
-        foreach ($cqcPersone as $cqc) {
-            foreach ($cqc->patenti as $patente) {
-                $certificates->push([
-                    'type' => 'C.Q.C Persone',
-                    'name' => $patente->persona->nominativo,
-                    'date' => $cqc->pivot->data_scadenza,
-                    'days' => $now->diffInDays(Date::parse($cqc->pivot->data_scadenza), true),
-                    'url' => route('patente.visualizza', $patente->numero_patente),
-                ]);
-            }
+        foreach ($cqcPersone as $cqcPersona) {
+            $certificates->push([
+                'type' => 'C.Q.C Persone',
+                'name' => $cqcPersona->persona->nominativo,
+                'date' => $cqcPersona->pivot->data_scadenza,
+                'days' => $now->diffInDays(Date::parse($cqcPersona->pivot->data_scadenza), true),
+                'url' => route('patente.visualizza', $cqcPersona->numero_patente),
+            ]);
         }
 
-        foreach ($cqcMerci as $cqc) {
-            foreach ($cqc->patenti as $patente) {
-                $certificates->push([
-                    'type' => 'C.Q.C Merci',
-                    'name' => $patente->persona->nominativo,
-                    'date' => $cqc->pivot->data_scadenza,
-                    'days' => $now->diffInDays(Date::parse($cqc->pivot->data_scadenza), true),
-                    'url' => route('patente.visualizza', $patente->numero_patente),
-                ]);
-            }
+        foreach ($cqcMerci as $cqcMerce) {
+            $certificates->push([
+                'type' => 'C.Q.C Merci',
+                'name' => $cqcMerce->persona->nominativo,
+                'date' => $cqcMerce->pivot->data_scadenza,
+                'days' => $now->diffInDays(Date::parse($cqcMerce->pivot->data_scadenza), true),
+                'url' => route('patente.visualizza', $cqcMerce->numero_patente),
+            ]);
         }
 
         return $certificates;
