@@ -196,27 +196,23 @@ final class ReservationsController
         }
 
         foreach ($cqcPersone as $cqc) {
-            foreach ($cqc->patenti as $patente) {
-                $certificates->push([
-                    'type' => 'C.Q.C Persone',
-                    'name' => $patente->persona->nominativo,
-                    'date' => $cqc->pivot->data_scadenza,
-                    'days' => $now->diffInDays(Date::parse($cqc->pivot->data_scadenza), true),
-                    'url' => route('patente.visualizza', $patente->numero_patente),
-                ]);
-            }
+            $certificates->push([
+                'type' => 'C.Q.C Persone',
+                'name' => $patente->persona->nominativo,
+                'date' => $cqc->pivot->data_scadenza,
+                'days' => $now->diffInDays(Date::parse($cqc->pivot->data_scadenza), true),
+                'url' => route('patente.visualizza', $patente->numero_patente),
+            ]);
         }
 
         foreach ($cqcMerci as $cqc) {
-            foreach ($cqc->patenti as $patente) {
-                $certificates->push([
-                    'type' => 'C.Q.C Merci',
-                    'name' => $patente->persona->nominativo,
-                    'date' => $cqc->pivot->data_scadenza,
-                    'days' => $now->diffInDays(Date::parse($cqc->pivot->data_scadenza), true),
-                    'url' => route('patente.visualizza', $patente->numero_patente),
-                ]);
-            }
+            $certificates->push([
+                'type' => 'C.Q.C Merci',
+                'name' => $patente->persona->nominativo,
+                'date' => $cqc->pivot->data_scadenza,
+                'days' => $now->diffInDays(Date::parse($cqc->pivot->data_scadenza), true),
+                'url' => route('patente.visualizza', $patente->numero_patente),
+            ]);
         }
 
         return $certificates;
