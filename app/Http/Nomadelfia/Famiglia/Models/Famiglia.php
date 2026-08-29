@@ -89,7 +89,7 @@ final class Famiglia extends Model
     public static function OnlyCapofamiglia()
     {
         /** @phpstan-ignore-next-line */
-        return self::FamigliePerPosizioni('CAPO FAMIGLIA');
+        return self::query()->famigliePerPosizioni('CAPO FAMIGLIA');
     }
 
     public static function famiglieNumerose(int $min_componenti = 5)
