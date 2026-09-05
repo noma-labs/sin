@@ -12,7 +12,7 @@ final class ClassiNoteController
     public function __invoke(Request $request, $id)
     {
         $anno = Classe::findOrFail($id);
-        $anno->note = $request->get('note');
+        $anno->note = $request->input('note');
         $anno->save();
 
         return back()->withSuccess('Note aggiornate con successo.');

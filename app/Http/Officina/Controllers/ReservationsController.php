@@ -21,7 +21,7 @@ final class ReservationsController
 {
     public function create(Request $request): View
     {
-        $day = $request->get('day', 'oggi');
+        $day = $request->input('day', 'oggi');
 
         $clienti = ViewClienti::orderBy('nominativo', 'asc')->get();
         $usi = Uso::all();
@@ -110,14 +110,14 @@ final class ReservationsController
         }
 
         Prenotazioni::create([
-            'cliente_id' => Persona::findOrFail($request->get('nome'))->id,
-            'veicolo_id' => Veicolo::findOrFail($request->get('veicolo'))->id,
-            'meccanico_id' => Persona::findOrFail($request->get('meccanico'))->id,
-            'data_partenza' => $request->get('data_par'),
-            'ora_partenza' => $request->get('ora_par'),
-            'data_arrivo' => $request->get('data_arr'),
-            'ora_arrivo' => $request->get('ora_arr'),
-            'uso_id' => Uso::findOrFail($request->get('uso'))->ofus_iden,
+            'cliente_id' => Persona::findOrFail($request->input('nome'))->id,
+            'veicolo_id' => Veicolo::findOrFail($request->input('veicolo'))->id,
+            'meccanico_id' => Persona::findOrFail($request->input('meccanico'))->id,
+            'data_partenza' => $request->input('data_par'),
+            'ora_partenza' => $request->input('ora_par'),
+            'data_arrivo' => $request->input('data_arr'),
+            'ora_arrivo' => $request->input('ora_arr'),
+            'uso_id' => Uso::findOrFail($request->input('uso'))->ofus_iden,
             'note' => $request->input('note', ''),
             'destinazione' => $request->input('destinazione', ''),
         ]);

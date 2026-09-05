@@ -12,7 +12,7 @@ final class AnnoScolasticoNoteController
     public function __invoke(Request $request, $id)
     {
         $anno = Anno::find($id);
-        $anno->descrizione = $request->get('note');
+        $anno->descrizione = $request->input('note');
         $anno->save();
 
         return back()->withSuccess('Note aggiornate con successo.');

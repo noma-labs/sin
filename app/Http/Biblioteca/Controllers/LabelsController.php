@@ -86,7 +86,7 @@ final class LabelsController
         $appUrl = Config::get('app.url');
 
         // Construct the route path
-        $routePath = route('books.labels.preview', ['idLibro' => $request->get('idLibro')], false);
+        $routePath = route('books.labels.preview', ['idLibro' => $request->input('idLibro')], false);
         $url = $appUrl.$routePath;
 
         Browsershot::url($url)

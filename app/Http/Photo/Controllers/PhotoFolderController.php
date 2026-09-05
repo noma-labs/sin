@@ -44,7 +44,7 @@ final class PhotoFolderController
 
     public function show(Request $request, string $path): View
     {
-        $currentView = $request->get('view', 'grid');
+        $currentView = $request->input('view', 'grid');
 
         // Decode and normalize path to handle special characters (spaces, parentheses, etc.)
         $decoded = rawurldecode($path);

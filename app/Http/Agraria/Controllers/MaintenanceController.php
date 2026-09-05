@@ -52,7 +52,7 @@ final class MaintenanceController
         $nuova_manutenzione->save();
 
         if ($request->filled('programmate')) {
-            $nuova_manutenzione->programmate()->attach($request->get('programmate'));
+            $nuova_manutenzione->programmate()->attach($request->input('programmate'));
         }
 
         return to_route('agraria.index')->with('success', "Manutenzione $mezzo->nome salvata correttamente");
@@ -96,7 +96,7 @@ final class MaintenanceController
         $manutenzione->mezzo_agricolo = $request->input('mezzo');
         $manutenzione->save();
 
-        $manutenzione->programmate()->sync($request->get('programmate', []));
+        $manutenzione->programmate()->sync($request->input('programmate', []));
 
         return to_route('agraria.maintenanace.show', $manutenzione->id)
             ->with('success', 'Manutenzione aggiornata correttamente');

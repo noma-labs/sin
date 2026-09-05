@@ -42,8 +42,8 @@ final class PersonIdentityController
         $persona->cf = $request->codicefiscale;
         $persona->provincia_nascita = $request->luogonascita;
         $persona->sesso = $request->sesso;
-        $persona->biografia = $request->get('biografia', $persona->biografia);
-        $persona->data_decesso = $request->get('data_decesso', $persona->data_decesso);
+        $persona->biografia = $request->input('biografia', $persona->biografia);
+        $persona->data_decesso = $request->input('data_decesso', $persona->data_decesso);
         if ($persona->save()) {
             return to_route('nomadelfia.person.show', $id)->withSuccess("Dati anagrafici di $persona->nominativo aggiornati correttamente. ");
         }

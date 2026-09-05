@@ -41,7 +41,7 @@ final class AnnoScolasticoController
             'anno_inizio.required' => 'La data di inizio anno è obbligatoria',
         ]);
         $anno = Anno::FindOrFail($id);
-        $aNew = Anno::cloneAnnoScolastico($anno, $request->get('anno_inizio'));
+        $aNew = Anno::cloneAnnoScolastico($anno, $request->input('anno_inizio'));
 
         return to_route('scuola.anno.show', ['id' => $aNew->id])->withSuccess("Anno scolastico $aNew->scolastico aggiunto con successo.");
     }
@@ -53,8 +53,8 @@ final class AnnoScolasticoController
         ], [
             'data_inizio.required' => 'La data di inizio anno è obbligatoria',
         ]);
-        $year = \Illuminate\Support\Facades\Date::parse($request->get('data_inizio'))->year;
-        $anno = Anno::createAnno($year, $request->get('data_inizio'), true);
+        $year = \Illuminate\Support\Facades\Date::parse($request->input('data_inizio'))->year;
+        $anno = Anno::createAnno($year, $request->input('data_inizio'), true);
 
         return back()->withSuccess("Anno scolastico $anno->scolastico aggiunto con successo.");
     }
