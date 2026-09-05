@@ -88,9 +88,7 @@ final class Classe extends Model
 
     public function aggiungiCoordinatore(Persona|int $persona, $data_inizio, $tipo = null): void
     {
-        if (is_null($data_inizio)) {
-            $data_inizio = $this->anno()->first()->data_inizio;
-        }
+        $data_inizio ??= $this->anno()->first()->data_inizio;
         if (is_string($data_inizio)) {
             $data_inizio = \Illuminate\Support\Facades\Date::parse($data_inizio);
         }

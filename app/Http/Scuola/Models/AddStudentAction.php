@@ -10,9 +10,7 @@ final class AddStudentAction
 {
     public function execute(Classe $classe, Persona|int $alunno, $data_inizio): Persona
     {
-        if (is_null($data_inizio)) {
-            $data_inizio = $classe->anno->data_inizio;
-        }
+        $data_inizio ??= $classe->anno->data_inizio;
         if (is_string($data_inizio)) {
             $data_inizio = \Illuminate\Support\Facades\Date::parse($data_inizio);
         }

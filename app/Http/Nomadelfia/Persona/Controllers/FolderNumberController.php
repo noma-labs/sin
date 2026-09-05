@@ -34,7 +34,7 @@ final class FolderNumberController
             'numero_elenco.required' => 'Il numero di elenco è obbligatorio',
         ]);
         $persona = Persona::findOrFail($id);
-        $ne = $request->get('numero_elenco');
+        $ne = $request->input('numero_elenco');
         if ($persona->numero_elenco) {
             return back()->withError("La persona $persona->nominativo ha già un numero di elenco: $persona->numero_elenco.");
         }

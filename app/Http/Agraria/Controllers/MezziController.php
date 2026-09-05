@@ -51,16 +51,12 @@ final class MezziController
 
         if ($request->filled('gomme_ant')) {
             $gomme_ant = Gomma::where('nome', mb_strtoupper((string) $request->input('gomme_ant')))->first();
-            if (is_null($gomme_ant)) {
-                $gomme_ant = Gomma::create(['nome' => mb_strtoupper((string) $request->input('gomme_ant'))]);
-            }
+            $gomme_ant ??= Gomma::create(['nome' => mb_strtoupper((string) $request->input('gomme_ant'))]);
         }
 
         if ($request->filled('gomme_post')) {
             $gomme_post = Gomma::where('nome', mb_strtoupper((string) $request->input('gomme_post')))->first();
-            if (is_null($gomme_post)) {
-                $gomme_post = Gomma::create(['nome' => mb_strtoupper((string) $request->input('gomme_post'))]);
-            }
+            $gomme_post ??= Gomma::create(['nome' => mb_strtoupper((string) $request->input('gomme_post'))]);
         }
 
         $mezzo = new MezzoAgricolo;
@@ -160,9 +156,7 @@ final class MezziController
         }
         if ($request->filled('gomme_ant')) {
             $gomme_ant = Gomma::where('nome', mb_strtoupper((string) $request->input('gomme_ant')))->first();
-            if (is_null($gomme_ant)) {
-                $gomme_ant = Gomma::create(['nome' => mb_strtoupper((string) $request->input('gomme_ant'))]);
-            }
+            $gomme_ant ??= Gomma::create(['nome' => mb_strtoupper((string) $request->input('gomme_ant'))]);
             $mezzo_old->gomme_ant = $gomme_ant->id;
         } else {
             $mezzo_old->gomme_ant = null;
@@ -170,9 +164,7 @@ final class MezziController
 
         if ($request->filled('gomme_post')) {
             $gomme_post = Gomma::where('nome', mb_strtoupper((string) $request->input('gomme_post')))->first();
-            if (is_null($gomme_post)) {
-                $gomme_post = Gomma::create(['nome' => mb_strtoupper((string) $request->input('gomme_post'))]);
-            }
+            $gomme_post ??= Gomma::create(['nome' => mb_strtoupper((string) $request->input('gomme_post'))]);
             $mezzo_old->gomme_post = $gomme_post->id;
         } else {
             $mezzo_old->gomme_post = null;

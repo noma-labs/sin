@@ -32,8 +32,8 @@ final class ClassiController
         ]);
         /** @var Classe $classe */
         $classe = Classe::with('anno')->findOrFail($id);
-        $alunni = $request->get('alunno_id');
-        $dataInizio = $request->get('data_inizio', $classe->anno->data_inizio);
+        $alunni = $request->input('alunno_id');
+        $dataInizio = $request->input('data_inizio', $classe->anno->data_inizio);
         foreach ($alunni as $id) {
             $alunno = Persona::findOrFail($id);
             $addStudentAction->execute($classe, $alunno, $dataInizio);

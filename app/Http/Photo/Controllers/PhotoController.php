@@ -19,7 +19,7 @@ final class PhotoController
     {
         $filterYear = $request->string('year');
         $filterPersonName = $request->string('name');
-        $view = $request->get('view', 'grid');
+        $view = $request->input('view', 'grid');
 
         $q = Photo::query()->orderByRaw('ISNULL(taken_at), YEAR(taken_at), taken_at ASC');
 

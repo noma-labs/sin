@@ -23,7 +23,7 @@ final class ElaboratiController
         $order = $request->query('order', 'anno_scolastico');
         $filterYear = $request->string('year');
         $by = $request->query('by', 'DESC');
-        $view = $request->get('view', 'cards');
+        $view = $request->input('view', 'cards');
 
         $years = Elaborato::query()
             ->selectRaw('anno_scolastico as year, count(*) as `count` ')
