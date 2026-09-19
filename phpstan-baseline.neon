@@ -3577,18 +3577,6 @@ parameters:
 			path: app/Http/Nomadelfia/Famiglia/QueryBuilders/FamigliaQueryBuilder.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$inizio\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/CapogruppoController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$nuovo\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/CapogruppoController.php
-
-		-
 			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withSuccess\(\)\.$#'
 			identifier: method.notFound
 			count: 1

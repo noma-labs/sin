@@ -22,7 +22,7 @@ final class CapogruppoController
             'inizio.required' => 'La data di inizio è obbligatoria',
         ]);
         $gruppo = GruppoFamiliare::findOrFail($id);
-        $gruppo->assegnaCapogruppo((int) $validated['nuovo'], Carbon::parse($validated['inizio']));
+        $gruppo->assegnaCapogruppo((int) $validated['nuovo'], \Illuminate\Support\Facades\Date::parse($validated['inizio']));
 
         return back()->withSuccess('NUovo capogruppo inserito con successo');
     }
