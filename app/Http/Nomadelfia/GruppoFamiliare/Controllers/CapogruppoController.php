@@ -13,15 +13,15 @@ final class CapogruppoController
 {
     public function store(Request $request, $id)
     {
-        $request->validate([
-            'nuovo' => ['required'],
-            'inizio' => ['required'],
+        $validated = $request->validate([
+            'nuovo' => ['required', 'integer', 'exists:db_nomadelfia.persone,id'],
+            'inizio' => ['required', 'date'],
         ], [
             'nuovo.required' => 'Il nuovo capogruppo è abbligatoripo',
             'inizio.required' => 'La data di inizio è obbligatoria',
         ]);
         $gruppo = GruppoFamiliare::findOrFail($id);
-        $gruppo->assegnaCapogruppo($request->nuovo, $request->inizio);
+        $gruppo->assegnaCapogruppo((int) $validated['nuovo'], \Illuminate\Support\Facades\Date::parse($validated['inizio']));
 
         return back()->withSuccess('NUovo capogruppo inserito con successo');
     }
