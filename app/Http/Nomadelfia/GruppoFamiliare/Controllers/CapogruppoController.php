@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Nomadelfia\GruppoFamiliare\Controllers;
 
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
 
