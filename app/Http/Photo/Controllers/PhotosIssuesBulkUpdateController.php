@@ -37,6 +37,8 @@ final class PhotosIssuesBulkUpdateController
                 MIN(dbf_all.id) as dbf_id,
                 MIN(dbf_all.anum) as anum,
                 MIN(dbf_all.descrizione) as dbf_descrizione,
+                MIN(dbf_all.localita) as localita,
+                MIN(dbf_all.argomento) as argomento,
                 MIN(dbf_all.data) as strip_date,
                 COUNT(photos_issues.id) as issue_count
             ')

@@ -45,6 +45,21 @@ it('shows the strip date as a suggestion in the date input', function (): void {
         ->assertSee('1990-06-15');
 });
 
+it('shows the strip location and topic', function (): void {
+    $strip = DbfAll::factory()->create(['localita' => 'Grosseto', 'argomento' => 'Festa della mamma']);
+    $photo = Photo::factory()->create(['dbf_id' => $strip->id]);
+    PhotoIssue::factory()->create(['photo_id' => $photo->id]);
+
+    login();
+
+    get(action([PhotosIssuesBulkUpdateController::class, 'index']))
+        ->assertSuccessful()
+        ->assertSee('Località')
+        ->assertSee('Grosseto')
+        ->assertSee('Argomento')
+        ->assertSee('Festa della mamma');
+});
+
 it('shows an empty state when there are no open issues', function (): void {
     login();
 

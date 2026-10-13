@@ -99,6 +99,16 @@
               <dd class="col-sm-9">{{ $currentGroup->dbf_descrizione }}</dd>
             @endif
 
+            @if ($currentGroup->localita)
+              <dt class="col-sm-3">Località</dt>
+              <dd class="col-sm-9">{{ $currentGroup->localita }}</dd>
+            @endif
+
+            @if ($currentGroup->argomento)
+              <dt class="col-sm-3">Argomento</dt>
+              <dd class="col-sm-9">{{ $currentGroup->argomento }}</dd>
+            @endif
+
             @if ($currentGroup->strip_date)
               <dt class="col-sm-3">Data Striscia</dt>
               <dd class="col-sm-9">
