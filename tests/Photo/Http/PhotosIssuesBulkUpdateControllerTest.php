@@ -26,7 +26,9 @@ it('renders the bulk update index page with grouped issues', function (): void {
     get(action([PhotosIssuesBulkUpdateController::class, 'index']))
         ->assertSuccessful()
         ->assertSee('01234')
-        ->assertSee($photo->file_name);
+        ->assertSee($photo->file_name)
+        ->assertSee('data-bs-target="#photo-preview-modal"', false)
+        ->assertSee('id="photo-preview-modal"', false);
 });
 
 it('shows the strip date as a suggestion in the date input', function (): void {
