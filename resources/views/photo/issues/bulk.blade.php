@@ -13,6 +13,7 @@
         ? \Illuminate\Support\Carbon::parse($currentGroup->strip_date)->format("Y-m-d")
         : "";
     $editDateModalId = "edit-bulk-taken-at-modal";
+    $photoPreviewModalId = "photo-preview-modal";
 @endphp
 
 @section("title", "Aggiornamento Foto Per Striscia")
@@ -97,6 +98,16 @@
             @if ($currentGroup->dbf_descrizione)
               <dt class="col-sm-3">Descrizione</dt>
               <dd class="col-sm-9">{{ $currentGroup->dbf_descrizione }}</dd>
+            @endif
+
+            @if ($currentGroup->localita)
+              <dt class="col-sm-3">Località</dt>
+              <dd class="col-sm-9">{{ $currentGroup->localita }}</dd>
+            @endif
+
+            @if ($currentGroup->argomento)
+              <dt class="col-sm-3">Argomento</dt>
+              <dd class="col-sm-9">{{ $currentGroup->argomento }}</dd>
             @endif
 
             @if ($currentGroup->strip_date)
@@ -205,8 +216,11 @@
                       src="{{ route("photos.preview", [$issue->photo_id]) }}"
                       alt="{{ $issue->file_name }}"
                       class="w-100 rounded mb-2"
-                      style="height: 220px; object-fit: cover"
+                      style="height: 220px; object-fit: cover; cursor: zoom-in"
                       loading="lazy"
+                      data-bs-toggle="modal"
+                      data-bs-target="#{{ $photoPreviewModalId }}"
+                      onclick="event.preventDefault()"
                     />
 
                     <p class="mb-0 text-truncate" style="font-size: 0.8rem">
@@ -274,6 +288,22 @@
           @endif
         </div>
       </form>
+
+      <x-modal
+        modal-title="Anteprima Foto"
+        :modal-id="$photoPreviewModalId"
+        fullscreen="true"
+      >
+        <x-slot:body>
+          <img
+            id="photo-preview-modal-img"
+            src=""
+            alt=""
+            class="d-block mx-auto mw-100 mh-100"
+            style="object-fit: contain"
+          />
+        </x-slot:body>
+      </x-modal>
 
       <x-modal modal-title="Modifica Data Foto" :modal-id="$editDateModalId">
         <x-slot:body>
@@ -415,9 +445,24 @@
     displayTakenAt.textContent = selectedDate !== "" ? selectedDate : "N/A";
   }
 
+  function showPhotoPreview(event) {
+    const modalImage = document.getElementById("photo-preview-modal-img");
+    const thumbnail = event.relatedTarget;
+    if (!modalImage || !thumbnail) {
+      return;
+    }
+
+    modalImage.src = thumbnail.src;
+    modalImage.alt = thumbnail.alt;
+    event.target.querySelector(".modal-title").textContent = thumbnail.alt;
+  }
+
   // Restore count on page load (after validation error redirect)
   document.addEventListener("DOMContentLoaded", () => {
     updateCounts();
     syncTakenAtModalInput();
+    document
+      .getElementById("photo-preview-modal")
+      ?.addEventListener("show.bs.modal", showPhotoPreview);
   });
 </script>
