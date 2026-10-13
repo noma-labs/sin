@@ -122,18 +122,23 @@ final class PatenteElenchiController
 
         $cqcPersone = Patente::with('persona')->has('cqc')->get()->sortBy(fn ($product) => $product->persona->cognome);
 
-        $cqcPersone = $cqcPersone->map(fn ($patente, $key): array => [$patente->persona->cognome,
-            $patente->persona->nome,
-            $patente->persona->data_nascita,
-            $patente->persona->provincia_nascita,
-            $patente->numero_patente,
-            // $patente->data_rilascio_patente,
-            // $patente->rilasciata_dal,
-            $patente->cqcPersone() ? $patente->cqcPersone()->pivot->data_rilascio : '',
-            $patente->cqcPersone() ? $patente->cqcPersone()->pivot->data_rilascio : '',
-            $patente->cqcMerci() ? $patente->cqcMerci()->pivot->data_rilascio : '',
-            $patente->cqcMerci() ? $patente->cqcMerci()->pivot->data_rilascio : '',
-        ]);
+        $cqcPersone = $cqcPersone->map(function ($patente, $key) {
+            $cqcPersona = $patente->cqcPersone();
+            $cqcMerci = $patente->cqcMerci();
+
+            return [$patente->persona->cognome,
+                $patente->persona->nome,
+                $patente->persona->data_nascita,
+                $patente->persona->provincia_nascita,
+                $patente->numero_patente,
+                // $patente->data_rilascio_patente,
+                // $patente->rilasciata_dal,
+                $cqcPersona ? $cqcPersona->pivot->data_rilascio : '',
+                $cqcPersona ? $cqcPersona->pivot->data_scadenza : '',
+                $cqcMerci ? $cqcMerci->pivot->data_rilascio : '',
+                $cqcMerci ? $cqcMerci->pivot->data_scadenza : '',
+            ];
+        });
 
         $spreadsheet->getActiveSheet()->fromArray(
             $cqcPersone->all(), // ->toArray(),  // The data to set
