@@ -435,6 +435,14 @@
                   <div class="row">
                     <div class="col-sm-8">
                       @include("nomadelfia.templates.addPersonToFamiliy", ["persona" => $persona])
+                      @if ($persona->isMaggiorenne())
+                        <a
+                          class="btn btn-secondary my-2"
+                          href="{{ route("nomadelfia.marriage.create", ["persona_id" => $persona->id]) }}"
+                        >
+                          Nuovo Matrimonio
+                        </a>
+                      @endif
                     </div>
                   </div>
                 </li>

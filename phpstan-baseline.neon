@@ -2803,18 +2803,6 @@ parameters:
 			path: app/Http/Nomadelfia/EserciziSpirituali/Models/EserciziSpirituali.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:create\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Actions/CreateMarriageAction.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Actions\\CreateMarriageAction\:\:execute\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Actions/CreateMarriageAction.php
-
-		-
 			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$data_creazione\.$#'
 			identifier: property.notFound
 			count: 1
@@ -3011,54 +2999,6 @@ parameters:
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyMemberController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$data_matrimonio\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Controllers/MarriageController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$husband\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Controllers/MarriageController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$wife\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Controllers/MarriageController.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withSuccess\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Controllers/MarriageController.php
-
-		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:notAlreadyMarried\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 2
-			path: app/Http/Nomadelfia/Famiglia/Controllers/MarriageController.php
-
-		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 2
-			path: app/Http/Nomadelfia/Famiglia/Controllers/MarriageController.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Controllers\\MarriageController\:\:create\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Controllers/MarriageController.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Controllers\\MarriageController\:\:store\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Controllers/MarriageController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
@@ -3555,12 +3495,6 @@ parameters:
 		-
 			message: '#^Class App\\Nomadelfia\\Famiglia\\QueryBuilders\\FamigliaQueryBuilder extends generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
 			identifier: missingType.generics
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/QueryBuilders/FamigliaQueryBuilder.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\QueryBuilders\\FamigliaQueryBuilder\:\:notAlreadyMarried\(\) should return App\\Nomadelfia\\Famiglia\\QueryBuilders\\FamigliaQueryBuilder but returns Illuminate\\Database\\Query\\Builder\.$#'
-			identifier: return.type
 			count: 1
 			path: app/Http/Nomadelfia/Famiglia/QueryBuilders/FamigliaQueryBuilder.php
 

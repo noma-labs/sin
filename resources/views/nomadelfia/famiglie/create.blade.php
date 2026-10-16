@@ -7,25 +7,23 @@
       <form method="POST" action="{{ route("nomadelfia.marriage.store") }}">
         @csrf
         <div class="row mb-3">
-          <label for="Husband" class="col-md-6 form-label"> Marito </label>
+          <label class="col-md-6 form-label"> Marito </label>
           <div class="col-md-6">
-            <select class="form-select" name="husband" type="text">
-              <option disabled selected>---Seleziona il marito---</option>
-              @foreach ($singleMale as $m)
-                <option value="{{ $m->id }}">{{ $m->nominativo }}</option>
-              @endforeach
-            </select>
+            <livewire:search-persona
+              name_input="husband"
+              placeholder="---Cerca il marito---"
+              :persone_id="old('husband') ? [(int) old('husband')] : $husbandId"
+            />
           </div>
         </div>
         <div class="row mb-3">
-          <label for="forFemale" class="col-md-6 form-label"> Moglie </label>
+          <label class="col-md-6 form-label"> Moglie </label>
           <div class="col-md-6">
-            <select class="form-select" name="wife" type="text">
-              <option disabled selected>---Seleziona la moglie---</option>
-              @foreach ($singleFemale as $f)
-                <option value="{{ $f->id }}">{{ $f->nominativo }}</option>
-              @endforeach
-            </select>
+            <livewire:search-persona
+              name_input="wife"
+              placeholder="---Cerca la moglie---"
+              :persone_id="old('wife') ? [(int) old('wife')] : $wifeId"
+            />
           </div>
         </div>
         <div class="row mb-3">
