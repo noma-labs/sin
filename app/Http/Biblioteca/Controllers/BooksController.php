@@ -24,7 +24,7 @@ final class BooksController
             'xTitolo' => ['required'],
             'xIdAutori' => ['required'],
             'xIdEditori' => ['required'],
-            'xCollocazione' => ['required', 'unique:db_biblioteca.libro,collocazione'],
+            'xCollocazione' => ['required', 'not_regex:/^SP/i', 'unique:db_biblioteca.libro,collocazione'],
             'xClassificazione' => ['required', 'exists:db_biblioteca.classificazione,id'],
         ], [
             'xTitolo.required' => 'Il titolo del libro è obbligatorio.',
@@ -34,6 +34,7 @@ final class BooksController
             'xClassificazione.required' => 'La classificazione è obbligatoria.',
             'xCollocazione.unique' => 'La collocazione inserita esiste già.',
             'xCollocazione.required' => 'La collocazione inserita non corretta.',
+            'xCollocazione.not_regex' => 'Le collocazioni SP sono riservate agli elaborati: inserisci il libro da Scuola > Elaborati.',
         ]);
 
         $_addanother = $request->input('_addanother');  // save and add another libro

@@ -19,9 +19,10 @@ final class BooksCallNumberController
     public function update(Request $request, $idLibro)
     {
         $request->validate([
-            'xCollocazione' => ['required'], // per update solito nome
+            'xCollocazione' => ['required', 'not_regex:/^SP/i'], // per update solito nome
         ], [
             'xCollocazione.required' => 'La collocazione nuova non è stata selezionata.',
+            'xCollocazione.not_regex' => 'Le collocazioni SP sono riservate agli elaborati.',
         ]);
 
         $libro = Libro::findOrFail($idLibro);

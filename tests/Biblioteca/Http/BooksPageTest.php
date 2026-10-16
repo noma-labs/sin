@@ -69,6 +69,31 @@ it('only allowed user (admin) can store a new book', function (): void {
 
 });
 
+it('rejects a new book with a SP collocazione', function (): void {
+    login();
+
+    post(action([BooksController::class, 'store']), [
+        'xTitolo' => 'MY title',
+        'xIdAutori' => Autore::factory()->create()->id,
+        'xIdEditori' => Editore::factory()->create()->id,
+        'xCollocazione' => 'SPZ999',
+        'xClassificazione' => Classificazione::factory()->create()->id,
+    ])->assertSessionHasErrors(['xCollocazione' => 'Le collocazioni SP sono riservate agli elaborati: inserisci il libro da Scuola > Elaborati.']);
+
+    expect(Libro::where('collocazione', 'SPZ999')->exists())->toBeFalse();
+});
+
+it('rejects changing the call-number of a book to a SP collocazione', function (): void {
+    login();
+    $book = Libro::factory()->physicalPlacement('AAA001')->create();
+
+    put(action([BooksCallNumberController::class, 'update'], $book->id), [
+        'xCollocazione' => 'SPZ999',
+    ])->assertSessionHasErrors(['xCollocazione' => 'Le collocazioni SP sono riservate agli elaborati.']);
+
+    expect(Libro::find($book->id)->collocazione)->toBe('AAA001');
+});
+
 it('shows a book detail page', function (): void {
     $book = Libro::factory()
         ->physicalPlacement('BBB001')
