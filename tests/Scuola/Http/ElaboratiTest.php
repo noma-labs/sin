@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Http\Scuola;
 
+use App\Biblioteca\Models\Libro;
 use App\Scuola\Controllers\CoverImageController;
 use App\Scuola\Controllers\ElaboratiController;
 use App\Scuola\Models\Elaborato;
@@ -83,12 +84,24 @@ it('can upload a cover image', function (): void {
     Storage::disk('media_previews')->assertExists($elaborato->cover_image_path);
 });
 
-it('can store an elaborato', function (): void {
+function freeElaboratoCollocazione(): string
+{
+    do {
+        $collocazione = 'SP'.fake()->randomLetter().fake()->numerify('###');
+        $collocazione = mb_strtoupper($collocazione);
+    } while (Libro::withTrashed()->where('collocazione', $collocazione)->exists() || Elaborato::query()->where('collocazione', $collocazione)->exists());
+
+    return $collocazione;
+}
+
+it('can store an elaborato also as a libro', function (): void {
     login();
 
     $s = Studente::factory()->minorenne()->maschio()->create();
+    $collocazione = freeElaboratoCollocazione();
 
     $this->post(action([ElaboratiController::class, 'store']), [
+        'collocazione' => $collocazione,
         'titolo' => 'Test Title',
         'anno_scolastico' => '2015/ 2016',
         'studenti_ids' => [$s->id],
@@ -97,11 +110,56 @@ it('can store an elaborato', function (): void {
         'file' => UploadedFile::fake()->create('test.pdf'),
     ])->assertRedirectToRoute('scuola.elaborati.index');
 
+    $libro = Libro::query()->where('collocazione', $collocazione)->firstOrFail();
+    expect($libro->titolo)->toBe('TEST TITLE')
+        ->and($libro->classificazione_id)->toBeNull()
+        ->and($libro->autori()->pluck('autore')->all())->toBe(['SCUOLA NOMADELFIA'])
+        ->and($libro->editori()->pluck('editore')->all())->toBe(['SCUOLA NOMADELFIA']);
+
     $this->assertDatabaseHas('elaborati', [
         'titolo' => 'Test Title',
         'anno_scolastico' => '2015/2016',
+        'collocazione' => $collocazione,
+        'libro_id' => $libro->id,
     ], 'db_scuola');
+    $elaborato = Elaborato::query()->where('collocazione', $collocazione)->firstOrFail();
+    expect($elaborato->studenti()->pluck('id')->all())->toBe([$s->id]);
 });
+
+it('rejects an elaborato with a collocazione already used by a libro', function (): void {
+    login();
+
+    $s = Studente::factory()->minorenne()->maschio()->create();
+    $collocazione = freeElaboratoCollocazione();
+    Libro::factory()->create(['collocazione' => $collocazione]);
+
+    $this->post(action([ElaboratiController::class, 'store']), [
+        'collocazione' => $collocazione,
+        'titolo' => 'Test Title',
+        'anno_scolastico' => '2015/2016',
+        'studenti_ids' => [$s->id],
+        'file' => UploadedFile::fake()->create('test.pdf'),
+    ])->assertSessionHasErrors(['collocazione' => 'La collocazione inserita esiste già.']);
+
+    expect(Elaborato::query()->where('collocazione', $collocazione)->exists())->toBeFalse();
+});
+
+it('rejects an elaborato with a missing or malformed collocazione', function (?string $collocazione, string $message): void {
+    login();
+
+    $s = Studente::factory()->minorenne()->maschio()->create();
+
+    $this->post(action([ElaboratiController::class, 'store']), [
+        'collocazione' => $collocazione,
+        'titolo' => 'Test Title',
+        'anno_scolastico' => '2015/2016',
+        'studenti_ids' => [$s->id],
+        'file' => UploadedFile::fake()->create('test.pdf'),
+    ])->assertSessionHasErrors(['collocazione' => $message]);
+})->with([
+    'missing' => [null, 'La collocazione è obbligatoria.'],
+    'wrong prefix' => ['ABC001', 'La collocazione deve essere nella forma SP + lettera + 3 numeri (es. SPA001).'],
+]);
 
 it('return a flash error id dimension is wrong', function (): void {
     login();
@@ -109,6 +167,7 @@ it('return a flash error id dimension is wrong', function (): void {
     $s = Studente::factory()->minorenne()->maschio()->create();
 
     $this->post(action([ElaboratiController::class, 'store']), [
+        'collocazione' => freeElaboratoCollocazione(),
         'titolo' => 'Test Title',
         'anno_scolastico' => '2015/ 2016',
         'studenti_ids' => [$s->id],

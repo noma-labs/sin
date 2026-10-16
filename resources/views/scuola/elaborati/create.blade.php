@@ -11,6 +11,20 @@
     <div class="row justify-content-center g-3">
       <div class="col-md-10">
         <div class="row mb-3">
+          <div class="col-md-4">
+            <label class="form-label">Collocazione - lettere</label>
+            <livewire:search-collocazione-lettere prefix="SP" />
+          </div>
+          <div class="col-md-2">
+            <livewire:search-collocazione-numeri
+              :show-free="true"
+              :show-busy="false"
+              :show-next="true"
+              name="collocazione"
+            />
+          </div>
+        </div>
+        <div class="row mb-3">
           <div class="col-md-2">
             <label for="anno_scolastico" class="form-label">
               Anno Scolastico

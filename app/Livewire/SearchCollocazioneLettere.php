@@ -8,11 +8,20 @@ use App\Biblioteca\Models\ViewCollocazione;
 
 final class SearchCollocazioneLettere extends Autocomplete
 {
+    /**
+     * Restrict the suggested lettere to the ones starting with this prefix (e.g. "SP").
+     * When set, the "SENZA COLLOCAZIONE" option is not offered.
+     */
+    public string $prefix = '';
+
     public function searchBy(string $term): array
     {
-        $collocazioni = ViewCollocazione::lettere()->where('lettere', 'LIKE', $term.'%')->get();
+        $collocazioni = ViewCollocazione::lettere()
+            ->where('lettere', 'LIKE', $term.'%')
+            ->when($this->prefix !== '', fn ($query) => $query->where('lettere', 'LIKE', $this->prefix.'%'))
+            ->get();
 
-        $options = [new Option('SENZA_COLLOCAZIONE', 'SENZA COLLOCAZIONE')];
+        $options = $this->prefix === '' ? [new Option('SENZA_COLLOCAZIONE', 'SENZA COLLOCAZIONE')] : [];
         foreach ($collocazioni as $colloc) {
             $options[] = new Option($colloc->lettere, $colloc->lettere);
         }
