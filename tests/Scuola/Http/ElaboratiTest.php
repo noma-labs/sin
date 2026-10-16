@@ -100,15 +100,17 @@ it('can store an elaborato also as a libro', function (): void {
     $s = Studente::factory()->minorenne()->maschio()->create();
     $collocazione = freeElaboratoCollocazione();
 
-    $this->post(action([ElaboratiController::class, 'store']), [
+    $response = $this->post(action([ElaboratiController::class, 'store']), [
         'collocazione' => $collocazione,
         'titolo' => 'Test Title',
         'anno_scolastico' => '2015/ 2016',
         'studenti_ids' => [$s->id],
         'coordinatori_ids' => [],
         'dimensione' => 'A4',
-        'file' => UploadedFile::fake()->create('test.pdf'),
-    ])->assertRedirectToRoute('scuola.elaborati.index');
+    ]);
+
+    $elaborato = Elaborato::query()->where('collocazione', $collocazione)->firstOrFail();
+    $response->assertRedirectToRoute('scuola.elaborati.show', $elaborato->id);
 
     $libro = Libro::query()->where('collocazione', $collocazione)->firstOrFail();
     expect($libro->titolo)->toBe('TEST TITLE')
@@ -121,9 +123,25 @@ it('can store an elaborato also as a libro', function (): void {
         'anno_scolastico' => '2015/2016',
         'collocazione' => $collocazione,
         'libro_id' => $libro->id,
+        'file_path' => null,
     ], 'db_scuola');
-    $elaborato = Elaborato::query()->where('collocazione', $collocazione)->firstOrFail();
     expect($elaborato->studenti()->pluck('id')->all())->toBe([$s->id]);
+});
+
+it('can store an elaborato without studenti', function (): void {
+    login();
+
+    $collocazione = freeElaboratoCollocazione();
+
+    $response = $this->post(action([ElaboratiController::class, 'store']), [
+        'collocazione' => $collocazione,
+        'titolo' => 'Test Title',
+        'anno_scolastico' => '2015/2016',
+    ]);
+
+    $elaborato = Elaborato::query()->where('collocazione', $collocazione)->firstOrFail();
+    $response->assertRedirectToRoute('scuola.elaborati.show', $elaborato->id);
+    expect($elaborato->studenti()->count())->toBe(0);
 });
 
 it('rejects an elaborato with a collocazione already used by a libro', function (): void {
@@ -138,7 +156,6 @@ it('rejects an elaborato with a collocazione already used by a libro', function 
         'titolo' => 'Test Title',
         'anno_scolastico' => '2015/2016',
         'studenti_ids' => [$s->id],
-        'file' => UploadedFile::fake()->create('test.pdf'),
     ])->assertSessionHasErrors(['collocazione' => 'La collocazione inserita esiste già.']);
 
     expect(Elaborato::query()->where('collocazione', $collocazione)->exists())->toBeFalse();
@@ -154,7 +171,6 @@ it('rejects an elaborato with a missing or malformed collocazione', function (?s
         'titolo' => 'Test Title',
         'anno_scolastico' => '2015/2016',
         'studenti_ids' => [$s->id],
-        'file' => UploadedFile::fake()->create('test.pdf'),
     ])->assertSessionHasErrors(['collocazione' => $message]);
 })->with([
     'missing' => [null, 'La collocazione è obbligatoria.'],
@@ -173,7 +189,6 @@ it('return a flash error id dimension is wrong', function (): void {
         'studenti_ids' => [$s->id],
         'coordinatori_ids' => [],
         'dimensione' => '2323',
-        'file' => UploadedFile::fake()->create('test.pdf'),
     ])->assertSessionHasErrors(['dimensione' => 'La dimesione `2323` non è valida. La dimensione deve essere nella forma LxH in millimetri. Per esempio: 210x297']);
 
 });

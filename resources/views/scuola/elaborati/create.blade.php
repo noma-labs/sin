@@ -2,11 +2,7 @@
 
 @section("content")
   @include("partials.header", ["title" => "Aggiungi elaborato"])
-  <form
-    method="POST"
-    action="{{ route("scuola.elaborati.store") }}"
-    enctype="multipart/form-data"
-  >
+  <form method="POST" action="{{ route("scuola.elaborati.store") }}">
     @csrf
     <div class="row justify-content-center g-3">
       <div class="col-md-10">
@@ -134,12 +130,6 @@
               >{{ old("note") }}
                         </textarea
             >
-          </div>
-        </div>
-        <div class="row mb-3">
-          <div class="col-md-12">
-            <label for="file" class="form-label">Scegli file</label>
-            <input type="file" id="file" name="file" />
           </div>
         </div>
         <div class="row mb-3">
