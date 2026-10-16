@@ -13,9 +13,9 @@ final class SearchCollocazioneNumeri extends Component
 {
     public string $letters;
 
-    public string $numero;
+    public string $numero = '0';
 
-    public string $collocazione;
+    public string $collocazione = '';
 
     public $busy = [];
 
@@ -31,12 +31,19 @@ final class SearchCollocazioneNumeri extends Component
 
     public string $name;
 
-    final public function mount(bool $showBusy = true, bool $showFree = true, bool $showNext = true, string $name = 'xCollocazione'): void
+    /**
+     * When true, selecting only the lettere (without a numero) sets the collocazione to the lettere
+     * (e.g. "AAA"), so it can be used to search all the books with those lettere.
+     */
+    public bool $allowLettereOnly;
+
+    final public function mount(bool $showBusy = true, bool $showFree = true, bool $showNext = true, string $name = 'xCollocazione', bool $allowLettereOnly = false): void
     {
         $this->showBusy = $showBusy;
         $this->showFree = $showFree;
         $this->showNext = $showNext;
         $this->name = $name;
+        $this->allowLettereOnly = $allowLettereOnly;
     }
 
     #[On('option-selected')]
@@ -54,6 +61,9 @@ final class SearchCollocazioneNumeri extends Component
 
             return;
         }
+
+        $this->reset('numero', 'busy', 'free', 'next');
+        $this->collocazione = $this->collocazioneWithoutNumero();
 
         $num = ViewCollocazione::numeri($this->letters)->get();
         if ($num->isEmpty()) {
@@ -97,7 +107,13 @@ final class SearchCollocazioneNumeri extends Component
 
     final public function updatedNumero(string $number): void
     {
-        $this->collocazione = $this->letters.Str::padLeft($number, 3, '0');
+        if (in_array(mb_trim($number), ['', '0'], true)) {
+            $this->collocazione = $this->collocazioneWithoutNumero();
+
+            return;
+        }
+
+        $this->collocazione = $this->letters.Str::padLeft(mb_trim($number), 3, '0');
     }
 
     public function render(): string
@@ -135,5 +151,10 @@ final class SearchCollocazioneNumeri extends Component
             </select>
         </div>
         HTML;
+    }
+
+    private function collocazioneWithoutNumero(): string
+    {
+        return $this->allowLettereOnly ? $this->letters : '';
     }
 }

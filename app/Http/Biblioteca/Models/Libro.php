@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
+ * @property int $id
  * @property string $titolo
  * @property string $collocazione
  * @property string $deleted_note

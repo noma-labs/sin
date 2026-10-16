@@ -36,6 +36,20 @@ it('will search books by location', function (): void {
         ->assertSee($book->collocazione);
 });
 
+it('combines the senza collocazione search with the other filters', function (): void {
+    $title = 'SENZA COLLOC '.fake()->unique()->bothify('????####');
+    $matching = Libro::factory()->physicalPlacement('')->create(['titolo' => $title]);
+    $otherTitle = Libro::factory()->create(['collocazione' => null, 'titolo' => 'ALTRO '.fake()->unique()->bothify('????####')]);
+
+    $this
+        ->get(action([SearchableBooksController::class, 'search'], [
+            'xCollocazione' => 'null',
+            'xTitolo' => $title,
+        ]))
+        ->assertSee($matching->titolo)
+        ->assertDontSee($otherTitle->titolo);
+});
+
 it('only allowed user (admin) can store a new book', function (): void {
     $sendRequest = fn () => post(action([BooksController::class, 'store']), [
         'xTitolo' => 'MY title',
@@ -53,6 +67,31 @@ it('only allowed user (admin) can store a new book', function (): void {
 
     expect(Libro::where('collocazione', '=', 'AAA005')->get()->count())->toBe(1);
 
+});
+
+it('rejects a new book with a SP collocazione', function (): void {
+    login();
+
+    post(action([BooksController::class, 'store']), [
+        'xTitolo' => 'MY title',
+        'xIdAutori' => Autore::factory()->create()->id,
+        'xIdEditori' => Editore::factory()->create()->id,
+        'xCollocazione' => 'SPZ999',
+        'xClassificazione' => Classificazione::factory()->create()->id,
+    ])->assertSessionHasErrors(['xCollocazione' => 'Le collocazioni SP sono riservate agli elaborati: inserisci il libro da Scuola > Elaborati.']);
+
+    expect(Libro::where('collocazione', 'SPZ999')->exists())->toBeFalse();
+});
+
+it('rejects changing the call-number of a book to a SP collocazione', function (): void {
+    login();
+    $book = Libro::factory()->physicalPlacement('AAA001')->create();
+
+    put(action([BooksCallNumberController::class, 'update'], $book->id), [
+        'xCollocazione' => 'SPZ999',
+    ])->assertSessionHasErrors(['xCollocazione' => 'Le collocazioni SP sono riservate agli elaborati.']);
+
+    expect(Libro::find($book->id)->collocazione)->toBe('AAA001');
 });
 
 it('shows a book detail page', function (): void {

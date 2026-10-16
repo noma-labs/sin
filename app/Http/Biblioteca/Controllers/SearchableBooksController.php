@@ -59,7 +59,7 @@ final class SearchableBooksController
             if ($request->xCollocazione) {
                 $collocazione = $request->xCollocazione;
                 if ($collocazione === 'null') {
-                    $q->where('collocazione', '=', '')->orWhereNull('collocazione');
+                    $q->where(fn ($q) => $q->where('collocazione', '=', '')->orWhereNull('collocazione'));
                     $msgSearch = $msgSearch.' Collocazione=SENZA collocazione';
                 } else {
                     $q->where('collocazione', 'like', "%$collocazione%");

@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Scuola\Controllers;
 
+use App\Biblioteca\Models\Autore;
+use App\Biblioteca\Models\Editore;
+use App\Biblioteca\Models\Libro;
 use App\Scuola\DataTransferObjects\AnnoScolastico;
 use App\Scuola\DataTransferObjects\Dimensione;
 use App\Scuola\Exceptions\BadDimensionException;
 use App\Scuola\Models\Elaborato;
-use App\Scuola\Traits\StoresElaboratoFile;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +18,9 @@ use Illuminate\Support\Facades\Storage;
 
 final class ElaboratiController
 {
-    use StoresElaboratoFile;
+    private const DEFAULT_AUTORE = 'SCUOLA NOMADELFIA';
+
+    private const DEFAULT_EDITORE = 'SCUOLA NOMADELFIA';
 
     public function index(Request $request)
     {
@@ -69,10 +73,9 @@ final class ElaboratiController
     public function store(Request $request)
     {
         $request->validate([
-            'file' => ['required'],
+            'collocazione' => ['required', 'regex:/^SP[A-Z]\d{3}$/', 'unique:db_biblioteca.libro,collocazione', 'unique:db_scuola.elaborati,collocazione'],
             'titolo' => ['required'],
             'anno_scolastico' => ['required'],
-            'studenti_ids' => ['required'],
             'dimensione' => function (string $attribute, mixed $value, Closure $fail): void {
                 try {
                     if (! $value) {
@@ -85,44 +88,61 @@ final class ElaboratiController
 
             },
         ], [
-            'file.required' => 'Nessun file selezionato.',
+            'collocazione.required' => 'La collocazione è obbligatoria.',
+            'collocazione.regex' => 'La collocazione deve essere nella forma SP + lettera + 3 numeri (es. SPA001).',
+            'collocazione.unique' => 'La collocazione inserita esiste già.',
             'anno_scolastico.required' => 'Anno scolastico è obbligatorio.',
             'titolo.required' => 'Il titolo è obbligatorio.',
-            'studenti_ids.required' => 'Almeno un alunno è obbligatorio.',
         ]);
         $titolo = $request->input('titolo');
-        $alunni = $request->input('studenti_ids');
-        $coords = $request->input('coordinatori_ids');
+        $collocazione = $request->input('collocazione');
+        $alunni = $request->array('studenti_ids');
+        $coords = $request->array('coordinatori_ids');
         $as = AnnoScolastico::fromString($request->input('anno_scolastico'));
 
         $classi = $request->filled('classi') ? implode(',', $request->input('classi')) : '';
         $dimensione = $request->input('dimensione') ? Dimensione::fromString($request->input('dimensione'))->toString() : null;
 
-        DB::Transaction(function () use ($request, $titolo, $as, $alunni, $coords, $classi, $dimensione): void {
-            $file = $request->file('file');
-
-            // FIXME: collocazione is empty !!!
-            $destinationPath = $this->storeElaboratoFile($file, $as, '', $titolo);
+        $elaborato = DB::connection('db_biblioteca')->transaction(fn (): Elaborato => DB::connection('db_scuola')->transaction(function () use ($request, $titolo, $collocazione, $as, $alunni, $coords, $classi, $dimensione): Elaborato {
+            $libro = Libro::query()->create([
+                'titolo' => $titolo,
+                'collocazione' => $collocazione,
+                'classificazione_id' => null,
+                'dimensione' => $dimensione,
+                'note' => $request->input('note', null),
+                'tobe_printed' => 1,
+            ]);
+            $autore = Autore::query()->firstOrCreate(['autore' => self::DEFAULT_AUTORE, 'tipaut' => 'S']);
+            $editore = Editore::query()->firstOrCreate(['editore' => self::DEFAULT_EDITORE, 'tipedi' => 'S']);
+            $libro->autori()->sync([$autore->id]);
+            $libro->editori()->sync([$editore->id]);
 
             $elaborato = Elaborato::query()->create(
                 attributes: [
                     'titolo' => $titolo,
+                    'collocazione' => $collocazione,
+                    'libro_id' => $libro->id,
                     'anno_scolastico' => $as,
                     'classi' => $classi,
                     'dimensione' => $dimensione,
                     'rilegatura' => $request->input('rilegatura'),
                     'note' => $request->input('note', null),
-                    'file_path' => $destinationPath,
-                    'file_mime_type' => $file->getClientMimeType(),
-                    'file_size' => $file->getSize(),
-                    'file_hash' => hash_file('sha256', $file->getPathname()),
                 ]
             );
-            $elaborato->studenti()->sync($alunni);
-            $elaborato->coordinatori()->sync($coords);
-        });
+            // The studenti/coordinatori relations run on the db_nomadelfia connection, which would wait
+            // on the uncommitted elaborato row: insert the pivots through the db_scuola transaction instead.
+            $scuola = DB::connection('db_scuola');
+            $scuola->table('elaborati_studenti')->insert(
+                collect($alunni)->map(fn ($id): array => ['elaborato_id' => $elaborato->id, 'studente_id' => $id])->all()
+            );
+            $scuola->table('elaborati_coordinatori')->insert(
+                collect($coords)->map(fn ($id): array => ['elaborato_id' => $elaborato->id, 'coordinatore_id' => $id])->all()
+            );
 
-        return to_route('scuola.elaborati.index')->withSuccess('Elaborato caricato con successo.');
+            return $elaborato;
+        }));
+
+        return to_route('scuola.elaborati.show', $elaborato->id)->withSuccess('Elaborato caricato con successo.');
     }
 
     public function show($id)

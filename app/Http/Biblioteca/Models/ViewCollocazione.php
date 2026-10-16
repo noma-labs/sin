@@ -22,8 +22,9 @@ final class ViewCollocazione extends Model
     #[\Illuminate\Database\Eloquent\Attributes\Scope]
     protected function lettere($query)
     {
-        return $query->select('lettere')->whereRaw('LENGTH(lettere) = 3')
-            ->orWhereRaw('lettere = 000')->groupBy('lettere');
+        return $query->select('lettere')
+            ->where(fn ($q) => $q->whereRaw('LENGTH(lettere) = 3')->orWhereRaw('lettere = 000'))
+            ->groupBy('lettere');
     }
 
     #[\Illuminate\Database\Eloquent\Attributes\Scope]
