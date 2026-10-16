@@ -6,12 +6,16 @@
     "guidelines": true,
     "mcp": true,
     "nightwatch": false,
+    "packages": [
+        "fruitcake/laravel-debugbar"
+    ],
     "sail": true,
     "skills": [
         "infer-conventions",
         "ai-sdk-development",
         "laravel-best-practices",
         "testing-best-practices",
-        "livewire-development"
+        "livewire-development",
+        "debug-using-debugbar"
     ]
 }
