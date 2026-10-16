@@ -25,6 +25,7 @@
             <livewire:search-collocazione-numeri
               :show-free="false"
               :show-next="false"
+              :allow-lettere-only="true"
               name="xCollocazione"
             />
           </div>

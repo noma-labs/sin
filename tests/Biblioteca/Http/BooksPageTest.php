@@ -36,6 +36,20 @@ it('will search books by location', function (): void {
         ->assertSee($book->collocazione);
 });
 
+it('combines the senza collocazione search with the other filters', function (): void {
+    $title = 'SENZA COLLOC '.fake()->unique()->bothify('????####');
+    $matching = Libro::factory()->physicalPlacement('')->create(['titolo' => $title]);
+    $otherTitle = Libro::factory()->create(['collocazione' => null, 'titolo' => 'ALTRO '.fake()->unique()->bothify('????####')]);
+
+    $this
+        ->get(action([SearchableBooksController::class, 'search'], [
+            'xCollocazione' => 'null',
+            'xTitolo' => $title,
+        ]))
+        ->assertSee($matching->titolo)
+        ->assertDontSee($otherTitle->titolo);
+});
+
 it('only allowed user (admin) can store a new book', function (): void {
     $sendRequest = fn () => post(action([BooksController::class, 'store']), [
         'xTitolo' => 'MY title',
