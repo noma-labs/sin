@@ -18,9 +18,9 @@ use Illuminate\Support\Facades\Storage;
 
 final class ElaboratiController
 {
-    private const string DEFAULT_AUTORE = 'SCUOLA NOMADELFIA';
+    private const DEFAULT_AUTORE = 'SCUOLA NOMADELFIA';
 
-    private const string DEFAULT_EDITORE = 'SCUOLA NOMADELFIA';
+    private const DEFAULT_EDITORE = 'SCUOLA NOMADELFIA';
 
     public function index(Request $request)
     {
@@ -96,8 +96,8 @@ final class ElaboratiController
         ]);
         $titolo = $request->input('titolo');
         $collocazione = $request->input('collocazione');
-        $alunni = $request->input('studenti_ids');
-        $coords = $request->input('coordinatori_ids');
+        $alunni = $request->array('studenti_ids');
+        $coords = $request->array('coordinatori_ids');
         $as = AnnoScolastico::fromString($request->input('anno_scolastico'));
 
         $classi = $request->filled('classi') ? implode(',', $request->input('classi')) : '';
@@ -133,10 +133,10 @@ final class ElaboratiController
             // on the uncommitted elaborato row: insert the pivots through the db_scuola transaction instead.
             $scuola = DB::connection('db_scuola');
             $scuola->table('elaborati_studenti')->insert(
-                collect($alunni ?? [])->map(fn ($id): array => ['elaborato_id' => $elaborato->id, 'studente_id' => $id])->all()
+                collect($alunni)->map(fn ($id): array => ['elaborato_id' => $elaborato->id, 'studente_id' => $id])->all()
             );
             $scuola->table('elaborati_coordinatori')->insert(
-                collect($coords ?? [])->map(fn ($id): array => ['elaborato_id' => $elaborato->id, 'coordinatore_id' => $id])->all()
+                collect($coords)->map(fn ($id): array => ['elaborato_id' => $elaborato->id, 'coordinatore_id' => $id])->all()
             );
 
             return $elaborato;

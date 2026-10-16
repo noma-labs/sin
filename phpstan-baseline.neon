@@ -1027,12 +1027,6 @@ parameters:
 			path: app/Http/Biblioteca/Controllers/BooksCallNumberController.php
 
 		-
-			message: '#^Access to an undefined property App\\Biblioteca\\Models\\Libro\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Biblioteca/Controllers/BooksController.php
-
-		-
 			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$xClassificazione\.$#'
 			identifier: property.notFound
 			count: 2
@@ -8655,24 +8649,6 @@ parameters:
 		-
 			message: '#^Call to an undefined static method Illuminate\\Support\\Facades\\DB\:\:Transaction\(\)\.$#'
 			identifier: staticMethod.notFound
-			count: 2
-			path: app/Http/Scuola/Controllers/ElaboratiController.php
-
-		-
-			message: '#^Cannot call method getClientMimeType\(\) on array\<Illuminate\\Http\\UploadedFile\>\|Illuminate\\Http\\UploadedFile\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: app/Http/Scuola/Controllers/ElaboratiController.php
-
-		-
-			message: '#^Cannot call method getPathname\(\) on array\<Illuminate\\Http\\UploadedFile\>\|Illuminate\\Http\\UploadedFile\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: app/Http/Scuola/Controllers/ElaboratiController.php
-
-		-
-			message: '#^Cannot call method getSize\(\) on array\<Illuminate\\Http\\UploadedFile\>\|Illuminate\\Http\\UploadedFile\|null\.$#'
-			identifier: method.nonObject
 			count: 1
 			path: app/Http/Scuola/Controllers/ElaboratiController.php
 
@@ -8773,18 +8749,6 @@ parameters:
 			path: app/Http/Scuola/Controllers/ElaboratiController.php
 
 		-
-			message: '#^Parameter \#1 \$file of method App\\Scuola\\Controllers\\ElaboratiController\:\:storeElaboratoFile\(\) expects Illuminate\\Http\\UploadedFile, array\<Illuminate\\Http\\UploadedFile\>\|Illuminate\\Http\\UploadedFile\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Http/Scuola/Controllers/ElaboratiController.php
-
-		-
-			message: '#^Parameter \#1 \$ids of method Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany\<Illuminate\\Database\\Eloquent\\Model,Illuminate\\Database\\Eloquent\\Model,Illuminate\\Database\\Eloquent\\Relations\\Pivot,string\>\:\:sync\(\) expects array\|Illuminate\\Database\\Eloquent\\Model\|Illuminate\\Support\\Collection\|int\|string, mixed given\.$#'
-			identifier: argument.type
-			count: 2
-			path: app/Http/Scuola/Controllers/ElaboratiController.php
-
-		-
 			message: '#^Parameter \#1 \$string of function str expects string\|null, App\\Scuola\\DataTransferObjects\\AnnoScolastico given\.$#'
 			identifier: argument.type
 			count: 1
@@ -8798,12 +8762,6 @@ parameters:
 
 		-
 			message: '#^Parameter \#2 \$direction of method Illuminate\\Database\\Query\\Builder\:\:orderBy\(\) expects ''asc''\|''desc''\|SortDirection, array\|string\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Http/Scuola/Controllers/ElaboratiController.php
-
-		-
-			message: '#^Parameter \#4 \$titolo of method App\\Scuola\\Controllers\\ElaboratiController\:\:storeElaboratoFile\(\) expects string, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: app/Http/Scuola/Controllers/ElaboratiController.php
