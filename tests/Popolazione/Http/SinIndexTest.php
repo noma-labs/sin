@@ -14,7 +14,8 @@ it('unauthenticated_user_dont_see_all_systems', function (): void {
         ->assertSee('Autenticati')
         ->assertSee('Entra come ospite')
         ->assertSee('Biblioteca')   //  unauthenticated users can only search books
-        ->assertDontSee('Gestione Nomadelfia')
+        ->assertDontSee('Popolazione')
+        ->assertDontSee('Anagrafe')
         ->assertDontSee('Officina')
         ->assertDontSee('Amministratore')
         ->assertDontSee('Agraria')

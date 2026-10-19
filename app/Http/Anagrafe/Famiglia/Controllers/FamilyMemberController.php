@@ -42,11 +42,11 @@ final class FamilyMemberController
                 $famiglia->assegnaFiglioAccolto($persona);
                 break;
             default:
-                return redirect(route('nomadelfia.families.show',
+                return redirect(route('anagrafe.families.show',
                     ['id' => $id]))->withErrors("Posizione `{$request->posizione}` non riconosciuta");
         }
 
-        return redirect(route('nomadelfia.families.show',
+        return redirect(route('anagrafe.families.show',
             ['id' => $id]))->withSuccess("$persona->nominativo aggiunto alla famiglia $famiglia->nome_famiglia con successo");
     }
 
@@ -70,10 +70,10 @@ final class FamilyMemberController
                 'note' => $request->note,
             ]);
 
-            return redirect(route('nomadelfia.families.show',
+            return redirect(route('anagrafe.families.show',
                 ['id' => $id]))->withSuccess('Componente aggiornato con successo');
         } catch (Exception) {
-            return redirect(route('nomadelfia.families.show',
+            return redirect(route('anagrafe.families.show',
                 ['id' => $id]))->withError('Errore. Nessun componente aggiornato alla famiglia.');
         }
     }

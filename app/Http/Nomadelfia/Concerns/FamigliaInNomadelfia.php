@@ -16,6 +16,28 @@ use Illuminate\Support\Facades\DB;
  */
 trait FamigliaInNomadelfia
 {
+    public static function famiglieNumerose(int $min_componenti = 5)
+    {
+        $expression = DB::raw("WITH famiglie_numerose AS (
+                             SELECT f.id, count(*) as componenti
+                             FROM `famiglie`  f
+                             INNER JOIN famiglie_persone fp ON fp.famiglia_id = f.id
+                             INNER JOIN popolazione pop ON pop.persona_id = fp.persona_id
+                             WHERE fp.stato = '1' and pop.data_uscita is NULL
+                             GROUP BY f.id
+                             HAVING componenti >= :minc
+                             ORDER BY componenti DESC
+                    ) select ff.*, famiglie_numerose.componenti
+                    from famiglie_numerose
+                    join famiglie ff on famiglie_numerose.id = ff.id
+                    order by famiglie_numerose.componenti DESC;");
+
+        return DB::connection('db_nomadelfia')->select(
+            $expression->getValue(DB::connection()->getQueryGrammar()),
+            ['minc' => $min_componenti]
+        );
+    }
+
     public function uscita(Carbon $data_uscita): void
     {
         DB::connection('db_nomadelfia')->beginTransaction();

@@ -65,5 +65,5 @@ it('can insert a persona', function (): void {
             'luogo_nascita' => 'Grosseto',
             'sesso' => 'M',
         ])
-        ->assertRedirect();
+        ->assertRedirectToRoute('nomadelfia.person.show', Persona::where('nominativo', 'my-name')->latest('id')->firstOrFail()->id);
 });

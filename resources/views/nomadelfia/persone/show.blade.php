@@ -1,4 +1,4 @@
-@extends("nomadelfia.persone.index")
+@extends("nomadelfia.index")
 
 @section("content")
   @include("partials.header", ["title" => $persona->nome . " " . $persona->cognome])
@@ -49,16 +49,23 @@
               </x-slot:footer>
             </x-modal>
           @else
-            <h2>
-              Stato Attuale:
-              <span class="badge bg-secondary">Uscito</span>
-            </h2>
-            <p>
-              Uscita in data {{ $persona->getDataUscitaNomadelfia() ? $persona->getDataUscitaNomadelfia()->toDateString() : "" }}
-              <span class="badge text-bg-info">
-                @diffHumans($persona->getDataUscitaNomadelfia())
-              </span>
-            </p>
+            @if ($persona->getDataUscitaNomadelfia())
+              <h2>
+                Stato Attuale:
+                <span class="badge bg-secondary">Uscito</span>
+              </h2>
+              <p>
+                Uscita in data {{ $persona->getDataUscitaNomadelfia()->toDateString() }}
+                <span class="badge text-bg-info">
+                  @diffHumans($persona->getDataUscitaNomadelfia())
+                </span>
+              </p>
+            @else
+              <h2>
+                Stato Attuale:
+                <span class="badge bg-secondary">Mai entrato</span>
+              </h2>
+            @endif
             <x-modal
               modal-title="Entrata nella comunità"
               button-title="Entrata"
@@ -168,7 +175,7 @@
           </ul>
           <a
             class="btn btn-warning my-2"
-            href="{{ route("nomadelfia.person.identity.edit", $persona->id) }}"
+            href="{{ route("anagrafe.person.identity.edit", $persona->id) }}"
             role="button"
           >
             Modifica
@@ -231,7 +238,7 @@
                 <div class="col-sm-2">
                   <a
                     class="btn btn-warning"
-                    href="{{ route("nomadelfia.internal-name.edit", $persona->id) }}"
+                    href="{{ route("anagrafe.internal-name.edit", $persona->id) }}"
                     role="button"
                   >
                     Modifica
@@ -382,67 +389,127 @@
       </div>
     </div>
 
-    @can("scuola.visualizza")
-      <div class="col-md-4">
-        <div class="card mb-3">
-          <div class="card-header">Dati Famiglia</div>
-          <div class="card-body">
-            <ul class="list-group list-group-flush">
-              @if ($famigliaEnrico)
-                <div class="alert alert-warning" role="alert">
-                  <strong>ALFA Enrico:</strong>
-                  {{ Illuminate\Support\Str::headline($famigliaEnrico->famiglia) }}
-                </div>
-              @endif
+    <div class="col-md-4">
+      <div class="card mb-3">
+        <div
+          class="card-header d-flex justify-content-between align-items-center"
+        >
+          Dati Famiglia
+          <a
+            class="small"
+            href="{{ route("anagrafe.person.families", $persona->id) }}"
+          >
+            Storico
+          </a>
+        </div>
+        <div class="card-body">
+          @if ($famigliaEnrico)
+            <div class="alert alert-warning" role="alert">
+              <strong>ALFA Enrico:</strong>
+              {{ Illuminate\Support\Str::headline($famigliaEnrico->famiglia) }}
+            </div>
+          @endif
 
-              @if ($famigliaAttuale)
+          @php
+            $posizioneFamiglia = $famigliaAttuale?->pivot->posizione_famiglia;
+            $inCoppia = in_array($posizioneFamiglia, ["CAPO FAMIGLIA", "MOGLIE"], true);
+            $isFiglio = in_array($posizioneFamiglia, ["FIGLIO NATO", "FIGLIO ACCOLTO"], true);
+          @endphp
+
+          @if ($famigliaAttuale)
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <div class="row">
+                  <label class="col-sm-4 fw-bold">Famiglia:</label>
+                  <div class="col-sm-8">
+                    <a
+                      href="{{ route("anagrafe.families.show", $famigliaAttuale->id) }}"
+                    >
+                      {{ $famigliaAttuale->nome_famiglia }}
+                    </a>
+                  </div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="row">
+                  <label class="col-sm-4 fw-bold">Posizione:</label>
+                  <div class="col-sm-8">{{ $posizioneFamiglia }}</div>
+                </div>
+              </li>
+              @if ($inCoppia)
+                @php
+                  $coniuge = $famigliaAttuale
+                      ->componentiAttuali()
+                      ->wherePivot("posizione_famiglia", $posizioneFamiglia === "CAPO FAMIGLIA" ? "MOGLIE" : "CAPO FAMIGLIA")
+                      ->first();
+                @endphp
                 <li class="list-group-item">
                   <div class="row">
-                    <label class="col-sm-4 fw-bold"> Nome Famiglia: </label>
+                    <label class="col-sm-4 fw-bold">Coniuge:</label>
                     <div class="col-sm-8">
-                      <a
-                        href="{{ route("nomadelfia.families.show", $persona->famigliaAttuale()->id) }}"
-                      >
-                        {{ $persona->famigliaAttuale()->nome_famiglia }}
-                      </a>
+                      @if ($coniuge)
+                        <a
+                          href="{{ route("nomadelfia.person.show", $coniuge->id) }}"
+                        >
+                          {{ $coniuge->nominativo }}
+                        </a>
+                      @else
+                        <span class="text-muted">Nessuno</span>
+                      @endif
                     </div>
                   </div>
                 </li>
                 <li class="list-group-item">
                   <div class="row">
-                    <label class="col-sm-4 fw-bold"> Posizione: </label>
+                    <label class="col-sm-4 fw-bold">Figli:</label>
                     <div class="col-sm-8">
-                      <span>
-                        {{ $persona->famigliaAttuale()->pivot->posizione_famiglia }}
-                      </span>
+                      {{ $famigliaAttuale->figliAttuali()->count() }}
                     </div>
                   </div>
                 </li>
+              @elseif ($isFiglio)
                 <li class="list-group-item">
                   <div class="row">
+                    <label class="col-sm-4 fw-bold">Genitori:</label>
                     <div class="col-sm-8">
-                      <a
-                        class="btn btn-warning"
-                        href="{{ route("nomadelfia.person.families", $persona->id) }}"
-                      >
-                        Storico
-                      </a>
-                    </div>
-                  </div>
-                </li>
-              @else
-                <li class="list-group-item">
-                  <div class="row">
-                    <div class="col-sm-8">
-                      @include("nomadelfia.templates.addPersonToFamiliy", ["persona" => $persona])
+                      @foreach ($famigliaAttuale->componentiAttuali()->wherePivotIn("posizione_famiglia", ["CAPO FAMIGLIA", "MOGLIE"])->get() as $genitore)
+                        <a
+                          href="{{ route("nomadelfia.person.show", $genitore->id) }}"
+                        >
+                          {{ $genitore->nominativo }}
+                        </a>
+                        @if (! $loop->last)
+                          &middot;
+                        @endif
+                      @endforeach
                     </div>
                   </div>
                 </li>
               @endif
             </ul>
-          </div>
-        </div>
+          @else
+            <p class="text-muted">Nessuna famiglia</p>
+          @endif
 
+          @can("popolazione.persona.inserisci")
+            <div class="d-flex flex-wrap gap-2 mt-2">
+              @if ($persona->puoSposarsi())
+                <a
+                  class="btn btn-success"
+                  href="{{ route("anagrafe.marriage.create", ["persona" => $persona->id]) }}"
+                >
+                  Nuovo matrimonio
+                </a>
+              @endif
+              @if (! $famigliaAttuale)
+                @include("nomadelfia.templates.addPersonToFamiliy", ["persona" => $persona])
+              @endif
+            </div>
+          @endcan
+        </div>
+      </div>
+
+      @can("scuola.visualizza")
         <div class="card">
           <div class="card-header">Scuola</div>
           <div class="card-body">
@@ -451,7 +518,7 @@
             </a>
           </div>
         </div>
-      </div>
-    @endcan
+      @endcan
+    </div>
   </div>
 @endsection

@@ -16,7 +16,7 @@ final class PersonIdentityController
     {
         $persona = Persona::findOrFail($id);
 
-        return view('nomadelfia.persone.anagrafica.edit', compact('persona'));
+        return view('anagrafe.persone.anagrafica.edit', compact('persona'));
     }
 
     #[Middleware('can:popolazione.persona.modifica')]

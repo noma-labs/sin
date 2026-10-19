@@ -8,7 +8,7 @@
       class="form"
       method="POST"
       id="formComponente"
-      action="{{ route("nomadelfia.family.member.store", ["id" => $famiglia->id]) }}"
+      action="{{ route("anagrafe.family.member.store", ["id" => $famiglia->id]) }}"
     >
       @csrf
       <div class="row mb-3">

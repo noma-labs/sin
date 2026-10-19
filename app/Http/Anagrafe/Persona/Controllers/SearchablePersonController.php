@@ -18,7 +18,7 @@ final class SearchablePersonController
         $orderBy = 'nominativo';
 
         if (! $request->except(['_token'])) {
-            return to_route('nomadelfia.people.search')->withError('Nessun criterio di ricerca selezionato oppure invalido');
+            return to_route('anagrafe.people.search')->withError('Nessun criterio di ricerca selezionato oppure invalido');
         }
 
         $queryLibri = Persona::sortable()->where(function ($q) use ($request, &$msgSearch, &$orderBy): void {
@@ -50,8 +50,11 @@ final class SearchablePersonController
                 $msgSearch = $msgSearch.' Data Nascita'.$criterio_nascita.$nascita;
             }
         });
-        $persone = $queryLibri->orderBy($orderBy)->paginate(50);
+        $persone = $queryLibri
+            ->with('famiglieAttuali')
+            ->orderBy($orderBy)
+            ->paginate(50);
 
-        return view('nomadelfia.persone.search_results', ['persone' => $persone, 'msgSearch' => $msgSearch]);
+        return view('anagrafe.persone.search_results', ['persone' => $persone, 'msgSearch' => $msgSearch, 'interni' => Persona::idsInterni()]);
     }
 }

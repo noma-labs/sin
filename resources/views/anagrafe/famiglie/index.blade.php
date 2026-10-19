@@ -38,10 +38,13 @@
                   @foreach ($capifamiglieMaschio->get() as $uomo)
                     <div>
                       <a
-                        href="{{ route("nomadelfia.families.show", $uomo->id) }}"
+                        href="{{ route("anagrafe.families.show", $uomo->id) }}"
                       >
                         {{ $uomo->nome_famiglia }}
                       </a>
+                      @if ($interni->contains($uomo->persona_id))
+                        <span class="badge bg-success">In Nomadelfia</span>
+                      @endif
                     </div>
                   @endforeach
                 </div>
@@ -55,10 +58,13 @@
                   @foreach ($capifamiglieFemmina->get() as $donna)
                     <div>
                       <a
-                        href="{{ route("nomadelfia.families.show", $donna->id) }}"
+                        href="{{ route("anagrafe.families.show", $donna->id) }}"
                       >
                         {{ $donna->nome_famiglia }}
                       </a>
+                      @if ($interni->contains($donna->persona_id))
+                        <span class="badge bg-success">In Nomadelfia</span>
+                      @endif
                     </div>
                   @endforeach
                 </div>
@@ -83,6 +89,21 @@
               >
                 Single
               </button>
+              @if ($tuttiSingle)
+                <a
+                  class="btn btn-sm btn-outline-secondary"
+                  href="{{ route("anagrafe.families") }}"
+                >
+                  Solo in Nomadelfia
+                </a>
+              @else
+                <a
+                  class="btn btn-sm btn-outline-secondary"
+                  href="{{ route("anagrafe.families", ["single" => "tutti"]) }}"
+                >
+                  Mostra tutti
+                </a>
+              @endif
             </h5>
           </div>
           <div
@@ -108,6 +129,9 @@
                       >
                         {{ $uomo->nome_famiglia }}
                       </a>
+                      @if ($interni->contains($uomo->persona_id))
+                        <span class="badge bg-success">In Nomadelfia</span>
+                      @endif
                     </div>
                   @endforeach
                 </div>
@@ -125,6 +149,9 @@
                       >
                         {{ $donna->nome_famiglia }}
                       </a>
+                      @if ($interni->contains($donna->persona_id))
+                        <span class="badge bg-success">In Nomadelfia</span>
+                      @endif
                     </div>
                   @endforeach
                 </div>
@@ -171,7 +198,7 @@
                       @foreach ($famigliaWithDescr->results as $famiglia)
                         <li>
                           <a
-                            href="{{ route("nomadelfia.families.show", $famiglia->id) }}"
+                            href="{{ route("anagrafe.families.show", $famiglia->id) }}"
                           >
                             {{ $famiglia->nome_famiglia }}
                           </a>

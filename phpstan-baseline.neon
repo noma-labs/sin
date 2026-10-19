@@ -3039,7 +3039,7 @@ parameters:
 		-
 			message: '#^Call to an undefined static method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:notAlreadyMarried\(\)\.$#'
 			identifier: staticMethod.notFound
-			count: 2
+			count: 1
 			path: app/Http/Anagrafe/Famiglia/Controllers/MarriageController.php
 
 		-
@@ -4174,67 +4174,67 @@ parameters:
 			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$nominativo\.$#'
 			identifier: property.notFound
 			count: 3
-			path: app/Http/Nomadelfia/Persona/Controllers/InternalNameController.php
+			path: app/Http/Anagrafe/Persona/Controllers/InternalNameController.php
 
 		-
 			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$nuovonominativo\.$#'
 			identifier: property.notFound
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Controllers/InternalNameController.php
+			path: app/Http/Anagrafe/Persona/Controllers/InternalNameController.php
 
 		-
 			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withError\(\)\.$#'
 			identifier: method.notFound
 			count: 2
-			path: app/Http/Nomadelfia/Persona/Controllers/InternalNameController.php
+			path: app/Http/Anagrafe/Persona/Controllers/InternalNameController.php
 
 		-
 			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withSucces\(\)\.$#'
 			identifier: method.notFound
 			count: 2
-			path: app/Http/Nomadelfia/Persona/Controllers/InternalNameController.php
+			path: app/Http/Anagrafe/Persona/Controllers/InternalNameController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 3
-			path: app/Http/Nomadelfia/Persona/Controllers/InternalNameController.php
+			path: app/Http/Anagrafe/Persona/Controllers/InternalNameController.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\InternalNameController\:\:edit\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Controllers\\InternalNameController\:\:edit\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Controllers/InternalNameController.php
+			path: app/Http/Anagrafe/Persona/Controllers/InternalNameController.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\InternalNameController\:\:edit\(\) has parameter \$id with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Controllers\\InternalNameController\:\:edit\(\) has parameter \$id with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Controllers/InternalNameController.php
+			path: app/Http/Anagrafe/Persona/Controllers/InternalNameController.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\InternalNameController\:\:store\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Controllers\\InternalNameController\:\:store\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Controllers/InternalNameController.php
+			path: app/Http/Anagrafe/Persona/Controllers/InternalNameController.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\InternalNameController\:\:store\(\) has parameter \$id with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Controllers\\InternalNameController\:\:store\(\) has parameter \$id with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Controllers/InternalNameController.php
+			path: app/Http/Anagrafe/Persona/Controllers/InternalNameController.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\InternalNameController\:\:update\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Controllers\\InternalNameController\:\:update\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Controllers/InternalNameController.php
+			path: app/Http/Anagrafe/Persona/Controllers/InternalNameController.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\InternalNameController\:\:update\(\) has parameter \$id with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Controllers\\InternalNameController\:\:update\(\) has parameter \$id with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Controllers/InternalNameController.php
+			path: app/Http/Anagrafe/Persona/Controllers/InternalNameController.php
 
 		-
 			message: '#^Access to an undefined property App\\Nomadelfia\\PopolazioneNomadelfia\\Requests\\EntrataPersonaRequest\:\:\$tipologia\.$#'
@@ -4393,26 +4393,8 @@ parameters:
 			path: app/Http/Anagrafe/Persona/Controllers/PersonController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Anagrafe/Persona/Controllers/PersonController.php
-
-		-
 			message: '#^Method App\\Anagrafe\\Persona\\Controllers\\PersonController\:\:create\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: app/Http/Anagrafe/Persona/Controllers/PersonController.php
-
-		-
-			message: '#^Method App\\Anagrafe\\Persona\\Controllers\\PersonController\:\:show\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Anagrafe/Persona/Controllers/PersonController.php
-
-		-
-			message: '#^Method App\\Anagrafe\\Persona\\Controllers\\PersonController\:\:show\(\) has parameter \$id with no type specified\.$#'
-			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Anagrafe/Persona/Controllers/PersonController.php
 

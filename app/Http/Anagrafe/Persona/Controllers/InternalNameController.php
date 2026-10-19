@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Nomadelfia\Persona\Controllers;
+namespace App\Anagrafe\Persona\Controllers;
 
 use App\Anagrafe\Persona\Models\Persona;
 use Illuminate\Http\Request;
@@ -16,7 +16,7 @@ final class InternalNameController
     {
         $persona = Persona::findOrFail($id);
 
-        return view('nomadelfia.persone.edit_nominativo', compact('persona'));
+        return view('anagrafe.persone.edit_nominativo', compact('persona'));
     }
 
     #[Middleware('can:popolazione.persona.modifica')]

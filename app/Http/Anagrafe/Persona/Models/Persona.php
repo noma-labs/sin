@@ -33,6 +33,7 @@ use Illuminate\Support\Str;
  * @property string $cf
  * @property string $biografia
  * @property string $origine
+ * @property int|null $id_alfa_enrico
  */
 class Persona extends Model
 {
@@ -88,6 +89,17 @@ class Persona extends Model
     public function isDeceduta(): bool
     {
         return $this->data_decesso !== null;
+    }
+
+    /**
+     * Whether the person can marry: an adult, alive, and never capofamiglia or moglie of a family.
+     * Same rules as FamigliaQueryBuilder::notAlreadyMarried(), used to validate a nuovo matrimonio.
+     */
+    public function puoSposarsi(): bool
+    {
+        return $this->isMaggiorenne()
+            && ! $this->isDeceduta()
+            && ! $this->famiglie()->wherePivotIn('posizione_famiglia', ['CAPO FAMIGLIA', 'MOGLIE'])->exists();
     }
 
     public function isMaggiorenne(): bool
@@ -168,6 +180,14 @@ class Persona extends Model
     public function isFiglioAccolto(): bool
     {
         return $this->famigliaPosizione('FIGLIO ACCOLTO');
+    }
+
+    /**
+     * @return BelongsToMany<Famiglia, $this>
+     */
+    public function famiglieAttuali(): BelongsToMany
+    {
+        return $this->famiglie()->wherePivot('stato', '1');
     }
 
     public function famiglieStorico(): BelongsToMany

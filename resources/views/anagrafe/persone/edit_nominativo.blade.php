@@ -10,7 +10,7 @@
           <form
             class="form"
             method="POST"
-            action="{{ route("nomadelfia.internal-name.update", $persona->id) }}"
+            action="{{ route("anagrafe.internal-name.update", $persona->id) }}"
           >
             @method("PUT")
             @csrf
@@ -46,7 +46,7 @@
           <form
             class="form"
             method="POST"
-            action="{{ route("nomadelfia.internal-name.store", $persona->id) }}"
+            action="{{ route("anagrafe.internal-name.store", $persona->id) }}"
           >
             @csrf
             <div class="">

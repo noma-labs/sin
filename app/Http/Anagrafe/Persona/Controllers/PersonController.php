@@ -5,17 +5,30 @@ declare(strict_types=1);
 namespace App\Anagrafe\Persona\Controllers;
 
 use App\Anagrafe\Persona\Models\Persona;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
-use Illuminate\Support\Facades\DB;
 
 #[Middleware('auth')]
 final class PersonController
 {
+    #[Middleware('can:popolazione.persona.visualizza')]
+    public function index(): View
+    {
+        $interni = Persona::idsInterni();
+
+        $persone = Persona::query()
+            ->with('famiglieAttuali')
+            ->orderBy('nominativo')
+            ->paginate(50);
+
+        return view('anagrafe.persone.index', compact('persone', 'interni'));
+    }
+
     #[Middleware('can:popolazione.persona.inserisci')]
     public function create()
     {
-        return view('nomadelfia.persone.anagrafica.create');
+        return view('anagrafe.persone.anagrafica.create');
     }
 
     #[Middleware('can:popolazione.persona.inserisci')]
@@ -52,24 +65,6 @@ final class PersonController
         );
         $persona->save();
 
-        return redirect(route('nomadelfia.join.create', $persona->id))->withSuccess("Dati anagrafici di $persona->nominativo inseriti correttamente.");
-    }
-
-    #[Middleware('can:popolazione.persona.visualizza')]
-    public function show($id)
-    {
-        $persona = Persona::findOrFail($id);
-        $posizioneAttuale = $persona->posizioneAttuale();
-        $gruppoAttuale = $persona->gruppofamiliareAttuale();
-        $famigliaAttuale = $persona->famigliaAttuale();
-
-        $famigliaEnrico = DB::connection('db_nomadelfia')
-            ->table('alfa_enrico_15_feb_23')
-            ->select('famiglia')
-            ->where('id', $persona->id_alfa_enrico)
-            ->first();
-
-        return view('nomadelfia.persone.show',
-            compact('persona', 'posizioneAttuale', 'gruppoAttuale', 'famigliaAttuale', 'famigliaEnrico'));
+        return to_route('nomadelfia.person.show', $persona->id)->withSuccess("Dati anagrafici di $persona->nominativo inseriti correttamente.");
     }
 }

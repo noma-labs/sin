@@ -8,7 +8,7 @@
       class="form"
       method="POST"
       id="formAggiornaFamiglia{{ $famiglia->id }}"
-      action="{{ route("nomadelfia.families.update", $famiglia->id) }}"
+      action="{{ route("anagrafe.families.update", $famiglia->id) }}"
     >
       @csrf
       @method("PUT")

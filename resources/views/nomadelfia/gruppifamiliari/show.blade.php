@@ -127,7 +127,7 @@
                       <div class="fw-bold mt-2">
                         Fam.
                         <a
-                          href="{{ route("nomadelfia.families.show", $famiglia_id) }}"
+                          href="{{ route("anagrafe.families.show", $famiglia_id) }}"
                         >
                           {{ App\Anagrafe\Famiglia\Models\Famiglia::find($famiglia_id)->nome_famiglia }}
                         </a>

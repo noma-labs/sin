@@ -16,6 +16,7 @@ use App\Anagrafe\Famiglia\Controllers\FamilyController;
 use App\Anagrafe\Famiglia\Controllers\FamilyMemberController;
 use App\Anagrafe\Famiglia\Controllers\MarriageController;
 use App\Anagrafe\Famiglia\Controllers\PersonaFamigliaController;
+use App\Anagrafe\Persona\Controllers\InternalNameController;
 use App\Anagrafe\Persona\Controllers\PersonController;
 use App\Anagrafe\Persona\Controllers\PersonIdentityController;
 use App\Anagrafe\Persona\Controllers\SearchablePersonController;
@@ -45,9 +46,9 @@ use App\Nomadelfia\GruppoFamiliare\Controllers\PersonGruppoFamiliareController;
 use App\Nomadelfia\Incarico\Controllers\IncarichiController;
 use App\Nomadelfia\Persona\Controllers\DeathController;
 use App\Nomadelfia\Persona\Controllers\FolderNumberController;
-use App\Nomadelfia\Persona\Controllers\InternalNameController;
 use App\Nomadelfia\Persona\Controllers\JoinCommunityController;
 use App\Nomadelfia\Persona\Controllers\LeaveCommunityController;
+use App\Nomadelfia\Persona\Controllers\PersonaPopolazioneController;
 use App\Nomadelfia\Persona\Controllers\PersonaPosizioneConcludiController;
 use App\Nomadelfia\Persona\Controllers\PersonaStatoController;
 use App\Nomadelfia\Persona\Controllers\PersonPositionController;
@@ -131,15 +132,36 @@ Route::prefix('admin')->middleware('role:super-admin')->group(function () {
     Route::get('logs', [LogsActivityController::class, 'index'])->name('logs.index');
 });
 
+Route::prefix('anagrafe')->middleware('auth')->group(function () {
+    Route::get('/', [PersonController::class, 'index'])->name('anagrafe.index');
+
+    Route::get('people-new', [PersonController::class, 'create'])->name('anagrafe.person.create');
+    Route::post('people', [PersonController::class, 'store'])->name('anagrafe.person.store');
+    Route::get('people/{id}/identity', [PersonIdentityController::class, 'edit'])->name('anagrafe.person.identity.edit');
+    Route::put('people/{id}/identity', [PersonIdentityController::class, 'update'])->name('anagrafe.person.identity.update');
+    Route::post('people/{id}/internal-name', [InternalNameController::class, 'store'])->name('anagrafe.internal-name.store');
+    Route::get('people/{id}/internal-name', [InternalNameController::class, 'edit'])->name('anagrafe.internal-name.edit');
+    Route::put('people/{id}/internal-name', [InternalNameController::class, 'update'])->name('anagrafe.internal-name.update');
+    Route::view('search', 'anagrafe.persone.search')->middleware('can:popolazione.persona.visualizza')->name('anagrafe.people.search');
+    Route::get('search/submit', [SearchablePersonController::class, 'show'])->name('anagrafe.people.search.show');
+    Route::get('families', [FamilyController::class, 'index'])->name('anagrafe.families');
+    Route::get('families/{id}', [FamilyController::class, 'show'])->name('anagrafe.families.show');
+    Route::put('families/{id}', [FamilyController::class, 'update'])->name('anagrafe.families.update');
+    Route::get('people/{id}/families', [PersonaFamigliaController::class, 'index'])->name('anagrafe.person.families');
+    Route::post('people/{id}/add-family', [PersonaFamigliaController::class, 'store'])->name('anagrafe.person.add-family');
+    Route::get('marriage', [MarriageController::class, 'create'])->name('anagrafe.marriage.create');
+    Route::post('marriage', [MarriageController::class, 'store'])->name('anagrafe.marriage.store');
+    Route::post('families/{id}/member', [FamilyMemberController::class, 'store'])->name('anagrafe.family.member.store');
+    Route::put('families/{id}/member', [FamilyMemberController::class, 'update'])->name('anagrafe.family.member.update');
+});
+
 Route::prefix('nomadelfia')->group(function () {
     Route::get('/', [PopolazioneSummaryController::class, 'index'])->name('nomadelfia.index');
 
-    Route::get('people-new', [PersonController::class, 'create'])->name('nomadelfia.person.create');
-    Route::post('people', [PersonController::class, 'store'])->name('nomadelfia.person.store');
-    Route::get('people/{id}', [PersonController::class, 'show'])->name('nomadelfia.person.show');
-
-    Route::get('people/{id}/identity', [PersonIdentityController::class, 'edit'])->name('nomadelfia.person.identity.edit');
-    Route::put('people/{id}/identity', [PersonIdentityController::class, 'update'])->name('nomadelfia.person.identity.update');
+    Route::get('people/{id}', [PersonaPopolazioneController::class, 'show'])->name('nomadelfia.person.show');
+    Route::permanentRedirect('families', '/anagrafe/families');
+    Route::permanentRedirect('families/{id}', '/anagrafe/families/{id}');
+    Route::permanentRedirect('search', '/anagrafe/search');
 
     Route::get('people/{id}/join', [JoinCommunityController::class, 'create'])->name('nomadelfia.join.create');
     Route::post('people/{id}/join', [JoinCommunityController::class, 'store'])->name('nomadelfia.join.store');
@@ -151,13 +173,6 @@ Route::prefix('nomadelfia')->group(function () {
     Route::post('people/{id}/death', [DeathController::class, 'store'])->name('nomadelfia.death.store');
     Route::get('people/{id}/folder-number', [FolderNumberController::class, 'create'])->name('nomadelfia.folder-number.create');
     Route::post('people/{id}/folder-number', [FolderNumberController::class, 'store'])->name('nomadelfia.folder-number.store');
-
-    Route::post('people/{id}/internal-name', [InternalNameController::class, 'store'])->name('nomadelfia.internal-name.store');
-    Route::get('people/{id}/internal-name', [InternalNameController::class, 'edit'])->name('nomadelfia.internal-name.edit');
-    Route::put('people/{id}/internal-name', [InternalNameController::class, 'update'])->name('nomadelfia.internal-name.update');
-
-    Route::view('search', 'nomadelfia.persone.search')->name('nomadelfia.people.search');
-    Route::get('search/submit', [SearchablePersonController::class, 'show'])->name('nomadelfia.people.search.show');
 
     Route::get('people/{id}/stato', [PersonaStatoController::class, 'index'])->name('nomadelfia.persone.stato');
     Route::post('people/{id}/stato', [PersonaStatoController::class, 'store'])->name('nomadelfia.persone.stato.assegna');
@@ -198,18 +213,7 @@ Route::prefix('nomadelfia')->group(function () {
     Route::get('gruppifamiliari/{id}', [GruppofamiliareController::class, 'show'])->name('nomadelfia.gruppifamiliari.show');
     Route::post('gruppifamiliari/{id}/capogruppo', [CapogruppoController::class, 'store'])->name('nomadelfia.capogruppo.store');
 
-    Route::get('families', [FamilyController::class, 'index'])->name('nomadelfia.families');
-    Route::get('families/{id}', [FamilyController::class, 'show'])->name('nomadelfia.families.show');
-    Route::put('families/{id}', [FamilyController::class, 'update'])->name('nomadelfia.families.update');
-    Route::get('people/{id}/families', [PersonaFamigliaController::class, 'index'])->name('nomadelfia.person.families');
-    Route::post('people/{id}/add-family', [PersonaFamigliaController::class, 'store'])->name('nomadelfia.person.add-family');
-
-    Route::get('marriage', [MarriageController::class, 'create'])->name('nomadelfia.marriage.create');
-    Route::post('marriage', [MarriageController::class, 'store'])->name('nomadelfia.marriage.store');
-
     Route::post('families/{id}/leave', [FamilyLeaveController::class, 'store'])->name('nomadelfia.family.leave');
-    Route::post('families/{id}/member', [FamilyMemberController::class, 'store'])->name('nomadelfia.family.member.store');
-    Route::put('families/{id}/member', [FamilyMemberController::class, 'update'])->name('nomadelfia.family.member.update');
     Route::post('families/{id}/gruppo/{currentGruppo}', [FamilyGruppofamiliareController::class, 'store'])->name('nomadelfia.family.gruppo.move');
 
     Route::get('export/word', PrintableWordPopolazioneController::class)->name('nomadelfia.popolazione.export.word');
