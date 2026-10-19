@@ -45,10 +45,10 @@ final class PersonIdentityController
         $persona->biografia = $request->input('biografia', $persona->biografia);
         $persona->data_decesso = $request->input('data_decesso', $persona->data_decesso);
         if ($persona->save()) {
-            return to_route('anagrafe.person.show', $id)->withSuccess("Dati anagrafici di $persona->nominativo aggiornati correttamente. ");
+            return to_route('nomadelfia.person.show', $id)->withSuccess("Dati anagrafici di $persona->nominativo aggiornati correttamente. ");
         }
 
-        return to_route('anagrafe.person.show', $id)->withError("Errore dureante l'aggiornamente dei dati anagrafici di $persona->nominativo.");
+        return to_route('nomadelfia.person.show', $id)->withError("Errore dureante l'aggiornamente dei dati anagrafici di $persona->nominativo.");
 
     }
 }

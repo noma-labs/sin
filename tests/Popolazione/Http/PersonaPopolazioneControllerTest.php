@@ -18,7 +18,7 @@ it('can render the popolazione history of a person', function (): void {
         ->assertSuccessful();
 });
 
-it('shows a person in Nomadelfia in the popolazione section with a link to the anagrafe', function (): void {
+it('shows all the cards of a person in Nomadelfia', function (): void {
     login();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     app(EntrataMaggiorenneSingleAction::class)->execute($persona, Carbon::now(), GruppoFamiliare::all()->random());
@@ -26,9 +26,8 @@ it('shows a person in Nomadelfia in the popolazione section with a link to the a
     $this->get(action([PersonaPopolazioneController::class, 'show'], $persona->id))
         ->assertSuccessful()
         ->assertSee('Presente')
-        ->assertSee(route('anagrafe.person.show', $persona->id));
+        ->assertSeeInOrder(['Dati anagrafici', 'Dati Nomadelfia', 'Dati Famiglia']);
 });
-
 it('shows a person who never entered Nomadelfia', function (): void {
     login();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
@@ -38,7 +37,7 @@ it('shows a person who never entered Nomadelfia', function (): void {
         ->assertSee('Mai entrato');
 });
 
-it('links the people of a gruppo familiare to their popolazione page', function (): void {
+it('links the people of a gruppo familiare to their page', function (): void {
     login();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $gruppo = GruppoFamiliare::all()->random();
@@ -46,6 +45,5 @@ it('links the people of a gruppo familiare to their popolazione page', function 
 
     $this->get(route('nomadelfia.gruppifamiliari.show', $gruppo->id))
         ->assertSuccessful()
-        ->assertSee(route('nomadelfia.person.show', $persona->id))
-        ->assertDontSee(route('anagrafe.person.show', $persona->id));
+        ->assertSee(route('nomadelfia.person.show', $persona->id));
 });

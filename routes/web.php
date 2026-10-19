@@ -137,7 +137,6 @@ Route::prefix('anagrafe')->group(function () {
 
     Route::get('people-new', [PersonController::class, 'create'])->name('anagrafe.person.create');
     Route::post('people', [PersonController::class, 'store'])->name('anagrafe.person.store');
-    Route::get('people/{id}', [PersonController::class, 'show'])->name('anagrafe.person.show');
     Route::get('people/{id}/identity', [PersonIdentityController::class, 'edit'])->name('anagrafe.person.identity.edit');
     Route::put('people/{id}/identity', [PersonIdentityController::class, 'update'])->name('anagrafe.person.identity.update');
     Route::post('people/{id}/internal-name', [InternalNameController::class, 'store'])->name('anagrafe.internal-name.store');

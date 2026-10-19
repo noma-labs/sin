@@ -31,10 +31,10 @@ final class InternalNameController
         $persona = Persona::findOrFail($id);
         $persona->nominativo = $request->nominativo;
         if ($persona->save()) {
-            return to_route('anagrafe.person.show', $id)->withSucces('Nominativo  aggiornato con suceesso');
+            return to_route('nomadelfia.person.show', $id)->withSucces('Nominativo  aggiornato con suceesso');
         }
 
-        return to_route('anagrafe.person.show', $id)->withError('Errore. Il nominativo non è stato aggiornato.');
+        return to_route('nomadelfia.person.show', $id)->withError('Errore. Il nominativo non è stato aggiornato.');
 
     }
 
@@ -51,9 +51,9 @@ final class InternalNameController
         $persona->nominativiStorici()->create(['nominativo' => $persona->nominativo]);
         $persona->nominativo = $request->nuovonominativo;
         if ($persona->save()) {
-            return to_route('anagrafe.person.show', $id)->withSucces('Nuovo nominativo aggiunto con successo.');
+            return to_route('nomadelfia.person.show', $id)->withSucces('Nuovo nominativo aggiunto con successo.');
         }
 
-        return to_route('anagrafe.person.show', $id)->withError('Errore. Il nominativo non è stato assegnato.');
+        return to_route('nomadelfia.person.show', $id)->withError('Errore. Il nominativo non è stato assegnato.');
     }
 }

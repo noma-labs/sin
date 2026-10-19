@@ -243,7 +243,7 @@
                   <dt class="col-sm-5">Nome</dt>
                   <dd class="col-sm-7">
                     <a
-                      href="{{ route("anagrafe.person.show", $issue->persona_id) }}"
+                      href="{{ route("nomadelfia.person.show", $issue->persona_id) }}"
                       class="text-decoration-none"
                     >
                       {{ $issue->photo_persona_name }} ({{ $issue->nome }} {{ $issue->cognome }})
