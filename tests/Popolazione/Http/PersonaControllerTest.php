@@ -34,7 +34,8 @@ it('lists all people in the anagrafe and filters by presence in Nomadelfia', fun
 
     $this->get(action([PersonController::class, 'index']))
         ->assertSuccessful()
-        ->assertSeeInOrder(['Aaa Persona Esterna', 'Deceduto', 'Aaa Persona Interna', 'In Nomadelfia']);
+        ->assertSeeInOrder(['Aaa Persona Esterna', 'Deceduto', 'Aaa Persona Interna', 'In Nomadelfia'])
+        ->assertSee(route('anagrafe.person.create'));
 
     $this->get(action([PersonController::class, 'index'], ['filtro' => 'interni']))
         ->assertSee('Aaa Persona Interna')

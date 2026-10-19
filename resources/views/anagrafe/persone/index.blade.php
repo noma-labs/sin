@@ -16,10 +16,17 @@
         </a>
       @endforeach
     </div>
-    <span>
-      Persone:
-      <strong>{{ $persone->total() }}</strong>
-    </span>
+    <div class="d-flex align-items-center gap-3">
+      <span>
+        Persone:
+        <strong>{{ $persone->total() }}</strong>
+      </span>
+      @can("popolazione.persona.inserisci")
+        <a class="btn btn-success" href="{{ route("anagrafe.person.create") }}">
+          Inserisci persona
+        </a>
+      @endcan
+    </div>
   </div>
   @include("anagrafe.persone.table")
 @endsection
