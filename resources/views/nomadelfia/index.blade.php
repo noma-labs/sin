@@ -4,10 +4,10 @@
 
 @section("navbar-link")
   <li class="nav-item">
-    <a class="nav-link" href="{{ route("nomadelfia.index") }}">Popolazione</a>
+    <a class="nav-link" href="{{ route("anagrafe.index") }}">Persone</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="{{ route("anagrafe.index") }}">Persone</a>
+    <a class="nav-link" href="{{ route("nomadelfia.index") }}">Popolazione</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="{{ route("nomadelfia.gruppifamiliari") }}">
