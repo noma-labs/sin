@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Anagrafe\Persona\Controllers;
 
 use App\Anagrafe\Persona\Models\Persona;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Illuminate\Support\Facades\DB;
@@ -12,6 +13,24 @@ use Illuminate\Support\Facades\DB;
 #[Middleware('auth')]
 final class PersonController
 {
+    private const FILTRI = ['tutti', 'interni', 'esterni'];
+
+    #[Middleware('can:popolazione.persona.visualizza')]
+    public function index(Request $request): View
+    {
+        $filtro = in_array($request->query('filtro'), self::FILTRI, true) ? $request->query('filtro') : 'tutti';
+        $interni = Persona::idsInterni();
+
+        $persone = Persona::query()
+            ->with('famiglieAttuali')
+            ->when($filtro === 'interni', fn ($query) => $query->whereIn('id', $interni))
+            ->when($filtro === 'esterni', fn ($query) => $query->whereNotIn('id', $interni))
+            ->orderBy('nominativo')
+            ->paginate(50);
+
+        return view('anagrafe.persone.index', compact('persone', 'interni', 'filtro'));
+    }
+
     #[Middleware('can:popolazione.persona.inserisci')]
     public function create()
     {

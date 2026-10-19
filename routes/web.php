@@ -132,7 +132,7 @@ Route::prefix('admin')->middleware('role:super-admin')->group(function () {
 });
 
 Route::prefix('anagrafe')->group(function () {
-    Route::redirect('/', '/anagrafe/search')->name('anagrafe.index');
+    Route::get('/', [PersonController::class, 'index'])->name('anagrafe.index');
 
     Route::get('people-new', [PersonController::class, 'create'])->name('anagrafe.person.create');
     Route::post('people', [PersonController::class, 'store'])->name('anagrafe.person.store');

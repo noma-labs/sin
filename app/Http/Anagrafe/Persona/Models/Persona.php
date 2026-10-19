@@ -170,6 +170,14 @@ class Persona extends Model
         return $this->famigliaPosizione('FIGLIO ACCOLTO');
     }
 
+    /**
+     * @return BelongsToMany<Famiglia, $this>
+     */
+    public function famiglieAttuali(): BelongsToMany
+    {
+        return $this->famiglie()->wherePivot('stato', '1');
+    }
+
     public function famiglieStorico(): BelongsToMany
     {
         return $this->famiglie()

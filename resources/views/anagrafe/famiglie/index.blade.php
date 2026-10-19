@@ -90,11 +90,17 @@
                 Single
               </button>
               @if ($tuttiSingle)
-                <a class="btn btn-sm btn-outline-secondary" href="{{ route("anagrafe.families") }}">
+                <a
+                  class="btn btn-sm btn-outline-secondary"
+                  href="{{ route("anagrafe.families") }}"
+                >
                   Solo in Nomadelfia
                 </a>
               @else
-                <a class="btn btn-sm btn-outline-secondary" href="{{ route("anagrafe.families", ["single" => "tutti"]) }}">
+                <a
+                  class="btn btn-sm btn-outline-secondary"
+                  href="{{ route("anagrafe.families", ["single" => "tutti"]) }}"
+                >
                   Mostra tutti
                 </a>
               @endif
