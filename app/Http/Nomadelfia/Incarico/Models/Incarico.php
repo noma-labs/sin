@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\Incarico\Models;
 
-use App\Nomadelfia\Persona\Models\Persona;
+use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Database\Factories\IncaricoFactory;
 use Illuminate\Database\Eloquent\Builder;

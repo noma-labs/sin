@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\Incarico\Models\Incarico;
-use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaIncaricoAction;
 use Carbon\Carbon;
 

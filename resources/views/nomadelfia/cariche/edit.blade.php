@@ -74,7 +74,7 @@
                         <a
                           href="{{ route("nomadelfia.person.show", ["id" => $famiglia_id]) }}"
                         >
-                          {{ App\Nomadelfia\Famiglia\Models\Famiglia::find($famiglia_id)->nome_famiglia }}
+                          {{ App\Anagrafe\Famiglia\Models\Famiglia::find($famiglia_id)->nome_famiglia }}
                         </a>
                         ({{ count($componenti) }})
                       </div>

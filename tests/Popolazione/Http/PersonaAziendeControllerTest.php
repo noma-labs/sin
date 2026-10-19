@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Http\Nomadelfia;
 
+use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\Azienda\Controllers\PersonaAziendeController;
 use App\Nomadelfia\Azienda\Models\Azienda;
-use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaAziendaAction;
 use Carbon\Carbon;
 

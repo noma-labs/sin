@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\GruppoFamiliare\Models;
 
+use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\Exceptions\CouldNotAssignCapogruppo;
 use App\Nomadelfia\Exceptions\GruppoHaMultipleCapogruppi;
 use App\Nomadelfia\GruppoFamiliare\QueryBuilders\GruppoFamiliareQueryBuilder;
-use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Carbon\Carbon;
 use Database\Factories\GruppoFamiliareFactory;

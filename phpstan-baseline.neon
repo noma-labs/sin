@@ -1573,7 +1573,7 @@ parameters:
 			path: app/Http/Biblioteca/Controllers/LoansController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 4
 			path: app/Http/Biblioteca/Controllers/LoansController.php
@@ -2233,13 +2233,13 @@ parameters:
 			path: app/Http/Nomadelfia/Azienda/Controllers/AziendeController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:orderBy\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:orderBy\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Nomadelfia/Azienda/Controllers/AziendeController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:where\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:where\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Nomadelfia/Azienda/Controllers/AziendeController.php
@@ -2305,7 +2305,7 @@ parameters:
 			path: app/Http/Nomadelfia/Azienda/Controllers/AziendeLavoratoreController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 4
 			path: app/Http/Nomadelfia/Azienda/Controllers/AziendeLavoratoreController.php
@@ -2437,7 +2437,7 @@ parameters:
 			path: app/Http/Nomadelfia/Azienda/Controllers/PersonaAziendeController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 3
 			path: app/Http/Nomadelfia/Azienda/Controllers/PersonaAziendeController.php
@@ -2635,7 +2635,7 @@ parameters:
 			path: app/Http/Nomadelfia/EserciziSpirituali/Controllers/EsSpiritualiController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 2
 			path: app/Http/Nomadelfia/EserciziSpirituali/Controllers/EsSpiritualiController.php
@@ -2713,7 +2713,7 @@ parameters:
 			path: app/Http/Nomadelfia/EserciziSpirituali/Models/EserciziSpirituali.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 3
 			path: app/Http/Nomadelfia/EserciziSpirituali/Models/EserciziSpirituali.php
@@ -2803,7 +2803,7 @@ parameters:
 			path: app/Http/Nomadelfia/EserciziSpirituali/Models/EserciziSpirituali.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:create\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:create\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Nomadelfia/Famiglia/Actions/CreateMarriageAction.php
@@ -2833,13 +2833,13 @@ parameters:
 			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:findorfail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:findorfail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 2
 			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:single\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:single\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 2
 			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
@@ -2893,7 +2893,7 @@ parameters:
 			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyGruppofamiliareController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:findorfail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:findorfail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyGruppofamiliareController.php
@@ -2923,7 +2923,7 @@ parameters:
 			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyLeaveController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:findorfail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:findorfail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyLeaveController.php
@@ -2977,13 +2977,13 @@ parameters:
 			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyMemberController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:findorfail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:findorfail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 2
 			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyMemberController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findorfail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findorfail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyMemberController.php
@@ -3037,13 +3037,13 @@ parameters:
 			path: app/Http/Nomadelfia/Famiglia/Controllers/MarriageController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:notAlreadyMarried\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:notAlreadyMarried\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 2
 			path: app/Http/Nomadelfia/Famiglia/Controllers/MarriageController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 2
 			path: app/Http/Nomadelfia/Famiglia/Controllers/MarriageController.php
@@ -3061,7 +3061,7 @@ parameters:
 			path: app/Http/Nomadelfia/Famiglia/Controllers/MarriageController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
@@ -3079,496 +3079,496 @@ parameters:
 			path: app/Http/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 6
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
 			message: '#^Cannot access offset 0 on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
 			message: '#^Cannot access offset 1 on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
 			message: '#^Cannot access offset 2 on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
 			message: '#^Cannot access offset 3 on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
 			message: '#^Cannot access offset mixed on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Class App\\Nomadelfia\\Famiglia\\Models\\Famiglia uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			message: '#^Class App\\Anagrafe\\Famiglia\\Models\\Famiglia uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
 			identifier: missingType.generics
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:OnlyCapofamiglia\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:OnlyCapofamiglia\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:assegnaCapoFamiglia\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:assegnaCapoFamiglia\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:assegnaCapoFamiglia\(\) has parameter \$note with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:assegnaCapoFamiglia\(\) has parameter \$note with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:assegnaCapoFamiglia\(\) has parameter \$persona with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:assegnaCapoFamiglia\(\) has parameter \$persona with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:assegnaComponente\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:assegnaComponente\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:assegnaComponente\(\) has parameter \$note with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:assegnaComponente\(\) has parameter \$note with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:assegnaComponente\(\) has parameter \$persona with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:assegnaComponente\(\) has parameter \$persona with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:assegnaFamigliaANuovoGruppoFamiliare\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:assegnaFamigliaANuovoGruppoFamiliare\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:assegnaFamigliaANuovoGruppoFamiliare\(\) has parameter \$dataUscitaGruppoFamiliareAttuale with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:assegnaFamigliaANuovoGruppoFamiliare\(\) has parameter \$dataUscitaGruppoFamiliareAttuale with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:assegnaFamigliaANuovoGruppoFamiliare\(\) has parameter \$data_entrata with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:assegnaFamigliaANuovoGruppoFamiliare\(\) has parameter \$data_entrata with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:assegnaFamigliaANuovoGruppoFamiliare\(\) has parameter \$gruppo_attuale_id with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:assegnaFamigliaANuovoGruppoFamiliare\(\) has parameter \$gruppo_attuale_id with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:assegnaFamigliaANuovoGruppoFamiliare\(\) has parameter \$gruppo_nuovo_id with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:assegnaFamigliaANuovoGruppoFamiliare\(\) has parameter \$gruppo_nuovo_id with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:assegnaFiglioAccolto\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:assegnaFiglioAccolto\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:assegnaFiglioAccolto\(\) has parameter \$note with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:assegnaFiglioAccolto\(\) has parameter \$note with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:assegnaFiglioAccolto\(\) has parameter \$persona with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:assegnaFiglioAccolto\(\) has parameter \$persona with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:assegnaFiglioNato\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:assegnaFiglioNato\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:assegnaFiglioNato\(\) has parameter \$note with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:assegnaFiglioNato\(\) has parameter \$note with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:assegnaFiglioNato\(\) has parameter \$persona with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:assegnaFiglioNato\(\) has parameter \$persona with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:assegnaMoglie\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:assegnaMoglie\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:assegnaMoglie\(\) has parameter \$persona with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:assegnaMoglie\(\) has parameter \$persona with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:assegnaSingle\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:assegnaSingle\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:assegnaSingle\(\) has parameter \$data with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:assegnaSingle\(\) has parameter \$data with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:assegnaSingle\(\) has parameter \$note with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:assegnaSingle\(\) has parameter \$note with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:assegnaSingle\(\) has parameter \$persona with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:assegnaSingle\(\) has parameter \$persona with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:capofamiglia\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:capofamiglia\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:componenti\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:componenti\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:componentiAttuali\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:componentiAttuali\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:conCapofamiglia\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:conCapofamiglia\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:famigliaConErrore\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:famigliaConErrore\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:famiglieNumerose\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:famiglieNumerose\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:famigliePerPosizioni\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:famigliePerPosizioni\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:famigliePerPosizioni\(\) has parameter \$posizione with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:famigliePerPosizioni\(\) has parameter \$posizione with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:famigliePerPosizioni\(\) has parameter \$query with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:famigliePerPosizioni\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:famigliePerPosizioni\(\) has parameter \$stato with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:famigliePerPosizioni\(\) has parameter \$stato with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:femmina\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:femmina\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:femmina\(\) has parameter \$query with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:femmina\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:figli\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:figli\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:figliAttuali\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:figliAttuali\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:figliEnums\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:figliEnums\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:getCapoFamigliaEnum\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:getCapoFamigliaEnum\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:getFiglioAccoltoEnum\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:getFiglioAccoltoEnum\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:getFiglioNatoEnum\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:getFiglioNatoEnum\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:getMoglieEnum\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:getMoglieEnum\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:getPossibleEnumValues\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:getPossibleEnumValues\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:gruppiFamiliariStorico\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:gruppiFamiliariStorico\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:gruppoFamiliareAttuale\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:gruppoFamiliareAttuale\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:gruppoFamiliareAttualeOrFail\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:gruppoFamiliareAttualeOrFail\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:maschio\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:maschio\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:maschio\(\) has parameter \$query with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:maschio\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:moglie\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:moglie\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:mycomponenti\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:mycomponenti\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:newFactory\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:newFactory\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:ordered\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:ordered\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:ordered\(\) has parameter \$query with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:ordered\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:personeSenzaFamiglia\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:personeSenzaFamiglia\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:rimuoviDaGruppoFamiliare\(\) has parameter \$idGruppo with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:rimuoviDaGruppoFamiliare\(\) has parameter \$idGruppo with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:setAttribute\(\) should return \$this\(App\\Nomadelfia\\Famiglia\\Models\\Famiglia\) but returns mixed\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:setAttribute\(\) should return \$this\(App\\Anagrafe\\Famiglia\\Models\\Famiglia\) but returns mixed\.$#'
 			identifier: return.type
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:uscitaDalNucleoFamiliare\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:uscitaDalNucleoFamiliare\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:uscitaDalNucleoFamiliare\(\) has parameter \$note with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:uscitaDalNucleoFamiliare\(\) has parameter \$note with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:uscitaDalNucleoFamiliare\(\) has parameter \$persona with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:uscitaDalNucleoFamiliare\(\) has parameter \$persona with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
 			message: '#^Offset 1 might not exist on array\{\}\|array\{non\-falsy\-string, string\}\.$#'
 			identifier: offsetAccess.notFound
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
 			message: '#^Parameter \#1 \$array of function array_keys expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
 			message: '#^Parameter \#1 \$haystack of static method Illuminate\\Support\\Str\:\:startsWith\(\) expects string, mixed given\.$#'
 			identifier: argument.type
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
 			message: '#^Parameter \#1 \$query of method Illuminate\\Database\\Connection\:\:select\(\) expects string, float\|int\|string given\.$#'
 			identifier: argument.type
 			count: 10
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
 			message: '#^Parameter \#1 \$query of method Illuminate\\Database\\Connection\:\:update\(\) expects string, float\|int\|string given\.$#'
 			identifier: argument.type
 			count: 3
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
 			message: '#^Parameter \#1 \$query of static method Illuminate\\Support\\Facades\\DB\:\:select\(\) expects string, float\|int\|string given\.$#'
 			identifier: argument.type
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
 			message: '#^Parameter \#1 \$value of function collect expects Illuminate\\Contracts\\Support\\Arrayable\<\(int\|string\), mixed\>\|iterable\<\(int\|string\), mixed\>\|null, mixed given\.$#'
 			identifier: argument.type
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
 			message: '#^Parameter \#2 \$haystack of function in_array expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
 			message: '#^Part \$value \(mixed\) of encapsed string cannot be cast to string\.$#'
 			identifier: encapsedStringPart.nonString
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Property App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:\$enumPosizione has no type specified\.$#'
+			message: '#^Property App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:\$enumPosizione has no type specified\.$#'
 			identifier: missingType.property
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
 			message: '#^Unable to resolve the template type TKey in call to function collect$#'
 			identifier: argument.templateType
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
 			message: '#^Unable to resolve the template type TValue in call to function collect$#'
 			identifier: argument.templateType
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Class App\\Nomadelfia\\Famiglia\\QueryBuilders\\FamigliaQueryBuilder extends generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			message: '#^Class App\\Anagrafe\\Famiglia\\QueryBuilders\\FamigliaQueryBuilder extends generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
 			identifier: missingType.generics
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/QueryBuilders/FamigliaQueryBuilder.php
+			path: app/Http/Anagrafe/Famiglia/QueryBuilders/FamigliaQueryBuilder.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\QueryBuilders\\FamigliaQueryBuilder\:\:notAlreadyMarried\(\) should return App\\Nomadelfia\\Famiglia\\QueryBuilders\\FamigliaQueryBuilder but returns Illuminate\\Database\\Query\\Builder\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\QueryBuilders\\FamigliaQueryBuilder\:\:notAlreadyMarried\(\) should return App\\Anagrafe\\Famiglia\\QueryBuilders\\FamigliaQueryBuilder but returns Illuminate\\Database\\Query\\Builder\.$#'
 			identifier: return.type
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/QueryBuilders/FamigliaQueryBuilder.php
+			path: app/Http/Anagrafe/Famiglia/QueryBuilders/FamigliaQueryBuilder.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\QueryBuilders\\FamigliaQueryBuilder\:\:single\(\) should return App\\Nomadelfia\\Famiglia\\QueryBuilders\\FamigliaQueryBuilder but returns Illuminate\\Database\\Query\\Builder\.$#'
+			message: '#^Method App\\Anagrafe\\Famiglia\\QueryBuilders\\FamigliaQueryBuilder\:\:single\(\) should return App\\Anagrafe\\Famiglia\\QueryBuilders\\FamigliaQueryBuilder but returns Illuminate\\Database\\Query\\Builder\.$#'
 			identifier: return.type
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/QueryBuilders/FamigliaQueryBuilder.php
+			path: app/Http/Anagrafe/Famiglia/QueryBuilders/FamigliaQueryBuilder.php
 
 		-
 			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withSuccess\(\)\.$#'
@@ -3673,7 +3673,7 @@ parameters:
 			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/MovePersonGruppoFamiliareController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/MovePersonGruppoFamiliareController.php
@@ -3751,7 +3751,7 @@ parameters:
 			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/PersonGruppoFamiliareController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 4
 			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/PersonGruppoFamiliareController.php
@@ -3823,7 +3823,7 @@ parameters:
 			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/PersonGruppoFamiliareController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Nomadelfia/GruppoFamiliare/Models/GruppoFamiliare.php
@@ -3943,19 +3943,19 @@ parameters:
 			path: app/Http/Nomadelfia/Incarico/Controllers/IncarichiController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Nomadelfia/Incarico/Controllers/IncarichiController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:orderBy\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:orderBy\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Nomadelfia/Incarico/Controllers/IncarichiController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:where\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:where\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Nomadelfia/Incarico/Controllers/IncarichiController.php
@@ -4087,7 +4087,7 @@ parameters:
 			path: app/Http/Nomadelfia/Incarico/Models/Incarico.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:selectRaw\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:selectRaw\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Nomadelfia/Persona/Actions/ProposeNumeroElencoAction.php
@@ -4105,7 +4105,7 @@ parameters:
 			path: app/Http/Nomadelfia/Persona/Controllers/DeathController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Nomadelfia/Persona/Controllers/DeathController.php
@@ -4135,13 +4135,13 @@ parameters:
 			path: app/Http/Nomadelfia/Persona/Controllers/FolderNumberController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:NumeroElencoPrefixByLetter\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:NumeroElencoPrefixByLetter\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Nomadelfia/Persona/Controllers/FolderNumberController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 2
 			path: app/Http/Nomadelfia/Persona/Controllers/FolderNumberController.php
@@ -4195,7 +4195,7 @@ parameters:
 			path: app/Http/Nomadelfia/Persona/Controllers/InternalNameController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 3
 			path: app/Http/Nomadelfia/Persona/Controllers/InternalNameController.php
@@ -4261,7 +4261,7 @@ parameters:
 			path: app/Http/Nomadelfia/Persona/Controllers/JoinCommunityController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 3
 			path: app/Http/Nomadelfia/Persona/Controllers/JoinCommunityController.php
@@ -4273,7 +4273,7 @@ parameters:
 			path: app/Http/Nomadelfia/Persona/Controllers/JoinCommunityController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 3
 			path: app/Http/Nomadelfia/Persona/Controllers/JoinCommunityController.php
@@ -4345,7 +4345,7 @@ parameters:
 			path: app/Http/Nomadelfia/Persona/Controllers/LeaveCommunityController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 2
 			path: app/Http/Nomadelfia/Persona/Controllers/LeaveCommunityController.php
@@ -4387,13 +4387,13 @@ parameters:
 			path: app/Http/Nomadelfia/Persona/Controllers/PersonController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:create\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:create\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Nomadelfia/Persona/Controllers/PersonController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Nomadelfia/Persona/Controllers/PersonController.php
@@ -4471,7 +4471,7 @@ parameters:
 			path: app/Http/Nomadelfia/Persona/Controllers/PersonIdentityController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 2
 			path: app/Http/Nomadelfia/Persona/Controllers/PersonIdentityController.php
@@ -4549,7 +4549,7 @@ parameters:
 			path: app/Http/Nomadelfia/Persona/Controllers/PersonPositionController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 4
 			path: app/Http/Nomadelfia/Persona/Controllers/PersonPositionController.php
@@ -4639,7 +4639,7 @@ parameters:
 			path: app/Http/Nomadelfia/Persona/Controllers/PersonaPosizioneConcludiController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Nomadelfia/Persona/Controllers/PersonaPosizioneConcludiController.php
@@ -4693,7 +4693,7 @@ parameters:
 			path: app/Http/Nomadelfia/Persona/Controllers/PersonaStatoController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 3
 			path: app/Http/Nomadelfia/Persona/Controllers/PersonaStatoController.php
@@ -4771,7 +4771,7 @@ parameters:
 			path: app/Http/Nomadelfia/Persona/Controllers/SearchablePersonController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:sortable\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:sortable\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Nomadelfia/Persona/Controllers/SearchablePersonController.php
@@ -4786,427 +4786,427 @@ parameters:
 			message: '#^Access to an undefined property App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\Posizione\:\:\$id\.$#'
 			identifier: property.notFound
 			count: 5
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
 			message: '#^Access to an undefined property App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\Stato\:\:\$id\.$#'
 			identifier: property.notFound
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Call to an undefined method App\\Nomadelfia\\Persona\\Models\\Persona\:\:isSingle\(\)\.$#'
+			message: '#^Call to an undefined method App\\Anagrafe\\Persona\\Models\\Persona\:\:isSingle\(\)\.$#'
 			identifier: method.notFound
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
 			message: '#^Call to an undefined static method App\\Nomadelfia\\Incarico\\Models\\Incarico\:\:whereNotIn\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
 			message: '#^Call to an undefined static method App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\PopolazioneNomadelfia\:\:where\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 2
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
 			message: '#^Call to an undefined static method App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\PopolazioneNomadelfia\:\:whereNull\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
 			message: '#^Call to an undefined static method App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\Posizione\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
 			message: '#^Call to an undefined static method App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\Stato\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
 			message: '#^Cannot access property \$year on Illuminate\\Support\\Carbon\|null\.$#'
 			identifier: property.nonObject
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Class App\\Nomadelfia\\Persona\\Models\\Persona uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			message: '#^Class App\\Anagrafe\\Persona\\Models\\Persona uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
 			identifier: missingType.generics
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:assegnaPersonaANuovoGruppoFamiliare\(\) has parameter \$dataEntrataGruppo with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:assegnaPersonaANuovoGruppoFamiliare\(\) has parameter \$dataEntrataGruppo with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:assegnaPersonaANuovoGruppoFamiliare\(\) has parameter \$dataUscitaGruppoFamiliareAttuale with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:assegnaPersonaANuovoGruppoFamiliare\(\) has parameter \$dataUscitaGruppoFamiliareAttuale with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:assegnaPersonaANuovoGruppoFamiliare\(\) has parameter \$gruppoFamiliareAttuale with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:assegnaPersonaANuovoGruppoFamiliare\(\) has parameter \$gruppoFamiliareAttuale with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:assegnaPersonaANuovoGruppoFamiliare\(\) has parameter \$gruppoFamiliareNuovo with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:assegnaPersonaANuovoGruppoFamiliare\(\) has parameter \$gruppoFamiliareNuovo with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:assegnaPosizione\(\) has parameter \$posizione with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:assegnaPosizione\(\) has parameter \$posizione with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:assegnaStato\(\) has parameter \$attuale_data_fine with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:assegnaStato\(\) has parameter \$attuale_data_fine with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:assegnaStato\(\) has parameter \$data_inizio with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:assegnaStato\(\) has parameter \$data_inizio with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:assegnaStato\(\) has parameter \$stato with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:assegnaStato\(\) has parameter \$stato with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:aziende\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:aziende\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
 			identifier: missingType.generics
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:aziende\(\) should return Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany but returns Illuminate\\Database\\Query\\Builder\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:aziende\(\) should return Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany but returns Illuminate\\Database\\Query\\Builder\.$#'
 			identifier: return.type
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:aziendeAttuali\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:aziendeAttuali\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
 			identifier: missingType.generics
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:aziendeStorico\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:aziendeStorico\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
 			identifier: missingType.generics
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:cariche\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:cariche\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
 			identifier: missingType.generics
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:cariche\(\) should return Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany but returns Illuminate\\Database\\Query\\Builder\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:cariche\(\) should return Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany but returns Illuminate\\Database\\Query\\Builder\.$#'
 			identifier: return.type
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:caricheAttuali\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:caricheAttuali\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
 			identifier: missingType.generics
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:caricheStorico\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:caricheStorico\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
 			identifier: missingType.generics
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:concludiPosizione\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:concludiPosizione\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:concludiPosizione\(\) has parameter \$datafine with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:concludiPosizione\(\) has parameter \$datafine with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:concludiPosizione\(\) has parameter \$datain with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:concludiPosizione\(\) has parameter \$datain with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:concludiPosizione\(\) has parameter \$posizione_id with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:concludiPosizione\(\) has parameter \$posizione_id with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:eserciziSpirituali\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:eserciziSpirituali\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
 			identifier: missingType.generics
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:famigliaAttuale\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:famigliaAttuale\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:famiglie\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:famiglie\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
 			identifier: missingType.generics
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:famiglieStorico\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:famiglieStorico\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
 			identifier: missingType.generics
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:getInitialLetterOfCogonome\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:getInitialLetterOfCogonome\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:gruppifamiliari\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:gruppifamiliari\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
 			identifier: missingType.generics
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:gruppofamiliareAttuale\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:gruppofamiliareAttuale\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:gruppofamiliariStorico\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:gruppofamiliariStorico\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
 			identifier: missingType.generics
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:incarichi\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:incarichi\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
 			identifier: missingType.generics
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:incarichi\(\) should return Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany but returns Illuminate\\Database\\Query\\Builder\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:incarichi\(\) should return Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany but returns Illuminate\\Database\\Query\\Builder\.$#'
 			identifier: return.type
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:incarichiAttuali\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:incarichiAttuali\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
 			identifier: missingType.generics
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:incarichiPossibili\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:incarichiPossibili\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:incarichiStorico\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:incarichiStorico\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
 			identifier: missingType.generics
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:link_to_sorting_action\(\) has parameter \$col with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:link_to_sorting_action\(\) has parameter \$col with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:link_to_sorting_action\(\) has parameter \$title with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:link_to_sorting_action\(\) has parameter \$title with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:modificaDataInizioPosizione\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:modificaDataInizioPosizione\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:modificaDataInizioPosizione\(\) has parameter \$posizione_id with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:modificaDataInizioPosizione\(\) has parameter \$posizione_id with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:newFactory\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:newFactory\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:nominativiStorici\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasOne does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:nominativiStorici\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasOne does not specify its types\: TRelatedModel, TDeclaringModel$#'
 			identifier: missingType.generics
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:patenti\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:patenti\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
 			identifier: missingType.generics
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:posizioneAttuale\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:posizioneAttuale\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:posizioni\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:posizioni\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
 			identifier: missingType.generics
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:posizioniPossibili\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:posizioniPossibili\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:posizioniStorico\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:posizioniStorico\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
 			identifier: missingType.generics
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:prestiti\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:prestiti\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:scopeSortable\(\) has parameter \$column with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:scopeSortable\(\) has parameter \$column with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:scopeSortable\(\) has parameter \$order with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:scopeSortable\(\) has parameter \$order with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:scopeSortable\(\) has parameter \$query with no type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:scopeSortable\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:scopeSortable\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:scopeSortable\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
 			identifier: missingType.generics
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:stati\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:stati\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
 			identifier: missingType.generics
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:statiStorico\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:statiStorico\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
 			identifier: missingType.generics
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:statiStorico\(\) should return Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany but returns Illuminate\\Database\\Query\\Builder\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:statiStorico\(\) should return Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany but returns Illuminate\\Database\\Query\\Builder\.$#'
 			identifier: return.type
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Models\\Persona\:\:statoAttuale\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:statoAttuale\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
 			message: '#^Parameter \#1 \$name of function route expects BackedEnum\|string, string\|null given\.$#'
 			identifier: argument.type
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
 			message: '#^Parameter \#1 \$query of method Illuminate\\Database\\Connection\:\:update\(\) expects string, float\|int\|string given\.$#'
 			identifier: argument.type
 			count: 2
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
 			message: '#^Parameter \#1 \.\.\.\$arrays of function array_merge expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
 			message: '#^Strict comparison using \!\=\= between string and null will always evaluate to true\.$#'
 			identifier: notIdentical.alwaysTrue
 			count: 1
-			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Class App\\Nomadelfia\\Persona\\QueryBuilders\\PersonaQueryBuilder extends generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			message: '#^Class App\\Anagrafe\\Persona\\QueryBuilders\\PersonaQueryBuilder extends generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
 			identifier: missingType.generics
 			count: 1
-			path: app/Http/Nomadelfia/Persona/QueryBuilders/PersonaQueryBuilder.php
+			path: app/Http/Anagrafe/Persona/QueryBuilders/PersonaQueryBuilder.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\QueryBuilders\\PersonaQueryBuilder\:\:NumeroElencoPrefixByLetter\(\) has no return type specified\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\QueryBuilders\\PersonaQueryBuilder\:\:NumeroElencoPrefixByLetter\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Persona/QueryBuilders/PersonaQueryBuilder.php
+			path: app/Http/Anagrafe/Persona/QueryBuilders/PersonaQueryBuilder.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\QueryBuilders\\PersonaQueryBuilder\:\:natiInAnno\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			message: '#^Method App\\Anagrafe\\Persona\\QueryBuilders\\PersonaQueryBuilder\:\:natiInAnno\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
 			identifier: missingType.generics
 			count: 1
-			path: app/Http/Nomadelfia/Persona/QueryBuilders/PersonaQueryBuilder.php
+			path: app/Http/Anagrafe/Persona/QueryBuilders/PersonaQueryBuilder.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\QueryBuilders\\PersonaQueryBuilder\:\:natiInAnno\(\) should return Illuminate\\Database\\Eloquent\\Builder but returns Illuminate\\Database\\Query\\Builder\.$#'
+			message: '#^Method App\\Anagrafe\\Persona\\QueryBuilders\\PersonaQueryBuilder\:\:natiInAnno\(\) should return Illuminate\\Database\\Eloquent\\Builder but returns Illuminate\\Database\\Query\\Builder\.$#'
 			identifier: return.type
 			count: 1
-			path: app/Http/Nomadelfia/Persona/QueryBuilders/PersonaQueryBuilder.php
+			path: app/Http/Anagrafe/Persona/QueryBuilders/PersonaQueryBuilder.php
 
 		-
 			message: '#^Access to an undefined property App\\Nomadelfia\\Azienda\\Models\\Azienda\:\:\$id\.$#'
@@ -5215,7 +5215,7 @@ parameters:
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Actions/AssegnaAziendaAction.php
 
 		-
-			message: '#^Access to an undefined property App\\Nomadelfia\\Persona\\Models\\Persona\:\:\$aziendeAttuali\.$#'
+			message: '#^Access to an undefined property App\\Anagrafe\\Persona\\Models\\Persona\:\:\$aziendeAttuali\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Actions/AssegnaAziendaAction.php
@@ -5251,7 +5251,7 @@ parameters:
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Actions/EntrataDallaNascitaAction.php
 
 		-
-			message: '#^Cannot call method gruppoFamiliareAttualeOrFail\(\) on App\\Nomadelfia\\Famiglia\\Models\\Famiglia\|null\.$#'
+			message: '#^Cannot call method gruppoFamiliareAttualeOrFail\(\) on App\\Anagrafe\\Famiglia\\Models\\Famiglia\|null\.$#'
 			identifier: method.nonObject
 			count: 1
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Actions/EntrataDallaNascitaAction.php
@@ -5269,7 +5269,7 @@ parameters:
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Actions/EntrataMinorenneAccoltoAction.php
 
 		-
-			message: '#^Cannot call method gruppoFamiliareAttualeOrFail\(\) on App\\Nomadelfia\\Famiglia\\Models\\Famiglia\|null\.$#'
+			message: '#^Cannot call method gruppoFamiliareAttualeOrFail\(\) on App\\Anagrafe\\Famiglia\\Models\\Famiglia\|null\.$#'
 			identifier: method.nonObject
 			count: 1
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Actions/EntrataMinorenneAccoltoAction.php
@@ -5281,7 +5281,7 @@ parameters:
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Actions/EntrataMinorenneConFamigliaAction.php
 
 		-
-			message: '#^Cannot call method gruppoFamiliareAttualeOrFail\(\) on App\\Nomadelfia\\Famiglia\\Models\\Famiglia\|null\.$#'
+			message: '#^Cannot call method gruppoFamiliareAttualeOrFail\(\) on App\\Anagrafe\\Famiglia\\Models\\Famiglia\|null\.$#'
 			identifier: method.nonObject
 			count: 1
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Actions/EntrataMinorenneConFamigliaAction.php
@@ -5347,13 +5347,13 @@ parameters:
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Actions/ExportPopolazioneToWordAction.php
 
 		-
-			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<\(int\|string\),Illuminate\\Database\\Eloquent\\Model\>\:\:each\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\|string\)\: mixed, Closure\(App\\Nomadelfia\\Persona\\Models\\Persona, int\)\: App\\Nomadelfia\\Persona\\Models\\Persona given\.$#'
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<\(int\|string\),Illuminate\\Database\\Eloquent\\Model\>\:\:each\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\|string\)\: mixed, Closure\(App\\Anagrafe\\Persona\\Models\\Persona, int\)\: App\\Anagrafe\\Persona\\Models\\Persona given\.$#'
 			identifier: argument.type
 			count: 1
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Actions/LogUscitaFamigliaAction.php
 
 		-
-			message: '#^Parameter \#1 \$persona of method App\\Nomadelfia\\PopolazioneNomadelfia\\Actions\\UscitaPersonaDBAction\:\:execute\(\) expects App\\Nomadelfia\\Persona\\Models\\Persona, Illuminate\\Database\\Eloquent\\Model given\.$#'
+			message: '#^Parameter \#1 \$persona of method App\\Nomadelfia\\PopolazioneNomadelfia\\Actions\\UscitaPersonaDBAction\:\:execute\(\) expects App\\Anagrafe\\Persona\\Models\\Persona, Illuminate\\Database\\Eloquent\\Model given\.$#'
 			identifier: argument.type
 			count: 1
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Actions/UscitaFamigliaAction.php
@@ -5383,7 +5383,7 @@ parameters:
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/CaricheController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/JoinLeaveHistoryController.php
@@ -5683,7 +5683,7 @@ parameters:
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/DataTransferObjects/UscitaFamigliaData.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 2
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/Cariche.php
@@ -6253,7 +6253,7 @@ parameters:
 			path: app/Http/Officina/Controllers/ReservationsController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 2
 			path: app/Http/Officina/Controllers/ReservationsController.php
@@ -7489,7 +7489,7 @@ parameters:
 			path: app/Http/Patente/Controllers/PatenteSearchController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findorfail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findorfail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Patente/Controllers/PatenteSearchController.php
@@ -8317,7 +8317,7 @@ parameters:
 			path: app/Http/Scuola/Controllers/ClassiController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 2
 			path: app/Http/Scuola/Controllers/ClassiController.php
@@ -8407,7 +8407,7 @@ parameters:
 			path: app/Http/Scuola/Controllers/ClassiCoordinatoriController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 2
 			path: app/Http/Scuola/Controllers/ClassiCoordinatoriController.php
@@ -9019,7 +9019,7 @@ parameters:
 			path: app/Http/Scuola/DataTransferObjects/AnnoScolasticoData.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Scuola/DataTransferObjects/AnnoScolasticoData.php
@@ -9127,7 +9127,7 @@ parameters:
 			path: app/Http/Scuola/DataTransferObjects/ExportAnnoScolastico.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Scuola/Models/AddStudentAction.php
@@ -9529,7 +9529,7 @@ parameters:
 			path: app/Http/Scuola/Models/Classe.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 4
 			path: app/Http/Scuola/Models/Classe.php
@@ -9673,7 +9673,7 @@ parameters:
 			path: app/Http/Scuola/Models/Classe.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Scuola/Models/ClasseTipo.php
@@ -10363,7 +10363,7 @@ parameters:
 			path: app/Livewire/SearchPopolazione.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Providers/BladeDirectivesServiceProvider.php

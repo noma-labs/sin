@@ -34,7 +34,7 @@
         <div class="col-8">
           <select class="form-select" name="posizione">
             <option selected>---scegli posizione---</option>
-            @foreach (App\Nomadelfia\Famiglia\Models\Famiglia::getEnum("Posizione") as $posizione)
+            @foreach (App\Anagrafe\Famiglia\Models\Famiglia::getEnum("Posizione") as $posizione)
               @if ($posizione == $componente->posizione_famiglia)
                 <option value="{{ $posizione }}" selected>
                   {{ $posizione }}

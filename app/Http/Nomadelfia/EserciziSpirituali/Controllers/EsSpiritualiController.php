@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\EserciziSpirituali\Controllers;
 
+use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
-use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
 use PhpOffice\PhpWord\IOFactory;

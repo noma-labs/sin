@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Biblioteca\Controllers;
 
+use App\Anagrafe\Persona\Models\Persona;
 use App\Biblioteca\Models\Libro;
 use App\Biblioteca\Models\Prestito;
-use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;

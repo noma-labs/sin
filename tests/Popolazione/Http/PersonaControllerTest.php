@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Http\Nomadelfia;
 
+use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\Persona\Controllers\PersonController;
-use App\Nomadelfia\Persona\Models\Persona;
 
 it('shows form to insert a persona', function (): void {
     login();

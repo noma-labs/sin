@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\Exceptions;
 
-use App\Nomadelfia\Famiglia\Models\Famiglia;
-use App\Nomadelfia\Persona\Models\Persona;
+use App\Anagrafe\Famiglia\Models\Famiglia;
+use App\Anagrafe\Persona\Models\Persona;
 
 final class CouldNotAssignCapoFamiglia extends NomadelfiaException
 {

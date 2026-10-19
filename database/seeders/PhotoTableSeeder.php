@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Nomadelfia\Persona\Models\Persona;
+use App\Anagrafe\Persona\Models\Persona;
 use App\Photo\Models\DbfAll;
 use App\Photo\Models\Photo;
 use Carbon\Carbon;

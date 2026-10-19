@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\PopolazioneNomadelfia\Models;
 
+use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\Exceptions\CouldNotAssignCarica;
-use App\Nomadelfia\Persona\Models\Persona;
 use App\Traits\Enums;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;

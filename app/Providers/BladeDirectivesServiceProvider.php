@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Nomadelfia\Persona\Models\Persona;
+use App\Anagrafe\Persona\Models\Persona;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 

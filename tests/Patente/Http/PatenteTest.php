@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Http\Patente;
 
+use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use App\Officina\Models\ViewClienti;
 use App\Patente\Controllers\PatenteController;

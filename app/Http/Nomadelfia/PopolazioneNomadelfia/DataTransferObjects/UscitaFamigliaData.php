@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects;
 
-use App\Nomadelfia\Famiglia\Models\Famiglia;
+use App\Anagrafe\Famiglia\Models\Famiglia;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 

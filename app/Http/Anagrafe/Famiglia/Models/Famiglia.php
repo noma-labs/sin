@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Nomadelfia\Famiglia\Models;
+namespace App\Anagrafe\Famiglia\Models;
 
 use App\Nomadelfia\Exceptions\CouldNotAssignCapoFamiglia;
 use App\Nomadelfia\Exceptions\CouldNotAssignMoglie;
 use App\Nomadelfia\Exceptions\FamigliaHasMultipleGroup;
 use App\Nomadelfia\Exceptions\FamigliaHasNoGroup;
-use App\Nomadelfia\Famiglia\QueryBuilders\FamigliaQueryBuilder;
-use App\Nomadelfia\Persona\Models\Persona;
+use App\Anagrafe\Famiglia\QueryBuilders\FamigliaQueryBuilder;
+use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use App\Traits\Enums;
 use Carbon\Carbon;

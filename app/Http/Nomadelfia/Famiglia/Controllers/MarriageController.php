@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\Famiglia\Controllers;
 
+use App\Anagrafe\Famiglia\Models\Famiglia;
+use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\Famiglia\Actions\CreateMarriageAction;
-use App\Nomadelfia\Famiglia\Models\Famiglia;
-use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
 

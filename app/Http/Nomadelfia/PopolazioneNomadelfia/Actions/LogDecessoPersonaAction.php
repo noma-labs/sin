@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\PopolazioneNomadelfia\Actions;
 
+use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\AggiornamentoAnagrafe\Models\AggiornamentoAnagrafe;
-use App\Nomadelfia\Persona\Models\Persona;
 use Carbon\Carbon;
 
 final class LogDecessoPersonaAction

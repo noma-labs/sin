@@ -22,7 +22,7 @@
         <div class="col-8">
           <select class="form-select" name="posizione">
             <option value="" selected>---scegli posizione---</option>
-            @foreach (App\Nomadelfia\Famiglia\Models\Famiglia::getEnum("Posizione") as $posizione)
+            @foreach (App\Anagrafe\Famiglia\Models\Famiglia::getEnum("Posizione") as $posizione)
               <option value="{{ $posizione }}">{{ $posizione }}</option>
             @endforeach
           </select>

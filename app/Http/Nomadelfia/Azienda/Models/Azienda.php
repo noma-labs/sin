@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\Azienda\Models;
 
-use App\Nomadelfia\Persona\Models\Persona;
+use App\Anagrafe\Persona\Models\Persona;
 use App\Traits\Enums;
 use Database\Factories\AziendaFactory;
 use Illuminate\Database\Eloquent\Builder;

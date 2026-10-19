@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Officina\Models;
 
-use App\Nomadelfia\Persona\Models\Persona;
+use App\Anagrafe\Persona\Models\Persona;
 use App\Traits\SortableTrait;
 use Carbon\Carbon;
 use Database\Factories\PrenotazioniFactory;

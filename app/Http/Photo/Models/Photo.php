@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Photo\Models;
 
-use App\Nomadelfia\Persona\Models\Persona;
+use App\Anagrafe\Persona\Models\Persona;
 use Database\Factories\PhotoFactory;
 use DateTime;
 use Illuminate\Database\Eloquent\Builder;

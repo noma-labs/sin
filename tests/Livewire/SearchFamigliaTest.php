@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Livewire;
 
+use App\Anagrafe\Famiglia\Models\Famiglia;
 use App\Livewire\SearchFamiglia;
-use App\Nomadelfia\Famiglia\Models\Famiglia;
 use Livewire\Livewire;
 
 it('can render succesfully the component', function (): void {

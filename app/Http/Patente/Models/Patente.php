@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Patente\Models;
 
-use App\Nomadelfia\Persona\Models\Persona;
+use App\Anagrafe\Persona\Models\Persona;
 use App\Traits\SortableTrait;
 use Database\Factories\PatenteFactory;
 use Illuminate\Database\Eloquent\Builder;

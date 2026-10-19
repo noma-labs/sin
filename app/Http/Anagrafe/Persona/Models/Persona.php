@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Nomadelfia\Persona\Models;
+namespace App\Anagrafe\Persona\Models;
 
 use App\Biblioteca\Models\Prestito;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleFamigliaAttuale;
@@ -15,10 +15,10 @@ use Carbon\Carbon;
 use Database\Factories\PersonaFactory;
 use App\Nomadelfia\Azienda\Models\Azienda;
 use App\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
-use App\Nomadelfia\Famiglia\Models\Famiglia;
+use App\Anagrafe\Famiglia\Models\Famiglia;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\Incarico\Models\Incarico;
-use App\Nomadelfia\Persona\QueryBuilders\PersonaQueryBuilder;
+use App\Anagrafe\Persona\QueryBuilders\PersonaQueryBuilder;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
