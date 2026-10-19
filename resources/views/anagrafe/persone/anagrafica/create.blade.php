@@ -1,4 +1,4 @@
-@extends("anagrafe.index")
+@extends("nomadelfia.index")
 
 @section("content")
   @include("partials.header", ["title" => "Aggiungi Persona"])

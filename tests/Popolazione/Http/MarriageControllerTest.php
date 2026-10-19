@@ -68,3 +68,13 @@ it('renders the matrimonio form', function (): void {
         ->assertSuccessful()
         ->assertSeeLivewire('search-persona');
 });
+
+it('preselects the person the matrimonio starts from as husband or wife', function (): void {
+    login();
+    $wife = Persona::factory()->maggiorenne()->femmina()->create();
+
+    $this->get(action([MarriageController::class, 'create'], ['persona' => $wife->id]))
+        ->assertSuccessful()
+        ->assertViewHas('wifeId', [$wife->id])
+        ->assertViewHas('husbandId', []);
+});

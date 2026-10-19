@@ -1,16 +1,19 @@
-@extends("anagrafe.index")
+@extends("nomadelfia.index")
 
-@section("title", "Anagrafe")
+@section("title", "Persone")
 
 @section("content")
-  @include("partials.header", ["title" => "Anagrafe", "subtitle" => $persone->total() . " persone"])
+  @include("partials.header", ["title" => "Persone", "subtitle" => $persone->total() . " persone"])
   @include("anagrafe.persone.search_form")
-  @can("popolazione.persona.inserisci")
-    <div class="d-flex justify-content-end mb-3">
+  <div class="d-flex justify-content-end gap-2 mb-3">
+    <a class="btn btn-outline-primary" href="{{ route("anagrafe.families") }}">
+      Famiglie
+    </a>
+    @can("popolazione.persona.inserisci")
       <a class="btn btn-success" href="{{ route("anagrafe.person.create") }}">
         Inserisci persona
       </a>
-    </div>
-  @endcan
+    @endcan
+  </div>
   @include("anagrafe.persone.table")
 @endsection

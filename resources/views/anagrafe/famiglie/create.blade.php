@@ -1,4 +1,4 @@
-@extends("anagrafe.index")
+@extends("nomadelfia.index")
 
 @section("content")
   @include("partials.header", ["title" => "Nuovo Matrimonio"])
@@ -9,13 +9,16 @@
         <div class="row mb-3">
           <label for="Husband" class="col-md-6 form-label"> Marito </label>
           <div class="col-md-6">
-            <livewire:search-persona name_input="husband" />
+            <livewire:search-persona
+              name_input="husband"
+              :persone_id="$husbandId"
+            />
           </div>
         </div>
         <div class="row mb-3">
           <label for="forFemale" class="col-md-6 form-label"> Moglie </label>
           <div class="col-md-6">
-            <livewire:search-persona name_input="wife" />
+            <livewire:search-persona name_input="wife" :persone_id="$wifeId" />
           </div>
         </div>
         <div class="row mb-3">

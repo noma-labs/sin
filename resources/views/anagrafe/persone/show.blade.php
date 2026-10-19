@@ -1,4 +1,4 @@
-@extends("anagrafe.index")
+@extends("nomadelfia.index")
 
 @section("content")
   @include("partials.header", ["title" => $persona->nome . " " . $persona->cognome, "subtitle" => $persona->nominativo])
@@ -163,6 +163,16 @@
               </li>
             @endif
           </ul>
+          @can("popolazione.persona.inserisci")
+            @if ($persona->isMaggiorenne() && ! $persona->isDeceduta() && ! $persona->isCapoFamiglia() && ! $persona->isMoglie())
+              <a
+                class="btn btn-success my-2"
+                href="{{ route("anagrafe.marriage.create", ["persona" => $persona->id]) }}"
+              >
+                Nuovo matrimonio
+              </a>
+            @endif
+          @endcan
         </div>
       </div>
       <div class="card mb-3">

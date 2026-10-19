@@ -1,4 +1,4 @@
-@extends("anagrafe.index")
+@extends("nomadelfia.index")
 
 @section("title", "Ricerca Persone")
 

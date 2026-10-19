@@ -59,3 +59,11 @@ it('offers the entrata for a person who never entered Nomadelfia', function (): 
         ->assertSee(route('nomadelfia.join.create', $persona->id))
         ->assertDontSee('Apri in Popolazione');
 });
+
+it('offers a nuovo matrimonio from the anagrafe page of an unmarried adult', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+
+    $this->get(action([PersonController::class, 'show'], $persona->id))
+        ->assertSee(route('anagrafe.marriage.create', ['persona' => $persona->id]));
+});

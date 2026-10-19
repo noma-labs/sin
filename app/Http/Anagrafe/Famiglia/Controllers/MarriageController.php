@@ -15,9 +15,13 @@ use Illuminate\Routing\Attributes\Controllers\Middleware;
 final class MarriageController
 {
     #[Middleware('can:popolazione.persona.inserisci')]
-    public function create()
+    public function create(Request $request)
     {
-        return view('anagrafe.famiglie.create');
+        $persona = $request->filled('persona') ? Persona::query()->find($request->integer('persona')) : null;
+        $husbandId = $persona?->isMaschio() ? [$persona->id] : [];
+        $wifeId = $persona && ! $persona->isMaschio() ? [$persona->id] : [];
+
+        return view('anagrafe.famiglie.create', compact('husbandId', 'wifeId'));
     }
 
     #[Middleware('can:popolazione.persona.inserisci')]

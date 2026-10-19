@@ -1,4 +1,4 @@
-@extends("anagrafe.index")
+@extends("nomadelfia.index")
 
 @section("content")
   @include("partials.header", ["title" => "Gestione Famiglie di " . $persona->nominativo])
