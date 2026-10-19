@@ -1,6 +1,6 @@
 @extends("layouts.app")
 
-@section("title", "Gestione Nomadelfia")
+@section("title", "Popolazione")
 
 @section("navbar-link")
   <li class="nav-item">
