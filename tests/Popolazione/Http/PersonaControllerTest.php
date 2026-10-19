@@ -45,3 +45,25 @@ it('lists all people in the anagrafe and filters by presence in Nomadelfia', fun
         ->assertSee('Aaa Persona Esterna')
         ->assertDontSee('Aaa Persona Interna');
 });
+
+it('links a person in Nomadelfia from the anagrafe to the popolazione section', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    app(EntrataMaggiorenneSingleAction::class)->execute($persona, Carbon::now(), GruppoFamiliare::all()->random());
+
+    $this->get(action([PersonController::class, 'show'], $persona->id))
+        ->assertSuccessful()
+        ->assertSee('Apri in Popolazione')
+        ->assertSee(route('nomadelfia.person.show', $persona->id));
+});
+
+it('offers the entrata for a person who never entered Nomadelfia', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+
+    $this->get(action([PersonController::class, 'show'], $persona->id))
+        ->assertSuccessful()
+        ->assertSee('Mai entrato')
+        ->assertSee(route('nomadelfia.join.create', $persona->id))
+        ->assertDontSee('Apri in Popolazione');
+});

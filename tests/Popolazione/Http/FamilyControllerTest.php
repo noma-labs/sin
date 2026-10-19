@@ -40,7 +40,6 @@ it('lists only the single people in Nomadelfia unless all are requested', functi
 it('redirects the old nomadelfia urls to the anagrafe', function (string $oldUrl, string $newUrl): void {
     $this->get($oldUrl)->assertRedirect($newUrl)->assertStatus(301);
 })->with([
-    'person' => ['/nomadelfia/people/42', '/anagrafe/people/42'],
     'families' => ['/nomadelfia/families', '/anagrafe/families'],
     'family' => ['/nomadelfia/families/7', '/anagrafe/families/7'],
     'search' => ['/nomadelfia/search', '/anagrafe/search'],

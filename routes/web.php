@@ -48,6 +48,7 @@ use App\Nomadelfia\Persona\Controllers\DeathController;
 use App\Nomadelfia\Persona\Controllers\FolderNumberController;
 use App\Nomadelfia\Persona\Controllers\JoinCommunityController;
 use App\Nomadelfia\Persona\Controllers\LeaveCommunityController;
+use App\Nomadelfia\Persona\Controllers\PersonaPopolazioneController;
 use App\Nomadelfia\Persona\Controllers\PersonaPosizioneConcludiController;
 use App\Nomadelfia\Persona\Controllers\PersonaStatoController;
 use App\Nomadelfia\Persona\Controllers\PersonPositionController;
@@ -158,7 +159,7 @@ Route::prefix('anagrafe')->group(function () {
 Route::prefix('nomadelfia')->group(function () {
     Route::get('/', [PopolazioneSummaryController::class, 'index'])->name('nomadelfia.index');
 
-    Route::permanentRedirect('people/{id}', '/anagrafe/people/{id}');
+    Route::get('people/{id}', [PersonaPopolazioneController::class, 'show'])->name('nomadelfia.person.show');
     Route::permanentRedirect('families', '/anagrafe/families');
     Route::permanentRedirect('families/{id}', '/anagrafe/families/{id}');
     Route::permanentRedirect('search', '/anagrafe/search');

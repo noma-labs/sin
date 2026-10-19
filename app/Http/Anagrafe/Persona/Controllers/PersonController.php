@@ -8,7 +8,6 @@ use App\Anagrafe\Persona\Models\Persona;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
-use Illuminate\Support\Facades\DB;
 
 #[Middleware('auth')]
 final class PersonController
@@ -78,17 +77,8 @@ final class PersonController
     public function show($id)
     {
         $persona = Persona::findOrFail($id);
-        $posizioneAttuale = $persona->posizioneAttuale();
-        $gruppoAttuale = $persona->gruppofamiliareAttuale();
         $famigliaAttuale = $persona->famigliaAttuale();
 
-        $famigliaEnrico = DB::connection('db_nomadelfia')
-            ->table('alfa_enrico_15_feb_23')
-            ->select('famiglia')
-            ->where('id', $persona->id_alfa_enrico)
-            ->first();
-
-        return view('anagrafe.persone.show',
-            compact('persona', 'posizioneAttuale', 'gruppoAttuale', 'famigliaAttuale', 'famigliaEnrico'));
+        return view('anagrafe.persone.show', compact('persona', 'famigliaAttuale'));
     }
 }

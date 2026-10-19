@@ -33,6 +33,7 @@ use Illuminate\Support\Str;
  * @property string $cf
  * @property string $biografia
  * @property string $origine
+ * @property int|null $id_alfa_enrico
  */
 class Persona extends Model
 {
