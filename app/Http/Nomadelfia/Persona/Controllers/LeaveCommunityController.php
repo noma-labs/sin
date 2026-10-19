@@ -28,7 +28,7 @@ final class LeaveCommunityController
         $act = resolve(UscitaPersonaAction::class);
         $act->execute($persona, \Illuminate\Support\Facades\Date::parse($request->data_uscita), true);
 
-        return to_route('nomadelfia.person.show', $id)->withSuccess("La data di uscita di $persona->nominativo aggiornata correttamente.");
+        return to_route('anagrafe.person.show', $id)->withSuccess("La data di uscita di $persona->nominativo aggiornata correttamente.");
 
     }
 

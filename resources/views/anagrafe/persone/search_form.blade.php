@@ -1,4 +1,4 @@
-<form method="GET" action="{{ route("nomadelfia.people.search.show") }}">
+<form method="GET" action="{{ route("anagrafe.people.search.show") }}">
   @csrf
   <div class="row mb-3 g-3">
     <div class="col-md-2">

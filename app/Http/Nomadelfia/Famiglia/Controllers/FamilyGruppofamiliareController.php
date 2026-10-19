@@ -26,6 +26,6 @@ final class FamilyGruppofamiliareController
         $famiglia->assegnaFamigliaANuovoGruppoFamiliare($gruppo_corrente->id, $request->data_cambiogruppo,
             $request->nuovo_gruppo_id, $request->data_cambiogruppo);
 
-        return redirect(route('nomadelfia.families.show', $id))->withSuccess('Famiglia spostata nel gruppo familiare con successo');
+        return redirect(route('anagrafe.families.show', $id))->withSuccess('Famiglia spostata nel gruppo familiare con successo');
     }
 }

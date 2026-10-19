@@ -52,7 +52,7 @@
           </ul>
         </div>
         <div class="card-footer">
-          <a href="{{ route("nomadelfia.families") }}" class="btn btn-primary">
+          <a href="{{ route("anagrafe.families") }}" class="btn btn-primary">
             Modifica
           </a>
         </div>
@@ -74,7 +74,7 @@
           </ul>
         </div>
         <div class="card-footer">
-          <a href="{{ route("nomadelfia.families") }}" class="btn btn-primary">
+          <a href="{{ route("anagrafe.families") }}" class="btn btn-primary">
             Modifica
           </a>
         </div>
@@ -97,7 +97,7 @@
           </ul>
         </div>
         <div class="card-footer">
-          <a href="{{ route("nomadelfia.families") }}" class="btn btn-primary">
+          <a href="{{ route("anagrafe.families") }}" class="btn btn-primary">
             Modifica
           </a>
         </div>

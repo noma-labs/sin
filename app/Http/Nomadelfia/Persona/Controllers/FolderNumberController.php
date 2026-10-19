@@ -40,6 +40,6 @@ final class FolderNumberController
         }
         $persona->update(['numero_elenco' => $ne]);
 
-        return to_route('nomadelfia.person.show', $id)->withSuccess("Numero di elenco di  $persona->nominativo assegnato correttamente.");
+        return to_route('anagrafe.person.show', $id)->withSuccess("Numero di elenco di  $persona->nominativo assegnato correttamente.");
     }
 }

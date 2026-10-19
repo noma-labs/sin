@@ -7,7 +7,7 @@
     <form
       method="POST"
       id="formAddPersonToFamily"
-      action="{{ route("nomadelfia.person.add-family", $persona->id) }}"
+      action="{{ route("anagrafe.person.add-family", $persona->id) }}"
     >
       @csrf
       <livewire:search-famiglia

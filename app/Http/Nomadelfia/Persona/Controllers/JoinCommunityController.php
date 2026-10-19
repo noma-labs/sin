@@ -67,7 +67,7 @@ final class JoinCommunityController
 
         }
 
-        return to_route('nomadelfia.person.show', $persona->id)->withSuccess('Persona '.$persona->nominativo.'inserita correttamente.');
+        return to_route('anagrafe.person.show', $persona->id)->withSuccess('Persona '.$persona->nominativo.'inserita correttamente.');
     }
 
     #[Middleware('can:popolazione.persona.modifica')]

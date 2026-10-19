@@ -19,7 +19,7 @@ final class PersonaFamigliaController
         $attuale = $persona->famigliaAttuale();
         $storico = $persona->famiglieStorico;
 
-        return view('nomadelfia.persone.famiglia.show', compact('persona', 'attuale', 'storico'));
+        return view('anagrafe.persone.famiglia.show', compact('persona', 'attuale', 'storico'));
     }
 
     /**
@@ -58,7 +58,7 @@ final class PersonaFamigliaController
                 return back()->withErrors(["Posizione `{$request->string('type')}` non riconosciuta"]);
         }
 
-        return to_route('nomadelfia.person.show', $persona->id)
+        return to_route('anagrafe.person.show', $persona->id)
             ->with('success', $persona->nominativo.' aggiunto alla famiglia '.$famiglia->nome_famiglia.' con successo');
     }
 }

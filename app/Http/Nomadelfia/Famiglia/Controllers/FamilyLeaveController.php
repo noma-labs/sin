@@ -25,6 +25,6 @@ final class FamilyLeaveController
         $action = resolve(UscitaFamigliaAction::class);
         $action->execute($famiglia, \Illuminate\Support\Facades\Date::parse($request->data_uscita));
 
-        return redirect(route('nomadelfia.families.show', $id))->withSuccess('Famiglia uscita con successo.');
+        return redirect(route('anagrafe.families.show', $id))->withSuccess('Famiglia uscita con successo.');
     }
 }

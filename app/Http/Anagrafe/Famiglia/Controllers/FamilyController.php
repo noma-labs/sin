@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Anagrafe\Famiglia\Controllers;
 
 use App\Anagrafe\Famiglia\Models\Famiglia;
+use App\Anagrafe\Persona\Models\Persona;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
 
@@ -12,18 +13,23 @@ use Illuminate\Routing\Attributes\Controllers\Middleware;
 final class FamilyController
 {
     #[Middleware('can:popolazione.persona.visualizza')]
-    public function index()
+    public function index(Request $request)
     {
+        $interni = Persona::idsInterni();
+        $tuttiSingle = $request->query('single') === 'tutti';
+
         $capifamiglieMaschio = Famiglia::onlyCapoFamiglia()->maschio();
         $capifamiglieFemmina = Famiglia::onlyCapoFamiglia()->femmina();
 
-        $singleMaschio = Famiglia::single()->maschio();
-        $singleFemmine = Famiglia::single()->femmina();
+        $singleMaschio = Famiglia::single()->maschio()
+            ->when(! $tuttiSingle, fn ($query) => $query->whereIn('persone.id', $interni));
+        $singleFemmine = Famiglia::single()->femmina()
+            ->when(! $tuttiSingle, fn ($query) => $query->whereIn('persone.id', $interni));
 
         $famigliaError = Famiglia::famigliaConErrore();
 
-        return view('nomadelfia.famiglie.index',
-            compact('capifamiglieMaschio', 'capifamiglieFemmina', 'singleMaschio', 'singleFemmine', 'famigliaError'));
+        return view('anagrafe.famiglie.index',
+            compact('capifamiglieMaschio', 'capifamiglieFemmina', 'singleMaschio', 'singleFemmine', 'famigliaError', 'interni', 'tuttiSingle'));
     }
 
     #[Middleware('can:popolazione.persona.visualizza')]
@@ -34,7 +40,7 @@ final class FamilyController
         $gruppoAttuale = $famiglia->gruppoFamiliareAttuale();
         $gruppiStorici = $famiglia->gruppiFamiliariStorico();
 
-        return view('nomadelfia.famiglie.show', compact('famiglia', 'componenti', 'gruppoAttuale', 'gruppiStorici'));
+        return view('anagrafe.famiglie.show', compact('famiglia', 'componenti', 'gruppoAttuale', 'gruppiStorici'));
     }
 
     #[Middleware('can:popolazione.persona.modifica')]
@@ -53,11 +59,11 @@ final class FamilyController
         $famiglia->data_creazione = $request->data_creazione;
         $saved = $famiglia->save();
         if ($saved) {
-            return redirect(route('nomadelfia.families.show',
+            return redirect(route('anagrafe.families.show',
                 ['id' => $id]))->withSuccess("Famiglia $famiglia->nome_famiglia aggiornata con successo");
         }
 
-        return redirect(route('nomadelfia.families.show',
+        return redirect(route('anagrafe.families.show',
             ['id' => $id]))->withErrors("Errore. Famiglia $famiglia->nome_famiglia non aggioranta");
 
     }

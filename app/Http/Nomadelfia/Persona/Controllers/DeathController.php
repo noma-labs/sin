@@ -24,6 +24,6 @@ final class DeathController
         $action = resolve(DecessoPersonaAction::class);
         $action->execute($persona, \Illuminate\Support\Facades\Date::parse($request->data_decesso));
 
-        return to_route('nomadelfia.person.show', $id)->withSuccess("Il decesso di $persona->nominativo aggiornato correttamente.");
+        return to_route('anagrafe.person.show', $id)->withSuccess("Il decesso di $persona->nominativo aggiornato correttamente.");
     }
 }

@@ -1,11 +1,11 @@
-@extends("nomadelfia.persone.index")
+@extends("anagrafe.index")
 
 @section("content")
   @include("partials.header", ["title" => "Aggiungi Persona"])
   <div class="row">
     <div class="col-md-4 offset-md-4">
       <h4>Dati Anagrafici</h4>
-      <form method="POST" action="{{ route("nomadelfia.person.store") }}">
+      <form method="POST" action="{{ route("anagrafe.person.store") }}">
         @csrf
         <div class="mb-3">
           <label for="fornominativo" class="form-label"> Nominativo: </label>

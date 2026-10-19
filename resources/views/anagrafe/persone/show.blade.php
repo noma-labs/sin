@@ -1,4 +1,4 @@
-@extends("nomadelfia.persone.index")
+@extends("anagrafe.index")
 
 @section("content")
   @include("partials.header", ["title" => $persona->nome . " " . $persona->cognome])
@@ -168,7 +168,7 @@
           </ul>
           <a
             class="btn btn-warning my-2"
-            href="{{ route("nomadelfia.person.identity.edit", $persona->id) }}"
+            href="{{ route("anagrafe.person.identity.edit", $persona->id) }}"
             role="button"
           >
             Modifica
@@ -231,7 +231,7 @@
                 <div class="col-sm-2">
                   <a
                     class="btn btn-warning"
-                    href="{{ route("nomadelfia.internal-name.edit", $persona->id) }}"
+                    href="{{ route("anagrafe.internal-name.edit", $persona->id) }}"
                     role="button"
                   >
                     Modifica
@@ -401,7 +401,7 @@
                     <label class="col-sm-4 fw-bold"> Nome Famiglia: </label>
                     <div class="col-sm-8">
                       <a
-                        href="{{ route("nomadelfia.families.show", $persona->famigliaAttuale()->id) }}"
+                        href="{{ route("anagrafe.families.show", $persona->famigliaAttuale()->id) }}"
                       >
                         {{ $persona->famigliaAttuale()->nome_famiglia }}
                       </a>
@@ -423,7 +423,7 @@
                     <div class="col-sm-8">
                       <a
                         class="btn btn-warning"
-                        href="{{ route("nomadelfia.person.families", $persona->id) }}"
+                        href="{{ route("anagrafe.person.families", $persona->id) }}"
                       >
                         Storico
                       </a>

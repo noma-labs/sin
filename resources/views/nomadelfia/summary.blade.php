@@ -172,7 +172,7 @@
               <ul>
                 @foreach ($famiglieNumerose as $fam)
                   <li>
-                    <a href="{{ route("nomadelfia.families.show", $fam->id) }}">
+                    <a href="{{ route("anagrafe.families.show", $fam->id) }}">
                       {{ $fam->nome_famiglia }}
                     </a>
                     <span class="badge bg-primary">
@@ -185,7 +185,7 @@
           </div>
         </div>
         <div class="card-footer">
-          <a href="{{ route("nomadelfia.families") }}" class="btn btn-primary">
+          <a href="{{ route("anagrafe.families") }}" class="btn btn-primary">
             Entra
           </a>
         </div>

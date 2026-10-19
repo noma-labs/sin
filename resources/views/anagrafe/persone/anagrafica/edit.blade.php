@@ -1,4 +1,4 @@
-@extends("nomadelfia.index")
+@extends("anagrafe.index")
 
 @section("content")
   @include("partials.header", ["title" => "Modifica Dati anagrafici"])
@@ -7,7 +7,7 @@
       <form
         class="form"
         method="POST"
-        action="{{ route("nomadelfia.person.identity.update", $persona->id) }}"
+        action="{{ route("anagrafe.person.identity.update", $persona->id) }}"
       >
         @method("PUT")
         @csrf

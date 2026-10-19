@@ -1,4 +1,4 @@
-@extends("nomadelfia.persone.index")
+@extends("anagrafe.index")
 
 @section("content")
   @include("partials.header", ["title" => "Gestione Famiglie di " . $persona->nominativo])
@@ -15,7 +15,7 @@
             </div>
             <div class="row">
               <p class="col-md-3">
-                <a href="{{ route("nomadelfia.families.show", $attuale->id) }}">
+                <a href="{{ route("anagrafe.families.show", $attuale->id) }}">
                   {{ $attuale->nome_famiglia }}
                 </a>
               </p>
@@ -41,7 +41,7 @@
             <div class="row">
               <p class="col-md-3">
                 <a
-                  href="{{ route("nomadelfia.families.show", $famigliaStorico->id) }}"
+                  href="{{ route("anagrafe.families.show", $famigliaStorico->id) }}"
                 >
                   {{ $famigliaStorico->nome_famiglia }}
                 </a>

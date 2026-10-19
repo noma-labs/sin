@@ -89,28 +89,6 @@ final class Famiglia extends Model
         return self::query()->famigliePerPosizioni('CAPO FAMIGLIA');
     }
 
-    public static function famiglieNumerose(int $min_componenti = 5)
-    {
-        $expression = DB::raw("WITH famiglie_numerose AS (
-                             SELECT f.id, count(*) as componenti
-                             FROM `famiglie`  f
-                             INNER JOIN famiglie_persone fp ON fp.famiglia_id = f.id
-                             INNER JOIN popolazione pop ON pop.persona_id = fp.persona_id
-                             WHERE fp.stato = '1' and pop.data_uscita is NULL
-                             GROUP BY f.id
-                             HAVING componenti >= :minc
-                             ORDER BY componenti DESC
-                    ) select ff.*, famiglie_numerose.componenti
-                    from famiglie_numerose
-                    join famiglie ff on famiglie_numerose.id = ff.id
-                    order by famiglie_numerose.componenti DESC;");
-
-        return DB::connection('db_nomadelfia')->select(
-            $expression->getValue(DB::connection()->getQueryGrammar()),
-            ['minc' => $min_componenti]
-        );
-    }
-
     /*
     *  Returns families with errors in their members
     *   2) there are multiple active HEAD OF FAMILY in the family
@@ -394,12 +372,11 @@ final class Famiglia extends Model
     #[\Illuminate\Database\Eloquent\Attributes\Scope]
     protected function famigliePerPosizioni($query, $posizione, $stato = '1')
     {
-        return $query->select('famiglie.*', 'persone.sesso', 'famiglie_persone.posizione_famiglia',
+        return $query->select('famiglie.*', 'persone.id as persona_id', 'persone.sesso', 'famiglie_persone.posizione_famiglia',
             'famiglie_persone.stato')
             ->join('famiglie_persone', 'famiglie_persone.famiglia_id', '=', 'famiglie.id')
             ->join('persone', 'famiglie_persone.persona_id', '=', 'persone.id')
-            ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
-            ->whereNull('popolazione.data_uscita')
+            ->whereNull('persone.deleted_at')
             ->where('posizione_famiglia', $posizione)
             ->where('famiglie_persone.stato', $stato)
             ->orderBy('famiglie.nome_famiglia');

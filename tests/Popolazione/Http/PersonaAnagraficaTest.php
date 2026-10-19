@@ -42,7 +42,7 @@ it('can update anagrafica', function (): void {
             'biografia' => $newbiografia,
         ])
         ->assertRedirect()
-        ->assertRedirectContains(route('nomadelfia.person.show', $persona->id));
+        ->assertRedirectContains(route('anagrafe.person.show', $persona->id));
 
     $p = Persona::findOrFail($persona->id);
     $this->assertEquals($newSurname, $p->cognome);
@@ -65,5 +65,5 @@ it('can insert a persona', function (): void {
             'luogo_nascita' => 'Grosseto',
             'sesso' => 'M',
         ])
-        ->assertRedirect();
+        ->assertRedirectToRoute('anagrafe.person.show', Persona::where('nominativo', 'my-name')->latest('id')->firstOrFail()->id);
 });

@@ -1,10 +1,10 @@
-@extends("nomadelfia.index")
+@extends("anagrafe.index")
 
 @section("title", "Ricerca Persone")
 
 @section("content")
   @include("partials.header", ["title" => "Ricerca Persone"])
-  @include("nomadelfia.persone.search_form")
+  @include("anagrafe.persone.search_form")
   <div class="alert alert-warning alert-dismissible fade show" role="alert">
     Ricerca effettuata:
     <strong>{{ $msgSearch }}</strong>
@@ -50,7 +50,7 @@
                 <div class="button-group" role="group">
                   <a
                     class="btn btn-warning btn-sm"
-                    href="{{ route("nomadelfia.person.show", ["id" => $persona->id]) }}"
+                    href="{{ route("anagrafe.person.show", ["id" => $persona->id]) }}"
                   >
                     Dettaglio
                   </a>

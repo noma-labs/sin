@@ -104,10 +104,26 @@
           <div class="card text-center h-100">
             <div class="card-header">Gestione Nomadelfia</div>
             <div class="card-body">
-              <p class="card-text">Popolazione Nomadelfia, Aziende, Gruppi familiari, Famiglie</p>
+              <p class="card-text">Popolazione Nomadelfia, Aziende, Gruppi familiari</p>
             </div>
             <div class="card-footer">
               <a href="{{ route("nomadelfia.index") }}" class="btn btn-primary">
+                Accedi
+              </a>
+            </div>
+          </div>
+        </div>
+      @endcan
+
+      @can("popolazione.persona.visualizza")
+        <div class="col">
+          <div class="card text-center h-100">
+            <div class="card-header">Anagrafe</div>
+            <div class="card-body">
+              <p class="card-text">Dati anagrafici e famiglie di tutte le persone</p>
+            </div>
+            <div class="card-footer">
+              <a href="{{ route("anagrafe.index") }}" class="btn btn-primary">
                 Accedi
               </a>
             </div>

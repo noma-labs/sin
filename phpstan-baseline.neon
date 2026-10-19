@@ -3039,7 +3039,7 @@ parameters:
 		-
 			message: '#^Call to an undefined static method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:notAlreadyMarried\(\)\.$#'
 			identifier: staticMethod.notFound
-			count: 2
+			count: 1
 			path: app/Http/Anagrafe/Famiglia/Controllers/MarriageController.php
 
 		-

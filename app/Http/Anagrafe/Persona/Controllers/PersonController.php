@@ -15,7 +15,7 @@ final class PersonController
     #[Middleware('can:popolazione.persona.inserisci')]
     public function create()
     {
-        return view('nomadelfia.persone.anagrafica.create');
+        return view('anagrafe.persone.anagrafica.create');
     }
 
     #[Middleware('can:popolazione.persona.inserisci')]
@@ -52,7 +52,7 @@ final class PersonController
         );
         $persona->save();
 
-        return redirect(route('nomadelfia.join.create', $persona->id))->withSuccess("Dati anagrafici di $persona->nominativo inseriti correttamente.");
+        return to_route('anagrafe.person.show', $persona->id)->withSuccess("Dati anagrafici di $persona->nominativo inseriti correttamente.");
     }
 
     #[Middleware('can:popolazione.persona.visualizza')]
@@ -69,7 +69,7 @@ final class PersonController
             ->where('id', $persona->id_alfa_enrico)
             ->first();
 
-        return view('nomadelfia.persone.show',
+        return view('anagrafe.persone.show',
             compact('persona', 'posizioneAttuale', 'gruppoAttuale', 'famigliaAttuale', 'famigliaEnrico'));
     }
 }

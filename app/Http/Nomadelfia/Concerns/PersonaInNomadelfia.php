@@ -17,6 +17,7 @@ use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -24,6 +25,18 @@ use Illuminate\Support\Facades\DB;
  */
 trait PersonaInNomadelfia
 {
+    /**
+     * Returns the ids of the people currently living in Nomadelfia.
+     *
+     * @return Collection<array-key, mixed>
+     */
+    public static function idsInterni(): Collection
+    {
+        return PopolazioneNomadelfia::query()
+            ->whereNull('data_uscita')
+            ->pluck('persona_id');
+    }
+
     public function gruppifamiliari(): BelongsToMany
     {
         return $this->belongsToMany(GruppoFamiliare::class, 'gruppi_persone', 'persona_id', 'gruppo_famigliare_id')
