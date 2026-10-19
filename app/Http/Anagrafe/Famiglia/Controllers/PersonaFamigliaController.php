@@ -8,6 +8,7 @@ use App\Anagrafe\Famiglia\Models\Famiglia;
 use App\Anagrafe\Persona\Models\Persona;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
+use Illuminate\Validation\Rule;
 
 #[Middleware('auth')]
 final class PersonaFamigliaController
@@ -30,32 +31,21 @@ final class PersonaFamigliaController
     {
         $request->validate([
             'family_id' => ['required', 'exists:db_nomadelfia.famiglie,id'],
-            'type' => ['required', 'string'],
+            'type' => ['required', Rule::in(['FIGLIO NATO', 'FIGLIO ACCOLTO'])],
         ], [
             'family_id.required' => 'La famiglia è obbligatoria.',
             'family_id.exists' => 'La famiglia selezionata non esiste.',
             'type.required' => 'La posizione nella famiglia è obbligatoria.',
+            'type.in' => 'La posizione deve essere figlio nato o figlio accolto. Capofamiglia e moglie si assegnano con un nuovo matrimonio.',
         ]);
 
         $persona = Persona::query()->findOrFail($id);
         $famiglia = Famiglia::query()->findOrFail($request->integer('family_id'));
 
-        // Use type to assign the correct role in the familytask
-        switch ($request->string('type')) {
-            case 'CAPO FAMIGLIA':
-                $famiglia->assegnaCapoFamiglia($persona);
-                break;
-            case 'MOGLIE':
-                $famiglia->assegnaMoglie($persona);
-                break;
-            case 'FIGLIO NATO':
-                $famiglia->assegnaFiglioNato($persona);
-                break;
-            case 'FIGLIO ACCOLTO':
-                $famiglia->assegnaFiglioAccolto($persona);
-                break;
-            default:
-                return back()->withErrors(["Posizione `{$request->string('type')}` non riconosciuta"]);
+        if ($request->string('type')->toString() === 'FIGLIO NATO') {
+            $famiglia->assegnaFiglioNato($persona);
+        } else {
+            $famiglia->assegnaFiglioAccolto($persona);
         }
 
         return to_route('nomadelfia.person.show', $persona->id)

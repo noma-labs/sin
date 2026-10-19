@@ -1,6 +1,6 @@
 <x-modal
-  modal-title="Assegna Famiglia alla persona"
-  button-title="Assegna Famiglia"
+  modal-title="Aggiungi come figlio a una famiglia"
+  button-title="Aggiungi come figlio"
   button-style="btn-secondary my-2"
 >
   <x-slot:body>
@@ -14,11 +14,10 @@
         name_input="family_id"
         placeholder="---Cerca famiglia---"
       />
-      <select class="form-select mt-3" name="type">
-        <option selected>--- scegli posizione---</option>
-        @foreach (App\Anagrafe\Famiglia\Models\Famiglia::getEnum("Posizione") as $posizione)
-          <option value="{{ $posizione }}">{{ $posizione }}</option>
-        @endforeach
+      <select class="form-select mt-3" name="type" required>
+        <option value="" disabled selected>--- scegli posizione ---</option>
+        <option value="FIGLIO NATO">Figlio nato</option>
+        <option value="FIGLIO ACCOLTO">Figlio accolto</option>
       </select>
     </form>
   </x-slot:body>
