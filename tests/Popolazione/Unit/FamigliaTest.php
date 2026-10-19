@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use App\Anagrafe\Exceptions\CouldNotAssignCapoFamiglia;
+use App\Anagrafe\Exceptions\CouldNotAssignMoglie;
 use App\Anagrafe\Famiglia\Models\Famiglia;
 use App\Anagrafe\Persona\Models\Persona;
-use App\Nomadelfia\Exceptions\CouldNotAssignCapoFamiglia;
-use App\Nomadelfia\Exceptions\CouldNotAssignMoglie;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
