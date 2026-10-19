@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\PopolazioneNomadelfia\Actions;
 
-use App\Nomadelfia\Famiglia\Models\Famiglia;
+use App\Anagrafe\Famiglia\Models\Famiglia;
 use App\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\UscitaFamigliaData;
 use Carbon\Carbon;
 use Exception;

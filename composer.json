@@ -46,6 +46,7 @@
       "Database\\Factories\\": "database/factories/",
       "App\\Admin\\": "app/Http/Admin",
       "App\\Agraria\\": "app/Http/Agraria",
+      "App\\Anagrafe\\": "app/Http/Anagrafe",
       "App\\Archive\\": "app/Http/Archive",
       "App\\Auth\\": "app/Http/Auth",
       "App\\Biblioteca\\": "app/Http/Biblioteca",

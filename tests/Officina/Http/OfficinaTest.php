@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Officina\Http;
 
 use App\Admin\Models\User;
+use App\Anagrafe\Persona\Models\Persona;
 use App\Livewire\PrenotazioneVeicoli;
-use App\Nomadelfia\Persona\Models\Persona;
 use App\Officina\Controllers\ReservationsController;
 use App\Officina\Models\Prenotazioni;
 use App\Officina\Models\Uso;

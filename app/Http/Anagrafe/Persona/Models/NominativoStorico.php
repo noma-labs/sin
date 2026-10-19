@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Nomadelfia\Persona\Models;
+namespace App\Anagrafe\Persona\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

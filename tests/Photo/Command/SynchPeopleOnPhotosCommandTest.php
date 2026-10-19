@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Nomadelfia\Persona\Models\Persona;
+use App\Anagrafe\Persona\Models\Persona;
 use App\Photo\Models\Photo;
 use Illuminate\Support\Facades\DB;
 

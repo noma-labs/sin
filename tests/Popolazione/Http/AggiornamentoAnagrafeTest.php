@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Http\Nomadelfia;
 
-use App\Nomadelfia\Famiglia\Models\Famiglia;
+use App\Anagrafe\Famiglia\Models\Famiglia;
+use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\LogEntrataPersonaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\RecentActivitesController;
 use Carbon\Carbon;

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects;
 
-use App\Nomadelfia\Famiglia\Models\Famiglia;
+use App\Anagrafe\Famiglia\Models\Famiglia;
+use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Origine;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Scuola\Controllers;
 
-use App\Nomadelfia\Persona\Models\Persona;
+use App\Anagrafe\Persona\Models\Persona;
 use App\Scuola\Models\AddStudentAction;
 use App\Scuola\Models\Classe;
 use Illuminate\Http\Request;

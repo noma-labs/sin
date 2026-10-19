@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Scuola\DataTransferObjects;
 
-use App\Nomadelfia\Persona\Models\Persona;
+use App\Anagrafe\Persona\Models\Persona;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\Studente;
 use DateTimeImmutable;

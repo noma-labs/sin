@@ -16,7 +16,7 @@
       />
       <select class="form-select mt-3" name="type">
         <option selected>--- scegli posizione---</option>
-        @foreach (App\Nomadelfia\Famiglia\Models\Famiglia::getEnum("Posizione") as $posizione)
+        @foreach (App\Anagrafe\Famiglia\Models\Famiglia::getEnum("Posizione") as $posizione)
           <option value="{{ $posizione }}">{{ $posizione }}</option>
         @endforeach
       </select>

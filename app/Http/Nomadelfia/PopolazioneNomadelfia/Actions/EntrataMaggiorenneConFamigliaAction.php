@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\PopolazioneNomadelfia\Actions;
 
+use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\Exceptions\PersonaIsMinorenne;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaData;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Origine as ModelsOrigine;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;

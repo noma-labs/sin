@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Nomadelfia\Famiglia\Controllers;
+namespace App\Anagrafe\Famiglia\Controllers;
 
-use App\Nomadelfia\Famiglia\Models\Famiglia;
+use App\Anagrafe\Famiglia\Models\Famiglia;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
 

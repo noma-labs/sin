@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\EserciziSpirituali\Models;
 
+use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\Exceptions\EsSpiritualeNotActive;
-use App\Nomadelfia\Persona\Models\Persona;
 use Database\Factories\EsSpiritualiFactory;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

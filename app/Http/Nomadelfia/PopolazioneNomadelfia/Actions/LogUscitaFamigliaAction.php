@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\PopolazioneNomadelfia\Actions;
 
-use App\Nomadelfia\Persona\Models\Persona;
+use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\UscitaFamigliaData;
 
 final class LogUscitaFamigliaAction

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\Persona\Actions;
 
-use App\Nomadelfia\Persona\Models\Persona;
+use App\Anagrafe\Persona\Models\Persona;
 use Exception;
 use Illuminate\Support\Str;
 

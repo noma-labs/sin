@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\Azienda\Controllers;
 
+use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\Azienda\Models\Azienda;
-use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
 

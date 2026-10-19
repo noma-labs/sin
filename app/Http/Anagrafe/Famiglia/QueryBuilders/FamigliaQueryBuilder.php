@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Nomadelfia\Famiglia\QueryBuilders;
+namespace App\Anagrafe\Famiglia\QueryBuilders;
 
 use Illuminate\Database\Eloquent\Builder;
 

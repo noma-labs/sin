@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Nomadelfia\Exceptions;
+namespace App\Anagrafe\Exceptions;
 
-final class PersonaHasMultipleFamigliaAttuale extends NomadelfiaException
+final class PersonaHasMultipleFamigliaAttuale extends AnagrafeException
 {
     public static function named(string $nome): self
     {
