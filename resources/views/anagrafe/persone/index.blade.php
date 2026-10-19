@@ -5,22 +5,12 @@
 @section("content")
   @include("partials.header", ["title" => "Anagrafe", "subtitle" => $persone->total() . " persone"])
   @include("anagrafe.persone.search_form")
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <div class="btn-group" role="group" aria-label="Filtro persone">
-      @foreach (["tutti" => "Tutti", "interni" => "In Nomadelfia", "esterni" => "Fuori Nomadelfia"] as $valore => $etichetta)
-        <a
-          class="btn btn-sm {{ $filtro === $valore ? "btn-primary" : "btn-outline-primary" }}"
-          href="{{ route("anagrafe.index", ["filtro" => $valore]) }}"
-        >
-          {{ $etichetta }}
-        </a>
-      @endforeach
-    </div>
-    @can("popolazione.persona.inserisci")
+  @can("popolazione.persona.inserisci")
+    <div class="d-flex justify-content-end mb-3">
       <a class="btn btn-success" href="{{ route("anagrafe.person.create") }}">
         Inserisci persona
       </a>
-    @endcan
-  </div>
+    </div>
+  @endcan
   @include("anagrafe.persone.table")
 @endsection

@@ -12,22 +12,17 @@ use Illuminate\Routing\Attributes\Controllers\Middleware;
 #[Middleware('auth')]
 final class PersonController
 {
-    private const FILTRI = ['tutti', 'interni', 'esterni'];
-
     #[Middleware('can:popolazione.persona.visualizza')]
-    public function index(Request $request): View
+    public function index(): View
     {
-        $filtro = in_array($request->query('filtro'), self::FILTRI, true) ? $request->query('filtro') : 'tutti';
         $interni = Persona::idsInterni();
 
         $persone = Persona::query()
             ->with('famiglieAttuali')
-            ->when($filtro === 'interni', fn ($query) => $query->whereIn('id', $interni))
-            ->when($filtro === 'esterni', fn ($query) => $query->whereNotIn('id', $interni))
             ->orderBy('nominativo')
             ->paginate(50);
 
-        return view('anagrafe.persone.index', compact('persone', 'interni', 'filtro'));
+        return view('anagrafe.persone.index', compact('persone', 'interni'));
     }
 
     #[Middleware('can:popolazione.persona.inserisci')]

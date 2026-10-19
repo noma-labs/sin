@@ -26,7 +26,7 @@ it('render the show of a person with minimal info', function (): void {
         ->assertSeeText($persona->nominativo);
 });
 
-it('lists all people in the anagrafe and filters by presence in Nomadelfia', function (): void {
+it('lists all people in the anagrafe, marking who is in Nomadelfia', function (): void {
     login();
     $interno = Persona::factory()->maggiorenne()->maschio()->create(['nominativo' => 'Aaa Persona Interna']);
     app(EntrataMaggiorenneSingleAction::class)->execute($interno, Carbon::now(), GruppoFamiliare::all()->random());
@@ -36,14 +36,6 @@ it('lists all people in the anagrafe and filters by presence in Nomadelfia', fun
         ->assertSuccessful()
         ->assertSeeInOrder(['Aaa Persona Esterna', 'Deceduto', 'Aaa Persona Interna', 'In Nomadelfia'])
         ->assertSee(route('anagrafe.person.create'));
-
-    $this->get(action([PersonController::class, 'index'], ['filtro' => 'interni']))
-        ->assertSee('Aaa Persona Interna')
-        ->assertDontSee('Aaa Persona Esterna');
-
-    $this->get(action([PersonController::class, 'index'], ['filtro' => 'esterni']))
-        ->assertSee('Aaa Persona Esterna')
-        ->assertDontSee('Aaa Persona Interna');
 });
 
 it('links a person in Nomadelfia from the anagrafe to the popolazione section', function (): void {
