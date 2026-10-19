@@ -22,9 +22,9 @@ final class FamilyController
         $capifamiglieFemmina = Famiglia::onlyCapoFamiglia()->femmina();
 
         $singleMaschio = Famiglia::single()->maschio()
-            ->when(! $tuttiSingle, fn ($query) => $query->whereIn('persone.id', $interni));
+            ->when(! $tuttiSingle, fn ($query) => $query->whereIn('persone.id', Persona::queryIdsInterni()));
         $singleFemmine = Famiglia::single()->femmina()
-            ->when(! $tuttiSingle, fn ($query) => $query->whereIn('persone.id', $interni));
+            ->when(! $tuttiSingle, fn ($query) => $query->whereIn('persone.id', Persona::queryIdsInterni()));
 
         $famigliaError = Famiglia::famigliaConErrore();
 

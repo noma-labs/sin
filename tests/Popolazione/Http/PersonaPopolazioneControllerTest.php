@@ -89,3 +89,42 @@ it('offers both family actions to an adult without a family', function (): void 
         ->assertSee('Nuovo matrimonio')
         ->assertSee('Aggiungi come figlio');
 });
+
+it('does not show a former wife as the spouse of a capofamiglia', function (): void {
+    login();
+    $marito = Persona::factory()->maggiorenne()->maschio()->create();
+    $exMoglie = Persona::factory()->maggiorenne()->femmina()->create(['nominativo' => 'Ex Moglie Uscita']);
+    $famiglia = Famiglia::factory()->create();
+    $famiglia->assegnaCapoFamiglia($marito);
+    $famiglia->assegnaMoglie($exMoglie);
+    $famiglia->uscitaDalNucleoFamiliare($exMoglie);
+
+    $this->get(action([PersonaPopolazioneController::class, 'show'], $marito->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Coniuge:', 'Nessuno'])
+        ->assertDontSee('Ex Moglie Uscita');
+});
+
+it('does not offer a nuovo matrimonio to a person who was already capofamiglia', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    $famiglia = Famiglia::factory()->create();
+    $famiglia->assegnaCapoFamiglia($persona);
+    $famiglia->uscitaDalNucleoFamiliare($persona);
+
+    $this->get(action([PersonaPopolazioneController::class, 'show'], $persona->id))
+        ->assertSuccessful()
+        ->assertSee('Nessuna famiglia')
+        ->assertDontSee('Nuovo matrimonio');
+});
+
+it('does not show parents for a single', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    Famiglia::factory()->create()->componenti()->attach($persona->id, ['stato' => '1', 'posizione_famiglia' => 'SINGLE']);
+
+    $this->get(action([PersonaPopolazioneController::class, 'show'], $persona->id))
+        ->assertSuccessful()
+        ->assertSee('SINGLE')
+        ->assertDontSee('Genitori:');
+});

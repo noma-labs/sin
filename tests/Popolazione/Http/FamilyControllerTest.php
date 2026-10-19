@@ -54,3 +54,12 @@ it('shows a family whose members are not part of the popolazione', function (): 
         ->assertSuccessful()
         ->assertSee('Famiglia Da Mostrare');
 });
+
+it('does not list deceased single people', function (): void {
+    login();
+    Persona::factory()->maggiorenne()->maschio()->create(['nominativo' => 'Single Deceduto', 'data_decesso' => '2020-01-01']);
+
+    $this->get(action([FamilyController::class, 'index'], ['single' => 'tutti']))
+        ->assertSuccessful()
+        ->assertDontSee('Single Deceduto');
+});

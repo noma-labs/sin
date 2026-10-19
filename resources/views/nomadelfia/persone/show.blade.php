@@ -413,6 +413,7 @@
           @php
             $posizioneFamiglia = $famigliaAttuale?->pivot->posizione_famiglia;
             $inCoppia = in_array($posizioneFamiglia, ["CAPO FAMIGLIA", "MOGLIE"], true);
+            $isFiglio = in_array($posizioneFamiglia, ["FIGLIO NATO", "FIGLIO ACCOLTO"], true);
           @endphp
 
           @if ($famigliaAttuale)
@@ -437,7 +438,10 @@
               </li>
               @if ($inCoppia)
                 @php
-                  $coniuge = $posizioneFamiglia === "CAPO FAMIGLIA" ? $famigliaAttuale->moglie() : $famigliaAttuale->capofamiglia();
+                  $coniuge = $famigliaAttuale
+                      ->componentiAttuali()
+                      ->wherePivot("posizione_famiglia", $posizioneFamiglia === "CAPO FAMIGLIA" ? "MOGLIE" : "CAPO FAMIGLIA")
+                      ->first();
                 @endphp
                 <li class="list-group-item">
                   <div class="row">
@@ -463,12 +467,12 @@
                     </div>
                   </div>
                 </li>
-              @else
+              @elseif ($isFiglio)
                 <li class="list-group-item">
                   <div class="row">
                     <label class="col-sm-4 fw-bold">Genitori:</label>
                     <div class="col-sm-8">
-                      @foreach (array_filter([$famigliaAttuale->capofamiglia(), $famigliaAttuale->moglie()]) as $genitore)
+                      @foreach ($famigliaAttuale->componentiAttuali()->wherePivotIn("posizione_famiglia", ["CAPO FAMIGLIA", "MOGLIE"])->get() as $genitore)
                         <a
                           href="{{ route("nomadelfia.person.show", $genitore->id) }}"
                         >
@@ -489,7 +493,7 @@
 
           @can("popolazione.persona.inserisci")
             <div class="d-flex flex-wrap gap-2 mt-2">
-              @if (! $inCoppia && $persona->isMaggiorenne() && ! $persona->isDeceduta())
+              @if ($persona->puoSposarsi())
                 <a
                   class="btn btn-success"
                   href="{{ route("anagrafe.marriage.create", ["persona" => $persona->id]) }}"

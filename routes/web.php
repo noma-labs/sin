@@ -132,7 +132,7 @@ Route::prefix('admin')->middleware('role:super-admin')->group(function () {
     Route::get('logs', [LogsActivityController::class, 'index'])->name('logs.index');
 });
 
-Route::prefix('anagrafe')->group(function () {
+Route::prefix('anagrafe')->middleware('auth')->group(function () {
     Route::get('/', [PersonController::class, 'index'])->name('anagrafe.index');
 
     Route::get('people-new', [PersonController::class, 'create'])->name('anagrafe.person.create');
@@ -142,7 +142,7 @@ Route::prefix('anagrafe')->group(function () {
     Route::post('people/{id}/internal-name', [InternalNameController::class, 'store'])->name('anagrafe.internal-name.store');
     Route::get('people/{id}/internal-name', [InternalNameController::class, 'edit'])->name('anagrafe.internal-name.edit');
     Route::put('people/{id}/internal-name', [InternalNameController::class, 'update'])->name('anagrafe.internal-name.update');
-    Route::view('search', 'anagrafe.persone.search')->name('anagrafe.people.search');
+    Route::view('search', 'anagrafe.persone.search')->middleware('can:popolazione.persona.visualizza')->name('anagrafe.people.search');
     Route::get('search/submit', [SearchablePersonController::class, 'show'])->name('anagrafe.people.search.show');
     Route::get('families', [FamilyController::class, 'index'])->name('anagrafe.families');
     Route::get('families/{id}', [FamilyController::class, 'show'])->name('anagrafe.families.show');

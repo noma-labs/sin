@@ -35,6 +35,7 @@ final class FamigliaQueryBuilder extends Builder
                     ->from('famiglie_persone')
                     ->where('famiglie_persone.stato', '=', '1');
             })
+            ->whereNull('persone.data_decesso')
             ->whereNull('persone.deleted_at')
             ->orderBy('persone.nominativo');
     }

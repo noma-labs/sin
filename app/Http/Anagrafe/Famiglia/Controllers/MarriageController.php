@@ -18,8 +18,8 @@ final class MarriageController
     public function create(Request $request)
     {
         $persona = $request->filled('persona') ? Persona::query()->find($request->integer('persona')) : null;
-        $husbandId = $persona?->isMaschio() ? [$persona->id] : [];
-        $wifeId = $persona && ! $persona->isMaschio() ? [$persona->id] : [];
+        $husbandId = $this->selectedSpouse($request->old('husband'), $persona?->isMaschio() ? $persona->id : null);
+        $wifeId = $this->selectedSpouse($request->old('wife'), $persona && ! $persona->isMaschio() ? $persona->id : null);
 
         return view('anagrafe.famiglie.create', compact('husbandId', 'wifeId'));
     }
@@ -28,8 +28,8 @@ final class MarriageController
     public function store(Request $request)
     {
         $request->validate([
-            'husband' => ['required', $this->canMarry('M', 'Lo sposo deve essere un uomo maggiorenne, vivo e non già sposato.')],
-            'wife' => ['required', $this->canMarry('F', 'La sposa deve essere una donna maggiorenne, viva e non già sposata.')],
+            'husband' => ['bail', 'required', 'integer', $this->canMarry('M', 'Lo sposo deve essere un uomo maggiorenne, vivo e non già sposato.')],
+            'wife' => ['bail', 'required', 'integer', $this->canMarry('F', 'La sposa deve essere una donna maggiorenne, viva e non già sposata.')],
             'data_matrimonio' => ['required', 'date'],
         ], [
             'husband.required' => 'Il nome dello sposo è obbligatorio',
@@ -43,6 +43,20 @@ final class MarriageController
 
         return redirect(route('anagrafe.families.show',
             ['id' => $fam->id]))->withSuccess('Matrionio creato con successo');
+    }
+
+    /**
+     * Returns the spouse to preselect: the one submitted before a validation error, otherwise the person the matrimonio starts from.
+     *
+     * @return list<int>
+     */
+    private function selectedSpouse(mixed $oldInput, ?int $fromPersona): array
+    {
+        if (is_numeric($oldInput)) {
+            return [(int) $oldInput];
+        }
+
+        return $fromPersona !== null ? [$fromPersona] : [];
     }
 
     /**

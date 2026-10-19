@@ -46,3 +46,7 @@ it('offers a nuovo matrimonio from the page of an unmarried adult', function ():
     $this->get(action([PersonaPopolazioneController::class, 'show'], $persona->id))
         ->assertSee(route('anagrafe.marriage.create', ['persona' => $persona->id]));
 });
+
+it('requires authentication for the anagrafe search page', function (): void {
+    $this->get(route('anagrafe.people.search'))->assertRedirect(route('login'));
+});

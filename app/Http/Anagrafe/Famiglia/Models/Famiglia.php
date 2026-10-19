@@ -376,6 +376,7 @@ final class Famiglia extends Model
             'famiglie_persone.stato')
             ->join('famiglie_persone', 'famiglie_persone.famiglia_id', '=', 'famiglie.id')
             ->join('persone', 'famiglie_persone.persona_id', '=', 'persone.id')
+            ->whereNull('persone.data_decesso')
             ->whereNull('persone.deleted_at')
             ->where('posizione_famiglia', $posizione)
             ->where('famiglie_persone.stato', $stato)

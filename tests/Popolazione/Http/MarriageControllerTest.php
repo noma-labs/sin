@@ -78,3 +78,25 @@ it('preselects the person the matrimonio starts from as husband or wife', functi
         ->assertViewHas('wifeId', [$wife->id])
         ->assertViewHas('husbandId', []);
 });
+
+it('refuses a spouse that is not a person id', function (): void {
+    login();
+    $wife = Persona::factory()->maggiorenne()->femmina()->create();
+
+    $this->post(action([MarriageController::class, 'store']), [
+        'husband' => ['1'],
+        'wife' => $wife->id,
+        'data_matrimonio' => Carbon::now()->toDateString(),
+    ])->assertSessionHasErrors('husband');
+});
+
+it('keeps the spouses selected before a validation error', function (): void {
+    login();
+    $husband = Persona::factory()->maggiorenne()->maschio()->create();
+    $wife = Persona::factory()->maggiorenne()->femmina()->create();
+
+    $this->withSession(['_old_input' => ['husband' => (string) $husband->id, 'wife' => (string) $wife->id]])
+        ->get(action([MarriageController::class, 'create']))
+        ->assertViewHas('husbandId', [$husband->id])
+        ->assertViewHas('wifeId', [$wife->id]);
+});
