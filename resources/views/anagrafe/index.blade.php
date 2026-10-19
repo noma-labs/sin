@@ -46,7 +46,4 @@
       </a>
     </div>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" href="{{ route("nomadelfia.index") }}">Popolazione</a>
-  </li>
 @append

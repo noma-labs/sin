@@ -4,9 +4,6 @@
 
 @section("navbar-link")
   <li class="nav-item">
-    <a class="nav-link" href="{{ route("anagrafe.index") }}">Anagrafe</a>
-  </li>
-  <li class="nav-item">
     <a class="nav-link" href="{{ route("nomadelfia.index") }}">Popolazione</a>
   </li>
   <li class="nav-item">
