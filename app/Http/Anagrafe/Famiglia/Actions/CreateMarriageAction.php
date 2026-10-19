@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Nomadelfia\Famiglia\Actions;
+namespace App\Anagrafe\Famiglia\Actions;
 
 use App\Anagrafe\Famiglia\Models\Famiglia;
 use App\Anagrafe\Persona\Models\Persona;

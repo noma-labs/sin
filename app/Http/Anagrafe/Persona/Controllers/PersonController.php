@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Nomadelfia\Persona\Controllers;
+namespace App\Anagrafe\Persona\Controllers;
 
 use App\Anagrafe\Persona\Models\Persona;
 use Illuminate\Http\Request;

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Nomadelfia\Famiglia\Controllers;
+namespace App\Anagrafe\Famiglia\Controllers;
 
 use App\Anagrafe\Famiglia\Models\Famiglia;
 use App\Anagrafe\Persona\Models\Persona;
-use App\Nomadelfia\Famiglia\Actions\CreateMarriageAction;
+use App\Anagrafe\Famiglia\Actions\CreateMarriageAction;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
 

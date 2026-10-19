@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Http\Nomadelfia;
 
+use App\Anagrafe\Persona\Controllers\PersonController;
 use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use App\Nomadelfia\Persona\Controllers\PersonController;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneSummaryController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PrintableWordPopolazioneController;
