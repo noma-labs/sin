@@ -72,7 +72,11 @@ class Persona extends Model
 
     public function buildCompleteName(): string
     {
-        $year = \Illuminate\Support\Facades\Date::createFromFormat('Y-m-d', $this->data_nascita)->year;
+        if (empty($this->data_nascita)) {
+            return "$this->nome  $this->cognome";
+        }
+
+        $year = \Illuminate\Support\Facades\Date::parse($this->data_nascita)->year;
 
         return "($year) $this->nome  $this->cognome";
     }
