@@ -1,0 +1,350 @@
+// Profile page of a person (nomadelfia.person.profile)
+
+.person-profile {
+  --profile-comunita: #{$nomadelfia-blu};
+  --profile-famiglia: #c27c00;
+  --profile-anagrafe: var(--bs-secondary-color);
+
+  .profile-band {
+    background: $nomadelfia-blu;
+    color: $white;
+    padding: 1.5rem;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+  }
+
+  .profile-avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 0.75rem;
+    background: #c9d6f2;
+    color: $nomadelfia-blu;
+    display: grid;
+    place-items: center;
+    font-size: 2.5rem;
+    font-weight: 600;
+    flex: none;
+  }
+
+  .profile-name {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 2rem;
+    font-weight: 600;
+    text-wrap: balance;
+  }
+
+  .profile-muted {
+    color: #c9d4ee;
+  }
+
+  .profile-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #c9d4ee;
+    margin-right: 0.35rem;
+  }
+
+  .profile-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+    background: rgba($white, 0.14);
+    white-space: nowrap;
+  }
+
+  .profile-chip-presente {
+    background: #d8f5e4;
+    color: #135c37;
+    font-weight: 600;
+
+    &::before {
+      content: "";
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+      background: #1f9d5c;
+    }
+  }
+
+  .profile-chip-numero {
+    background: $nomadelfia-giallo;
+    color: #3d2a00;
+    font-weight: 600;
+  }
+
+  .profile-btn {
+    background: rgba($white, 0.16);
+    color: $white;
+    border: 0;
+
+    &:hover,
+    &:focus-visible,
+    &.show {
+      background: rgba($white, 0.28);
+      color: $white;
+    }
+  }
+
+  .profile-strip {
+    position: relative;
+    height: 10px;
+    background: rgba($white, 0.15);
+    border-radius: 5px;
+    overflow: hidden;
+
+    span {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      background: $nomadelfia-giallo;
+    }
+  }
+
+  .profile-tabs {
+    background: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color);
+    border-top: 0;
+    border-radius: 0 0 0.5rem 0.5rem;
+
+    .nav-link {
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+    }
+  }
+
+  // Timeline
+  .profile-filter {
+    font-size: 0.85rem;
+    border: 1px solid var(--bs-border-color);
+    background: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    &[aria-pressed="false"] {
+      opacity: 0.45;
+    }
+
+    i {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+    }
+  }
+
+  .profile-dot-comunita {
+    background: var(--profile-comunita);
+  }
+
+  .profile-dot-famiglia {
+    background: var(--profile-famiglia);
+  }
+
+  .profile-timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .profile-event {
+    display: grid;
+    grid-template-columns: 3.25rem 1.4rem minmax(0, 1fr);
+    --profile-dot: var(--profile-anagrafe);
+
+    &.profile-event-comunita {
+      --profile-dot: var(--profile-comunita);
+    }
+
+    &.profile-event-famiglia {
+      --profile-dot: var(--profile-famiglia);
+    }
+
+    &:first-child .profile-event-rail::before {
+      top: 1.1rem;
+    }
+
+    &:last-child .profile-event-rail::before {
+      bottom: calc(100% - 1.1rem);
+    }
+  }
+
+  .profile-event-when {
+    text-align: right;
+    padding-top: 0.6rem;
+    font-variant-numeric: tabular-nums;
+
+    b {
+      display: block;
+    }
+
+    small {
+      color: var(--bs-secondary-color);
+    }
+  }
+
+  .profile-event-rail {
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      margin-left: -1px;
+      background: var(--bs-border-color);
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 0.9rem;
+      width: 12px;
+      height: 12px;
+      margin-left: -6px;
+      border-radius: 50%;
+      background: var(--bs-body-bg);
+      border: 3px solid var(--profile-dot);
+    }
+  }
+
+  .profile-event-card {
+    margin: 0 0 0.6rem 0.4rem;
+    padding: 0.6rem 0.75rem;
+    background: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color);
+    border-radius: 0.5rem;
+  }
+
+  .profile-event-importante .profile-event-card {
+    border-left: 4px solid var(--profile-dot);
+  }
+
+  .profile-event-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--profile-dot);
+  }
+
+  .profile-event-oggi {
+    .profile-event-card {
+      background: var(--bs-tertiary-bg);
+      border-style: dashed;
+    }
+
+    .profile-event-rail::after {
+      background: $nomadelfia-giallo;
+      border-color: $nomadelfia-giallo;
+    }
+  }
+
+  // Label/value lists
+  .profile-kv-row {
+    display: grid;
+    grid-template-columns: 9rem minmax(0, 1fr) auto;
+    gap: 0.5rem;
+    align-items: baseline;
+    padding: 0.6rem 0.9rem;
+    border-top: 1px solid var(--bs-border-color);
+
+    &:first-child {
+      border-top: 0;
+    }
+
+    dt {
+      font-weight: normal;
+      color: var(--bs-secondary-color);
+      font-size: 0.875rem;
+    }
+
+    dd {
+      margin: 0;
+      min-width: 0;
+      overflow-wrap: anywhere;
+
+      small {
+        display: block;
+        color: var(--bs-secondary-color);
+      }
+    }
+
+    > a {
+      font-size: 0.8rem;
+    }
+  }
+
+  // Family members
+  .profile-person {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 0.4rem;
+    background: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color);
+    border-radius: 0.5rem;
+    color: var(--bs-body-color);
+    text-decoration: none;
+
+    &:hover {
+      border-color: $nomadelfia-azzurro;
+    }
+  }
+
+  .profile-person-indentato {
+    margin-left: 1.25rem;
+  }
+
+  .profile-person-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex: none;
+  }
+
+  .profile-person-m {
+    background: #d5e1f7;
+    color: $nomadelfia-blu;
+  }
+
+  .profile-person-f {
+    background: #f8dcc8;
+    color: #9a4b16;
+  }
+
+  @include media-breakpoint-down(md) {
+    .profile-avatar {
+      width: 64px;
+      height: 64px;
+      font-size: 1.6rem;
+    }
+
+    .profile-name {
+      font-size: 1.6rem;
+    }
+
+    .profile-kv-row {
+      grid-template-columns: minmax(0, 1fr) auto;
+
+      dt {
+        grid-column: 1 / -1;
+      }
+    }
+  }
+}
