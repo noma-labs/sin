@@ -88,6 +88,22 @@ it('shows the marriage and the children born in the timeline and in the family',
         ->assertSee(route('nomadelfia.person.profile', $figlio->id));
 });
 
+it('shows the children no longer in the nucleo apart from the ones still in it', function (): void {
+    login();
+    $marito = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();
+    $nelNucleo = Persona::factory()->nato(Carbon::parse('2005-08-20'))->maschio()->create(['nominativo' => 'Figlio Nel Nucleo']);
+    $uscito = Persona::factory()->nato(Carbon::parse('2000-08-20'))->maschio()->create(['nominativo' => 'Figlio Uscito']);
+    $famiglia = Famiglia::factory()->create(['data_creazione' => '1998-06-12']);
+    $famiglia->assegnaCapoFamiglia($marito);
+    $famiglia->assegnaFiglioNato($uscito);
+    $famiglia->assegnaFiglioNato($nelNucleo);
+    $famiglia->uscitaDalNucleoFamiliare($uscito);
+
+    $this->get(route('nomadelfia.person.profile', $marito->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Coniuge e figli', 'Figlio Nel Nucleo', 'Figli non più nel nucleo', 'Figlio Uscito']);
+});
+
 it('shows the figlio accolto in the timeline at the date of the entrata', function (): void {
     login();
     $marito = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();

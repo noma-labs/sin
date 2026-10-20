@@ -3,7 +3,7 @@
 @endphp
 
 <a
-  class="profile-person @if ($indentato) profile-person-indentato @endif"
+  class="profile-person @if ($indentato) profile-person-indentato @endif @if ($fuoriNucleo ?? false) profile-person-fuori-nucleo @endif"
   href="{{ route("nomadelfia.person.profile", $componente->id) }}"
 >
   <span

@@ -32,7 +32,8 @@ final class PersonProfileController
         $coniuge = $inCoppia
             ? $famigliaAttuale->componentiAttuali()->wherePivot('posizione_famiglia', $posizioneFamiglia === 'CAPO FAMIGLIA' ? 'MOGLIE' : 'CAPO FAMIGLIA')->first()
             : null;
-        $figli = $inCoppia ? $famigliaAttuale->figliAttuali()->get() : collect();
+        $figliNelNucleo = $inCoppia ? $famigliaAttuale->figliAttuali()->get() : collect();
+        $figliFuoriNucleo = $inCoppia ? $famigliaAttuale->figli()->wherePivot('stato', '0')->get() : collect();
 
         $famigliaOrigine = $persona->famiglie()
             ->withPivot('posizione_famiglia')
@@ -59,7 +60,8 @@ final class PersonProfileController
             'famigliaAttuale' => $famigliaAttuale,
             'posizioneFamiglia' => $posizioneFamiglia,
             'coniuge' => $coniuge,
-            'figli' => $figli,
+            'figliNelNucleo' => $figliNelNucleo,
+            'figliFuoriNucleo' => $figliFuoriNucleo,
             'famigliaOrigine' => $famigliaOrigine,
             'genitori' => $genitori,
             'famigliaEnrico' => $famigliaEnrico,

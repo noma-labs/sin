@@ -607,14 +607,23 @@
           <p class="text-body-secondary">Nessuna famiglia</p>
         @endif
 
-        @if ($coniuge || $figli->isNotEmpty())
+        @if ($coniuge || $figliNelNucleo->isNotEmpty())
           <div class="text-body-secondary small mb-2">Coniuge e figli</div>
           @if ($coniuge)
             @include("nomadelfia.persone.partials.profile-person-card", ["componente" => $coniuge, "ruolo" => $coniuge->isMaschio() ? "Marito" : "Moglie", "indentato" => false])
           @endif
 
-          @foreach ($figli as $figlio)
+          @foreach ($figliNelNucleo as $figlio)
             @include("nomadelfia.persone.partials.profile-person-card", ["componente" => $figlio, "ruolo" => Illuminate\Support\Str::ucfirst(mb_strtolower($figlio->pivot->posizione_famiglia)), "indentato" => true])
+          @endforeach
+        @endif
+
+        @if ($figliFuoriNucleo->isNotEmpty())
+          <div class="text-body-secondary small mt-3 mb-2">
+            Figli non più nel nucleo
+          </div>
+          @foreach ($figliFuoriNucleo as $figlio)
+            @include("nomadelfia.persone.partials.profile-person-card", ["componente" => $figlio, "ruolo" => Illuminate\Support\Str::ucfirst(mb_strtolower($figlio->pivot->posizione_famiglia)), "indentato" => true, "fuoriNucleo" => true])
           @endforeach
         @endif
 
