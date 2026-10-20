@@ -6,9 +6,11 @@
   --profile-anagrafe: var(--bs-secondary-color);
 
   .profile-band {
-    background: $nomadelfia-blu;
-    color: $white;
-    padding: 1.5rem;
+    background: #eef3fb;
+    color: #1f2d4d;
+    border: 1px solid #d5e1f7;
+    border-bottom: 0;
+    padding: 1rem 1.25rem;
     border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
   }
@@ -17,7 +19,8 @@
     width: 96px;
     height: 96px;
     border-radius: 0.75rem;
-    background: #c9d6f2;
+    background: $white;
+    border: 1px solid #d5e1f7;
     color: $nomadelfia-blu;
     display: grid;
     place-items: center;
@@ -30,11 +33,12 @@
     font-family: Georgia, "Times New Roman", serif;
     font-size: 2rem;
     font-weight: 600;
+    color: $nomadelfia-blu;
     text-wrap: balance;
   }
 
   .profile-muted {
-    color: #c9d4ee;
+    color: #5a6a8c;
   }
 
   .profile-label {
@@ -42,7 +46,7 @@
     font-weight: 600;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: #c9d4ee;
+    color: #5a6a8c;
     margin-right: 0.35rem;
   }
 
@@ -53,12 +57,14 @@
     font-size: 0.85rem;
     padding: 0.25rem 0.65rem;
     border-radius: 999px;
-    background: rgba($white, 0.14);
+    background: $white;
+    border: 1px solid #d5e1f7;
     white-space: nowrap;
   }
 
   .profile-chip-presente {
     background: #d8f5e4;
+    border-color: #b5e8cb;
     color: #135c37;
     font-weight: 600;
 
@@ -73,27 +79,29 @@
 
   .profile-chip-numero {
     background: $nomadelfia-giallo;
+    border-color: $nomadelfia-giallo;
     color: #3d2a00;
     font-weight: 600;
   }
 
   .profile-btn {
-    background: rgba($white, 0.16);
-    color: $white;
-    border: 0;
+    background: $white;
+    color: $nomadelfia-blu;
+    border: 1px solid #c9d6f2;
 
     &:hover,
     &:focus-visible,
     &.show {
-      background: rgba($white, 0.28);
-      color: $white;
+      background: #dde7f8;
+      border-color: #b4c6ea;
+      color: $nomadelfia-blu;
     }
   }
 
   .profile-strip {
     position: relative;
     height: 10px;
-    background: rgba($white, 0.15);
+    background: #d5e1f7;
     border-radius: 5px;
     overflow: hidden;
 
@@ -101,7 +109,7 @@
       position: absolute;
       top: 0;
       bottom: 0;
-      background: $nomadelfia-giallo;
+      background: var(--profile-comunita);
     }
   }
 
