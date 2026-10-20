@@ -53,3 +53,27 @@
   </li>
 
 @append
+
+@section("navbar-search")
+  @can("popolazione.persona.visualizza")
+    <li class="nav-item">
+      <form
+        class="d-flex me-md-2"
+        role="search"
+        method="GET"
+        action="{{ route("anagrafe.people.search.show") }}"
+      >
+        <input
+          class="form-control me-2"
+          type="search"
+          name="q"
+          value="{{ request("q") }}"
+          placeholder="Nominativo, nome, cognome o numero elenco"
+          aria-label="Cerca persona"
+          required
+        />
+        <button class="btn btn-outline-primary" type="submit">Cerca</button>
+      </form>
+    </li>
+  @endcan
+@endsection

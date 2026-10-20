@@ -22,6 +22,17 @@ final class SearchablePersonController
         }
 
         $queryLibri = Persona::sortable()->where(function ($q) use ($request, &$msgSearch, &$orderBy): void {
+            if ($request->filled('q')) {
+                $term = $request->string('q')->toString();
+                $q->where(function ($sub) use ($term): void {
+                    $sub->where('nominativo', 'like', "%$term%")
+                        ->orWhere('nome', 'like', "%$term%")
+                        ->orWhere('cognome', 'like', "%$term%")
+                        ->orWhere('numero_elenco', 'like', "$term%");
+                });
+                $msgSearch = $msgSearch.'Testo='.$term;
+                $orderBy = 'nominativo';
+            }
             if ($request->nominativo) {
                 $nominativo = $request->nominativo;
                 $q->where('nominativo', 'like', "$nominativo%");

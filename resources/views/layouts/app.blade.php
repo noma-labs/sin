@@ -32,6 +32,7 @@
           @yield("navbar-link")
         </ul>
         <ul class="navbar-nav ms-auto d-print-none">
+          @yield("navbar-search")
           @if (Auth::guest())
             <li class="nav-item">
               <a class="nav-link" href="{{ route("login") }}"> Autenticati </a>

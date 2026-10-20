@@ -233,8 +233,8 @@ Route::prefix('nomadelfia')->group(function () {
     Route::get('esercizi', [EsSpiritualiController::class, 'index'])->name('nomadelfia.esercizi');
     Route::get('esercizi/stampa', [EsSpiritualiController::class, 'stampa'])->name('nomadelfia.esercizi.stampa');
     Route::get('esercizi/{id}', [EsSpiritualiController::class, 'show'])->name('nomadelfia.esercizi.dettaglio');
-    Route::post('esercizi/{id}/assegna', [EsSpiritualiController::class, 'assegn]aPersona'])->name('nomadelfia.esercizi.assegna');
-    Route::delete('esercizi/{id}/persona/{idPersona}', [EsSpiritualiController::class, 'elimin]aPersona'])->name('nomadelfia.esercizi.elimina');
+    Route::post('esercizi/{id}/assegna', [EsSpiritualiController::class, 'assegnaPersona'])->name('nomadelfia.esercizi.assegna');
+    Route::delete('esercizi/{id}/persona/{idPersona}', [EsSpiritualiController::class, 'eliminaPersona'])->name('nomadelfia.esercizi.elimina');
 
     Route::get('cariche', [CaricheController::class, 'index'])->name('nomadelfia.cariche.index');
     Route::get('elezioni', [CaricheController::class, 'elezioni'])->name('nomadelfia.cariche.elezioni');

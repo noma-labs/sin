@@ -10,6 +10,7 @@ use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\Persona\Controllers\PersonaPopolazioneController;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 it('shows form to insert a persona', function (): void {
     login();
@@ -49,4 +50,29 @@ it('offers a nuovo matrimonio from the page of an unmarried adult', function ():
 
 it('requires authentication for the anagrafe search page', function (): void {
     $this->get(route('anagrafe.people.search'))->assertRedirect(route('login'));
+});
+
+it('searches people by nominativo, nome, cognome or numero elenco with a single text', function (string $field): void {
+    $persona = Persona::factory()->create([
+        'nominativo' => 'Nominativo'.Str::random(10),
+        'nome' => 'Nome'.Str::random(10),
+        'cognome' => 'Cognome'.Str::random(10),
+        'numero_elenco' => 'Z'.fake()->unique()->numberBetween(10000, 99999),
+    ]);
+    $other = Persona::factory()->create(['nominativo' => 'Altro'.Str::random(10)]);
+
+    login();
+
+    $this->get(route('anagrafe.people.search.show', ['q' => $persona->{$field}]))
+        ->assertSuccessful()
+        ->assertSee($persona->nominativo)
+        ->assertDontSee($other->nominativo);
+})->with(['nominativo', 'nome', 'cognome', 'numero_elenco']);
+
+it('shows the person search box in the popolazione navbar', function (): void {
+    login();
+
+    $this->get(route('nomadelfia.index'))
+        ->assertSuccessful()
+        ->assertSee('name="q"', false);
 });
