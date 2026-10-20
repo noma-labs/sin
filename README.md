@@ -25,10 +25,10 @@ The SIN is an Web-based system that permits to manage a series of subsystem (e..
 
 5. Open the `php.ini` file and enable the PHP extensions (delete the ; character at the beginning of the row): `gd`, `zip`,  and `intl` (required by Number::fileSize)
 
-6. Navigate to the `C:/xampp/htdocs/sin` folder and install the PHP dependencies with Composer (installs the libraries by reading the composer-lock.json file):
+6. Navigate to the `C:/xampp/htdocs/sin` folder and install the PHP dependencies with Composer (installs the libraries by reading the composer-lock.json file). The `--no-dev` flag skips the development packages (e.g., Laravel Boost, Debugbar, Pest) that must not be installed in production:
     ```
     cd C:/xampp/htdocs/sin
-    composer install
+    composer install --no-dev --optimize-autoloader
     ```
 
 6. Install the frontend dependencies with npm (installs the frontend dependencies by reading the package-lock.json file):
@@ -36,7 +36,11 @@ The SIN is an Web-based system that permits to manage a series of subsystem (e..
     npm install
     npm run production
    ```
-7. Copy the `.env-example` file to a new file named `.env` and modify the environment variables as needed.
+7. Copy the `.env-example` file to a new file named `.env` and modify the environment variables as needed. In production always set:
+    ```
+    APP_ENV=production
+    APP_DEBUG=false
+    ```
 
 8. Generate a security key that Laravel uses to encrypt communication:
 
@@ -84,6 +88,38 @@ opcache.revalidate_freq=4
 opcache.save_comments=1
 ```
 - Increase max upload size: Open the `php.ini` file and edit the following config: `upload_max_filesize=2000M` and `post_max_size=2000M`
+
+### Update in production
+Steps to deploy a new version on the production server:
+
+1. Pull the latest changes:
+    ```
+    git pull
+    ```
+2. Install the PHP dependencies without the development packages (if they were installed before, they are removed):
+    ```
+    composer install --no-dev --optimize-autoloader
+    ```
+3. Build the frontend assets:
+    ```
+    npm install
+    npm run production
+    ```
+4. Run the new migrations of each database (only the ones with new migrations are needed), e.g.:
+    ```
+    php artisan migrate --force --path="database/migrations/nomadelfia" --database=db_nomadelfia
+    php artisan migrate --force --path="database/migrations/scuola" --database=db_scuola
+    ```
+5. Clear and rebuild the caches:
+    ```
+    php artisan optimize:clear
+    php artisan config:cache
+    php artisan route:cache
+    php artisan view:cache
+    ```
+
+> [!IMPORTANT]
+> Check that the `.env` has `APP_ENV=production` and `APP_DEBUG=false`. With `APP_DEBUG=true` the error pages expose stack traces and environment details, and the development tools (e.g., the Laravel Boost browser logger) are injected into the pages.
 
 ### Local Dev with Docker
 Requirements:
