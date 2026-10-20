@@ -315,6 +315,12 @@
     margin-left: 1.25rem;
   }
 
+  .profile-person-fuori-nucleo {
+    background: var(--bs-tertiary-bg);
+    border-style: dashed;
+    opacity: 0.75;
+  }
+
   .profile-person-avatar {
     width: 34px;
     height: 34px;
