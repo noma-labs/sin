@@ -17,6 +17,7 @@ use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -137,6 +138,9 @@ trait PersonaInNomadelfia
         return $this->belongsToMany(EserciziSpirituali::class, 'persone_esercizi', 'persona_id', 'esercizi_id');
     }
 
+    /**
+     * @return BelongsToMany<Stato, $this, Pivot, 'pivot'>
+     */
     public function stati(): BelongsToMany
     {
         return $this->belongsToMany(Stato::class, 'persone_stati', 'persona_id', 'stato_id')
@@ -161,6 +165,9 @@ trait PersonaInNomadelfia
             ->orderby('data_fine', 'desc');
     }
 
+    /**
+     * @return BelongsToMany<Posizione, $this, Pivot, 'pivot'>
+     */
     public function posizioni(): BelongsToMany
     {
         return $this->belongsToMany(Posizione::class, 'persone_posizioni', 'persona_id', 'posizione_id')

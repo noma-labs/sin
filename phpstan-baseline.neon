@@ -4957,12 +4957,6 @@ parameters:
 			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:famiglie\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
-			identifier: missingType.generics
-			count: 1
-			path: app/Http/Anagrafe/Persona/Models/Persona.php
-
-		-
 			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:famiglieStorico\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
 			identifier: missingType.generics
 			count: 1
@@ -5071,12 +5065,6 @@ parameters:
 			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:posizioni\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
-			identifier: missingType.generics
-			count: 1
-			path: app/Http/Anagrafe/Persona/Models/Persona.php
-
-		-
 			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:posizioniPossibili\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -5114,12 +5102,6 @@ parameters:
 
 		-
 			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:scopeSortable\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
-			identifier: missingType.generics
-			count: 1
-			path: app/Http/Anagrafe/Persona/Models/Persona.php
-
-		-
-			message: '#^Method App\\Anagrafe\\Persona\\Models\\Persona\:\:stati\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
 			identifier: missingType.generics
 			count: 1
 			path: app/Http/Anagrafe/Persona/Models/Persona.php
@@ -6095,12 +6077,6 @@ parameters:
 			identifier: missingType.property
 			count: 1
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/Stato.php
-
-		-
-			message: '#^Class App\\Nomadelfia\\PopolazioneNomadelfia\\QueryBuilders\\PopolazioneQueryBuilder extends generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
-			identifier: missingType.generics
-			count: 1
-			path: app/Http/Nomadelfia/PopolazioneNomadelfia/QueryBuilders/PopolazioneQueryBuilder.php
 
 		-
 			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\QueryBuilders\\PopolazioneQueryBuilder\:\:presentAt\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'

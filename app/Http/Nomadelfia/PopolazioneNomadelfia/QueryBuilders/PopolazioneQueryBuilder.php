@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\PopolazioneNomadelfia\QueryBuilders;
 
+use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 
+/**
+ * @extends Builder<PopolazioneNomadelfia>
+ */
 final class PopolazioneQueryBuilder extends Builder
 {
     public function presentAt(Carbon $date): Builder

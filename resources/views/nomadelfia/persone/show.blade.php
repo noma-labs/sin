@@ -83,6 +83,12 @@
           >
             Vedi Storico
           </a>
+          <a
+            class="btn btn-outline-primary"
+            href="{{ route("nomadelfia.person.profile", $persona->id) }}"
+          >
+            Prova la nuova scheda
+          </a>
         </div>
       </div>
     </div>

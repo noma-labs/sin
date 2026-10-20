@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
@@ -126,6 +127,9 @@ class Persona extends Model
         return $this->hasOne(NominativoStorico::class, 'persona_id', 'id');
     }
 
+    /**
+     * @return BelongsToMany<Famiglia, $this, Pivot, 'pivot'>
+     */
     public function famiglie(): BelongsToMany
     {
         return $this->belongsToMany(Famiglia::class, 'famiglie_persone', 'persona_id', 'famiglia_id')
