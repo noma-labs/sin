@@ -51,10 +51,14 @@
       Cariche
     </a>
   </li>
+
+@append
+
+@section("navbar-search")
   @can("popolazione.persona.visualizza")
     <li class="nav-item">
       <form
-        class="d-flex ms-md-2"
+        class="d-flex me-md-2"
         role="search"
         method="GET"
         action="{{ route("anagrafe.people.search.show") }}"
@@ -72,5 +76,4 @@
       </form>
     </li>
   @endcan
-
-@append
+@endsection
