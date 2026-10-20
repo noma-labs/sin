@@ -23,7 +23,7 @@ it('shows the profile of a person present in Nomadelfia with a link back to the 
     $this->get(route('nomadelfia.person.profile', $persona->id))
         ->assertSuccessful()
         ->assertSee('Presente')
-        ->assertSeeInOrder(['Percorso in Nomadelfia', 'Situazione attuale', 'Dati anagrafici', 'Famiglia'])
+        ->assertSeeInOrder(['Dati anagrafici', 'Situazione attuale', 'Percorso in Nomadelfia', 'Famiglia'])
         ->assertSeeInOrder(['Entra in Nomadelfia come Ospite', 'Nascita'])
         ->assertSee(route('nomadelfia.person.show', $persona->id));
 });

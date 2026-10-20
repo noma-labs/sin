@@ -9,19 +9,19 @@
 
   <div class="person-profile">
     <header class="profile-band rounded-3 mb-0">
-      <div class="d-flex flex-wrap gap-4 align-items-start">
+      <div class="d-flex flex-wrap gap-3 align-items-start">
         <div class="profile-avatar" aria-hidden="true">
           {{ mb_substr($persona->nome, 0, 1) }}{{ mb_substr($persona->cognome, 0, 1) }}
         </div>
         <div class="flex-grow-1" style="min-width: 0">
-          <h1 class="profile-name mb-1">{{ $persona->nominativo }}</h1>
-          <div class="profile-muted mb-2">
+          <h1 class="profile-name mb-0">{{ $persona->nominativo }}</h1>
+          <div class="profile-muted mb-1">
             {{ $persona->cognome }} {{ $persona->nome }}
             @if ($persona->cf)
               &middot; CF {{ $persona->cf }}
             @endif
           </div>
-          <div class="d-flex flex-wrap column-gap-4 row-gap-1 mb-3">
+          <div class="d-flex flex-wrap column-gap-3 row-gap-1 mb-2">
             <span>
               <span class="profile-label">Nascita</span>
               {{ $nascita->translatedFormat("j M Y") }} &middot; {{ $persona->provincia_nascita }}
@@ -216,7 +216,7 @@
       </div>
 
       @if ($periodi->isNotEmpty())
-        <div class="mt-3">
+        <div class="mt-2">
           <div class="d-flex justify-content-between profile-muted small mb-1">
             <span>{{ $nascita->year }}</span>
             <span>
@@ -295,81 +295,80 @@
     </ul>
 
     <div class="row g-4">
-      <section class="col-xl-5 col-12" aria-labelledby="titolo-percorso">
-        <h2 id="titolo-percorso" class="h5 mb-3">Percorso in Nomadelfia</h2>
-        <div
-          class="d-flex flex-wrap gap-2 mb-3"
-          role="group"
-          aria-label="Filtra eventi"
-        >
-          <button
-            class="profile-filter"
-            type="button"
-            aria-pressed="true"
-            data-categoria="comunita"
-          >
-            <i class="profile-dot-comunita"></i>
-            Comunità
-          </button>
-          <button
-            class="profile-filter"
-            type="button"
-            aria-pressed="true"
-            data-categoria="famiglia"
-          >
-            <i class="profile-dot-famiglia"></i>
-            Famiglia
-          </button>
-        </div>
-        <ol class="profile-timeline">
-          <li class="profile-event profile-event-oggi">
-            <div class="profile-event-when">
-              <b>{{ $persona->isDeceduta() ? "" : "Oggi" }}</b>
-              <small>{{ $persona->isDeceduta() ? "" : $nascita->age }}</small>
-            </div>
-            <div class="profile-event-rail"></div>
-            <div class="profile-event-card">
-              <div class="fw-semibold">
-                {{ collect([$isPresente ? "Presente" : null, $posizioneAttuale?->nome, $statoAttuale ? Illuminate\Support\Str::ucfirst(mb_strtolower($statoAttuale->nome)) : null])->filter()->implode(" · ") ?: "Nessuna situazione attuale" }}
-              </div>
-            </div>
-          </li>
-          @foreach ($timeline as $evento)
-            <li
-              class="profile-event profile-event-{{ $evento->categoria }} @if ($evento->importante) profile-event-importante @endif"
-              data-categoria="{{ $evento->categoria }}"
-            >
-              <div class="profile-event-when">
-                <b>{{ $evento->data->year }}</b>
-                <small>{{ $evento->eta }}</small>
-              </div>
-              <div class="profile-event-rail"></div>
-              <div class="profile-event-card">
-                <div class="profile-event-label">{{ $evento->etichetta }}</div>
-                <div class="fw-semibold">
-                  @if ($evento->persona)
-                    <a
-                      href="{{ route("nomadelfia.person.profile", $evento->persona->id) }}"
-                    >
-                      {{ $evento->titolo }}
-                    </a>
-                  @else
-                    {{ $evento->titolo }}
-                  @endif
-                </div>
-                <div class="text-body-secondary small">
-                  {{ $evento->data->translatedFormat("j M Y") }}
-                  @if ($evento->dettaglio)
-                    &middot; {{ $evento->dettaglio }}
-                  @endif
-                </div>
-              </div>
-            </li>
-          @endforeach
-        </ol>
-      </section>
-
       <div class="col-xl-4 col-md-6 d-flex flex-column gap-4">
+        <section aria-labelledby="titolo-anagrafica">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 id="titolo-anagrafica" class="h5 mb-0">Dati anagrafici</h2>
+            <a
+              class="btn btn-sm btn-outline-secondary"
+              href="{{ route("anagrafe.person.identity.edit", $persona->id) }}"
+            >
+              Modifica
+            </a>
+          </div>
+          <dl class="profile-kv card mb-0">
+            <div class="profile-kv-row">
+              <dt>Nome</dt>
+              <dd>{{ $persona->nome }}</dd>
+              <span></span>
+            </div>
+            <div class="profile-kv-row">
+              <dt>Cognome</dt>
+              <dd>{{ $persona->cognome }}</dd>
+              <span></span>
+            </div>
+            <div class="profile-kv-row">
+              <dt>Nominativo</dt>
+              <dd>{{ $persona->nominativo }}</dd>
+              <a
+                href="{{ route("anagrafe.internal-name.edit", $persona->id) }}"
+              >
+                Modifica
+              </a>
+            </div>
+            <div class="profile-kv-row">
+              <dt>Sesso</dt>
+              <dd>{{ $persona->sesso }}</dd>
+              <span></span>
+            </div>
+            <div class="profile-kv-row">
+              <dt>Data di nascita</dt>
+              <dd>{{ $nascita->format("d/m/Y") }}</dd>
+              <span></span>
+            </div>
+            <div class="profile-kv-row">
+              <dt>Luogo di nascita</dt>
+              <dd>{{ $persona->provincia_nascita }}</dd>
+              <span></span>
+            </div>
+            <div class="profile-kv-row">
+              <dt>Codice fiscale</dt>
+              <dd>
+                @if ($persona->cf)
+                  {{ $persona->cf }}
+                @else
+                  <span class="text-danger">Nessun codice fiscale</span>
+                @endif
+              </dd>
+              <span></span>
+            </div>
+            <div class="profile-kv-row">
+              <dt>Biografia</dt>
+              <dd>
+                @if ($persona->biografia)
+                  <span
+                    style="white-space: pre-line"
+                    >{{ $persona->biografia }}</span
+                  >
+                @else
+                  <span class="text-danger">Nessuna biografia</span>
+                @endif
+              </dd>
+              <span></span>
+            </div>
+          </dl>
+        </section>
+
         <section aria-labelledby="titolo-situazione">
           <h2 id="titolo-situazione" class="h5 mb-3">Situazione attuale</h2>
           <dl class="profile-kv card mb-0">
@@ -499,80 +498,81 @@
             </div>
           </dl>
         </section>
-
-        <section aria-labelledby="titolo-anagrafica">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2 id="titolo-anagrafica" class="h5 mb-0">Dati anagrafici</h2>
-            <a
-              class="btn btn-sm btn-outline-secondary"
-              href="{{ route("anagrafe.person.identity.edit", $persona->id) }}"
-            >
-              Modifica
-            </a>
-          </div>
-          <dl class="profile-kv card mb-0">
-            <div class="profile-kv-row">
-              <dt>Nome</dt>
-              <dd>{{ $persona->nome }}</dd>
-              <span></span>
-            </div>
-            <div class="profile-kv-row">
-              <dt>Cognome</dt>
-              <dd>{{ $persona->cognome }}</dd>
-              <span></span>
-            </div>
-            <div class="profile-kv-row">
-              <dt>Nominativo</dt>
-              <dd>{{ $persona->nominativo }}</dd>
-              <a
-                href="{{ route("anagrafe.internal-name.edit", $persona->id) }}"
-              >
-                Modifica
-              </a>
-            </div>
-            <div class="profile-kv-row">
-              <dt>Sesso</dt>
-              <dd>{{ $persona->sesso }}</dd>
-              <span></span>
-            </div>
-            <div class="profile-kv-row">
-              <dt>Data di nascita</dt>
-              <dd>{{ $nascita->format("d/m/Y") }}</dd>
-              <span></span>
-            </div>
-            <div class="profile-kv-row">
-              <dt>Luogo di nascita</dt>
-              <dd>{{ $persona->provincia_nascita }}</dd>
-              <span></span>
-            </div>
-            <div class="profile-kv-row">
-              <dt>Codice fiscale</dt>
-              <dd>
-                @if ($persona->cf)
-                  {{ $persona->cf }}
-                @else
-                  <span class="text-danger">Nessun codice fiscale</span>
-                @endif
-              </dd>
-              <span></span>
-            </div>
-            <div class="profile-kv-row">
-              <dt>Biografia</dt>
-              <dd>
-                @if ($persona->biografia)
-                  <span
-                    style="white-space: pre-line"
-                    >{{ $persona->biografia }}</span
-                  >
-                @else
-                  <span class="text-danger">Nessuna biografia</span>
-                @endif
-              </dd>
-              <span></span>
-            </div>
-          </dl>
-        </section>
       </div>
+
+      <section class="col-xl-5 col-md-6" aria-labelledby="titolo-percorso">
+        <h2 id="titolo-percorso" class="h5 mb-3">Percorso in Nomadelfia</h2>
+        <div
+          class="d-flex flex-wrap gap-2 mb-3"
+          role="group"
+          aria-label="Filtra eventi"
+        >
+          <button
+            class="profile-filter"
+            type="button"
+            aria-pressed="true"
+            data-categoria="comunita"
+          >
+            <i class="profile-dot-comunita"></i>
+            Comunità
+          </button>
+          <button
+            class="profile-filter"
+            type="button"
+            aria-pressed="true"
+            data-categoria="famiglia"
+          >
+            <i class="profile-dot-famiglia"></i>
+            Famiglia
+          </button>
+        </div>
+        <ol class="profile-timeline">
+          <li class="profile-event profile-event-oggi">
+            <div class="profile-event-when">
+              <b>{{ $persona->isDeceduta() ? "" : "Oggi" }}</b>
+              <small>{{ $persona->isDeceduta() ? "" : $nascita->age }}</small>
+            </div>
+            <div class="profile-event-rail"></div>
+            <div class="profile-event-card">
+              <div class="fw-semibold">
+                {{ collect([$isPresente ? "Presente" : null, $posizioneAttuale?->nome, $statoAttuale ? Illuminate\Support\Str::ucfirst(mb_strtolower($statoAttuale->nome)) : null])->filter()->implode(" · ") ?: "Nessuna situazione attuale" }}
+              </div>
+            </div>
+          </li>
+          @foreach ($timeline as $evento)
+            <li
+              class="profile-event profile-event-{{ $evento->categoria }} @if ($evento->importante) profile-event-importante @endif"
+              data-categoria="{{ $evento->categoria }}"
+            >
+              <div class="profile-event-when">
+                <b>{{ $evento->data->year }}</b>
+                <small>{{ $evento->eta }}</small>
+              </div>
+              <div class="profile-event-rail"></div>
+              <div class="profile-event-card">
+                <div class="profile-event-label">{{ $evento->etichetta }}</div>
+                <div class="fw-semibold">
+                  @if ($evento->persona)
+                    <a
+                      href="{{ route("nomadelfia.person.profile", $evento->persona->id) }}"
+                    >
+                      {{ $evento->titolo }}
+                    </a>
+                  @else
+                    {{ $evento->titolo }}
+                  @endif
+                </div>
+                <div class="text-body-secondary small">
+                  {{ $evento->data->translatedFormat("j M Y") }}
+                  @if ($evento->dettaglio)
+                    &middot; {{ $evento->dettaglio }}
+                  @endif
+                </div>
+              </div>
+            </li>
+          @endforeach
+        </ol>
+      </section>
 
       <section class="col-xl-3 col-md-6" aria-labelledby="titolo-famiglia">
         <div class="d-flex justify-content-between align-items-center mb-3">
