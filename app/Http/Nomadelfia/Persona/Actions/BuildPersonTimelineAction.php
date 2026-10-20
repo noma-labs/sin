@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
 
 /**
  * Builds the sequence of the most important events of a person inside Nomadelfia:
- * birth, entrate/uscite from the community, changes of posizione and stato, marriage, birth of the children, death.
+ * birth, entrate/uscite from the community, changes of posizione and stato, marriage, birth and accoglienza of the children, death.
  */
 final class BuildPersonTimelineAction
 {
@@ -95,14 +95,30 @@ final class BuildPersonTimelineAction
                     ));
                 }
 
-                foreach ($famiglia->figli()->wherePivot('posizione_famiglia', 'FIGLIO NATO')->get() as $figlio) {
-                    $eventi->push($evento(
-                        Date::parse($figlio->data_nascita),
-                        TimelineEvent::CATEGORIA_FAMIGLIA,
-                        'Famiglia',
-                        ($figlio->isMaschio() ? 'Nasce il figlio ' : 'Nasce la figlia ').$figlio->nominativo,
-                        altraPersona: $figlio,
-                    ));
+                foreach ($famiglia->figli()->get() as $figlio) {
+                    if ($figlio->pivot->posizione_famiglia === 'FIGLIO NATO') {
+                        $eventi->push($evento(
+                            Date::parse($figlio->data_nascita),
+                            TimelineEvent::CATEGORIA_FAMIGLIA,
+                            'Famiglia',
+                            ($figlio->isMaschio() ? 'Nasce il figlio ' : 'Nasce la figlia ').$figlio->nominativo,
+                            altraPersona: $figlio,
+                        ));
+
+                        continue;
+                    }
+
+                    $dataAccoglienza = PopolazioneNomadelfia::query()->where('persona_id', $figlio->id)->min('data_entrata');
+                    if (is_string($dataAccoglienza)) {
+                        $eventi->push($evento(
+                            Date::parse($dataAccoglienza),
+                            TimelineEvent::CATEGORIA_FAMIGLIA,
+                            'Famiglia',
+                            ($figlio->isMaschio() ? 'Accoglie il figlio ' : 'Accoglie la figlia ').$figlio->nominativo,
+                            ($figlio->isMaschio() ? 'Nato il ' : 'Nata il ').Date::parse($figlio->data_nascita)->format('d/m/Y'),
+                            $figlio,
+                        ));
+                    }
                 }
             }
         }

@@ -8,7 +8,9 @@ use App\Admin\Models\User;
 use App\Anagrafe\Famiglia\Models\Famiglia;
 use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Carbon\Carbon;
@@ -84,6 +86,20 @@ it('shows the marriage and the children born in the timeline and in the family',
         ->assertSeeInOrder(['Nasce il figlio Figlio Nato', 'Sposa Moglie Sposata', 'Nascita'])
         ->assertSeeInOrder(['Coniuge e figli', 'Moglie Sposata', 'Figlio Nato'])
         ->assertSee(route('nomadelfia.person.profile', $figlio->id));
+});
+
+it('shows the figlio accolto in the timeline at the date of the entrata', function (): void {
+    login();
+    $marito = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();
+    $accolto = Persona::factory()->nato(Carbon::parse('2004-03-02'))->femmina()->create(['nominativo' => 'Figlia Accolta']);
+    $famiglia = Famiglia::factory()->create(['data_creazione' => '1998-06-12']);
+    app(EntrataMaggiorenneConFamigliaAction::class)->execute($marito, Carbon::parse('1995-09-15'), GruppoFamiliare::all()->random());
+    $famiglia->assegnaCapoFamiglia($marito);
+    app(EntrataMinorenneAccoltoAction::class)->execute($accolto, Carbon::parse('2010-07-01'), Famiglia::findOrFail($famiglia->id));
+
+    $this->get(route('nomadelfia.person.profile', $marito->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Accoglie la figlia Figlia Accolta', 'Nata il 02/03/2004', 'Matrimonio', 'Entra in Nomadelfia']);
 });
 
 it('shows the parents of a figlio as the family of origin', function (): void {
