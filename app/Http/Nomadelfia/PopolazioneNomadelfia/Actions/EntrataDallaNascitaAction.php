@@ -10,7 +10,6 @@ use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaData;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Origine;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
-use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 
 final readonly class EntrataDallaNascitaAction
 {
@@ -26,7 +25,6 @@ final readonly class EntrataDallaNascitaAction
 
         $this->calcGruppoFamiliare($dto);
         $this->calcPosizione($dto);
-        $this->calcStato($dto);
         $this->calcFamiglia($dto);
 
         $this->entrataInNomadelfiaAction->execute($dto);
@@ -48,15 +46,5 @@ final readonly class EntrataDallaNascitaAction
     {
         $dto->posizione = Posizione::find('FIGL');
         $dto->posizione_data = \Illuminate\Support\Facades\Date::parse($dto->persona->data_nascita);
-    }
-
-    public function calcStato(EntrataPersonaData $dto): void
-    {
-        if ($dto->persona->isMaschio()) {
-            $dto->stato = Stato::find('CEL');
-        } else {
-            $dto->stato = Stato::find('NUB');
-        }
-        $dto->stato_data = \Illuminate\Support\Facades\Date::parse($dto->persona->data_nascita);
     }
 }

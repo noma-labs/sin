@@ -69,11 +69,12 @@
               <span class="profile-chip">{{ $posizioneAttuale->nome }}</span>
             @endif
 
-            @if ($statoAttuale)
+            <span class="profile-chip">{{ $statoCivile["nome"] }}</span>
+            @foreach ($statiAttivi as $stato)
               <span class="profile-chip">
-                {{ Illuminate\Support\Str::ucfirst(mb_strtolower($statoAttuale->nome)) }}
+                {{ Illuminate\Support\Str::ucfirst(mb_strtolower($stato->nome)) }}
               </span>
-            @endif
+            @endforeach
 
             @if ($gruppoAttuale)
               <span class="profile-chip">
@@ -393,14 +394,17 @@
             <div class="profile-kv-row">
               <dt>Stato familiare</dt>
               <dd>
-                @if ($statoAttuale)
-                  {{ Illuminate\Support\Str::ucfirst(mb_strtolower($statoAttuale->nome)) }}
+                {{ $statoCivile["nome"] }}
+                <small>
+                  dal {{ $statoCivile["dal"]->translatedFormat("j M Y") }}
+                </small>
+                @foreach ($statiAttivi as $stato)
+                  <br />
+                  {{ Illuminate\Support\Str::ucfirst(mb_strtolower($stato->nome)) }}
                   <small>
-                    dal {{ Carbon::parse($statoAttuale->pivot->data_inizio)->translatedFormat("j M Y") }}
+                    dal {{ Carbon::parse($stato->pivot->data_inizio)->translatedFormat("j M Y") }}
                   </small>
-                @else
-                  <span class="text-danger">Nessuno stato</span>
-                @endif
+                @endforeach
               </dd>
               <a href="{{ route("nomadelfia.persone.stato", $persona->id) }}">
                 Modifica
@@ -535,7 +539,7 @@
             <div class="profile-event-rail"></div>
             <div class="profile-event-card">
               <div class="fw-semibold">
-                {{ collect([$isPresente ? "Presente" : null, $posizioneAttuale?->nome, $statoAttuale ? Illuminate\Support\Str::ucfirst(mb_strtolower($statoAttuale->nome)) : null])->filter()->implode(" · ") ?: "Nessuna situazione attuale" }}
+                {{ collect([$isPresente ? "Presente" : null, $posizioneAttuale?->nome, $statoCivile["nome"]])->merge($statiAttivi->map(fn ($stato) => Illuminate\Support\Str::ucfirst(mb_strtolower($stato->nome))))->filter()->implode(" · ") ?: "Nessuna situazione attuale" }}
               </div>
             </div>
           </li>

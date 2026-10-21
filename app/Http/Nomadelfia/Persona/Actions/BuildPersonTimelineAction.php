@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
 
 /**
  * Builds the sequence of the most important events of a person inside Nomadelfia:
- * birth, entrate/uscite from the community, changes of posizione and stato, marriage, birth and accoglienza of the children, death.
+ * birth, entrate/uscite from the community, changes of posizione, stati (e.g. ordination), marriage and vedovanza, birth and accoglienza of the children, death.
  */
 final class BuildPersonTimelineAction
 {
@@ -75,24 +75,40 @@ final class BuildPersonTimelineAction
             $posizionePrecedente = $posizione->nome;
         }
 
-        $dateMatrimonio = collect();
+        $famiglieSenzaConiuge = collect();
         foreach (['CAPO FAMIGLIA' => 'MOGLIE', 'MOGLIE' => 'CAPO FAMIGLIA'] as $posizioneFamiglia => $posizioneConiuge) {
             foreach ($persona->famiglie()->wherePivot('posizione_famiglia', $posizioneFamiglia)->get() as $famiglia) {
                 if ($famiglia->data_creazione) {
-                    $matrimonio = Date::parse($famiglia->data_creazione);
-                    $dateMatrimonio->push($matrimonio);
+                    $creazione = Date::parse($famiglia->data_creazione);
                     $coniuge = $famiglia->componenti()
                         ->wherePivot('posizione_famiglia', $posizioneConiuge)
                         ->first();
-                    $eventi->push($evento(
-                        $matrimonio,
-                        TimelineEvent::CATEGORIA_FAMIGLIA,
-                        'Famiglia',
-                        $coniuge ? 'Sposa '.$coniuge->nominativo : 'Matrimonio',
-                        'Nasce la famiglia '.$famiglia->nome_famiglia,
-                        $coniuge,
-                        importante: true,
-                    ));
+                    if ($coniuge) {
+                        $eventi->push($evento(
+                            $creazione,
+                            TimelineEvent::CATEGORIA_FAMIGLIA,
+                            'Famiglia',
+                            'Sposa '.$coniuge->nominativo,
+                            'Nasce la famiglia '.$famiglia->nome_famiglia,
+                            $coniuge,
+                            importante: true,
+                        ));
+
+                        $decessoConiuge = $coniuge->data_decesso ? Date::parse($coniuge->data_decesso) : null;
+                        if ($decessoConiuge && (! $decesso || $decessoConiuge->lessThan($decesso))) {
+                            $eventi->push($evento(
+                                $decessoConiuge,
+                                TimelineEvent::CATEGORIA_FAMIGLIA,
+                                'Famiglia',
+                                $persona->isMaschio() ? 'Rimane vedovo' : 'Rimane vedova',
+                                'Muore '.$coniuge->nominativo,
+                                $coniuge,
+                            ));
+                        }
+                    } else {
+                        // a capofamiglia without coniuge, like a mamma di vocazione with her figli accolti
+                        $famiglieSenzaConiuge->push(['data' => $creazione, 'famiglia' => $famiglia]);
+                    }
                 }
 
                 foreach ($famiglia->figli()->get() as $figlio) {
@@ -123,12 +139,28 @@ final class BuildPersonTimelineAction
             }
         }
 
-        foreach ($persona->stati()->orderByPivot('data_inizio')->toBase()->get(['stati.nome', 'persone_stati.data_inizio']) as $stato) {
+        $dateStati = collect();
+        foreach ($persona->stati()->orderByPivot('data_inizio')->toBase()->get(['stati.stato', 'stati.nome', 'persone_stati.data_inizio']) as $stato) {
             $inizio = Date::parse($stato->data_inizio);
-            $isStatoAllaNascita = $inizio->isSameDay($nascita);
-            $isStatoDelMatrimonio = $dateMatrimonio->contains(fn (Carbon $data): bool => $data->isSameDay($inizio));
-            if (! $isStatoAllaNascita && ! $isStatoDelMatrimonio) {
-                $eventi->push($evento($inizio, TimelineEvent::CATEGORIA_FAMIGLIA, 'Stato familiare', Str::ucfirst(mb_strtolower($stato->nome))));
+            $dateStati->push($inizio);
+            $eventi->push($evento(
+                $inizio,
+                TimelineEvent::CATEGORIA_FAMIGLIA,
+                'Stato',
+                match ($stato->stato) {
+                    'SAC' => 'Ordinato sacerdote',
+                    'MAV' => 'Diventa mamma di vocazione',
+                    'MAM' => 'Diventa nomadelfa mamma',
+                    'SEP' => $persona->isMaschio() ? 'Si separa dalla moglie' : 'Si separa dal marito',
+                    default => Str::ucfirst(mb_strtolower($stato->nome)),
+                },
+                importante: in_array($stato->stato, ['SAC', 'MAV'], true),
+            ));
+        }
+
+        foreach ($famiglieSenzaConiuge as ['data' => $creazione, 'famiglia' => $famiglia]) {
+            if ($dateStati->doesntContain(fn (Carbon $data): bool => $data->isSameDay($creazione))) {
+                $eventi->push($evento($creazione, TimelineEvent::CATEGORIA_FAMIGLIA, 'Famiglia', 'Nasce la famiglia '.$famiglia->nome_famiglia));
             }
         }
 

@@ -10,7 +10,6 @@ use App\Nomadelfia\Persona\Controllers\PersonaStatoController;
 use App\Nomadelfia\Persona\Controllers\PersonPositionController;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
-use Carbon\Carbon;
 
 it('can render the stato index page of a person', function (): void {
     login();
@@ -19,33 +18,61 @@ it('can render the stato index page of a person', function (): void {
         ->assertSuccessful();
 });
 
-it('add new stato to a person', function (): void {
+it('adds a stato to a person keeping the other active stati', function (): void {
     login();
-    $persona = Persona::factory()->minorenne()->maschio()->create();
-    $data = Carbon::now()->toDateString();
-    $this->post(action([PersonaStatoController::class, 'store'], $persona->id),
-        [
-            'stato_id' => Stato::all()->random()->id,
-            'data_inizio' => $data,
-        ])->assertRedirect(route('nomadelfia.persone.stato', $persona->id));
+    $persona = Persona::factory()->maggiorenne()->femmina()->create();
+    $mammaVocazione = Stato::perNome('mammavocazione');
+    $separata = Stato::perNome('separato');
+    $persona->assegnaStato($mammaVocazione, '1980-03-12');
 
+    $this->post(action([PersonaStatoController::class, 'store'], $persona->id), [
+        'stato_id' => $separata->id,
+        'data_inizio' => '1990-01-01',
+    ])->assertRedirect(route('nomadelfia.persone.stato', $persona->id));
+
+    expect($persona->statiAttivi()->pluck('stati.stato')->all())->toBe(['MAV', 'SEP']);
+});
+
+it('refuses a stato the person already has active', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create(['nominativo' => 'Don Prete']);
+    $sacerdote = Stato::perNome('sacerdote');
+    $persona->assegnaStato($sacerdote, '1980-03-12');
+
+    $this->post(action([PersonaStatoController::class, 'store'], $persona->id), [
+        'stato_id' => $sacerdote->id,
+        'data_inizio' => '1990-01-01',
+    ])->assertSessionHasErrors(['stato_id' => 'La persona Don Prete ha già lo stato SACERDOTE.']);
+
+    expect($persona->stati()->count())->toBe(1);
+});
+
+it('refuses a stato that does not exist', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+
+    $this->post(action([PersonaStatoController::class, 'store'], $persona->id), [
+        'stato_id' => 999999,
+        'data_inizio' => '1990-01-01',
+    ])->assertSessionHasErrors(['stato_id' => 'Lo stato non esiste. Celibe, nubile, sposato e vedovo derivano dalla famiglia.']);
+
+    expect($persona->stati()->count())->toBe(0);
 });
 
 it('update stato of a person', function (): void {
     login();
     $persona = Persona::factory()->minorenne()->maschio()->create();
     $stato = Stato::all()->random();
-    $data_inizio = Carbon::now()->toDateString();
-    $data_fine = Carbon::now()->toDateString();
-    $persona->assegnaStato($stato->id, $data_inizio, $data_fine);
+    $persona->assegnaStato($stato->id, '1990-01-01');
 
-    $this->put(action([PersonaStatoController::class, 'update'], ['id' => $persona->id, 'idStato' => $stato->id]),
-        [
-            'data_fine' => $data_fine,
-            'data_inizio' => $data_inizio,
-            'stato' => 1,
-        ])->assertRedirect(route('nomadelfia.persone.stato', $persona->id));
+    $this->put(action([PersonaStatoController::class, 'update'], ['id' => $persona->id, 'idStato' => $stato->id]), [
+        'data_fine' => '2000-05-01',
+        'data_inizio' => '1990-01-01',
+        'stato' => '0',
+    ])->assertRedirect(route('nomadelfia.persone.stato', $persona->id));
 
+    expect($persona->statiAttivi()->count())->toBe(0)
+        ->and($persona->stati()->first()->pivot->data_fine)->toBe('2000-05-01');
 });
 
 // it('deletes a posizione of a person', function () {

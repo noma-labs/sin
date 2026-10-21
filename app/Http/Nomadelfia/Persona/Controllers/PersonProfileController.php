@@ -7,6 +7,7 @@ namespace App\Nomadelfia\Persona\Controllers;
 use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\Persona\Actions\BuildPersonTimelineAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
+use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
@@ -53,7 +54,8 @@ final class PersonProfileController
             'persona' => $persona,
             'isPresente' => $persona->isPersonaInterna(),
             'posizioneAttuale' => $persona->posizioneAttuale(),
-            'statoAttuale' => $persona->statoAttuale(),
+            'statoCivile' => $persona->statoCivile(),
+            'statiAttivi' => $persona->statiAttivi()->get()->reject(fn (Stato $stato): bool => $stato->isSeparato())->values(),
             'gruppoAttuale' => $persona->gruppofamiliareAttuale(),
             'aziende' => $persona->aziendeAttuali()->get(),
             'incarichi' => $persona->incarichiAttuali()->get(),

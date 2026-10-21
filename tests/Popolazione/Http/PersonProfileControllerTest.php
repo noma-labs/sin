@@ -13,6 +13,7 @@ use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
+use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 use Carbon\Carbon;
 
 it('shows the profile of a person present in Nomadelfia with a link back to the classic page', function (): void {
@@ -115,7 +116,7 @@ it('shows the figlio accolto in the timeline at the date of the entrata', functi
 
     $this->get(route('nomadelfia.person.profile', $marito->id))
         ->assertSuccessful()
-        ->assertSeeInOrder(['Accoglie la figlia Figlia Accolta', 'Nata il 02/03/2004', 'Matrimonio', 'Entra in Nomadelfia']);
+        ->assertSeeInOrder(['Accoglie la figlia Figlia Accolta', 'Nata il 02/03/2004', 'Nasce la famiglia', 'Entra in Nomadelfia']);
 });
 
 it('shows the parents of a figlio as the family of origin', function (): void {
@@ -129,6 +130,73 @@ it('shows the parents of a figlio as the family of origin', function (): void {
     $this->get(route('nomadelfia.person.profile', $figlio->id))
         ->assertSuccessful()
         ->assertSeeInOrder(["Famiglia d'origine", 'Padre Da Mostrare', 'Padre'], false);
+});
+
+it('shows a married person as sposato from the creation of the famiglia', function (): void {
+    login();
+    $marito = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();
+    $famiglia = Famiglia::factory()->create(['data_creazione' => '1998-06-12']);
+    $famiglia->assegnaCapoFamiglia($marito);
+    $famiglia->assegnaMoglie(Persona::factory()->nato(Carbon::parse('1972-02-01'))->femmina()->create());
+
+    $this->get(route('nomadelfia.person.profile', $marito->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Stato familiare', 'Sposato', 'dal 12 giu 1998']);
+});
+
+it('shows a person whose coniuge died as vedova from the death of the coniuge', function (): void {
+    login();
+    $moglie = Persona::factory()->nato(Carbon::parse('1972-02-01'))->femmina()->create();
+    $marito = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create(['nominativo' => 'Marito Defunto', 'data_decesso' => '2015-11-03']);
+    $famiglia = Famiglia::factory()->create(['data_creazione' => '1998-06-12']);
+    $famiglia->assegnaCapoFamiglia($marito);
+    $famiglia->assegnaMoglie($moglie);
+    $famiglia->uscitaDalNucleoFamiliare($marito);
+
+    $this->get(route('nomadelfia.person.profile', $moglie->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Rimane vedova', 'Muore Marito Defunto', 'Sposa Marito Defunto'])
+        ->assertSeeInOrder(['Stato familiare', 'Vedova', 'dal 3 nov 2015']);
+});
+
+it('shows a married person with the stato separato as separato', function (): void {
+    login();
+    $marito = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();
+    $famiglia = Famiglia::factory()->create(['data_creazione' => '1998-06-12']);
+    $famiglia->assegnaCapoFamiglia($marito);
+    $famiglia->assegnaMoglie(Persona::factory()->nato(Carbon::parse('1972-02-01'))->femmina()->create());
+    $marito->assegnaStato(Stato::perNome('separato'), '2010-04-01');
+
+    $this->get(route('nomadelfia.person.profile', $marito->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Si separa dalla moglie', 'Sposa'])
+        ->assertSeeInOrder(['Stato familiare', 'Separato', 'dal 1 apr 2010']);
+});
+
+it('shows a mamma di vocazione heading her own famiglia as nubile and not married', function (): void {
+    login();
+    $mamma = Persona::factory()->nato(Carbon::parse('1950-05-01'))->femmina()->create();
+    $famiglia = Famiglia::factory()->create(['nome_famiglia' => 'Famiglia Della Mamma', 'data_creazione' => '1980-03-12']);
+    $famiglia->assegnaCapoFamiglia($mamma);
+    $mamma->assegnaStato(Stato::perNome('mammavocazione'), '1980-03-12');
+
+    $this->get(route('nomadelfia.person.profile', $mamma->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Diventa mamma di vocazione', 'Nascita'])
+        ->assertSeeInOrder(['Stato familiare', 'Nubile', 'Mamma di vocazione', 'dal 12 mar 1980'])
+        ->assertDontSee('Sposa')
+        ->assertDontSee('Nasce la famiglia Famiglia Della Mamma');
+});
+
+it('shows a sacerdote as celibe with the ordination in the timeline', function (): void {
+    login();
+    $prete = Persona::factory()->nato(Carbon::parse('1950-05-01'))->maschio()->create();
+    $prete->assegnaStato(Stato::perNome('sacerdote'), '1978-06-29');
+
+    $this->get(route('nomadelfia.person.profile', $prete->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Ordinato sacerdote', 'Nascita'])
+        ->assertSeeInOrder(['Stato familiare', 'Celibe', 'Sacerdote', 'dal 29 giu 1978']);
 });
 
 it('forbids the profile to a user without the permission to see the popolazione', function (): void {

@@ -5,22 +5,23 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Anagrafe\Persona\Models\Persona;
-use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 use Carbon\Carbon;
+use Exception;
 
-it('assign sacerdote as stato', function (): void {
-    $data_entrata = Carbon::now()->startOfDay();
-    $persona = Persona::factory()->maggiorenne()->maschio()->create();
-    $gruppo = GruppoFamiliare::first();
-    $action = app(EntrataMaggiorenneSingleAction::class);
-    $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
+it('keeps a sacerdote celibe: the stato civile is derived, not replaced by the stato', function (): void {
+    $persona = Persona::factory()->nato(Carbon::parse('1950-01-01'))->maschio()->create();
 
-    $data_inizio = Carbon::now()->addYears(5)->toDatestring();
-    $data_fine = Carbon::now()->addYears(3)->toDatestring();
-    $persona->assegnaStato(Stato::perNome('sacerdote'), $data_inizio, $data_fine);
+    $persona->assegnaStato(Stato::perNome('sacerdote'), '1980-06-29');
 
-    expect($persona->statoAttuale()->id)->toBe(Stato::perNome('sacerdote')->id)
-        ->and($persona->statiStorico()->first()->pivot->data_fine)->toBe($data_fine);
+    expect($persona->statiAttivi()->get())->toHaveCount(1)
+        ->and($persona->statiAttivi()->first()->pivot->data_inizio)->toBe('1980-06-29')
+        ->and($persona->statoCivile()['nome'])->toBe('Celibe');
 });
+
+it('refuses to assign twice the same active stato', function (): void {
+    $persona = Persona::factory()->maggiorenne()->femmina()->create();
+    $persona->assegnaStato(Stato::perNome('mammavocazione'), '1980-06-29');
+
+    $persona->assegnaStato(Stato::perNome('mammavocazione'), '1990-01-01');
+})->throws(Exception::class, 'ha già lo stato MAMMA DI VOCAZIONE');

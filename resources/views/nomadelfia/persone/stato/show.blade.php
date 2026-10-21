@@ -5,28 +5,53 @@
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="card">
-        <div class="card-header">Stato attuale</div>
+        <div class="card-header">Stato civile</div>
         <div class="card-body">
-          @if ($persona->statoAttuale())
-            <div class="row">
-              <p class="col-md-3 fw-bold">Stato</p>
-              <p class="col-md-3 fw-bold">Data Inizio</p>
-              <p class="col-md-3 fw-bold">Tempo trascorso</p>
-              <p class="col-md-3 fw-bold">Operazioni</p>
+          <div class="row">
+            <p class="col-md-4">{{ $statoCivile["nome"] }}</p>
+            <p class="col-md-4">
+              dal {{ $statoCivile["dal"]->translatedFormat("j M Y") }}
+            </p>
+            <div class="col-md-4">
+              @if ($matrimonio)
+                <a
+                  href="{{ route("anagrafe.families.show", ["id" => $matrimonio->id]) }}"
+                >
+                  Famiglia {{ $matrimonio->nome_famiglia }}
+                </a>
+              @endif
             </div>
+          </div>
+          <small class="text-muted">
+            Celibe, nubile, sposato e vedovo derivano dalla famiglia: per
+            cambiarli modifica il matrimonio o la famiglia.
+          </small>
+        </div>
+      </div>
+
+      <div class="card my-3">
+        <div class="card-header">Stati</div>
+        <div class="card-body">
+          <div class="row">
+            <p class="col-md-3 fw-bold">Stato</p>
+            <p class="col-md-3 fw-bold">Data inizio</p>
+            <p class="col-md-3 fw-bold">Data fine</p>
+            <p class="col-md-3 fw-bold">Operazioni</p>
+          </div>
+
+          @forelse ($stati as $stato)
             <div class="row">
-              <p class="col-md-3">{{ $persona->statoAttuale()->nome }}</p>
               <p class="col-md-3">
-                {{ $persona->statoAttuale()->pivot->data_inizio }}
+                {{ $stato->nome }}
+                @if ($stato->pivot->stato == "1")
+                  <span class="badge text-bg-success">Attivo</span>
+                @endif
               </p>
-              <p class="col-md-3">
-                <span class="badge text-bg-info">
-                  @diffHumans($persona->statoAttuale()->pivot->data_inizio)
-                </span>
-              </p>
+              <p class="col-md-3">{{ $stato->pivot->data_inizio }}</p>
+              <p class="col-md-3">{{ $stato->pivot->data_fine }}</p>
               <div class="col-md-3">
                 <x-modal
-                  modal-title="Modifica Stato attuale"
+                  modal-title="Modifica stato {{ $stato->nome }}"
                   button-title="Modifica"
                   button-style="btn-warning my-2"
                 >
@@ -34,59 +59,51 @@
                     <form
                       class="form"
                       method="POST"
-                      id="formPersonaStatoModifica"
-                      action="{{ route("nomadelfia.persone.stato.modifica", ["id" => $persona->id, "idStato" => $persona->statoAttuale()->id]) }}"
+                      id="formPersonaStatoModifica{{ $loop->index }}"
+                      action="{{ route("nomadelfia.persone.stato.modifica", ["id" => $persona->id, "idStato" => $stato->id]) }}"
                     >
                       @method("PUT")
                       @csrf
-                      <div class="row">
-                        <label for="staticEmail" class="col-sm-6 form-label">
-                          Stato attuale
-                        </label>
-                        <div class="col-sm-6">
-                          <div>{{ $persona->statoAttuale()->nome }}</div>
-                        </div>
-                      </div>
                       <div class="row">
                         <label class="col-sm-6 form-label"> Data inizio </label>
                         <div class="col-sm-6">
                           <input
                             type="date"
                             name="data_inizio"
-                            value="{{ $persona->statoAttuale()->pivot->data_inizio }}"
+                            value="{{ $stato->pivot->data_inizio }}"
                             class="form-control"
                           />
                         </div>
                       </div>
                       <div class="row">
-                        <label for="inputPassword" class="col-sm-6 form-label">
+                        <label class="col-sm-6 form-label">
                           Data fine Stato
                         </label>
                         <div class="col-sm-6">
                           <input
                             type="date"
                             name="data_fine"
-                            value="{{ $persona->statoAttuale()->pivot->data_fine }}"
+                            value="{{ $stato->pivot->data_fine }}"
                             class="form-control"
                           />
                         </div>
                       </div>
-
                       <div class="row">
-                        <label for="inputPassword" class="col-sm-6 form-label">
-                          Stato
-                        </label>
+                        <label class="col-sm-6 form-label">Stato</label>
                         <div class="col-sm-6">
                           <div class="form-check">
                             <input
                               class="form-check-input"
                               type="radio"
                               name="stato"
-                              id="forstatoM"
+                              id="statoAttivo{{ $loop->index }}"
                               value="1"
-                              @if ($persona->statoAttuale()->pivot->stato=='1') checked @endif
+                              @if ($stato->pivot->stato == "1") checked @endif
                             />
-                            <label class="form-check-label" for="forstatoM">
+                            <label
+                              class="form-check-label"
+                              for="statoAttivo{{ $loop->index }}"
+                            >
                               Attivo
                             </label>
                           </div>
@@ -95,11 +112,14 @@
                               class="form-check-input"
                               type="radio"
                               name="stato"
-                              id="forstatoF"
+                              id="statoDisattivo{{ $loop->index }}"
                               value="0"
-                              @if ($persona->statoAttuale()->pivot->stato=='0') checked @endif
+                              @if ($stato->pivot->stato == "0") checked @endif
                             />
-                            <label class="form-check-label" for="forstao">
+                            <label
+                              class="form-check-label"
+                              for="statoDisattivo{{ $loop->index }}"
+                            >
                               Disattivo
                             </label>
                           </div>
@@ -110,18 +130,18 @@
                   <x-slot:footer>
                     <button
                       class="btn btn-success"
-                      form="formPersonaStatoModifica"
+                      form="formPersonaStatoModifica{{ $loop->index }}"
                     >
                       Salva
                     </button>
                   </x-slot:footer>
                 </x-modal>
-                <!--end modal stato-->
               </div>
             </div>
-          @else
-            <p class="text-danger">Nessuno stato</p>
-          @endif
+          @empty
+            <p class="text-muted">Nessuno stato</p>
+          @endforelse
+
           <x-modal
             modal-title="Aggiungi Stato persona"
             button-title="Nuovo Stato"
@@ -135,51 +155,21 @@
                 action="{{ route("nomadelfia.persone.stato.assegna", $persona->id) }}"
               >
                 @csrf
-
-                @if ($persona->statoAttuale())
-                  <h5 class="my-2">
-                    Completa dati dello stato attuale: {{ $persona->statoAttuale()->nome }}
-                  </h5>
-                  <div class="row">
-                    <label for="dataInizio" class="col-sm-6 form-label">
-                      Data fine stato
-                    </label>
-                    <div class="col-sm-6">
-                      <input
-                        type="date"
-                        name="data_fine"
-                        class="form-control"
-                        value="{{ old("data_fine") }}"
-                      />
-                      <small id="emailHelp" class="form-text text-muted">
-                        Lasciare vuoto se concide con la data di inizio del
-                        nuovo stato.
-                      </small>
-                    </div>
-                  </div>
-                  <hr />
-                @endif
-
-                <h5 class="my-2">Inserimento nuovo stato</h5>
                 <div class="row">
-                  <label for="staticEmail" class="col-sm-4 form-label">
-                    Stato
-                  </label>
+                  <label class="col-sm-4 form-label">Stato</label>
                   <div class="col-sm-8">
                     <select name="stato_id" class="form-select">
-                      <option selecte>---seleziona Stato---</option>
-                      @foreach (App\Nomadelfia\PopolazioneNomadelfia\Models\Stato::all() as $stato)
-                        <option value="{{ $stato->id }}">
-                          {{ $stato->nome }}
+                      <option value="">---seleziona Stato---</option>
+                      @foreach (App\Nomadelfia\PopolazioneNomadelfia\Models\Stato::all() as $statoDisponibile)
+                        <option value="{{ $statoDisponibile->id }}">
+                          {{ $statoDisponibile->nome }}
                         </option>
                       @endforeach
                     </select>
                   </div>
                 </div>
                 <div class="row">
-                  <label for="inputPassword" class="col-sm-4 form-label">
-                    Data inizio
-                  </label>
+                  <label class="col-sm-4 form-label">Data inizio</label>
                   <div class="col-sm-8">
                     <input
                       type="date"
@@ -197,34 +187,6 @@
               </button>
             </x-slot:footer>
           </x-modal>
-          <!--end modal-->
-        </div>
-      </div>
-      <div class="card my-3">
-        <div class="card-header">Storico delle Stato</div>
-        <div class="card-body">
-          <div class="row">
-            <p class="col-md-3 fw-bold">Stato</p>
-            <p class="col-md-3 fw-bold">Data inizio</p>
-            <p class="col-md-3 fw-bold">Data fine</p>
-            <p class="col-md-3 fw-bold">Durata</p>
-          </div>
-
-          @forelse ($persona->statiStorico as $statostorico)
-            <div class="row">
-              <p class="col-md-3">{{ $statostorico->nome }}</p>
-              <p class="col-md-3">{{ $statostorico->pivot->data_inizio }}</p>
-              <p class="col-md-3">{{ $statostorico->pivot->data_fine }}</p>
-
-              <div class="col-md-3">
-                <span class="badge text-bg-info">
-                  {{ Carbon::parse($statostorico->pivot->data_fine)->diffForHumans(Carbon::parse($statostorico->pivot->data_inizio), ["short" => true, "parts" => 5]) }}
-                </span>
-              </div>
-            </div>
-          @empty
-            <p class="text-danger">Nessuno stato nello storico</p>
-          @endforelse
         </div>
       </div>
     </div>
