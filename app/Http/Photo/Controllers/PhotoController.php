@@ -31,7 +31,7 @@ final class PhotoController
         }
 
         $photos = $q->paginate(50);
-        $photos_count = $q->count();
+        $photos_count = $photos->total();
 
         $qYears = Photo::query()
             ->selectRaw('YEAR(taken_at) as year, count(*) as `count` ')
@@ -99,20 +99,21 @@ final class PhotoController
         ]);
     }
 
-    public function preview(Request $request, int $id): Response
+    public function preview(Request $request, int $id): Response|BinaryFileResponse
     {
         $drawFaces = $request->boolean('draw_faces', false);
         $highlightFace = $request->string('highlight_face')->trim();
 
         $photo = Photo::query()->findOrFail($id);
 
-        $fileContent = Storage::disk('photos')->get($photo->source_file);
         $filePath = Storage::disk('photos')->path($photo->source_file);
-        $mimeType = mime_content_type($filePath);
 
         if (! $drawFaces) {
-            return response()->make($fileContent, 200)->header('Content-Type', $mimeType);
+            return response()->file($filePath, ['Cache-Control' => 'private, max-age=604800']);
         }
+
+        $fileContent = Storage::disk('photos')->get($photo->source_file);
+        $mimeType = mime_content_type($filePath);
 
         if ($photo->region_info) {
             $regionInfo = $photo->region_info;
