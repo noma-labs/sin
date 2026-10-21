@@ -76,65 +76,65 @@ final class BuildPersonTimelineAction
         }
 
         $famiglieSenzaConiuge = collect();
-        foreach (['CAPO FAMIGLIA' => 'MOGLIE', 'MOGLIE' => 'CAPO FAMIGLIA'] as $posizioneFamiglia => $posizioneConiuge) {
-            foreach ($persona->famiglie()->wherePivot('posizione_famiglia', $posizioneFamiglia)->get() as $famiglia) {
-                if ($famiglia->data_creazione) {
-                    $creazione = Date::parse($famiglia->data_creazione);
-                    $coniuge = $famiglia->componenti()
-                        ->wherePivot('posizione_famiglia', $posizioneConiuge)
-                        ->first();
-                    if ($coniuge) {
+        foreach ($persona->famiglie()->wherePivotIn('posizione_famiglia', ['CAPO FAMIGLIA', 'MOGLIE'])->get() as $famiglia) {
+            if ($famiglia->data_creazione) {
+                $creazione = Date::parse($famiglia->data_creazione);
+                // the other capofamiglia or moglie: also a deceased husband next to the vedova who heads the famiglia
+                $coniuge = $famiglia->componenti()
+                    ->wherePivotIn('posizione_famiglia', ['CAPO FAMIGLIA', 'MOGLIE'])
+                    ->where('persone.id', '!=', $persona->id)
+                    ->first();
+                if ($coniuge) {
+                    $eventi->push($evento(
+                        $creazione,
+                        TimelineEvent::CATEGORIA_FAMIGLIA,
+                        'Famiglia',
+                        'Sposa '.$coniuge->nominativo,
+                        'Nasce la famiglia '.$famiglia->nome_famiglia,
+                        $coniuge,
+                        importante: true,
+                    ));
+
+                    $decessoConiuge = $coniuge->data_decesso ? Date::parse($coniuge->data_decesso) : null;
+                    if ($decessoConiuge && (! $decesso || $decessoConiuge->lessThan($decesso))) {
                         $eventi->push($evento(
-                            $creazione,
+                            $decessoConiuge,
                             TimelineEvent::CATEGORIA_FAMIGLIA,
                             'Famiglia',
-                            'Sposa '.$coniuge->nominativo,
-                            'Nasce la famiglia '.$famiglia->nome_famiglia,
+                            $persona->isMaschio() ? 'Rimane vedovo' : 'Rimane vedova',
+                            'Muore '.$coniuge->nominativo,
                             $coniuge,
-                            importante: true,
                         ));
-
-                        $decessoConiuge = $coniuge->data_decesso ? Date::parse($coniuge->data_decesso) : null;
-                        if ($decessoConiuge && (! $decesso || $decessoConiuge->lessThan($decesso))) {
-                            $eventi->push($evento(
-                                $decessoConiuge,
-                                TimelineEvent::CATEGORIA_FAMIGLIA,
-                                'Famiglia',
-                                $persona->isMaschio() ? 'Rimane vedovo' : 'Rimane vedova',
-                                'Muore '.$coniuge->nominativo,
-                                $coniuge,
-                            ));
-                        }
-                    } else {
-                        // a capofamiglia without coniuge, like a mamma di vocazione with her figli accolti
-                        $famiglieSenzaConiuge->push(['data' => $creazione, 'famiglia' => $famiglia]);
                     }
+                } else {
+                    // a capofamiglia without coniuge, like a mamma di vocazione with her figli accolti
+                    $famiglieSenzaConiuge->push(['data' => $creazione, 'famiglia' => $famiglia]);
+                }
+            }
+
+            foreach ($famiglia->figli()->get() as $figlio) {
+                if ($figlio->pivot->posizione_famiglia === 'FIGLIO NATO') {
+                    $eventi->push($evento(
+                        Date::parse($figlio->data_nascita),
+                        TimelineEvent::CATEGORIA_FAMIGLIA,
+                        'Famiglia',
+                        ($figlio->isMaschio() ? 'Nasce il figlio ' : 'Nasce la figlia ').$figlio->nominativo,
+                        altraPersona: $figlio,
+                    ));
+
+                    continue;
                 }
 
-                foreach ($famiglia->figli()->get() as $figlio) {
-                    if ($figlio->pivot->posizione_famiglia === 'FIGLIO NATO') {
-                        $eventi->push($evento(
-                            Date::parse($figlio->data_nascita),
-                            TimelineEvent::CATEGORIA_FAMIGLIA,
-                            'Famiglia',
-                            ($figlio->isMaschio() ? 'Nasce il figlio ' : 'Nasce la figlia ').$figlio->nominativo,
-                            altraPersona: $figlio,
-                        ));
-
-                        continue;
-                    }
-
-                    $dataAccoglienza = PopolazioneNomadelfia::query()->where('persona_id', $figlio->id)->min('data_entrata');
-                    if (is_string($dataAccoglienza)) {
-                        $eventi->push($evento(
-                            Date::parse($dataAccoglienza),
-                            TimelineEvent::CATEGORIA_FAMIGLIA,
-                            'Famiglia',
-                            ($figlio->isMaschio() ? 'Accoglie il figlio ' : 'Accoglie la figlia ').$figlio->nominativo,
-                            ($figlio->isMaschio() ? 'Nato il ' : 'Nata il ').Date::parse($figlio->data_nascita)->format('d/m/Y'),
-                            $figlio,
-                        ));
-                    }
+                $dataAccoglienza = PopolazioneNomadelfia::query()->where('persona_id', $figlio->id)->min('data_entrata');
+                if (is_string($dataAccoglienza)) {
+                    $eventi->push($evento(
+                        Date::parse($dataAccoglienza),
+                        TimelineEvent::CATEGORIA_FAMIGLIA,
+                        'Famiglia',
+                        ($figlio->isMaschio() ? 'Accoglie il figlio ' : 'Accoglie la figlia ').$figlio->nominativo,
+                        ($figlio->isMaschio() ? 'Nato il ' : 'Nata il ').Date::parse($figlio->data_nascita)->format('d/m/Y'),
+                        $figlio,
+                    ));
                 }
             }
         }
