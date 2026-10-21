@@ -7839,13 +7839,13 @@ parameters:
 		-
 			message: '#^Parameter \#1 \$content of method Illuminate\\Contracts\\Routing\\ResponseFactory\:\:make\(\) expects array\|string, string\|null given\.$#'
 			identifier: argument.type
-			count: 2
+			count: 1
 			path: app/Http/Photo/Controllers/PhotoController.php
 
 		-
 			message: '#^Parameter \#2 \$values of method Illuminate\\Http\\Response\:\:header\(\) expects array\|string, string\|false given\.$#'
 			identifier: argument.type
-			count: 3
+			count: 2
 			path: app/Http/Photo/Controllers/PhotoController.php
 
 		-

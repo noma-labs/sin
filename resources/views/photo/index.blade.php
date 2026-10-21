@@ -49,6 +49,8 @@
                 src="{{ route("photos.preview", $photo->id) }}"
                 class="figure-img img-fluid rounded"
                 alt="{{ $photo->description }}"
+                loading="lazy"
+                decoding="async"
                 style="cursor: pointer"
               />
               <div
@@ -89,6 +91,8 @@
                     alt="{{ $photo->description }}"
                     class="rounded"
                     style="width: 64px; height: auto"
+                    loading="lazy"
+                    decoding="async"
                   />
                 </a>
               </td>
