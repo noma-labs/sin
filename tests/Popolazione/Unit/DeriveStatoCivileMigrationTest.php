@@ -56,6 +56,21 @@ it('copies the date of the stato sposato into the famiglia, keeping the other st
         ->and($moglie->statoCivile()['nome'])->toBe('Sposata');
 });
 
+it('copies the date of the stato sposato of a vedova heading the famiglia next to the deceased husband', function (): void {
+    $vedova = Persona::factory()->maggiorenne()->femmina()->create();
+    $marito = Persona::factory()->maggiorenne()->maschio()->create(['data_decesso' => '2015-11-03']);
+    $famiglia = Famiglia::factory()->create(['data_creazione' => '2000-01-01']);
+    $famiglia->assegnaCapoFamiglia($vedova);
+    $famiglia->assegnaCapoFamiglia($marito, stato: '0');
+    assegnaStatoEliminato($vedova, 'SPO', '1968-06-12', '0');
+    assegnaStatoEliminato($vedova, 'VED', '2015-11-03');
+
+    migrazioneStatoCivile()->up();
+
+    expect(Famiglia::findOrFail($famiglia->id)->data_creazione)->toBe('1968-06-12')
+        ->and($vedova->statoCivile()['nome'])->toBe('Vedova');
+});
+
 it('refuses to run when the coniuge of a sposato is not in the famiglia', function (): void {
     $marito = Persona::factory()->maggiorenne()->maschio()->create(['nominativo' => 'Marito Senza Moglie']);
     Famiglia::factory()->create()->assegnaCapoFamiglia($marito);

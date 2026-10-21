@@ -205,14 +205,17 @@ final class Famiglia extends Model
         );
     }
 
-    public function assegnaCapoFamiglia($persona, $note = null)
+    /**
+     * @param  string  $stato  '1' in the nucleo, '0' outside the nucleo (e.g. the deceased husband of a vedova who heads the famiglia)
+     */
+    public function assegnaCapoFamiglia($persona, $note = null, string $stato = '1')
     {
 
         if (is_string($persona)) {
             $persona = Persona::findOrFail($persona);
         }
         if ($persona instanceof Persona) {
-            $capo = $this->capofamiglia();
+            $capo = $stato === '1' ? $this->capofamiglia() : null;
             if ($capo !== null) {
                 throw CouldNotAssignCapoFamiglia::hasAlreadyCapoFamiglia($this, $capo);
             }
@@ -220,18 +223,21 @@ final class Famiglia extends Model
                 throw CouldNotAssignCapoFamiglia::beacuseIsMinorenne($this, $persona);
             }
 
-            return $this->assegnaComponente($persona, self::getCapoFamigliaEnum());
+            return $this->assegnaComponente($persona, self::getCapoFamigliaEnum(), $stato, $note);
         }
         throw new InvalidArgumentException("Identiticativo `{$persona}` della persona non valido.");
     }
 
-    public function assegnaMoglie($persona)
+    /**
+     * @param  string  $stato  '1' in the nucleo, '0' outside the nucleo (e.g. a deceased moglie)
+     */
+    public function assegnaMoglie($persona, string $stato = '1')
     {
         if (is_string($persona)) {
             $persona = Persona::findOrFail($persona);
         }
         if ($persona instanceof Persona) {
-            if ($this->moglie() !== null) {
+            if ($stato === '1' && $this->moglie() !== null) {
                 throw CouldNotAssignMoglie::hasAlreadyMoglie($this, $persona);
             }
             if ($persona->isMaggiorenne() === false) {
@@ -241,7 +247,7 @@ final class Famiglia extends Model
                 throw CouldNotAssignMoglie::beacuseIsMan($this, $persona);
             }
 
-            return $this->assegnaComponente($persona, self::getMoglieEnum());
+            return $this->assegnaComponente($persona, self::getMoglieEnum(), $stato);
         }
         throw new InvalidArgumentException('Bad person as argument. It must be the id or the model of a person.');
     }
@@ -260,26 +266,26 @@ final class Famiglia extends Model
         throw new InvalidArgumentException('Bad person as argument. It must be the id or the model of a person.');
     }
 
-    public function assegnaFiglioNato($persona, $note = null)
+    public function assegnaFiglioNato($persona, $note = null, string $stato = '1')
     {
         // TODO: check the la persona non ha già una famiglia associata
         if (is_string($persona)) {
             $persona = Persona::findOrFail($persona);
         }
         if ($persona instanceof Persona) {
-            return $this->assegnaComponente($persona, self::getFiglioNatoEnum());
+            return $this->assegnaComponente($persona, self::getFiglioNatoEnum(), $stato, $note);
         }
         throw new InvalidArgumentException('Bad person as argument. It must be the id or the model of a person.');
     }
 
-    public function assegnaFiglioAccolto($persona, $note = null)
+    public function assegnaFiglioAccolto($persona, $note = null, string $stato = '1')
     {
         // TODO: check the la persona non ha già una famiglia associata
         if (is_string($persona)) {
             $persona = Persona::findOrFail($persona);
         }
         if ($persona instanceof Persona) {
-            return $this->assegnaComponente($persona, self::getFiglioAccoltoEnum());
+            return $this->assegnaComponente($persona, self::getFiglioAccoltoEnum(), $stato, $note);
         }
         throw new InvalidArgumentException('Bad person as argument. It must be the id or the model of a person.');
     }
@@ -330,17 +336,23 @@ final class Famiglia extends Model
         return $this->componenti()->where('famiglie_persone.stato', '1');
     }
 
+    /**
+     * The capofamiglia in the nucleo. A deceased husband stays in the famiglia as capofamiglia outside the nucleo,
+     * next to the vedova who heads the famiglia.
+     */
     public function capofamiglia()
     {
-        return $this->componenti()
-            ->withPivot('stato', 'posizione_famiglia')
+        return $this->componentiAttuali()
             ->wherePivot('posizione_famiglia', 'CAPO FAMIGLIA')
             ->first();
     }
 
+    /**
+     * The moglie in the nucleo.
+     */
     public function moglie()
     {
-        return $this->componenti()
+        return $this->componentiAttuali()
             ->wherePivot('posizione_famiglia', 'MOGLIE')
             ->first();
     }

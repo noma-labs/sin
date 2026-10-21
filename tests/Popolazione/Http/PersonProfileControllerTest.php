@@ -159,6 +159,20 @@ it('shows a person whose coniuge died as vedova from the death of the coniuge', 
         ->assertSeeInOrder(['Stato familiare', 'Vedova', 'dal 3 nov 2015']);
 });
 
+it('shows a vedova heading the famiglia as vedova of the husband capofamiglia outside the nucleo', function (): void {
+    login();
+    $vedova = Persona::factory()->nato(Carbon::parse('1945-02-01'))->femmina()->create();
+    $marito = Persona::factory()->nato(Carbon::parse('1940-05-01'))->maschio()->create(['nominativo' => 'Marito Capofamiglia', 'data_decesso' => '2015-11-03']);
+    $famiglia = Famiglia::factory()->create(['data_creazione' => '1968-06-12']);
+    $famiglia->assegnaCapoFamiglia($vedova);
+    $famiglia->assegnaCapoFamiglia($marito, stato: '0');
+
+    $this->get(route('nomadelfia.person.profile', $vedova->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Rimane vedova', 'Sposa Marito Capofamiglia'])
+        ->assertSeeInOrder(['Stato familiare', 'Vedova', 'dal 3 nov 2015']);
+});
+
 it('keeps a deceased married person sposato', function (): void {
     login();
     $marito = Persona::factory()->nato(Carbon::parse('1940-05-01'))->maschio()->create(['data_decesso' => '2015-11-03']);

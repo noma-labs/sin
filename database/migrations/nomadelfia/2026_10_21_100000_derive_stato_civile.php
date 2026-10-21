@@ -26,7 +26,7 @@ final class DeriveStatoCivile extends SqlMigration
                     AND coniuge.posizione_famiglia IN ('CAPO FAMIGLIA', 'MOGLIE')
                 WHERE famiglie_persone.persona_id = persone.id AND famiglie_persone.posizione_famiglia IN ('CAPO FAMIGLIA', 'MOGLIE')
             )",
-        'ha la data del matrimonio (stato sposato), ma non è capofamiglia o moglie di una sola famiglia con la moglie: la data andrebbe persa' => "
+        'ha la data del matrimonio (stato sposato), ma non è capofamiglia o moglie di una sola famiglia con il coniuge: la data andrebbe persa' => "
             SELECT DISTINCT persone.id, persone.nominativo
             FROM persone_stati
             JOIN stati ON stati.id = persone_stati.stato_id AND stati.stato = 'SPO'
@@ -37,7 +37,9 @@ final class DeriveStatoCivile extends SqlMigration
             ) <> 1
             OR NOT EXISTS (
                 SELECT 1 FROM famiglie_persone
-                JOIN famiglie_persone moglie ON moglie.famiglia_id = famiglie_persone.famiglia_id AND moglie.posizione_famiglia = 'MOGLIE'
+                JOIN famiglie_persone coniuge ON coniuge.famiglia_id = famiglie_persone.famiglia_id
+                    AND coniuge.persona_id <> famiglie_persone.persona_id
+                    AND coniuge.posizione_famiglia IN ('CAPO FAMIGLIA', 'MOGLIE')
                 WHERE famiglie_persone.persona_id = persone.id AND famiglie_persone.posizione_famiglia IN ('CAPO FAMIGLIA', 'MOGLIE')
             )",
         'i coniugi hanno date diverse dello stato sposato: scegli quella giusta' => "

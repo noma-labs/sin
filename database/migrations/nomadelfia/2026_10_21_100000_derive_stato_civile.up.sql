@@ -4,7 +4,8 @@
 -- persone_stati keeps only the stati that cannot be derived: SAC, MAV, MAM, MAN, SEP.
 
 -- The date of the stato sposato becomes the marriage date of the famiglia (the earliest one if the spouses have different dates).
--- Only famiglie with a moglie, and only spouses who are capofamiglia or moglie of a single famiglia.
+-- Only famiglie with both spouses (a vedova heading the famiglia is capofamiglia next to the deceased husband),
+-- and only spouses who are capofamiglia or moglie of a single famiglia.
 UPDATE famiglie
 JOIN (
     SELECT famiglie_persone.famiglia_id, MIN(persone_stati.data_inizio) AS data_matrimonio
@@ -19,8 +20,10 @@ JOIN (
         HAVING COUNT(*) = 1
     )
     AND EXISTS (
-        SELECT 1 FROM famiglie_persone moglie
-        WHERE moglie.famiglia_id = famiglie_persone.famiglia_id AND moglie.posizione_famiglia = 'MOGLIE'
+        SELECT 1 FROM famiglie_persone coniuge
+        WHERE coniuge.famiglia_id = famiglie_persone.famiglia_id
+        AND coniuge.persona_id <> famiglie_persone.persona_id
+        AND coniuge.posizione_famiglia IN ('CAPO FAMIGLIA', 'MOGLIE')
     )
     GROUP BY famiglie_persone.famiglia_id
 ) sposati ON sposati.famiglia_id = famiglie.id
