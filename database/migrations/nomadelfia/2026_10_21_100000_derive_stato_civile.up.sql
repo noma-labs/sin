@@ -26,16 +26,8 @@ JOIN (
 ) sposati ON sposati.famiglia_id = famiglie.id
 SET famiglie.data_creazione = sposati.data_matrimonio;
 
--- Reopen the stati closed only because a celibe/nubile/sposato/vedovo stato was assigned after them.
-UPDATE persone_stati kept
-JOIN stati kept_stato ON kept_stato.id = kept.stato_id AND kept_stato.stato IN ('SAC', 'MAV', 'MAM', 'MAN', 'SEP')
-JOIN persone_stati derived ON derived.persona_id = kept.persona_id AND derived.data_inizio = kept.data_fine
-JOIN stati derived_stato ON derived_stato.id = derived.stato_id AND derived_stato.stato IN ('CEL', 'NUB', 'SPO', 'VED', 'CDE')
-JOIN persone ON persone.id = kept.persona_id AND persone.data_decesso IS NULL
-LEFT JOIN persone_stati already_active ON already_active.persona_id = kept.persona_id AND already_active.stato_id = kept.stato_id AND already_active.stato = '1'
-SET kept.stato = '1', kept.data_fine = NULL
-WHERE kept.stato = '0' AND already_active.persona_id IS NULL;
-
+-- The SAC, MAV, MAM, MAN and SEP rows are not touched, the closed ones included: they stay as history with their dates.
+-- The class DeriveStatoCivile refuses to run this file if a stato sposato or vedovo cannot be derived from the famiglia.
 DELETE persone_stati FROM persone_stati
 JOIN stati ON stati.id = persone_stati.stato_id
 WHERE stati.stato IN ('CEL', 'NUB', 'SPO', 'VED', 'CDE');

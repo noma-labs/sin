@@ -407,12 +407,14 @@ trait PersonaInNomadelfia
     }
 
     /**
-     * The current famiglia where the person is capofamiglia or moglie.
+     * The famiglia where the person is capofamiglia or moglie, preferring the one the person is still in:
+     * a deceased person is no longer in the nucleo but stays married.
      */
     private function famigliaDaCapofamigliaOMoglie(): ?Famiglia
     {
-        return $this->famiglieAttuali()
+        return $this->famiglie()
             ->wherePivotIn('posizione_famiglia', ['CAPO FAMIGLIA', 'MOGLIE'])
+            ->orderByPivot('stato', 'desc')
             ->first();
     }
 

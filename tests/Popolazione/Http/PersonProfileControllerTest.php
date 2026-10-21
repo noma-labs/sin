@@ -159,6 +159,19 @@ it('shows a person whose coniuge died as vedova from the death of the coniuge', 
         ->assertSeeInOrder(['Stato familiare', 'Vedova', 'dal 3 nov 2015']);
 });
 
+it('keeps a deceased married person sposato', function (): void {
+    login();
+    $marito = Persona::factory()->nato(Carbon::parse('1940-05-01'))->maschio()->create(['data_decesso' => '2015-11-03']);
+    $famiglia = Famiglia::factory()->create(['data_creazione' => '1968-06-12']);
+    $famiglia->assegnaCapoFamiglia($marito);
+    $famiglia->assegnaMoglie(Persona::factory()->nato(Carbon::parse('1942-02-01'))->femmina()->create());
+    $famiglia->uscitaDalNucleoFamiliare($marito);
+
+    $this->get(route('nomadelfia.person.profile', $marito->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Stato familiare', 'Sposato', 'dal 12 giu 1968']);
+});
+
 it('shows a married person with the stato separato as separato', function (): void {
     login();
     $marito = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();
