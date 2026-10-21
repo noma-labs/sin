@@ -37,9 +37,7 @@ it('entrata minorenne con famiglia', function (): void {
     expect($persona->getDataEntrataNomadelfia())->toEqual($data_entrata);
     //        $this->assertEquals($persona->posizioneAttuale()->id, $figlio->id);
     expect($persona->posizioneAttuale()->pivot->data_inizio)->toEqual($data_entrata->toDateString());
-    //        expect($persona->statoAttuale()->id, $nubile->id);
-    //        expect($persona->statoAttuale()->stato, $nubile->stato);
-    expect($persona->statoAttuale()->pivot->data_inizio)->toEqual($persona->data_nascita);
+    expect($persona->statoCivile()['dal'])->toEqual(Carbon::parse($persona->data_nascita));
     expect($persona->gruppofamiliareAttuale()->id)->toEqual($gruppo->id);
     expect($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toEqual($data_entrata->toDateString());
     expect($persona->famigliaAttuale())->not->toBeNull();

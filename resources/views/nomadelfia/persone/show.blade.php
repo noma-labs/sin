@@ -282,11 +282,9 @@
               <div class="row">
                 <label class="col-sm-4 fw-bold"> Stato familiare: </label>
                 <div class="col-sm-6">
-                  @if ($persona->statoAttuale() != null)
-                    <span> {{ $persona->statoAttuale()->nome }} </span>
-                  @else
-                    <span class="text-danger"> Nessuno stato </span>
-                  @endif
+                  <span>
+                    {{ collect([$persona->statoCivile()["nome"]])->merge($persona->statiAttivi()->get()->reject->isSeparato()->pluck("nome"))->implode(" · ") }}
+                  </span>
                 </div>
                 <div class="col-sm-2">
                   <a

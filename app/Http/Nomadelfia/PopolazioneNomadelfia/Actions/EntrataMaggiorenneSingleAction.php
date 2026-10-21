@@ -10,7 +10,6 @@ use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaData;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Origine;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
-use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 
 final readonly class EntrataMaggiorenneSingleAction
 {
@@ -28,7 +27,6 @@ final readonly class EntrataMaggiorenneSingleAction
         $dto->gruppoFamiliare = $gruppo;
         $dto->origine = Origine::Esterno;
 
-        $this->calcStato($dto);
         $this->calcGruppoFamiliare($dto);
         $this->calcPosizione($dto);
 
@@ -44,15 +42,5 @@ final readonly class EntrataMaggiorenneSingleAction
     {
         $dto->posizione = Posizione::find('OSPP');
         $dto->posizione_data = $dto->data_entrata;
-    }
-
-    public function calcStato(EntrataPersonaData $dto): void
-    {
-        $dto->stato_data = \Illuminate\Support\Facades\Date::parse($dto->persona->data_nascita);
-        if ($dto->persona->isMaschio()) {
-            $dto->stato = Stato::find('CEL');
-        } else {
-            $dto->stato = Stato::find('NUB');
-        }
     }
 }

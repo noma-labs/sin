@@ -39,27 +39,29 @@ it('can get the president of associazione', function (): void {
 
 it('get the eligible condidates', function (): void {
     $data_entrata = Carbon::now()->startOfDay();
-    $persona = Persona::factory()->cinquantenne()->maschio()->create();
+    $effettivo = Persona::factory()->cinquantenne()->maschio()->create();
     $gruppo = GruppoFamiliare::first();
     $action = app(EntrataMaggiorenneSingleAction::class);
-    $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
+    $action->execute($effettivo, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
     // Sacerdote: non deve essere contato negli eleggibili
     $data_entrata = Carbon::now();
-    $persona = Persona::factory()->cinquantenne()->maschio()->create();
-    $persona->assegnaStato(Stato::perNome('sacerdote'), $data_entrata);
+    $sacerdote = Persona::factory()->cinquantenne()->maschio()->create();
+    $sacerdote->assegnaStato(Stato::perNome('sacerdote'), $data_entrata);
     $gruppo = GruppoFamiliare::first();
 
     $act = app(EntrataMaggiorenneSingleAction::class);
-    $act->execute($persona, $data_entrata, $gruppo);
+    $act->execute($sacerdote, $data_entrata, $gruppo);
 
     $ele = Cariche::EleggibiliConsiglioAnziani();
     expect($ele->total)->toBe(0);
 
-    $persona->assegnaPosizione(Posizione::perNome('postulante'), Carbon::now()->subYears(20));
-    $persona->assegnaPosizione(Posizione::perNome('effettivo'), Carbon::now()->subYears(12));
+    foreach ([$sacerdote, $effettivo] as $persona) {
+        $persona->assegnaPosizione(Posizione::perNome('postulante'), Carbon::now()->subYears(20));
+        $persona->assegnaPosizione(Posizione::perNome('effettivo'), Carbon::now()->subYears(12));
+    }
 
     $ele = Cariche::EleggibiliConsiglioAnziani();
-    expect($ele->total)->toBe(1);
-
+    expect($ele->total)->toBe(1)
+        ->and($ele->uomini[0]->persona_id)->toBe($effettivo->id);
 });

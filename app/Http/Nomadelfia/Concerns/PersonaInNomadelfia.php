@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\Concerns;
 
+use App\Anagrafe\Famiglia\Models\Famiglia;
+use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\Azienda\Models\Azienda;
 use App\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleGroup;
 use App\Nomadelfia\Exceptions\PersonaHasMultiplePosizioniAttuale;
-use App\Nomadelfia\Exceptions\PersonaHasMultipleStatoAttuale;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\Incarico\Models\Incarico;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
@@ -147,16 +148,61 @@ trait PersonaInNomadelfia
             ->withPivot('stato', 'data_inizio', 'data_fine');
     }
 
-    public function statoAttuale()
+    /**
+     * The stati the person has now. More than one can be active together, e.g. sacerdote and separato.
+     *
+     * @return BelongsToMany<Stato, $this, Pivot, 'pivot'>
+     */
+    public function statiAttivi(): BelongsToMany
     {
-        $stato = $this->stati()->wherePivot('stato', '1')->get();
-        if ($stato->count() === 1) {
-            return $stato[0];
+        return $this->stati()->wherePivot('stato', '1')->orderByPivot('data_inizio');
+    }
+
+    /**
+     * The coniuge of the person: the moglie of a capofamiglia, or the capofamiglia of a moglie, even if deceased.
+     * A capofamiglia without a moglie, like a mamma di vocazione with her figli accolti, has no coniuge.
+     */
+    public function coniuge(): ?Persona
+    {
+        $famiglia = $this->famigliaDaCapofamigliaOMoglie();
+
+        return $famiglia ? $this->coniugeNellaFamiglia($famiglia) : null;
+    }
+
+    /**
+     * The famiglia born from the marriage of the person, or null if the person is not married.
+     */
+    public function matrimonioAttuale(): ?Famiglia
+    {
+        $famiglia = $this->famigliaDaCapofamigliaOMoglie();
+
+        return $famiglia && $this->coniugeNellaFamiglia($famiglia) ? $famiglia : null;
+    }
+
+    /**
+     * The stato civile of the person, derived instead of stored:
+     * separato (stato SEP), vedovo (the coniuge is deceased), sposato (from the creation of the famiglia), otherwise celibe or nubile.
+     *
+     * @return array{nome: string, dal: Carbon}
+     */
+    public function statoCivile(): array
+    {
+        $maschio = $this->isMaschio();
+        $separazione = $this->statiAttivi()->where('stati.stato', Stato::$mapNamesToDB['separato'])->value('persone_stati.data_inizio');
+        if (is_string($separazione)) {
+            return ['nome' => $maschio ? 'Separato' : 'Separata', 'dal' => \Illuminate\Support\Facades\Date::parse($separazione)];
         }
-        if ($stato->count() === 0) {
-            return null;
+
+        $famiglia = $this->famigliaDaCapofamigliaOMoglie();
+        $coniuge = $famiglia ? $this->coniugeNellaFamiglia($famiglia) : null;
+        if ($coniuge?->data_decesso) {
+            return ['nome' => $maschio ? 'Vedovo' : 'Vedova', 'dal' => \Illuminate\Support\Facades\Date::parse($coniuge->data_decesso)];
         }
-        throw PersonaHasMultipleStatoAttuale::named($this->nominativo);
+        if ($coniuge) {
+            return ['nome' => $maschio ? 'Sposato' : 'Sposata', 'dal' => \Illuminate\Support\Facades\Date::parse($famiglia->data_creazione)];
+        }
+
+        return ['nome' => $maschio ? 'Celibe' : 'Nubile', 'dal' => \Illuminate\Support\Facades\Date::parse($this->data_nascita)];
     }
 
     public function statiStorico(): BelongsToMany
@@ -232,28 +278,20 @@ trait PersonaInNomadelfia
         return false;
     }
 
-    public function assegnaStato($stato, $data_inizio, $attuale_data_fine = null): void
+    /**
+     * Adds a stato to the person, keeping the other active stati: the stati are independent of each other.
+     *
+     * @throws Exception if the person already has the stato active
+     */
+    public function assegnaStato(int|string|Stato $stato, string|Carbon $data_inizio): void
     {
-        if (is_string($stato) | is_int($stato)) {
+        if (! $stato instanceof Stato) {
             $stato = Stato::findOrFail($stato);
         }
-        if ($stato instanceof Stato) {
-            DB::connection('db_nomadelfia')->beginTransaction();
-            try {
-                $attuale = $this->statoAttuale();
-                if ($attuale) {
-                    $this->stati()->updateExistingPivot($attuale->id,
-                        ['stato' => '0', 'data_fine' => ($attuale_data_fine ?: $data_inizio)]);
-                }
-                $this->stati()->attach($stato->id, ['stato' => '1', 'data_inizio' => $data_inizio]);
-                DB::connection('db_nomadelfia')->commit();
-            } catch (Exception $e) {
-                DB::connection('db_nomadelfia')->rollback();
-                throw $e;
-            }
-        } else {
-            throw new Exception('Bad Argument. Stato must be an id or a model.');
+        if ($this->statiAttivi()->where('stati.id', $stato->id)->exists()) {
+            throw new Exception("La persona {$this->nominativo} ha già lo stato {$stato->nome}.");
         }
+        $this->stati()->attach($stato->id, ['stato' => '1', 'data_inizio' => $data_inizio]);
     }
 
     public function assegnaPosizione(
@@ -366,5 +404,28 @@ trait PersonaInNomadelfia
             ['stato' => '0', 'data_uscita_gruppo' => $dataUscitaGruppoFamiliareAttuale]);
         $this->gruppifamiliari()->attach($gruppoFamiliareNuovo,
             ['stato' => '1', 'data_entrata_gruppo' => $dataEntrataGruppo]);
+    }
+
+    /**
+     * The famiglia where the person is capofamiglia or moglie, preferring the one the person is still in:
+     * a deceased person is no longer in the nucleo but stays married.
+     */
+    private function famigliaDaCapofamigliaOMoglie(): ?Famiglia
+    {
+        return $this->famiglie()
+            ->wherePivotIn('posizione_famiglia', ['CAPO FAMIGLIA', 'MOGLIE'])
+            ->orderByPivot('stato', 'desc')
+            ->first();
+    }
+
+    /**
+     * The other capofamiglia or moglie of the famiglia, also if no longer in the nucleo (e.g. deceased).
+     */
+    private function coniugeNellaFamiglia(Famiglia $famiglia): ?Persona
+    {
+        return $famiglia->componenti()
+            ->wherePivotIn('posizione_famiglia', ['CAPO FAMIGLIA', 'MOGLIE'])
+            ->where('persone.id', '!=', $this->id)
+            ->first();
     }
 }

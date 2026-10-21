@@ -56,15 +56,6 @@ final readonly class EntrataPersonaAction
                 [$entrataPersonaData->gruppoFamiliare->id, $persona_id, $entrataPersonaData->gruppo_data]
             );
 
-            if ($entrataPersonaData->stato) {
-                // inserisce lo stato familiare di Celibe o Nubile
-                // NOTE: ignora perchè lo stato di celibe o nubile rimane
-                $conn->insert(
-                    "INSERT IGNORE INTO persone_stati (persona_id, stato_id, data_inizio, stato) VALUES (?, ?, ?,'1')",
-                    [$persona_id, $entrataPersonaData->stato->id, $entrataPersonaData->stato_data]
-                );
-            }
-
             // inserisce la persona nella famiglia con una posizione
             if ($entrataPersonaData->famiglia) {
                 // NOTE: se la persone è già nella famiglia (è duplicato) si aggiorna lo stato a 1 con la nuova data

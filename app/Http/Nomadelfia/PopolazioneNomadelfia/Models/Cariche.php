@@ -100,10 +100,13 @@ final class Cariche extends Model
                 FROM persone
                 INNER JOIN popolazione ON popolazione.persona_id = persone.id
                 INNER JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id
-                LEFT JOIN persone_stati ON persone_stati.persona_id = persone.id
                 WHERE popolazione.data_uscita IS NULL
                 AND persone.data_nascita <= :date AND persone_posizioni.data_inizio <= :datanoma
-                AND persone_posizioni.posizione_id = :effe AND persone_stati.stato_id != :sac
+                AND persone_posizioni.posizione_id = :effe
+                AND NOT EXISTS (
+                    SELECT 1 FROM persone_stati
+                    WHERE persone_stati.persona_id = persone.id AND persone_stati.stato_id = :sac AND persone_stati.stato = :attivo
+                )
                 ORDER BY persone.nominativo ASC'
         );
         $res = DB::connection('db_nomadelfia')->select(
@@ -111,6 +114,7 @@ final class Cariche extends Model
             [
                 'effe' => $effetivo->id,
                 'sac' => $sacerdote->id,
+                'attivo' => '1',
                 'date' => \Illuminate\Support\Facades\Date::now()->subYears(40)->toDatestring(),
                 'datanoma' => \Illuminate\Support\Facades\Date::now()->subYears(10)->toDatestring(),
             ]

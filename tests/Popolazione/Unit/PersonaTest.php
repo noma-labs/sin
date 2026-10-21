@@ -17,7 +17,6 @@ use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaActi
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaFamigliaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
-use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 use Carbon\Carbon;
 
 it('assigns gruppo to a person', function (): void {
@@ -59,7 +58,6 @@ it('EntrataMaschioDallaNascita', function (): void {  /*
 
     $gruppo = GruppoFamiliare::first();
     $figlio = Posizione::perNome('figlio');
-    $celibe = Stato::perNome('celibe');
 
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
@@ -73,9 +71,7 @@ it('EntrataMaschioDallaNascita', function (): void {  /*
     expect($persona->getDataEntrataNomadelfia())->toEqual(Carbon::parse($persona->data_nascita))
         ->and($persona->posizioneAttuale()->id)->toEqual($figlio->id)
         ->and($persona->posizioneAttuale()->pivot->data_inizio)->toEqual($persona->data_nascita)
-        ->and($persona->statoAttuale()->id)->toEqual($celibe->id)
-        ->and($persona->statoAttuale()->stato)->toEqual($celibe->stato)
-        ->and($persona->statoAttuale()->pivot->data_inizio)->toEqual($persona->data_nascita)
+        ->and($persona->statoCivile())->toEqual(['nome' => 'Celibe', 'dal' => Carbon::parse($persona->data_nascita)])
         ->and($persona->gruppofamiliareAttuale()->id)->toEqual($gruppo->id)
         ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toEqual($persona->data_nascita)
         ->and($persona->famigliaAttuale())->not->toBeNull()
@@ -89,7 +85,6 @@ it('EntrataFemminaDallaNascita', function (): void {
 
     $gruppo = GruppoFamiliare::first();
     $figlio = Posizione::perNome('figlio');
-    $nubile = Stato::perNome('nubile');
 
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
@@ -103,9 +98,7 @@ it('EntrataFemminaDallaNascita', function (): void {
     expect($persona->getDataEntrataNomadelfia())->toEqual(Carbon::parse($persona->data_nascita))
         ->and($persona->posizioneAttuale()->id)->toEqual($figlio->id)
         ->and($persona->posizioneAttuale()->pivot->data_inizio)->toEqual($persona->data_nascita)
-        ->and($persona->statoAttuale()->id)->toEqual($nubile->id)
-        ->and($persona->statoAttuale()->stato)->toEqual($nubile->stato)
-        ->and($persona->statoAttuale()->pivot->data_inizio)->toEqual($persona->data_nascita)
+        ->and($persona->statoCivile())->toEqual(['nome' => 'Nubile', 'dal' => Carbon::parse($persona->data_nascita)])
         ->and($persona->gruppofamiliareAttuale()->id)->toEqual($gruppo->id)
         ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toEqual($persona->data_nascita);
     expect($persona->famigliaAttuale())->not->toBeNull();
@@ -119,7 +112,6 @@ it('EntrataMinorenneFemminaAccolto', function (): void {
 
     $gruppo = GruppoFamiliare::first();
     $figlio = Posizione::perNome('figlio');
-    $nubile = Stato::perNome('nubile');
 
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
@@ -141,9 +133,7 @@ it('EntrataMinorenneFemminaAccolto', function (): void {
     expect($persona->getDataEntrataNomadelfia())->toEqual(Carbon::parse($data_entrata))
         ->and($persona->posizioneAttuale()->id)->toEqual($figlio->id)
         ->and($persona->posizioneAttuale()->pivot->data_inizio)->toEqual($data_entrata->toDateString())
-        ->and($persona->statoAttuale()->id)->toEqual($nubile->id)
-        ->and($persona->statoAttuale()->stato)->toEqual($nubile->stato)
-        ->and($persona->statoAttuale()->pivot->data_inizio)->toEqual($persona->data_nascita)
+        ->and($persona->statoCivile())->toEqual(['nome' => 'Nubile', 'dal' => Carbon::parse($persona->data_nascita)])
         ->and($persona->gruppofamiliareAttuale()->id)->toEqual($gruppo->id)
         ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toEqual($data_entrata->toDateString());
     expect($persona->famigliaAttuale())->not->toBeNull();
@@ -157,7 +147,6 @@ it('EntrataMinorenneMaschioAccolto', function (): void {
 
     $gruppo = GruppoFamiliare::first();
     $figlio = Posizione::perNome('figlio');
-    $nubile = Stato::perNome('celibe');
 
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
@@ -179,9 +168,7 @@ it('EntrataMinorenneMaschioAccolto', function (): void {
     expect($persona->getDataEntrataNomadelfia())->toEqual(Carbon::parse($data_entrata))
         ->and($persona->posizioneAttuale()->id)->toEqual($figlio->id)
         ->and($persona->posizioneAttuale()->pivot->data_inizio)->toEqual($data_entrata->toDateString())
-        ->and($persona->statoAttuale()->id)->toEqual($nubile->id)
-        ->and($persona->statoAttuale()->stato)->toEqual($nubile->stato)
-        ->and($persona->statoAttuale()->pivot->data_inizio)->toEqual($persona->data_nascita)
+        ->and($persona->statoCivile())->toEqual(['nome' => 'Celibe', 'dal' => Carbon::parse($persona->data_nascita)])
         ->and($persona->gruppofamiliareAttuale()->id)->toEqual($gruppo->id)
         ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toEqual($data_entrata->toDateString());
     expect($persona->famigliaAttuale())->not->toBeNull();
@@ -195,7 +182,6 @@ it('EntrataMinorenneFemminaConFamiglia', function (): void {
 
     $gruppo = GruppoFamiliare::first();
     $figlio = Posizione::perNome('figlio');
-    $nubile = Stato::perNome('nubile');
 
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
@@ -216,9 +202,7 @@ it('EntrataMinorenneFemminaConFamiglia', function (): void {
     expect($persona->getDataEntrataNomadelfia())->toEqual(Carbon::parse($data_entrata))
         ->and($persona->posizioneAttuale()->id)->toEqual($figlio->id)
         ->and($persona->posizioneAttuale()->pivot->data_inizio)->toEqual($data_entrata->toDateString())
-        ->and($persona->statoAttuale()->id)->toEqual($nubile->id)
-        ->and($persona->statoAttuale()->stato)->toEqual($nubile->stato)
-        ->and($persona->statoAttuale()->pivot->data_inizio)->toEqual($persona->data_nascita)
+        ->and($persona->statoCivile())->toEqual(['nome' => 'Nubile', 'dal' => Carbon::parse($persona->data_nascita)])
         ->and($persona->gruppofamiliareAttuale()->id)->toEqual($gruppo->id)
         ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toEqual($data_entrata->toDateString());
     expect($persona->famigliaAttuale())->not->toBeNull();
@@ -232,7 +216,6 @@ it('EntrataMinorenneMaschioConFamiglia', function (): void {
 
     $gruppo = GruppoFamiliare::first();
     $figlio = Posizione::perNome('figlio');
-    $nubile = Stato::perNome('celibe');
 
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
@@ -253,9 +236,7 @@ it('EntrataMinorenneMaschioConFamiglia', function (): void {
     expect($persona->getDataEntrataNomadelfia())->toEqual(Carbon::parse($data_entrata))
         ->and($persona->posizioneAttuale()->id)->toEqual($figlio->id)
         ->and($persona->posizioneAttuale()->pivot->data_inizio)->toEqual($data_entrata->toDateString())
-        ->and($persona->statoAttuale()->id)->toEqual($nubile->id)
-        ->and($persona->statoAttuale()->stato)->toEqual($nubile->stato)
-        ->and($persona->statoAttuale()->pivot->data_inizio)->toEqual($persona->data_nascita)
+        ->and($persona->statoCivile())->toEqual(['nome' => 'Celibe', 'dal' => Carbon::parse($persona->data_nascita)])
         ->and($persona->gruppofamiliareAttuale()->id)->toEqual($gruppo->id)
         ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toEqual($data_entrata->toDateString());
     expect($persona->famigliaAttuale())->not->toBeNull();
@@ -267,7 +248,6 @@ it('EntrataMaggiorenneMaschioSingle', function (): void {
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $gruppo = GruppoFamiliare::first();
     $ospite = Posizione::perNome('ospite');
-    $celibe = Stato::perNome('celibe');
 
     $action = app(EntrataMaggiorenneSingleAction::class);
     $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
@@ -276,8 +256,6 @@ it('EntrataMaggiorenneMaschioSingle', function (): void {
     expect($persona->getDataEntrataNomadelfia());
     expect($persona->posizioneAttuale()->id);
     expect($persona->posizioneAttuale()->pivot->data_inizio);
-    expect($persona->statoAttuale()->id);
-    expect($persona->statoAttuale()->pivot->data_inizio);
     expect($persona->gruppofamiliareAttuale()->id);
     expect($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo);
 
@@ -289,7 +267,6 @@ it('EntrataMaggiorenneFemminaSingle', function (): void {
     $persona = Persona::factory()->maggiorenne()->femmina()->create();
     $gruppo = GruppoFamiliare::first();
     $ospite = Posizione::perNome('ospite');
-    $nubile = Stato::perNome('nubile');
 
     $action = app(EntrataMaggiorenneSingleAction::class);
     $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
@@ -298,8 +275,7 @@ it('EntrataMaggiorenneFemminaSingle', function (): void {
     expect($persona->getDataEntrataNomadelfia())->toEqual(Carbon::parse($data_entrata))
         ->and($persona->posizioneAttuale()->id)->toEqual($ospite->id)
         ->and($persona->posizioneAttuale()->pivot->data_inizio)->toEqual($data_entrata->toDateString())
-        ->and($persona->statoAttuale()->id)->toEqual($nubile->id)
-        ->and($persona->statoAttuale()->pivot->data_inizio)->toEqual($persona->data_nascita)
+        ->and($persona->statoCivile())->toEqual(['nome' => 'Nubile', 'dal' => Carbon::parse($persona->data_nascita)])
         ->and($persona->gruppofamiliareAttuale()->id)->toEqual($gruppo->id)
         ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toEqual($data_entrata->toDateString());
 
@@ -319,7 +295,7 @@ it('EntrataMaggiorenneSposato', function (): void {
     expect($persona->getDataEntrataNomadelfia())->toEqual(Carbon::parse($data_entrata))
         ->and($persona->posizioneAttuale()->id)->toEqual($ospite->id)
         ->and($persona->posizioneAttuale()->pivot->data_inizio)->toEqual($data_entrata->toDateString())
-        ->and($persona->statoAttuale())->toEqual(null)
+        ->and($persona->statiAttivi()->get())->toBeEmpty()
         ->and($persona->gruppofamiliareAttuale()->id)->toEqual($gruppo->id)
         ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toEqual($data_entrata->toDateString())
         ->and($persona->famigliaAttuale())->toBeNull();

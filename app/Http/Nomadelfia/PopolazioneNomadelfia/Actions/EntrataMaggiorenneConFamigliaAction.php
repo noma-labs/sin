@@ -27,7 +27,6 @@ final readonly class EntrataMaggiorenneConFamigliaAction
         $dto->gruppoFamiliare = $gruppo;
         $dto->origine = ModelsOrigine::Esterno;
 
-        $this->calcStato($dto);
         $this->calcGruppoFamiliare($dto);
         $this->calcPosizione($dto);
         $this->calcFamiglia($dto);
@@ -45,11 +44,6 @@ final readonly class EntrataMaggiorenneConFamigliaAction
     {
         $dto->posizione = Posizione::find('OSPP');
         $dto->posizione_data = $dto->data_entrata;
-    }
-
-    public function calcStato(EntrataPersonaData $dto): void
-    {
-        $dto->stato_data = \Illuminate\Support\Facades\Date::parse($dto->persona->data_nascita);
     }
 
     public function calcGruppoFamiliare(EntrataPersonaData $dto): void

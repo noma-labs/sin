@@ -22,7 +22,6 @@ use App\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneAttuale;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
-use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\ClasseTipo;
 use Carbon\Carbon;
@@ -48,8 +47,7 @@ it('remove dead person from population', function (): void {
         ->and(PopolazioneAttuale::count())->toBe($tot - 1);
     $this->assertNull($persona->posizioneAttuale());
     expect($persona->posizioniStorico()->get()->last()->pivot->data_fine)->toEqual($data_decesso->toDateString());
-    $this->assertNull($persona->statoAttuale());
-    expect($persona->statiStorico()->get()->last()->pivot->data_fine)->toEqual($data_decesso->toDateString());
+    expect($persona->statiAttivi()->get())->toBeEmpty();
     $this->assertNull($persona->gruppofamiliareAttuale());
     expect($persona->gruppofamiliariStorico()->get()->last()->pivot->data_uscita_gruppo)->toEqual($data_decesso->toDateString())
         ->and($persona->famigliaAttuale())->toBeNull();
@@ -88,8 +86,7 @@ it('manage exit of an adult', function (): void {
     $this->assertNull($persona->posizioneAttuale());
     $last_posi = $persona->posizioniStorico()->get()->last();
     expect($last_posi->pivot->data_fine)->toEqual($data_uscita->toDateString());
-    $celibe = Stato::perNome('celibe');
-    expect($persona->statoAttuale()->id)->toBe($celibe->id)
+    expect($persona->statoCivile()['nome'])->toBe('Celibe')
         ->and($persona->gruppofamiliareAttuale())->toBeNull()
         ->and($persona->gruppofamiliariStorico()->get()->last()->pivot->data_uscita_gruppo)->toEqual($data_uscita->toDateString())
         ->and($persona->famigliaAttuale())->toBeNull()
@@ -140,8 +137,7 @@ it('manage exit of underage', function (): void {
     $last_posi = $persona->posizioniStorico()->get()->last();
     expect($last_posi->pivot->data_inizio)->toEqual($persona->data_nascita);
     expect($last_posi->pivot->data_fine)->toEqual($data_uscita->toDateString());
-    $celibe = Stato::perNome('celibe');
-    expect($persona->statoAttuale()->id)->toEqual($celibe->id)
+    expect($persona->statoCivile()['nome'])->toBe('Celibe')
         ->and($persona->gruppofamiliareAttuale())->toBeNull()
         ->and($persona->gruppofamiliariStorico()->get()->last()->pivot->data_uscita_gruppo)->toEqual($data_uscita->toDateString())
         ->and($persona->famigliaAttuale())->toBeNull()

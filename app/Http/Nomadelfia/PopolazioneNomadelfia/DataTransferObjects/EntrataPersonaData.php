@@ -9,7 +9,6 @@ use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Origine;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
-use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 use Carbon\Carbon;
 
 final class EntrataPersonaData
@@ -25,10 +24,6 @@ final class EntrataPersonaData
     public GruppoFamiliare $gruppoFamiliare;
 
     public Carbon $gruppo_data;
-
-    public ?Stato $stato = null;
-
-    public ?Carbon $stato_data = null;
 
     public ?Famiglia $famiglia = null;
 
