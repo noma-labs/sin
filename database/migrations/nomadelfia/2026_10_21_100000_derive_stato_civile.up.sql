@@ -3,6 +3,29 @@
 -- The stato civile (celibe, nubile, sposato, vedovo) is derived from the sesso, the famiglia and the death of the coniuge.
 -- persone_stati keeps only the stati that cannot be derived: SAC, MAV, MAM, MAN, SEP.
 
+-- The date of the stato sposato becomes the marriage date of the famiglia (the earliest one if the spouses have different dates).
+-- Only famiglie with a moglie, and only spouses who are capofamiglia or moglie of a single famiglia.
+UPDATE famiglie
+JOIN (
+    SELECT famiglie_persone.famiglia_id, MIN(persone_stati.data_inizio) AS data_matrimonio
+    FROM famiglie_persone
+    JOIN persone_stati ON persone_stati.persona_id = famiglie_persone.persona_id
+    JOIN stati ON stati.id = persone_stati.stato_id AND stati.stato = 'SPO'
+    WHERE famiglie_persone.posizione_famiglia IN ('CAPO FAMIGLIA', 'MOGLIE')
+    AND famiglie_persone.persona_id IN (
+        SELECT persona_id FROM famiglie_persone
+        WHERE posizione_famiglia IN ('CAPO FAMIGLIA', 'MOGLIE')
+        GROUP BY persona_id
+        HAVING COUNT(*) = 1
+    )
+    AND EXISTS (
+        SELECT 1 FROM famiglie_persone moglie
+        WHERE moglie.famiglia_id = famiglie_persone.famiglia_id AND moglie.posizione_famiglia = 'MOGLIE'
+    )
+    GROUP BY famiglie_persone.famiglia_id
+) sposati ON sposati.famiglia_id = famiglie.id
+SET famiglie.data_creazione = sposati.data_matrimonio;
+
 -- Reopen the stati closed only because a celibe/nubile/sposato/vedovo stato was assigned after them.
 UPDATE persone_stati kept
 JOIN stati kept_stato ON kept_stato.id = kept.stato_id AND kept_stato.stato IN ('SAC', 'MAV', 'MAM', 'MAN', 'SEP')
