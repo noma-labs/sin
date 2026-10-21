@@ -9,8 +9,9 @@ use App\Nomadelfia\Exceptions\StatoDoesNotExists;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * A stato of a person that cannot be derived from the famiglia: sacerdote, mamma di vocazione, nomadelfa mamma, mamma nubile, separato.
- * The stato civile (celibe, nubile, sposato, vedovo) is derived by PersonaInNomadelfia::statoCivile().
+ * A stato of a person that cannot be derived from the famiglia: sacerdote, mamma di vocazione, nomadelfa mamma, mamma nubile, separato,
+ * and sposato or vedovo of a coniuge living outside Nomadelfia, who is not in the famiglia.
+ * Otherwise the stato civile (celibe, nubile, sposato, vedovo) is derived by PersonaInNomadelfia::statoCivile().
  *
  * @property string $stato
  * @property string $nome
@@ -27,6 +28,8 @@ final class Stato extends Model
         'nomadelfamamma' => 'MAM',
         'mammanubile' => 'MAN',
         'separato' => 'SEP',
+        'sposatoconiugeesterno' => 'SPO',
+        'vedovoconiugeesterno' => 'VED',
     ];
 
     protected $connection = 'db_nomadelfia';

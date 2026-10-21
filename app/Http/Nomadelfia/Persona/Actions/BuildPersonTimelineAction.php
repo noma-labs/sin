@@ -152,6 +152,8 @@ final class BuildPersonTimelineAction
                     'MAV' => 'Diventa mamma di vocazione',
                     'MAM' => 'Diventa nomadelfa mamma',
                     'SEP' => $persona->isMaschio() ? 'Si separa dalla moglie' : 'Si separa dal marito',
+                    'SPO' => $persona->isMaschio() ? 'Si sposa, la moglie vive fuori Nomadelfia' : 'Si sposa, il marito vive fuori Nomadelfia',
+                    'VED' => $persona->isMaschio() ? 'Rimane vedovo' : 'Rimane vedova',
                     default => Str::ucfirst(mb_strtolower($stato->nome)),
                 },
                 importante: in_array($stato->stato, ['SAC', 'MAV'], true),

@@ -4,6 +4,7 @@
 INSERT INTO stati (stato, nome) VALUES
     ('CDE', 'Celibe di elezione'),
     ('CEL', 'Celibe'),
-    ('NUB', 'Nubile'),
-    ('SPO', 'SPOSATO/A'),
-    ('VED', 'VEDOVO/A');
+    ('NUB', 'Nubile');
+
+UPDATE stati SET nome = 'SPOSATO/A' WHERE stato = 'SPO';
+UPDATE stati SET nome = 'VEDOVO/A' WHERE stato = 'VED';

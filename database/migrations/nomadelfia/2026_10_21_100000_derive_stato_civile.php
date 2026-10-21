@@ -9,24 +9,12 @@ final class DeriveStatoCivile extends SqlMigration
 {
     /**
      * The checks that a stato sposato or vedovo can be derived from the famiglia (PersonaInNomadelfia::statoCivile()) before deleting it.
+     * A person whose coniuge is not in the famiglia (the coniuge lives outside Nomadelfia) keeps the stored stato, so is not checked.
      *
      * @var array<string, string>
      */
     private const array CONTROLLI = [
-        'è sposato/a, ma nella sua famiglia non risulta il coniuge (capofamiglia o moglie)' => "
-            SELECT DISTINCT persone.id, persone.nominativo
-            FROM persone_stati
-            JOIN stati ON stati.id = persone_stati.stato_id AND stati.stato = 'SPO'
-            JOIN persone ON persone.id = persone_stati.persona_id
-            WHERE persone_stati.stato = '1'
-            AND NOT EXISTS (
-                SELECT 1 FROM famiglie_persone
-                JOIN famiglie_persone coniuge ON coniuge.famiglia_id = famiglie_persone.famiglia_id
-                    AND coniuge.persona_id <> famiglie_persone.persona_id
-                    AND coniuge.posizione_famiglia IN ('CAPO FAMIGLIA', 'MOGLIE')
-                WHERE famiglie_persone.persona_id = persone.id AND famiglie_persone.posizione_famiglia IN ('CAPO FAMIGLIA', 'MOGLIE')
-            )",
-        'ha la data del matrimonio (stato sposato), ma non è capofamiglia o moglie di una sola famiglia con il coniuge: la data andrebbe persa' => "
+        'ha la data del matrimonio (stato sposato), ma è capofamiglia o moglie di più famiglie: la data andrebbe persa' => "
             SELECT DISTINCT persone.id, persone.nominativo
             FROM persone_stati
             JOIN stati ON stati.id = persone_stati.stato_id AND stati.stato = 'SPO'
@@ -35,7 +23,7 @@ final class DeriveStatoCivile extends SqlMigration
                 SELECT COUNT(*) FROM famiglie_persone
                 WHERE famiglie_persone.persona_id = persone.id AND famiglie_persone.posizione_famiglia IN ('CAPO FAMIGLIA', 'MOGLIE')
             ) <> 1
-            OR NOT EXISTS (
+            AND EXISTS (
                 SELECT 1 FROM famiglie_persone
                 JOIN famiglie_persone coniuge ON coniuge.famiglia_id = famiglie_persone.famiglia_id
                     AND coniuge.persona_id <> famiglie_persone.persona_id
@@ -62,12 +50,12 @@ final class DeriveStatoCivile extends SqlMigration
             JOIN stati ON stati.id = persone_stati.stato_id AND stati.stato = 'VED'
             JOIN persone ON persone.id = persone_stati.persona_id
             WHERE persone_stati.stato = '1'
-            AND NOT EXISTS (
+            AND EXISTS (
                 SELECT 1 FROM famiglie_persone
                 JOIN famiglie_persone coniuge ON coniuge.famiglia_id = famiglie_persone.famiglia_id
                     AND coniuge.persona_id <> famiglie_persone.persona_id
                     AND coniuge.posizione_famiglia IN ('CAPO FAMIGLIA', 'MOGLIE')
-                JOIN persone defunto ON defunto.id = coniuge.persona_id AND defunto.data_decesso IS NOT NULL
+                JOIN persone vivo ON vivo.id = coniuge.persona_id AND vivo.data_decesso IS NULL
                 WHERE famiglie_persone.persona_id = persone.id AND famiglie_persone.posizione_famiglia IN ('CAPO FAMIGLIA', 'MOGLIE')
             )",
     ];

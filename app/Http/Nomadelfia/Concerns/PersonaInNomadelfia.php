@@ -181,7 +181,8 @@ trait PersonaInNomadelfia
 
     /**
      * The stato civile of the person, derived instead of stored:
-     * separato (stato SEP), vedovo (the coniuge is deceased), sposato (from the creation of the famiglia), otherwise celibe or nubile.
+     * separato (stato SEP), vedovo (the coniuge is deceased), sposato (from the creation of the famiglia),
+     * vedovo or sposato with a coniuge outside Nomadelfia (stato VED or SPO, as the coniuge is not in the famiglia), otherwise celibe or nubile.
      *
      * @return array{nome: string, dal: Carbon}
      */
@@ -200,6 +201,18 @@ trait PersonaInNomadelfia
         }
         if ($coniuge) {
             return ['nome' => $maschio ? 'Sposato' : 'Sposata', 'dal' => \Illuminate\Support\Facades\Date::parse($famiglia->data_creazione)];
+        }
+
+        $statiConiugeEsterno = $this->statiAttivi()
+            ->whereIn('stati.stato', [Stato::$mapNamesToDB['vedovoconiugeesterno'], Stato::$mapNamesToDB['sposatoconiugeesterno']])
+            ->pluck('persone_stati.data_inizio', 'stati.stato');
+        $vedovanza = $statiConiugeEsterno[Stato::$mapNamesToDB['vedovoconiugeesterno']] ?? null;
+        if (is_string($vedovanza)) {
+            return ['nome' => $maschio ? 'Vedovo' : 'Vedova', 'dal' => \Illuminate\Support\Facades\Date::parse($vedovanza)];
+        }
+        $matrimonio = $statiConiugeEsterno[Stato::$mapNamesToDB['sposatoconiugeesterno']] ?? null;
+        if (is_string($matrimonio)) {
+            return ['nome' => $maschio ? 'Sposato' : 'Sposata', 'dal' => \Illuminate\Support\Facades\Date::parse($matrimonio)];
         }
 
         return ['nome' => $maschio ? 'Celibe' : 'Nubile', 'dal' => \Illuminate\Support\Facades\Date::parse($this->data_nascita)];

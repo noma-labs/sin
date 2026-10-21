@@ -34,7 +34,6 @@ function assegnaStatoEliminato(Persona $persona, string $stato, string $dataIniz
 afterEach(function (): void {
     $stati = DB::connection('db_nomadelfia')->table('stati')->whereIn('stato', ['SPO', 'VED'])->pluck('id');
     DB::connection('db_nomadelfia')->table('persone_stati')->whereIn('stato_id', $stati)->delete();
-    DB::connection('db_nomadelfia')->table('stati')->whereIn('id', $stati)->delete();
 });
 
 it('copies the date of the stato sposato into the famiglia, keeping the other stati untouched', function (): void {
@@ -71,15 +70,28 @@ it('copies the date of the stato sposato of a vedova heading the famiglia next t
         ->and($vedova->statoCivile()['nome'])->toBe('Vedova');
 });
 
-it('refuses to run when the coniuge of a sposato is not in the famiglia', function (): void {
-    $marito = Persona::factory()->maggiorenne()->maschio()->create(['nominativo' => 'Marito Senza Moglie']);
-    Famiglia::factory()->create()->assegnaCapoFamiglia($marito);
-    assegnaStatoEliminato($marito, 'SPO', '1998-06-12');
+it('keeps the stato sposato of a person whose coniuge lives outside Nomadelfia', function (): void {
+    $moglie = Persona::factory()->maggiorenne()->femmina()->create();
+    Famiglia::factory()->create()->assegnaCapoFamiglia($moglie);
+    assegnaStatoEliminato($moglie, 'SPO', '1998-06-12');
 
-    expect(fn () => migrazioneStatoCivile()->up())
-        ->toThrow(RuntimeException::class, "Marito Senza Moglie (id {$marito->id}): è sposato/a, ma nella sua famiglia non risulta il coniuge");
+    migrazioneStatoCivile()->up();
 
-    expect($marito->stati()->count())->toBe(1);
+    expect($moglie->statiAttivi()->count())->toBe(1)
+        ->and($moglie->statoCivile()['nome'])->toBe('Sposata')
+        ->and($moglie->statoCivile()['dal']->toDateString())->toBe('1998-06-12');
+});
+
+it('keeps the stato vedovo of a person whose coniuge was never in Nomadelfia', function (): void {
+    $vedovo = Persona::factory()->maggiorenne()->maschio()->create();
+    assegnaStatoEliminato($vedovo, 'SPO', '1970-05-01', '0');
+    assegnaStatoEliminato($vedovo, 'VED', '2010-01-01');
+
+    migrazioneStatoCivile()->up();
+
+    expect($vedovo->stati()->count())->toBe(2)
+        ->and($vedovo->statoCivile()['nome'])->toBe('Vedovo')
+        ->and($vedovo->statoCivile()['dal']->toDateString())->toBe('2010-01-01');
 });
 
 it('refuses to run when the spouses have different dates of the stato sposato', function (): void {

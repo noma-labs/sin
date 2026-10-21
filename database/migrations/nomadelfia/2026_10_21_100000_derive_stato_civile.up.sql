@@ -1,7 +1,8 @@
 -- Run the migrations
 
 -- The stato civile (celibe, nubile, sposato, vedovo) is derived from the sesso, the famiglia and the death of the coniuge.
--- persone_stati keeps only the stati that cannot be derived: SAC, MAV, MAM, MAN, SEP.
+-- persone_stati keeps only the stati that cannot be derived: SAC, MAV, MAM, MAN, SEP,
+-- and SPO, VED of the people whose coniuge lives outside Nomadelfia, so is not in their famiglia.
 
 -- The date of the stato sposato becomes the marriage date of the famiglia (the earliest one if the spouses have different dates).
 -- Only famiglie with both spouses (a vedova heading the famiglia is capofamiglia next to the deceased husband),
@@ -30,9 +31,23 @@ JOIN (
 SET famiglie.data_creazione = sposati.data_matrimonio;
 
 -- The SAC, MAV, MAM, MAN and SEP rows are not touched, the closed ones included: they stay as history with their dates.
+-- The SPO and VED rows are kept when the coniuge is not in the famiglia of the person: it cannot be derived.
 -- The class DeriveStatoCivile refuses to run this file if a stato sposato or vedovo cannot be derived from the famiglia.
 DELETE persone_stati FROM persone_stati
 JOIN stati ON stati.id = persone_stati.stato_id
-WHERE stati.stato IN ('CEL', 'NUB', 'SPO', 'VED', 'CDE');
+WHERE stati.stato IN ('CEL', 'NUB', 'CDE')
+OR (
+    stati.stato IN ('SPO', 'VED')
+    AND EXISTS (
+        SELECT 1 FROM famiglie_persone
+        JOIN famiglie_persone coniuge ON coniuge.famiglia_id = famiglie_persone.famiglia_id
+            AND coniuge.persona_id <> famiglie_persone.persona_id
+            AND coniuge.posizione_famiglia IN ('CAPO FAMIGLIA', 'MOGLIE')
+        WHERE famiglie_persone.persona_id = persone_stati.persona_id AND famiglie_persone.posizione_famiglia IN ('CAPO FAMIGLIA', 'MOGLIE')
+    )
+);
 
-DELETE FROM stati WHERE stato IN ('CEL', 'NUB', 'SPO', 'VED', 'CDE');
+DELETE FROM stati WHERE stato IN ('CEL', 'NUB', 'CDE');
+
+UPDATE stati SET nome = 'Sposato/a, coniuge fuori Nomadelfia' WHERE stato = 'SPO';
+UPDATE stati SET nome = 'Vedovo/a, coniuge fuori Nomadelfia' WHERE stato = 'VED';
