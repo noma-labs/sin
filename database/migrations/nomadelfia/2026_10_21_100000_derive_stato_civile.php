@@ -9,7 +9,8 @@ use SqlMigrations\SqlMigration;
 final class DeriveStatoCivile extends SqlMigration
 {
     /**
-     * The checks that a stato sposato or vedovo can be derived from the famiglia (PersonaInNomadelfia::statoCivile()) before deleting it.
+     * The checks that a stato sposato can be derived from the famiglia (PersonaInNomadelfia::statoCivile()) before deleting it.
+     * TODO: when the stato vedovo gets deleted too, check that the coniuge of a vedovo/a is deceased.
      *
      * @var array<string, string>
      */
@@ -27,20 +28,6 @@ final class DeriveStatoCivile extends SqlMigration
                 WHERE coniugi.posizione_famiglia IN ('CAPO FAMIGLIA', 'MOGLIE')
                 GROUP BY coniugi.famiglia_id
                 HAVING COUNT(DISTINCT persone_stati.data_inizio) > 1
-            )",
-        'è vedovo/a, ma nella sua famiglia il coniuge non risulta deceduto' => "
-            SELECT DISTINCT persone.id, persone.nominativo
-            FROM persone_stati
-            JOIN stati ON stati.id = persone_stati.stato_id AND stati.stato = 'VED'
-            JOIN persone ON persone.id = persone_stati.persona_id
-            WHERE persone_stati.stato = '1'
-            AND NOT EXISTS (
-                SELECT 1 FROM famiglie_persone
-                JOIN famiglie_persone coniuge ON coniuge.famiglia_id = famiglie_persone.famiglia_id
-                    AND coniuge.persona_id <> famiglie_persone.persona_id
-                    AND coniuge.posizione_famiglia IN ('CAPO FAMIGLIA', 'MOGLIE')
-                JOIN persone defunto ON defunto.id = coniuge.persona_id AND defunto.data_decesso IS NOT NULL
-                WHERE famiglie_persone.persona_id = persone.id AND famiglie_persone.posizione_famiglia IN ('CAPO FAMIGLIA', 'MOGLIE')
             )",
     ];
 
@@ -62,7 +49,7 @@ final class DeriveStatoCivile extends SqlMigration
     public $connection = 'db_nomadelfia';
 
     /**
-     * Refuses to delete the stati sposato and vedovo when any of them contradicts the famiglia: those people must be fixed by hand before migrating.
+     * Refuses to delete the stati sposato when any of them contradicts the famiglia: those people must be fixed by hand before migrating.
      * A stato sposato of a capofamiglia alone (the coniuge is not in the famiglia) still gives its date to the famiglia.
      * A stato sposato that is not in exactly one famiglia is deleted anyway, and its date is logged because it is lost.
      *
@@ -85,7 +72,7 @@ final class DeriveStatoCivile extends SqlMigration
     }
 
     /**
-     * @return list<string> one line per person whose stato sposato or vedovo contradicts the famiglia
+     * @return list<string> one line per person whose stato sposato contradicts the famiglia
      */
     public function statiNonDerivabili(): array
     {
