@@ -9,6 +9,7 @@ use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 use DeriveStatoCivile;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use RuntimeException;
 
 /**
@@ -71,15 +72,19 @@ it('copies the date of the stato sposato of a vedova heading the famiglia next t
         ->and($vedova->statoCivile()['nome'])->toBe('Vedova');
 });
 
-it('refuses to run when the coniuge of a sposato is not in the famiglia', function (): void {
+it('deletes the stato sposato and logs its date when the coniuge is not in the famiglia', function (): void {
+    Log::spy();
     $marito = Persona::factory()->maggiorenne()->maschio()->create(['nominativo' => 'Marito Senza Moglie']);
-    Famiglia::factory()->create()->assegnaCapoFamiglia($marito);
+    $famiglia = Famiglia::factory()->create(['data_creazione' => '2000-01-01']);
+    $famiglia->assegnaCapoFamiglia($marito);
     assegnaStatoEliminato($marito, 'SPO', '1998-06-12');
 
-    expect(fn () => migrazioneStatoCivile()->up())
-        ->toThrow(RuntimeException::class, "Marito Senza Moglie (id {$marito->id}): è sposato/a, ma nella sua famiglia non risulta il coniuge");
+    migrazioneStatoCivile()->up();
 
-    expect($marito->stati()->count())->toBe(1);
+    expect($marito->stati()->count())->toBe(0)
+        ->and(Famiglia::findOrFail($famiglia->id)->data_creazione)->toBe('2000-01-01');
+    Log::shouldHaveReceived('warning')->once()
+        ->withArgs(fn (string $messaggio): bool => str_contains($messaggio, "Marito Senza Moglie (id {$marito->id}): sposato/a dal 1998-06-12"));
 });
 
 it('refuses to run when the spouses have different dates of the stato sposato', function (): void {
