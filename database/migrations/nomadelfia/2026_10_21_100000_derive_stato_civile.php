@@ -9,8 +9,8 @@ use SqlMigrations\SqlMigration;
 final class DeriveStatoCivile extends SqlMigration
 {
     /**
-     * The checks that a stato sposato can be derived from the famiglia (PersonaInNomadelfia::statoCivile()) before deleting it.
-     * TODO: when the stato vedovo gets deleted too, check that the coniuge of a vedovo/a is deceased.
+     * The checks that the date of a stato sposato can be copied into the famiglia without choosing between different dates.
+     * TODO: when the stati sposato and vedovo get deleted, check that the coniuge of a vedovo/a is deceased.
      *
      * @var array<string, string>
      */
@@ -49,9 +49,9 @@ final class DeriveStatoCivile extends SqlMigration
     public $connection = 'db_nomadelfia';
 
     /**
-     * Refuses to delete the stati sposato when any of them contradicts the famiglia: those people must be fixed by hand before migrating.
+     * Refuses to copy the dates of the stati sposato when any of them contradicts the famiglia: those people must be fixed by hand before migrating.
      * A stato sposato of a capofamiglia alone (the coniuge is not in the famiglia) still gives its date to the famiglia.
-     * A stato sposato that is not in exactly one famiglia is deleted anyway, and its date is logged because it is lost.
+     * A stato sposato that is not in exactly one famiglia gives its date to no famiglia, and it is logged to be fixed by hand.
      *
      * @throws RuntimeException listing the people to fix; nothing is changed
      */
@@ -67,7 +67,7 @@ final class DeriveStatoCivile extends SqlMigration
         parent::up();
 
         if ($sposatiSenzaFamiglia !== []) {
-            Log::warning("Stato sposato eliminato senza copiarne la data, perché la persona non è capofamiglia o moglie di una sola famiglia:\n".implode("\n", $sposatiSenzaFamiglia));
+            Log::warning("Data dello stato sposato non copiata nella famiglia, perché la persona non è capofamiglia o moglie di una sola famiglia:\n".implode("\n", $sposatiSenzaFamiglia));
         }
     }
 
@@ -87,7 +87,7 @@ final class DeriveStatoCivile extends SqlMigration
     }
 
     /**
-     * @return list<string> one line per stato sposato whose date is lost, with the person and the date
+     * @return list<string> one line per stato sposato whose date is not copied, with the person and the date
      */
     public function sposatiSenzaFamiglia(): array
     {

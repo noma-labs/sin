@@ -1,7 +1,8 @@
 -- Run the migrations
 
 -- The stato civile (celibe, nubile, sposato, vedovo) is derived from the sesso, the famiglia and the death of the coniuge.
--- persone_stati keeps only the stati that cannot be derived: SAC, MAV, MAM, MAN, SEP.
+-- TODO: delete the CEL, NUB, SPO, VED and CDE rows from persone_stati and from stati, once the marriage dates copied
+-- into the famiglie are checked: persone_stati will keep only the stati that cannot be derived (SAC, MAV, MAM, MAN, SEP).
 
 -- The date of the stato sposato becomes the marriage date of the famiglia (the earliest one if the spouses have different dates),
 -- only where the famiglia has a different date.
@@ -24,12 +25,3 @@ JOIN (
 ) sposati ON sposati.famiglia_id = famiglie.id
 SET famiglie.data_creazione = sposati.data_matrimonio
 WHERE famiglie.data_creazione <> sposati.data_matrimonio;
-
--- The SAC, MAV, MAM, MAN and SEP rows are not touched, the closed ones included: they stay as history with their dates.
--- The class DeriveStatoCivile refuses to run this file if a stato sposato contradicts the famiglia.
--- TODO: delete also the CEL, NUB, VED and CDE rows from persone_stati and from stati.
-DELETE persone_stati FROM persone_stati
-JOIN stati ON stati.id = persone_stati.stato_id
-WHERE stati.stato = 'SPO';
-
-DELETE FROM stati WHERE stato = 'SPO';
