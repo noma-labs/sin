@@ -9,10 +9,10 @@ namespace App\Anagrafe\Famiglia\Models;
  */
 enum TipoFamiglia: string
 {
-    case Coniugi = 'CONIUGI';
-    case MammaDiVocazione = 'MAMMA DI VOCAZIONE';
-    case NomadelfaMamma = 'NOMADELFA MAMMA';
-    case MammaNubile = 'MAMMA NUBILE';
+    case Coniugi = 'CON';
+    case MammaDiVocazione = 'MAV';
+    case NomadelfaMamma = 'MAM';
+    case MammaNubile = 'MAN';
 
     public function nome(): string
     {
