@@ -112,14 +112,15 @@ it('refuses to run when the spouses have different dates of the stato sposato', 
         ->toThrow(RuntimeException::class, 'Marito Data Diversa (id '.$marito->id.'): i coniugi hanno date diverse dello stato sposato');
 });
 
-it('refuses to run when the coniuge of a vedova is not deceased', function (): void {
+it('keeps the stato vedovo even when the coniuge is not deceased', function (): void {
     $marito = Persona::factory()->maggiorenne()->maschio()->create();
-    $moglie = Persona::factory()->maggiorenne()->femmina()->create(['nominativo' => 'Vedova Con Marito Vivo']);
+    $moglie = Persona::factory()->maggiorenne()->femmina()->create();
     $famiglia = Famiglia::factory()->create();
     $famiglia->assegnaCapoFamiglia($marito);
     $famiglia->assegnaMoglie($moglie);
     assegnaStatoEliminato($moglie, 'VED', '2010-01-01');
 
-    expect(fn () => migrazioneStatoCivile()->up())
-        ->toThrow(RuntimeException::class, 'Vedova Con Marito Vivo (id '.$moglie->id.'): è vedovo/a, ma nella sua famiglia il coniuge non risulta deceduto');
+    migrazioneStatoCivile()->up();
+
+    expect($moglie->stati()->count())->toBe(1);
 });

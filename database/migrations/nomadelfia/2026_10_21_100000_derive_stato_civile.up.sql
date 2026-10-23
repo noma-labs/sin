@@ -26,7 +26,7 @@ SET famiglie.data_creazione = sposati.data_matrimonio
 WHERE famiglie.data_creazione <> sposati.data_matrimonio;
 
 -- The SAC, MAV, MAM, MAN and SEP rows are not touched, the closed ones included: they stay as history with their dates.
--- The class DeriveStatoCivile refuses to run this file if a stato sposato or vedovo contradicts the famiglia.
+-- The class DeriveStatoCivile refuses to run this file if a stato sposato contradicts the famiglia.
 -- TODO: delete also the CEL, NUB, VED and CDE rows from persone_stati and from stati.
 DELETE persone_stati FROM persone_stati
 JOIN stati ON stati.id = persone_stati.stato_id
