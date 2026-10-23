@@ -21,6 +21,7 @@ final class PersonaStatoController
             'persona' => $persona,
             'statoCivile' => $persona->statoCivile(),
             'matrimonio' => $persona->matrimonioAttuale(),
+            'mammaSenzaMarito' => $persona->mammaSenzaMarito(),
             'stati' => $persona->stati()->orderByPivot('stato', 'desc')->orderByPivot('data_inizio')->get(),
         ]);
     }
@@ -33,7 +34,7 @@ final class PersonaStatoController
             'data_inizio' => ['required', 'date'],
         ], [
             'stato_id.required' => 'Lo stato è obbligatorio',
-            'stato_id.exists' => 'Lo stato non esiste. Celibe, nubile, sposato e vedovo derivano dalla famiglia.',
+            'stato_id.exists' => 'Lo stato non esiste. Celibe, nubile, sposato, vedovo, mamma di vocazione e mamma nubile derivano dalla famiglia.',
             'data_inizio.required' => 'La data iniziale dello stato è obbligatoria.',
         ]);
         $persona = Persona::findOrFail($idPersona);

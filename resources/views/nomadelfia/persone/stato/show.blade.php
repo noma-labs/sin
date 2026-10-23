@@ -22,9 +22,19 @@
               @endif
             </div>
           </div>
+          @if ($mammaSenzaMarito)
+            <div class="row">
+              <p class="col-md-4">{{ $mammaSenzaMarito["nome"] }}</p>
+              <p class="col-md-4">
+                dal {{ $mammaSenzaMarito["dal"]->translatedFormat("j M Y") }}
+              </p>
+            </div>
+          @endif
+
           <small class="text-muted">
-            Celibe, nubile, sposato e vedovo derivano dalla famiglia: per
-            cambiarli modifica il matrimonio o la famiglia.
+            Celibe, nubile, sposato, vedovo, mamma di vocazione e mamma nubile
+            derivano dalla famiglia: per cambiarli modifica il matrimonio o la
+            famiglia.
           </small>
         </div>
       </div>

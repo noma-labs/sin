@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\PopolazioneNomadelfia\Models;
 
+use App\Anagrafe\Famiglia\Models\TipoFamiglia;
 use App\Nomadelfia\PopolazioneNomadelfia\QueryBuilders\PopolazioneQueryBuilder;
 use Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -165,9 +166,24 @@ final class PopolazioneNomadelfia extends Model
         return self::byStati('SAC');
     }
 
+    /**
+     * The mamme di vocazione in Nomadelfia: the capofamiglia of a famiglia of tipo mamma di vocazione, since the creation of the famiglia.
+     */
     public static function mammeVocazione()
     {
-        return self::byStati('MAV');
+        return DB::connection('db_nomadelfia')
+            ->table('persone')
+            ->selectRaw('persone.*, famiglie.data_creazione AS data_inizio')
+            ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
+            ->join('famiglie_persone', 'famiglie_persone.persona_id', '=', 'persone.id')
+            ->join('famiglie', 'famiglie.id', '=', 'famiglie_persone.famiglia_id')
+            ->whereNull('popolazione.data_uscita')
+            ->where('famiglie_persone.posizione_famiglia', 'CAPO FAMIGLIA')
+            ->where('famiglie_persone.stato', '1')
+            ->where('famiglie.tipo', TipoFamiglia::MammaDiVocazione->value)
+            ->whereNull('persone.deleted_at')
+            ->orderBy('persone.nominativo')
+            ->get();
     }
 
     public static function nomadelfaMamma()

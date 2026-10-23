@@ -21,16 +21,16 @@ it('can render the stato index page of a person', function (): void {
 it('adds a stato to a person keeping the other active stati', function (): void {
     login();
     $persona = Persona::factory()->maggiorenne()->femmina()->create();
-    $mammaVocazione = Stato::perNome('mammavocazione');
+    $nomadelfaMamma = Stato::perNome('nomadelfamamma');
     $separata = Stato::perNome('separato');
-    $persona->assegnaStato($mammaVocazione, '1980-03-12');
+    $persona->assegnaStato($nomadelfaMamma, '1980-03-12');
 
     $this->post(action([PersonaStatoController::class, 'store'], $persona->id), [
         'stato_id' => $separata->id,
         'data_inizio' => '1990-01-01',
     ])->assertRedirect(route('nomadelfia.persone.stato', $persona->id));
 
-    expect($persona->statiAttivi()->pluck('stati.stato')->all())->toBe(['MAV', 'SEP']);
+    expect($persona->statiAttivi()->pluck('stati.stato')->all())->toBe(['MAM', 'SEP']);
 });
 
 it('refuses a stato the person already has active', function (): void {
@@ -54,7 +54,7 @@ it('refuses a stato that does not exist', function (): void {
     $this->post(action([PersonaStatoController::class, 'store'], $persona->id), [
         'stato_id' => 999999,
         'data_inizio' => '1990-01-01',
-    ])->assertSessionHasErrors(['stato_id' => 'Lo stato non esiste. Celibe, nubile, sposato e vedovo derivano dalla famiglia.']);
+    ])->assertSessionHasErrors(['stato_id' => 'Lo stato non esiste. Celibe, nubile, sposato, vedovo, mamma di vocazione e mamma nubile derivano dalla famiglia.']);
 
     expect($persona->stati()->count())->toBe(0);
 });

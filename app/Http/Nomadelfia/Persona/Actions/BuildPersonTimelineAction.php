@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\Persona\Actions;
 
+use App\Anagrafe\Famiglia\Models\TipoFamiglia;
 use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\Persona\DataTransferObjects\TimelineEvent;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
@@ -75,7 +76,6 @@ final class BuildPersonTimelineAction
             $posizionePrecedente = $posizione->nome;
         }
 
-        $famiglieSenzaConiuge = collect();
         foreach ($persona->famiglie()->wherePivotIn('posizione_famiglia', ['CAPO FAMIGLIA', 'MOGLIE'])->get() as $famiglia) {
             if ($famiglia->data_creazione) {
                 $creazione = Date::parse($famiglia->data_creazione);
@@ -106,9 +106,24 @@ final class BuildPersonTimelineAction
                             $coniuge,
                         ));
                     }
+                } elseif ($famiglia->tipo === TipoFamiglia::Coniugi) {
+                    // the coniuge is not in the famiglia, e.g. lives outside Nomadelfia
+                    $eventi->push($evento(
+                        $creazione,
+                        TimelineEvent::CATEGORIA_FAMIGLIA,
+                        'Famiglia',
+                        'Si sposa',
+                        'Nasce la famiglia '.$famiglia->nome_famiglia,
+                        importante: true,
+                    ));
                 } else {
-                    // a capofamiglia without coniuge, like a mamma di vocazione with her figli accolti
-                    $famiglieSenzaConiuge->push(['data' => $creazione, 'famiglia' => $famiglia]);
+                    $eventi->push($evento(
+                        $creazione,
+                        TimelineEvent::CATEGORIA_FAMIGLIA,
+                        'Famiglia',
+                        'Diventa '.mb_strtolower($famiglia->tipo->nome()),
+                        importante: $famiglia->tipo === TipoFamiglia::MammaDiVocazione,
+                    ));
                 }
             }
 
@@ -139,29 +154,19 @@ final class BuildPersonTimelineAction
             }
         }
 
-        $dateStati = collect();
         foreach ($persona->stati()->orderByPivot('data_inizio')->toBase()->get(['stati.stato', 'stati.nome', 'persone_stati.data_inizio']) as $stato) {
-            $inizio = Date::parse($stato->data_inizio);
-            $dateStati->push($inizio);
             $eventi->push($evento(
-                $inizio,
+                Date::parse($stato->data_inizio),
                 TimelineEvent::CATEGORIA_FAMIGLIA,
                 'Stato',
                 match ($stato->stato) {
                     'SAC' => 'Ordinato sacerdote',
-                    'MAV' => 'Diventa mamma di vocazione',
                     'MAM' => 'Diventa nomadelfa mamma',
                     'SEP' => $persona->isMaschio() ? 'Si separa dalla moglie' : 'Si separa dal marito',
                     default => Str::ucfirst(mb_strtolower($stato->nome)),
                 },
-                importante: in_array($stato->stato, ['SAC', 'MAV'], true),
+                importante: $stato->stato === 'SAC',
             ));
-        }
-
-        foreach ($famiglieSenzaConiuge as ['data' => $creazione, 'famiglia' => $famiglia]) {
-            if ($dateStati->doesntContain(fn (Carbon $data): bool => $data->isSameDay($creazione))) {
-                $eventi->push($evento($creazione, TimelineEvent::CATEGORIA_FAMIGLIA, 'Famiglia', 'Nasce la famiglia '.$famiglia->nome_famiglia));
-            }
         }
 
         if ($decesso) {

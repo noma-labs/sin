@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Nomadelfia\Concerns;
 
 use App\Anagrafe\Famiglia\Models\Famiglia;
+use App\Anagrafe\Famiglia\Models\TipoFamiglia;
 use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\Azienda\Models\Azienda;
 use App\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
@@ -171,17 +172,33 @@ trait PersonaInNomadelfia
 
     /**
      * The famiglia born from the marriage of the person, or null if the person is not married.
+     * A famiglia of tipo coniugi is a marriage also when the coniuge is not in the famiglia (e.g. lives outside Nomadelfia).
      */
     public function matrimonioAttuale(): ?Famiglia
     {
         $famiglia = $this->famigliaDaCapofamigliaOMoglie();
 
-        return $famiglia && $this->coniugeNellaFamiglia($famiglia) ? $famiglia : null;
+        return $famiglia?->tipo === TipoFamiglia::Coniugi ? $famiglia : null;
+    }
+
+    /**
+     * The mamma di vocazione or mamma nubile heading her own famiglia, derived from the tipo of the famiglia, since its creation.
+     *
+     * @return array{nome: string, dal: Carbon}|null
+     */
+    public function mammaSenzaMarito(): ?array
+    {
+        $famiglia = $this->famigliaDaCapofamigliaOMoglie();
+        if ($famiglia === null || ! $famiglia->tipo->isMamma()) {
+            return null;
+        }
+
+        return ['nome' => $famiglia->tipo->nome(), 'dal' => \Illuminate\Support\Facades\Date::parse($famiglia->data_creazione)];
     }
 
     /**
      * The stato civile of the person, derived instead of stored:
-     * separato (stato SEP), vedovo (the coniuge is deceased), sposato (from the creation of the famiglia), otherwise celibe or nubile.
+     * separato (stato SEP), vedovo (the coniuge is deceased), sposato (from the creation of a famiglia of tipo coniugi), otherwise celibe or nubile.
      *
      * @return array{nome: string, dal: Carbon}
      */
@@ -198,7 +215,7 @@ trait PersonaInNomadelfia
         if ($coniuge?->data_decesso) {
             return ['nome' => $maschio ? 'Vedovo' : 'Vedova', 'dal' => \Illuminate\Support\Facades\Date::parse($coniuge->data_decesso)];
         }
-        if ($coniuge) {
+        if ($famiglia?->tipo === TipoFamiglia::Coniugi) {
             return ['nome' => $maschio ? 'Sposato' : 'Sposata', 'dal' => \Illuminate\Support\Facades\Date::parse($famiglia->data_creazione)];
         }
 

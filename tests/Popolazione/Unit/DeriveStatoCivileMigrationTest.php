@@ -46,7 +46,7 @@ it('copies the date of the stato sposato into the famiglia, keeping the other st
     $famiglia->assegnaMoglie($moglie);
     assegnaStatoEliminato($marito, 'SPO', '1998-06-12');
     assegnaStatoEliminato($moglie, 'SPO', '1998-06-12');
-    $moglie->stati()->attach(Stato::perNome('mammanubile')->id, ['stato' => '0', 'data_inizio' => '1995-01-01', 'data_fine' => '1998-06-12']);
+    $moglie->stati()->attach(Stato::perNome('nomadelfamamma')->id, ['stato' => '0', 'data_inizio' => '1995-01-01', 'data_fine' => '1998-06-12']);
 
     migrazioneStatoCivile()->up();
 

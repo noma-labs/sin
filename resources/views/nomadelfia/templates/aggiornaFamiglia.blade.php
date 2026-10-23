@@ -25,6 +25,21 @@
           />
         </div>
       </div>
+      <div class="row mb-3">
+        <label for="tipo" class="col-4 form-label">Tipo famiglia</label>
+        <div class="col-8">
+          <select class="form-select" name="tipo" id="tipo">
+            @foreach (App\Anagrafe\Famiglia\Models\TipoFamiglia::cases() as $tipo)
+              <option
+                value="{{ $tipo->value }}"
+                @selected($famiglia->tipo === $tipo)
+              >
+                {{ $tipo->nome() }}
+              </option>
+            @endforeach
+          </select>
+        </div>
+      </div>
       <div class="row">
         <label for="example-text-input" class="col-4 form-label">
           Data creazione famiglia:

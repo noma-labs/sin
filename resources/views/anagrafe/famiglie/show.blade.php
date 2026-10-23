@@ -11,6 +11,10 @@
             <span class="fw-bold"> {{ $famiglia->nome_famiglia }} </span>
           </p>
           <p class="card-text">
+            Tipo:
+            <span class="fw-bold"> {{ $famiglia->tipo->nome() }} </span>
+          </p>
+          <p class="card-text">
             Data creazione:
             <span class="fw-bold"> {{ $famiglia->data_creazione }} </span>
           </p>

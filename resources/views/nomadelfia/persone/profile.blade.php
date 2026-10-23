@@ -70,6 +70,12 @@
             @endif
 
             <span class="profile-chip">{{ $statoCivile["nome"] }}</span>
+            @if ($mammaSenzaMarito)
+              <span class="profile-chip">
+                {{ $mammaSenzaMarito["nome"] }}
+              </span>
+            @endif
+
             @foreach ($statiAttivi as $stato)
               <span class="profile-chip">
                 {{ Illuminate\Support\Str::ucfirst(mb_strtolower($stato->nome)) }}
@@ -398,6 +404,14 @@
                 <small>
                   dal {{ $statoCivile["dal"]->translatedFormat("j M Y") }}
                 </small>
+                @if ($mammaSenzaMarito)
+                  <br />
+                  {{ $mammaSenzaMarito["nome"] }}
+                  <small>
+                    dal {{ $mammaSenzaMarito["dal"]->translatedFormat("j M Y") }}
+                  </small>
+                @endif
+
                 @foreach ($statiAttivi as $stato)
                   <br />
                   {{ Illuminate\Support\Str::ucfirst(mb_strtolower($stato->nome)) }}
@@ -539,7 +553,7 @@
             <div class="profile-event-rail"></div>
             <div class="profile-event-card">
               <div class="fw-semibold">
-                {{ collect([$isPresente ? "Presente" : null, $posizioneAttuale?->nome, $statoCivile["nome"]])->merge($statiAttivi->map(fn ($stato) => Illuminate\Support\Str::ucfirst(mb_strtolower($stato->nome))))->filter()->implode(" · ") ?: "Nessuna situazione attuale" }}
+                {{ collect([$isPresente ? "Presente" : null, $posizioneAttuale?->nome, $statoCivile["nome"], $mammaSenzaMarito["nome"] ?? null])->merge($statiAttivi->map(fn ($stato) => Illuminate\Support\Str::ucfirst(mb_strtolower($stato->nome))))->filter()->implode(" · ") ?: "Nessuna situazione attuale" }}
               </div>
             </div>
           </li>

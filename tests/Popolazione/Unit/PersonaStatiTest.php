@@ -21,7 +21,7 @@ it('keeps a sacerdote celibe: the stato civile is derived, not replaced by the s
 
 it('refuses to assign twice the same active stato', function (): void {
     $persona = Persona::factory()->maggiorenne()->femmina()->create();
-    $persona->assegnaStato(Stato::perNome('mammavocazione'), '1980-06-29');
+    $persona->assegnaStato(Stato::perNome('nomadelfamamma'), '1980-06-29');
 
-    $persona->assegnaStato(Stato::perNome('mammavocazione'), '1990-01-01');
-})->throws(Exception::class, 'ha già lo stato MAMMA DI VOCAZIONE');
+    $persona->assegnaStato(Stato::perNome('nomadelfamamma'), '1990-01-01');
+})->throws(Exception::class, 'ha già lo stato NOMADELFA MAMMA');

@@ -347,3 +347,21 @@ it('get the people present at a specific date', function (): void {
     $after = PopolazioneNomadelfia::presentAt($now)->count();
     expect($after - $before)->toBe(2);
 });
+
+it('lists the mamme di vocazione in Nomadelfia from the tipo of the famiglia they head', function (): void {
+    $gruppo = GruppoFamiliare::all()->random();
+    $mamma = Persona::factory()->maggiorenne()->femmina()->create();
+    app(EntrataMaggiorenneSingleAction::class)->execute($mamma, Carbon::now(), $gruppo);
+    Famiglia::factory()->mammaDiVocazione()->create(['data_creazione' => '1985-09-08'])->assegnaCapoFamiglia($mamma);
+    $sposata = Persona::factory()->maggiorenne()->femmina()->create();
+    app(EntrataMaggiorenneSingleAction::class)->execute($sposata, Carbon::now(), $gruppo);
+    Famiglia::factory()->create()->assegnaCapoFamiglia($sposata);
+    $uscita = Persona::factory()->maggiorenne()->femmina()->create();
+    Famiglia::factory()->mammaDiVocazione()->create()->assegnaCapoFamiglia($uscita);
+
+    $mamme = PopolazioneNomadelfia::mammeVocazione();
+
+    expect($mamme->firstWhere('id', $mamma->id)?->data_inizio)->toBe('1985-09-08')
+        ->and($mamme->pluck('id'))->not->toContain($sposata->id)
+        ->and($mamme->pluck('id'))->not->toContain($uscita->id);
+});

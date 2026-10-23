@@ -20,6 +20,7 @@ use InvalidArgumentException;
 /**
  * @property int $id.
  * @property string $nome_famiglia.
+ * @property TipoFamiglia $tipo.
  * @property string $data_creazione.
  */
 final class Famiglia extends Model
@@ -35,6 +36,10 @@ final class Famiglia extends Model
     protected $primaryKey = 'id';
 
     protected $guarded = [];
+
+    protected $attributes = [
+        'tipo' => 'CONIUGI',
+    ];
 
     protected $enumPosizione = [
         // TODO: replace CAPO FAMIGLIA with 'marito' and add a new column `capo_famiglia` to identify who is the head of the family
@@ -373,6 +378,13 @@ final class Famiglia extends Model
     protected static function newFactory()
     {
         return FamigliaFactory::new();
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'tipo' => TipoFamiglia::class,
+        ];
     }
 
     #[\Illuminate\Database\Eloquent\Attributes\Scope]
