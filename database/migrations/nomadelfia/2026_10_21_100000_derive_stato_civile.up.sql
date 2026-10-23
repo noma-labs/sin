@@ -5,8 +5,8 @@
 
 -- The date of the stato sposato becomes the marriage date of the famiglia (the earliest one if the spouses have different dates),
 -- only where the famiglia has a different date.
--- Only famiglie with both spouses (a vedova heading the famiglia is capofamiglia next to the deceased husband),
--- and only spouses who are capofamiglia or moglie of a single famiglia: the class DeriveStatoCivile logs the other ones.
+-- Also famiglie with the capofamiglia alone, whose coniuge is not in the famiglia (e.g. lives outside Nomadelfia).
+-- Only spouses who are capofamiglia or moglie of a single famiglia: the class DeriveStatoCivile logs the other ones.
 UPDATE famiglie
 JOIN (
     SELECT famiglie_persone.famiglia_id, MIN(persone_stati.data_inizio) AS data_matrimonio
@@ -19,12 +19,6 @@ JOIN (
         WHERE posizione_famiglia IN ('CAPO FAMIGLIA', 'MOGLIE')
         GROUP BY persona_id
         HAVING COUNT(*) = 1
-    )
-    AND EXISTS (
-        SELECT 1 FROM famiglie_persone coniuge
-        WHERE coniuge.famiglia_id = famiglie_persone.famiglia_id
-        AND coniuge.persona_id <> famiglie_persone.persona_id
-        AND coniuge.posizione_famiglia IN ('CAPO FAMIGLIA', 'MOGLIE')
     )
     GROUP BY famiglie_persone.famiglia_id
 ) sposati ON sposati.famiglia_id = famiglie.id

@@ -45,10 +45,10 @@ final class DeriveStatoCivile extends SqlMigration
     ];
 
     /**
-     * The people with a stato sposato whose date cannot be copied into a famiglia, because they are not capofamiglia or moglie
-     * of a single famiglia with the coniuge (e.g. the coniuge lives outside Nomadelfia or is not in the anagrafe).
+     * The people with a stato sposato whose date cannot be copied into a famiglia,
+     * because they are not capofamiglia or moglie of exactly one famiglia.
      */
-    private const string SPOSATI_SENZA_CONIUGE = "
+    private const string SPOSATI_SENZA_FAMIGLIA = "
         SELECT DISTINCT persone.id, persone.nominativo, persone_stati.data_inizio
         FROM persone_stati
         JOIN stati ON stati.id = persone_stati.stato_id AND stati.stato = 'SPO'
@@ -57,20 +57,14 @@ final class DeriveStatoCivile extends SqlMigration
             SELECT COUNT(*) FROM famiglie_persone
             WHERE famiglie_persone.persona_id = persone.id AND famiglie_persone.posizione_famiglia IN ('CAPO FAMIGLIA', 'MOGLIE')
         ) <> 1
-        OR NOT EXISTS (
-            SELECT 1 FROM famiglie_persone
-            JOIN famiglie_persone coniuge ON coniuge.famiglia_id = famiglie_persone.famiglia_id
-                AND coniuge.persona_id <> famiglie_persone.persona_id
-                AND coniuge.posizione_famiglia IN ('CAPO FAMIGLIA', 'MOGLIE')
-            WHERE famiglie_persone.persona_id = persone.id AND famiglie_persone.posizione_famiglia IN ('CAPO FAMIGLIA', 'MOGLIE')
-        )
         ORDER BY persone.id";
 
     public $connection = 'db_nomadelfia';
 
     /**
      * Refuses to delete the stati sposato and vedovo when any of them contradicts the famiglia: those people must be fixed by hand before migrating.
-     * A stato sposato without the coniuge in the famiglia is deleted anyway, and its date is logged because it is lost.
+     * A stato sposato of a capofamiglia alone (the coniuge is not in the famiglia) still gives its date to the famiglia.
+     * A stato sposato that is not in exactly one famiglia is deleted anyway, and its date is logged because it is lost.
      *
      * @throws RuntimeException listing the people to fix; nothing is changed
      */
@@ -81,12 +75,12 @@ final class DeriveStatoCivile extends SqlMigration
             throw new RuntimeException("Migrazione interrotta, nessun dato è stato modificato. Correggi a mano queste persone e rilancia:\n".implode("\n", $problemi));
         }
 
-        $sposatiSenzaConiuge = $this->sposatiSenzaConiuge();
+        $sposatiSenzaFamiglia = $this->sposatiSenzaFamiglia();
 
         parent::up();
 
-        if ($sposatiSenzaConiuge !== []) {
-            Log::warning("Stato sposato eliminato senza copiarne la data nella famiglia, perché il coniuge non risulta nella famiglia:\n".implode("\n", $sposatiSenzaConiuge));
+        if ($sposatiSenzaFamiglia !== []) {
+            Log::warning("Stato sposato eliminato senza copiarne la data, perché la persona non è capofamiglia o moglie di una sola famiglia:\n".implode("\n", $sposatiSenzaFamiglia));
         }
     }
 
@@ -108,11 +102,11 @@ final class DeriveStatoCivile extends SqlMigration
     /**
      * @return list<string> one line per stato sposato whose date is lost, with the person and the date
      */
-    public function sposatiSenzaConiuge(): array
+    public function sposatiSenzaFamiglia(): array
     {
         return array_map(
             fn (object $persona): string => "- {$persona->nominativo} (id {$persona->id}): sposato/a dal {$persona->data_inizio}",
-            DB::connection($this->connection)->select(self::SPOSATI_SENZA_CONIUGE),
+            DB::connection($this->connection)->select(self::SPOSATI_SENZA_FAMIGLIA),
         );
     }
 }

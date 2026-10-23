@@ -72,19 +72,30 @@ it('copies the date of the stato sposato of a vedova heading the famiglia next t
         ->and($vedova->statoCivile()['nome'])->toBe('Vedova');
 });
 
-it('deletes the stato sposato and logs its date when the coniuge is not in the famiglia', function (): void {
+it('copies the date of the stato sposato into the famiglia of a capofamiglia whose coniuge is not in the famiglia', function (): void {
     Log::spy();
-    $marito = Persona::factory()->maggiorenne()->maschio()->create(['nominativo' => 'Marito Senza Moglie']);
-    $famiglia = Famiglia::factory()->create(['data_creazione' => '2000-01-01']);
-    $famiglia->assegnaCapoFamiglia($marito);
-    assegnaStatoEliminato($marito, 'SPO', '1998-06-12');
+    $capofamiglia = Persona::factory()->maggiorenne()->femmina()->create();
+    $famiglia = Famiglia::factory()->create(['data_creazione' => '2022-03-12']);
+    $famiglia->assegnaCapoFamiglia($capofamiglia);
+    assegnaStatoEliminato($capofamiglia, 'SPO', '1998-06-12');
 
     migrazioneStatoCivile()->up();
 
-    expect($marito->stati()->count())->toBe(0)
-        ->and(Famiglia::findOrFail($famiglia->id)->data_creazione)->toBe('2000-01-01');
+    expect(Famiglia::findOrFail($famiglia->id)->data_creazione)->toBe('1998-06-12')
+        ->and($capofamiglia->stati()->count())->toBe(0);
+    Log::shouldNotHaveReceived('warning');
+});
+
+it('deletes the stato sposato and logs its date when the sposato is in no famiglia', function (): void {
+    Log::spy();
+    $sposato = Persona::factory()->maggiorenne()->maschio()->create(['nominativo' => 'Sposato Senza Famiglia']);
+    assegnaStatoEliminato($sposato, 'SPO', '1998-06-12');
+
+    migrazioneStatoCivile()->up();
+
+    expect($sposato->stati()->count())->toBe(0);
     Log::shouldHaveReceived('warning')->once()
-        ->withArgs(fn (string $messaggio): bool => str_contains($messaggio, "Marito Senza Moglie (id {$marito->id}): sposato/a dal 1998-06-12"));
+        ->withArgs(fn (string $messaggio): bool => str_contains($messaggio, "Sposato Senza Famiglia (id {$sposato->id}): sposato/a dal 1998-06-12"));
 });
 
 it('refuses to run when the spouses have different dates of the stato sposato', function (): void {
