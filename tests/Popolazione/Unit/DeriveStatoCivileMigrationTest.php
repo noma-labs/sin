@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Log;
 use RuntimeException;
 
 /**
- * The migration already ran on the test database: these tests put back the stati sposato and vedovo it deletes, and run it again.
+ * The migration already ran on the test database: these tests put back the stato sposato it deletes, add the stato vedovo, and run it again.
  */
 function migrazioneStatoCivile(): DeriveStatoCivile
 {
@@ -46,14 +46,15 @@ it('copies the date of the stato sposato into the famiglia, keeping the other st
     $famiglia->assegnaMoglie($moglie);
     assegnaStatoEliminato($marito, 'SPO', '1998-06-12');
     assegnaStatoEliminato($moglie, 'SPO', '1998-06-12');
-    $moglie->stati()->attach(Stato::perNome('mammanubile')->id, ['stato' => '0', 'data_inizio' => '1995-01-01', 'data_fine' => '1998-06-12']);
+    $mammaNubile = Stato::perNome('mammanubile');
+    $moglie->stati()->attach($mammaNubile->id, ['stato' => '0', 'data_inizio' => '1995-01-01', 'data_fine' => '1998-06-12']);
 
     migrazioneStatoCivile()->up();
 
     expect(Famiglia::findOrFail($famiglia->id)->data_creazione)->toBe('1998-06-12')
         ->and($marito->stati()->count())->toBe(0)
-        ->and($moglie->statiAttivi()->count())->toBe(0)
-        ->and($moglie->stati()->first()->pivot->data_fine)->toBe('1998-06-12')
+        ->and($moglie->stati()->count())->toBe(1)
+        ->and($moglie->stati()->firstWhere('stati.id', $mammaNubile->id)->pivot->data_fine)->toBe('1998-06-12')
         ->and($moglie->statoCivile()['nome'])->toBe('Sposata');
 });
 
