@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Anagrafe\Famiglia\Actions;
 
 use App\Anagrafe\Famiglia\Models\Famiglia;
+use App\Anagrafe\Famiglia\Models\TipoFamiglia;
 use App\Anagrafe\Persona\Models\Persona;
 use Carbon\Carbon;
 use Exception;
@@ -15,7 +16,7 @@ final class CreateMarriageAction
     public function execute(Persona $husband, Persona $wife, Carbon $data_matrimonio)
     {
         // create a new family
-        $fam = Famiglia::create(['nome_famiglia' => $husband->nominativo, 'data_creazione' => $data_matrimonio]);
+        $fam = Famiglia::create(['nome_famiglia' => $husband->nominativo, 'tipo' => TipoFamiglia::Coniugi, 'data_creazione' => $data_matrimonio]);
 
         DB::connection('db_nomadelfia')->beginTransaction();
         try {

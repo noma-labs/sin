@@ -20,7 +20,8 @@ use InvalidArgumentException;
 /**
  * @property int $id.
  * @property string $nome_famiglia.
- * @property string $data_creazione.
+ * @property TipoFamiglia|null $tipo.
+ * @property string|null $data_creazione.
  */
 final class Famiglia extends Model
 {
@@ -373,6 +374,13 @@ final class Famiglia extends Model
     protected static function newFactory()
     {
         return FamigliaFactory::new();
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'tipo' => TipoFamiglia::class,
+        ];
     }
 
     #[\Illuminate\Database\Eloquent\Attributes\Scope]

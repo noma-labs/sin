@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Anagrafe\Famiglia\Controllers;
 
 use App\Anagrafe\Famiglia\Models\Famiglia;
+use App\Anagrafe\Famiglia\Models\TipoFamiglia;
 use App\Anagrafe\Persona\Models\Persona;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
+use Illuminate\Validation\Rule;
 
 #[Middleware('auth')]
 final class FamilyController
@@ -48,14 +50,16 @@ final class FamilyController
     {
         $request->validate([
             'nome_famiglia' => ['required'],
-            'data_creazione' => ['required', 'date'],
+            'tipo' => ['nullable', Rule::enum(TipoFamiglia::class)],
+            'data_creazione' => ['nullable', 'date'],
         ], [
             'nome_famiglia.required' => 'Il nome della fmaiglia è obbligatorio.',
-            'data_creazione.required' => 'La data di creazione della famiglia è obbligatoria.',
+            'tipo.enum' => 'Il tipo della famiglia non esiste.',
         ]);
         $famiglia = Famiglia::findorfail($id);
 
         $famiglia->nome_famiglia = $request->nome_famiglia;
+        $famiglia->tipo = $request->enum('tipo', TipoFamiglia::class);
         $famiglia->data_creazione = $request->data_creazione;
         $saved = $famiglia->save();
         if ($saved) {

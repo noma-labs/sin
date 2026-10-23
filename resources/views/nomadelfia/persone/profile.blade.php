@@ -395,9 +395,11 @@
               <dt>Stato familiare</dt>
               <dd>
                 {{ $statoCivile["nome"] }}
-                <small>
-                  dal {{ $statoCivile["dal"]->translatedFormat("j M Y") }}
-                </small>
+                @if ($statoCivile["dal"])
+                  <small>
+                    dal {{ $statoCivile["dal"]->translatedFormat("j M Y") }}
+                  </small>
+                @endif
                 @foreach ($statiAttivi as $stato)
                   <br />
                   {{ Illuminate\Support\Str::ucfirst(mb_strtolower($stato->nome)) }}

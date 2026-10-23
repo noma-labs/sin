@@ -5,7 +5,8 @@
 CREATE TABLE `famiglie` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `nome_famiglia` varchar(100) NOT NULL,
-  `data_creazione` date NOT NULL,
+  `tipo` enum('CONIUGI','MAMMA DI VOCAZIONE','NOMADELFA MAMMA','MAMMA NUBILE') NULL DEFAULT NULL,
+  `data_creazione` date NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`,`nome_famiglia`) USING BTREE,
