@@ -9,10 +9,11 @@ use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 use DeriveStatoCivile;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use RuntimeException;
 
 /**
- * The migration already ran on the test database: these tests put back the stati sposato and vedovo it deletes, and run it again.
+ * The migration already ran on the test database: these tests put back the stato sposato it deletes, add the stato vedovo, and run it again.
  */
 function migrazioneStatoCivile(): DeriveStatoCivile
 {
@@ -45,14 +46,15 @@ it('copies the date of the stato sposato into the famiglia, keeping the other st
     $famiglia->assegnaMoglie($moglie);
     assegnaStatoEliminato($marito, 'SPO', '1998-06-12');
     assegnaStatoEliminato($moglie, 'SPO', '1998-06-12');
-    $moglie->stati()->attach(Stato::perNome('mammanubile')->id, ['stato' => '0', 'data_inizio' => '1995-01-01', 'data_fine' => '1998-06-12']);
+    $mammaNubile = Stato::perNome('mammanubile');
+    $moglie->stati()->attach($mammaNubile->id, ['stato' => '0', 'data_inizio' => '1995-01-01', 'data_fine' => '1998-06-12']);
 
     migrazioneStatoCivile()->up();
 
     expect(Famiglia::findOrFail($famiglia->id)->data_creazione)->toBe('1998-06-12')
         ->and($marito->stati()->count())->toBe(0)
-        ->and($moglie->statiAttivi()->count())->toBe(0)
-        ->and($moglie->stati()->first()->pivot->data_fine)->toBe('1998-06-12')
+        ->and($moglie->stati()->count())->toBe(1)
+        ->and($moglie->stati()->firstWhere('stati.id', $mammaNubile->id)->pivot->data_fine)->toBe('1998-06-12')
         ->and($moglie->statoCivile()['nome'])->toBe('Sposata');
 });
 
@@ -71,15 +73,30 @@ it('copies the date of the stato sposato of a vedova heading the famiglia next t
         ->and($vedova->statoCivile()['nome'])->toBe('Vedova');
 });
 
-it('refuses to run when the coniuge of a sposato is not in the famiglia', function (): void {
-    $marito = Persona::factory()->maggiorenne()->maschio()->create(['nominativo' => 'Marito Senza Moglie']);
-    Famiglia::factory()->create()->assegnaCapoFamiglia($marito);
-    assegnaStatoEliminato($marito, 'SPO', '1998-06-12');
+it('copies the date of the stato sposato into the famiglia of a capofamiglia whose coniuge is not in the famiglia', function (): void {
+    Log::spy();
+    $capofamiglia = Persona::factory()->maggiorenne()->femmina()->create();
+    $famiglia = Famiglia::factory()->create(['data_creazione' => '2022-03-12']);
+    $famiglia->assegnaCapoFamiglia($capofamiglia);
+    assegnaStatoEliminato($capofamiglia, 'SPO', '1998-06-12');
 
-    expect(fn () => migrazioneStatoCivile()->up())
-        ->toThrow(RuntimeException::class, "Marito Senza Moglie (id {$marito->id}): è sposato/a, ma nella sua famiglia non risulta il coniuge");
+    migrazioneStatoCivile()->up();
 
-    expect($marito->stati()->count())->toBe(1);
+    expect(Famiglia::findOrFail($famiglia->id)->data_creazione)->toBe('1998-06-12')
+        ->and($capofamiglia->stati()->count())->toBe(0);
+    Log::shouldNotHaveReceived('warning');
+});
+
+it('deletes the stato sposato and logs its date when the sposato is in no famiglia', function (): void {
+    Log::spy();
+    $sposato = Persona::factory()->maggiorenne()->maschio()->create(['nominativo' => 'Sposato Senza Famiglia']);
+    assegnaStatoEliminato($sposato, 'SPO', '1998-06-12');
+
+    migrazioneStatoCivile()->up();
+
+    expect($sposato->stati()->count())->toBe(0);
+    Log::shouldHaveReceived('warning')->once()
+        ->withArgs(fn (string $messaggio): bool => str_contains($messaggio, "Sposato Senza Famiglia (id {$sposato->id}): sposato/a dal 1998-06-12"));
 });
 
 it('refuses to run when the spouses have different dates of the stato sposato', function (): void {
