@@ -144,6 +144,20 @@ it('shows a married person as sposato from the creation of the famiglia', functi
         ->assertSeeInOrder(['Stato familiare', 'Sposato', 'dal 12 giu 1998']);
 });
 
+it('shows a married person as sposato without a date when the famiglia has no data_creazione', function (): void {
+    login();
+    $marito = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();
+    $famiglia = Famiglia::factory()->create(['data_creazione' => null]);
+    $famiglia->assegnaCapoFamiglia($marito);
+    $famiglia->assegnaMoglie(Persona::factory()->nato(Carbon::parse('1972-02-01'))->femmina()->create());
+
+    expect($marito->statoCivile())->toBe(['nome' => 'Sposato', 'dal' => null]);
+    $this->get(route('nomadelfia.person.profile', $marito->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Stato familiare', 'Sposato'])
+        ->assertDontSee('dal '.now()->translatedFormat('j M Y'));
+});
+
 it('shows a person whose coniuge died as vedova from the death of the coniuge', function (): void {
     login();
     $moglie = Persona::factory()->nato(Carbon::parse('1972-02-01'))->femmina()->create();

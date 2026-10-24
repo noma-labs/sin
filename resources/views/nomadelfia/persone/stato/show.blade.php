@@ -10,7 +10,9 @@
           <div class="row">
             <p class="col-md-4">{{ $statoCivile["nome"] }}</p>
             <p class="col-md-4">
-              dal {{ $statoCivile["dal"]->translatedFormat("j M Y") }}
+              @if ($statoCivile["dal"])
+                dal {{ $statoCivile["dal"]->translatedFormat("j M Y") }}
+              @endif
             </p>
             <div class="col-md-4">
               @if ($matrimonio)

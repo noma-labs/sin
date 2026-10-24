@@ -181,9 +181,9 @@ trait PersonaInNomadelfia
 
     /**
      * The stato civile of the person, derived instead of stored:
-     * separato (stato SEP), vedovo (the coniuge is deceased), sposato (from the creation of the famiglia), otherwise celibe or nubile.
+     * separato (stato SEP), vedovo (the coniuge is deceased), sposato (from the creation of the famiglia, unknown when the famiglia has no date), otherwise celibe or nubile.
      *
-     * @return array{nome: string, dal: Carbon}
+     * @return array{nome: string, dal: Carbon|null}
      */
     public function statoCivile(): array
     {
@@ -199,7 +199,7 @@ trait PersonaInNomadelfia
             return ['nome' => $maschio ? 'Vedovo' : 'Vedova', 'dal' => \Illuminate\Support\Facades\Date::parse($coniuge->data_decesso)];
         }
         if ($coniuge) {
-            return ['nome' => $maschio ? 'Sposato' : 'Sposata', 'dal' => \Illuminate\Support\Facades\Date::parse($famiglia->data_creazione)];
+            return ['nome' => $maschio ? 'Sposato' : 'Sposata', 'dal' => $famiglia->data_creazione ? \Illuminate\Support\Facades\Date::parse($famiglia->data_creazione) : null];
         }
 
         return ['nome' => $maschio ? 'Celibe' : 'Nubile', 'dal' => \Illuminate\Support\Facades\Date::parse($this->data_nascita)];

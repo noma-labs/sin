@@ -6,6 +6,7 @@ namespace Tests\Http\Nomadelfia;
 
 use App\Anagrafe\Famiglia\Controllers\MarriageController;
 use App\Anagrafe\Famiglia\Models\Famiglia;
+use App\Anagrafe\Famiglia\Models\TipoFamiglia;
 use App\Anagrafe\Persona\Models\Persona;
 use Carbon\Carbon;
 
@@ -22,6 +23,7 @@ it('marries two people who are not part of the popolazione', function (): void {
 
     $famiglia = $husband->famigliaAttuale();
     expect($famiglia)->toBeInstanceOf(Famiglia::class)
+        ->and($famiglia->tipo)->toBe(TipoFamiglia::Coniugi)
         ->and($famiglia->capofamiglia()->id)->toBe($husband->id)
         ->and($famiglia->moglie()->id)->toBe($wife->id);
 });
