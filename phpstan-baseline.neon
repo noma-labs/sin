@@ -6025,12 +6025,6 @@ parameters:
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/Stato.php
 
 		-
-			message: '#^Property App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\Stato\:\:\$mapNamesToDB has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/Stato.php
-
-		-
 			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\QueryBuilders\\PopolazioneQueryBuilder\:\:presentAt\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
 			identifier: missingType.generics
 			count: 1

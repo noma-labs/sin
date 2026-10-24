@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Nomadelfia\Concerns;
 
 use App\Anagrafe\Famiglia\Models\Famiglia;
+use App\Anagrafe\Famiglia\Models\TipoFamiglia;
 use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\Azienda\Models\Azienda;
 use App\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
@@ -140,12 +141,17 @@ trait PersonaInNomadelfia
     }
 
     /**
+     * The stati of the person, without the old stati mamma still stored: they are replaced by the tipo of the famiglia.
+     *
      * @return BelongsToMany<Stato, $this, Pivot, 'pivot'>
      */
     public function stati(): BelongsToMany
     {
-        return $this->belongsToMany(Stato::class, 'persone_stati', 'persona_id', 'stato_id')
+        $stati = $this->belongsToMany(Stato::class, 'persone_stati', 'persona_id', 'stato_id')
             ->withPivot('stato', 'data_inizio', 'data_fine');
+        $stati->whereIn('stati.stato', Stato::$mapNamesToDB);
+
+        return $stati;
     }
 
     /**
@@ -167,6 +173,19 @@ trait PersonaInNomadelfia
         $famiglia = $this->famigliaDaCapofamigliaOMoglie();
 
         return $famiglia ? $this->coniugeNellaFamiglia($famiglia) : null;
+    }
+
+    /**
+     * The famiglia the person heads as mamma di vocazione, nomadelfa mamma or mamma nubile: the active one first.
+     */
+    public function famigliaDaMamma(): ?Famiglia
+    {
+        $famiglie = $this->famiglie()
+            ->wherePivot('posizione_famiglia', 'CAPO FAMIGLIA')
+            ->orderByPivot('stato', 'desc');
+        $famiglie->whereIn('famiglie.tipo', array_map(fn (TipoFamiglia $tipo): string => $tipo->value, TipoFamiglia::mamme()));
+
+        return $famiglie->first();
     }
 
     /**

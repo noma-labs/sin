@@ -56,6 +56,7 @@ final class PersonProfileController
             'posizioneAttuale' => $persona->posizioneAttuale(),
             'statoCivile' => $persona->statoCivile(),
             'statiAttivi' => $persona->statiAttivi()->get()->reject(fn (Stato $stato): bool => $stato->isSeparato())->values(),
+            'famigliaDaMamma' => $persona->famigliaDaMamma(),
             'gruppoAttuale' => $persona->gruppofamiliareAttuale(),
             'aziende' => $persona->aziendeAttuali()->get(),
             'incarichi' => $persona->incarichiAttuali()->get(),

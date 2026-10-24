@@ -14,7 +14,7 @@
         <div class="card-body">
           <div class="row">
             <p class="col-md-3 fw-bold">Nominativo</p>
-            <p class="col-md-3 fw-bold">Data inizio</p>
+            <p class="col-md-3 fw-bold">Data creazione famiglia</p>
             <p class="col-md-3 fw-bold">Durata</p>
             <p class="col-md-3 fw-bold">Operazioni</p>
           </div>
@@ -24,9 +24,11 @@
               <p class="col-md-3">
                 @include("nomadelfia.templates.persona", ["persona" => $mamma])
               </p>
-              <p class="col-md-3">{{ $mamma->data_inizio }}</p>
+              <p class="col-md-3">{{ $mamma->data_creazione }}</p>
               <p class="col-md-3">
-                @diffHumans($mamma->data_inizio)
+                @if ($mamma->data_creazione)
+                  @diffHumans($mamma->data_creazione)
+                @endif
               </p>
               <div class="col-md-3"></div>
             </div>

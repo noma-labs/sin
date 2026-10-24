@@ -6,6 +6,7 @@ namespace Tests\Http\Nomadelfia;
 
 use App\Admin\Models\User;
 use App\Anagrafe\Famiglia\Models\Famiglia;
+use App\Anagrafe\Famiglia\Models\TipoFamiglia;
 use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
@@ -217,16 +218,14 @@ it('shows a married person with the stato separato as separato', function (): vo
 it('shows a mamma di vocazione heading her own famiglia as nubile and not married', function (): void {
     login();
     $mamma = Persona::factory()->nato(Carbon::parse('1950-05-01'))->femmina()->create();
-    $famiglia = Famiglia::factory()->create(['nome_famiglia' => 'Famiglia Della Mamma', 'data_creazione' => '1980-03-12']);
+    $famiglia = Famiglia::factory()->create(['nome_famiglia' => 'Famiglia Della Mamma', 'data_creazione' => '1980-03-12', 'tipo' => TipoFamiglia::MammaDiVocazione]);
     $famiglia->assegnaCapoFamiglia($mamma);
-    $mamma->assegnaStato(Stato::perNome('mammavocazione'), '1980-03-12');
 
     $this->get(route('nomadelfia.person.profile', $mamma->id))
         ->assertSuccessful()
-        ->assertSeeInOrder(['Diventa mamma di vocazione', 'Nascita'])
+        ->assertSeeInOrder(['Diventa mamma di vocazione', 'Nasce la famiglia Famiglia Della Mamma', 'Nascita'])
         ->assertSeeInOrder(['Stato familiare', 'Nubile', 'Mamma di vocazione', 'dal 12 mar 1980'])
-        ->assertDontSee('Sposa')
-        ->assertDontSee('Nasce la famiglia Famiglia Della Mamma');
+        ->assertDontSee('Sposa');
 });
 
 it('shows a sacerdote as celibe with the ordination in the timeline', function (): void {

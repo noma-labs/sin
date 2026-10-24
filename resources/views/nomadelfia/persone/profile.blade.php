@@ -75,6 +75,11 @@
                 {{ Illuminate\Support\Str::ucfirst(mb_strtolower($stato->nome)) }}
               </span>
             @endforeach
+            @if ($famigliaDaMamma)
+              <span class="profile-chip">
+                {{ $famigliaDaMamma->tipo->nome() }}
+              </span>
+            @endif
 
             @if ($gruppoAttuale)
               <span class="profile-chip">
@@ -407,6 +412,15 @@
                     dal {{ Carbon::parse($stato->pivot->data_inizio)->translatedFormat("j M Y") }}
                   </small>
                 @endforeach
+                @if ($famigliaDaMamma)
+                  <br />
+                  {{ $famigliaDaMamma->tipo->nome() }}
+                  @if ($famigliaDaMamma->data_creazione)
+                    <small>
+                      dal {{ Carbon::parse($famigliaDaMamma->data_creazione)->translatedFormat("j M Y") }}
+                    </small>
+                  @endif
+                @endif
               </dd>
               <a href="{{ route("nomadelfia.persone.stato", $persona->id) }}">
                 Modifica
@@ -541,7 +555,7 @@
             <div class="profile-event-rail"></div>
             <div class="profile-event-card">
               <div class="fw-semibold">
-                {{ collect([$isPresente ? "Presente" : null, $posizioneAttuale?->nome, $statoCivile["nome"]])->merge($statiAttivi->map(fn ($stato) => Illuminate\Support\Str::ucfirst(mb_strtolower($stato->nome))))->filter()->implode(" · ") ?: "Nessuna situazione attuale" }}
+                {{ collect([$isPresente ? "Presente" : null, $posizioneAttuale?->nome, $statoCivile["nome"]])->merge($statiAttivi->map(fn ($stato) => Illuminate\Support\Str::ucfirst(mb_strtolower($stato->nome))))->push($famigliaDaMamma?->tipo->nome())->filter()->implode(" · ") ?: "Nessuna situazione attuale" }}
               </div>
             </div>
           </li>
