@@ -10,6 +10,7 @@ use App\Nomadelfia\Persona\Controllers\PersonaStatoController;
 use App\Nomadelfia\Persona\Controllers\PersonPositionController;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
+use Illuminate\Support\Facades\DB;
 
 it('can render the stato index page of a person', function (): void {
     login();
@@ -20,18 +21,30 @@ it('can render the stato index page of a person', function (): void {
 
 it('adds a stato to a person keeping the other active stati', function (): void {
     login();
-    $persona = Persona::factory()->maggiorenne()->femmina()->create();
-    $mammaVocazione = Stato::perNome('mammavocazione');
-    $separata = Stato::perNome('separato');
-    $persona->assegnaStato($mammaVocazione, '1980-03-12');
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    $sacerdote = Stato::perNome('sacerdote');
+    $separato = Stato::perNome('separato');
+    $persona->assegnaStato($sacerdote, '1980-03-12');
 
     $this->post(action([PersonaStatoController::class, 'store'], $persona->id), [
-        'stato_id' => $separata->id,
+        'stato_id' => $separato->id,
         'data_inizio' => '1990-01-01',
     ])->assertRedirect(route('nomadelfia.persone.stato', $persona->id));
 
-    expect($persona->statiAttivi()->pluck('stati.stato')->all())->toBe(['MAV', 'SEP']);
+    expect($persona->statiAttivi()->pluck('stati.stato')->all())->toBe(['SAC', 'SEP']);
 });
+
+it('refuses the old stati mamma: they are the tipo of the famiglia', function (string $stato): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->femmina()->create();
+
+    $this->post(action([PersonaStatoController::class, 'store'], $persona->id), [
+        'stato_id' => Stato::find($stato)->id,
+        'data_inizio' => '1990-01-01',
+    ])->assertSessionHasErrors(['stato_id' => 'Lo stato non esiste. Celibe, nubile, sposato, vedovo, mamma di vocazione, nomadelfa mamma e mamma nubile derivano dalla famiglia.']);
+
+    expect(DB::connection('db_nomadelfia')->table('persone_stati')->where('persona_id', $persona->id)->exists())->toBeFalse();
+})->with(['MAV', 'MAM', 'MAN']);
 
 it('refuses a stato the person already has active', function (): void {
     login();
@@ -54,7 +67,7 @@ it('refuses a stato that does not exist', function (): void {
     $this->post(action([PersonaStatoController::class, 'store'], $persona->id), [
         'stato_id' => 999999,
         'data_inizio' => '1990-01-01',
-    ])->assertSessionHasErrors(['stato_id' => 'Lo stato non esiste. Celibe, nubile, sposato e vedovo derivano dalla famiglia.']);
+    ])->assertSessionHasErrors(['stato_id' => 'Lo stato non esiste. Celibe, nubile, sposato, vedovo, mamma di vocazione, nomadelfa mamma e mamma nubile derivano dalla famiglia.']);
 
     expect($persona->stati()->count())->toBe(0);
 });
@@ -62,7 +75,7 @@ it('refuses a stato that does not exist', function (): void {
 it('update stato of a person', function (): void {
     login();
     $persona = Persona::factory()->minorenne()->maschio()->create();
-    $stato = Stato::all()->random();
+    $stato = Stato::assegnabili()->random();
     $persona->assegnaStato($stato->id, '1990-01-01');
 
     $this->put(action([PersonaStatoController::class, 'update'], ['id' => $persona->id, 'idStato' => $stato->id]), [

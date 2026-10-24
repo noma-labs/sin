@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Nomadelfia\Persona\Controllers;
 
 use App\Anagrafe\Persona\Models\Persona;
+use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
+use Illuminate\Validation\Rule;
 
 #[Middleware('auth')]
 final class PersonaStatoController
@@ -22,6 +24,7 @@ final class PersonaStatoController
             'statoCivile' => $persona->statoCivile(),
             'matrimonio' => $persona->matrimonioAttuale(),
             'stati' => $persona->stati()->orderByPivot('stato', 'desc')->orderByPivot('data_inizio')->get(),
+            'statiAssegnabili' => Stato::assegnabili(),
         ]);
     }
 
@@ -29,11 +32,11 @@ final class PersonaStatoController
     public function store(Request $request, $idPersona)
     {
         $request->validate([
-            'stato_id' => ['required', 'exists:db_nomadelfia.stati,id'],
+            'stato_id' => ['required', Rule::exists('db_nomadelfia.stati', 'id')->whereIn('stato', Stato::$mapNamesToDB)],
             'data_inizio' => ['required', 'date'],
         ], [
             'stato_id.required' => 'Lo stato è obbligatorio',
-            'stato_id.exists' => 'Lo stato non esiste. Celibe, nubile, sposato e vedovo derivano dalla famiglia.',
+            'stato_id.exists' => 'Lo stato non esiste. Celibe, nubile, sposato, vedovo, mamma di vocazione, nomadelfa mamma e mamma nubile derivano dalla famiglia.',
             'data_inizio.required' => 'La data iniziale dello stato è obbligatoria.',
         ]);
         $persona = Persona::findOrFail($idPersona);

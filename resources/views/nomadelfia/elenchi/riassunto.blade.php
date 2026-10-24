@@ -35,7 +35,7 @@
   Sacerdoti: {{ App\Nomadelfia\PopolazioneNomadelfia\Models\Stato::perNome("sacerdote")->persone()->attivo()->count() }}
 </div>
 <div>
-  Mamme di vocazione: {{ App\Nomadelfia\PopolazioneNomadelfia\Models\Stato::perNome("mammavocazione")->persone()->attivo()->count() }}
+  Mamme di vocazione: {{ count(App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia::mammeVocazione()) }}
 </div>
 <hr />
 <div>

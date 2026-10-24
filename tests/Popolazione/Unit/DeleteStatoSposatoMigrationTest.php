@@ -45,15 +45,15 @@ it('deletes the stato sposato when its date is the data_creazione of the famigli
     $famiglia->assegnaMoglie($moglie);
     assegnaStatoSposato($marito, '1998-06-12');
     assegnaStatoSposato($moglie, '1998-06-12');
-    $moglie->assegnaStato(Stato::perNome('mammavocazione'), '2005-01-01');
+    $moglie->assegnaStato(Stato::perNome('separato'), '2005-01-01');
 
     migrazioneDeleteStatoSposato()->up();
 
     expect(DB::connection('db_nomadelfia')->table('stati')->where('stato', 'SPO')->exists())->toBeFalse()
         ->and($marito->stati()->count())->toBe(0)
-        ->and($moglie->stati()->pluck('stati.stato')->all())->toBe(['MAV'])
+        ->and($moglie->stati()->pluck('stati.stato')->all())->toBe(['SEP'])
         ->and(Famiglia::findOrFail($famiglia->id)->data_creazione)->toBe('1998-06-12')
-        ->and($moglie->statoCivile()['nome'])->toBe('Sposata');
+        ->and($moglie->matrimonioAttuale()?->id)->toBe($famiglia->id);
 });
 
 it('refuses to run when the date of a stato sposato is not the data_creazione of the famiglia', function (): void {
@@ -64,7 +64,7 @@ it('refuses to run when the date of a stato sposato is not the data_creazione of
 
     expect(fn () => migrazioneDeleteStatoSposato()->up())
         ->toThrow(RuntimeException::class, "Marito Data Diversa (id {$marito->id}): sposato/a dal 1998-06-12")
-        ->and($marito->stati()->count())->toBe(1);
+        ->and(DB::connection('db_nomadelfia')->table('persone_stati')->where('persona_id', $marito->id)->count())->toBe(1);
 });
 
 it('refuses to run when the sposato is in no famiglia', function (): void {
@@ -73,5 +73,5 @@ it('refuses to run when the sposato is in no famiglia', function (): void {
 
     expect(fn () => migrazioneDeleteStatoSposato()->up())
         ->toThrow(RuntimeException::class, "Sposato Senza Famiglia (id {$sposato->id}): sposato/a dal 1998-06-12")
-        ->and($sposato->stati()->count())->toBe(1);
+        ->and(DB::connection('db_nomadelfia')->table('persone_stati')->where('persona_id', $sposato->id)->count())->toBe(1);
 });

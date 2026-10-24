@@ -14,6 +14,19 @@ enum TipoFamiglia: string
     case NomadelfaMamma = 'MAM';
     case MammaNubile = 'MAN';
 
+    /**
+     * @return list<self> the tipi of a famiglia headed by a mamma
+     */
+    public static function mamme(): array
+    {
+        return [self::MammaDiVocazione, self::NomadelfaMamma, self::MammaNubile];
+    }
+
+    public function isMamma(): bool
+    {
+        return in_array($this, self::mamme(), true);
+    }
+
     public function nome(): string
     {
         return match ($this) {

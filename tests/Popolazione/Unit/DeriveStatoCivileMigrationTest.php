@@ -6,7 +6,6 @@ namespace Tests\Unit;
 
 use App\Anagrafe\Famiglia\Models\Famiglia;
 use App\Anagrafe\Persona\Models\Persona;
-use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 use DeriveStatoCivile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -46,15 +45,13 @@ it('copies the date of the stato sposato into the famiglia, keeping the stati un
     $famiglia->assegnaMoglie($moglie);
     assegnaStatoCivile($marito, 'SPO', '1998-06-12');
     assegnaStatoCivile($moglie, 'SPO', '1998-06-12');
-    $mammaNubile = Stato::perNome('mammanubile');
-    $moglie->stati()->attach($mammaNubile->id, ['stato' => '0', 'data_inizio' => '1995-01-01', 'data_fine' => '1998-06-12']);
+    assegnaStatoCivile($moglie, 'MAN', '1995-01-01', '0');
 
     migrazioneStatoCivile()->up();
 
     expect(Famiglia::findOrFail($famiglia->id)->data_creazione)->toBe('1998-06-12')
-        ->and($marito->stati()->count())->toBe(1)
-        ->and($moglie->stati()->count())->toBe(2)
-        ->and($moglie->stati()->firstWhere('stati.id', $mammaNubile->id)->pivot->data_fine)->toBe('1998-06-12')
+        ->and(DB::connection('db_nomadelfia')->table('persone_stati')->where('persona_id', $marito->id)->count())->toBe(1)
+        ->and(DB::connection('db_nomadelfia')->table('persone_stati')->where('persona_id', $moglie->id)->count())->toBe(2)
         ->and($moglie->statoCivile()['nome'])->toBe('Sposata');
 });
 
@@ -83,7 +80,7 @@ it('copies the date of the stato sposato into the famiglia of a capofamiglia who
     migrazioneStatoCivile()->up();
 
     expect(Famiglia::findOrFail($famiglia->id)->data_creazione)->toBe('1998-06-12')
-        ->and($capofamiglia->stati()->count())->toBe(1);
+        ->and(DB::connection('db_nomadelfia')->table('persone_stati')->where('persona_id', $capofamiglia->id)->count())->toBe(1);
     Log::shouldNotHaveReceived('warning');
 });
 
@@ -94,7 +91,7 @@ it('keeps the stato sposato and logs its date when the sposato is in no famiglia
 
     migrazioneStatoCivile()->up();
 
-    expect($sposato->stati()->count())->toBe(1);
+    expect(DB::connection('db_nomadelfia')->table('persone_stati')->where('persona_id', $sposato->id)->count())->toBe(1);
     Log::shouldHaveReceived('warning')->once()
         ->withArgs(fn (string $messaggio): bool => str_contains($messaggio, "Sposato Senza Famiglia (id {$sposato->id}): sposato/a dal 1998-06-12"));
 });
@@ -122,5 +119,5 @@ it('keeps the stato vedovo even when the coniuge is not deceased', function (): 
 
     migrazioneStatoCivile()->up();
 
-    expect($moglie->stati()->count())->toBe(1);
+    expect(DB::connection('db_nomadelfia')->table('persone_stati')->where('persona_id', $moglie->id)->count())->toBe(1);
 });

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\Persona\Actions;
 
+use App\Anagrafe\Famiglia\Models\TipoFamiglia;
 use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\Persona\DataTransferObjects\TimelineEvent;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
@@ -139,29 +140,34 @@ final class BuildPersonTimelineAction
             }
         }
 
-        $dateStati = collect();
         foreach ($persona->stati()->orderByPivot('data_inizio')->toBase()->get(['stati.stato', 'stati.nome', 'persone_stati.data_inizio']) as $stato) {
-            $inizio = Date::parse($stato->data_inizio);
-            $dateStati->push($inizio);
             $eventi->push($evento(
-                $inizio,
+                Date::parse($stato->data_inizio),
                 TimelineEvent::CATEGORIA_FAMIGLIA,
                 'Stato',
                 match ($stato->stato) {
                     'SAC' => 'Ordinato sacerdote',
-                    'MAV' => 'Diventa mamma di vocazione',
-                    'MAM' => 'Diventa nomadelfa mamma',
                     'SEP' => $persona->isMaschio() ? 'Si separa dalla moglie' : 'Si separa dal marito',
                     default => Str::ucfirst(mb_strtolower($stato->nome)),
                 },
-                importante: in_array($stato->stato, ['SAC', 'MAV'], true),
+                importante: $stato->stato === 'SAC',
             ));
         }
 
         foreach ($famiglieSenzaConiuge as ['data' => $creazione, 'famiglia' => $famiglia]) {
-            if ($dateStati->doesntContain(fn (Carbon $data): bool => $data->isSameDay($creazione))) {
-                $eventi->push($evento($creazione, TimelineEvent::CATEGORIA_FAMIGLIA, 'Famiglia', 'Nasce la famiglia '.$famiglia->nome_famiglia));
+            if ($famiglia->tipo?->isMamma()) {
+                $eventi->push($evento(
+                    $creazione,
+                    TimelineEvent::CATEGORIA_FAMIGLIA,
+                    'Famiglia',
+                    'Diventa '.mb_strtolower($famiglia->tipo->nome()),
+                    'Nasce la famiglia '.$famiglia->nome_famiglia,
+                    importante: $famiglia->tipo === TipoFamiglia::MammaDiVocazione,
+                ));
+
+                continue;
             }
+            $eventi->push($evento($creazione, TimelineEvent::CATEGORIA_FAMIGLIA, 'Famiglia', 'Nasce la famiglia '.$famiglia->nome_famiglia));
         }
 
         if ($decesso) {

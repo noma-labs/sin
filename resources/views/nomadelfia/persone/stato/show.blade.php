@@ -162,7 +162,7 @@
                   <div class="col-sm-8">
                     <select name="stato_id" class="form-select">
                       <option value="">---seleziona Stato---</option>
-                      @foreach (App\Nomadelfia\PopolazioneNomadelfia\Models\Stato::all() as $statoDisponibile)
+                      @foreach ($statiAssegnabili as $statoDisponibile)
                         <option value="{{ $statoDisponibile->id }}">
                           {{ $statoDisponibile->nome }}
                         </option>
