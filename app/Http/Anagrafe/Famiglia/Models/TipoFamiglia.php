@@ -46,4 +46,37 @@ enum TipoFamiglia: string
             self::CelibeDiElezione => 'Celibe di elezione',
         };
     }
+
+    public function descrizione(): string
+    {
+        return match ($this) {
+            self::Coniugi => 'Nata da un matrimonio',
+            self::MammaDiVocazione => 'Una mamma che accoglie figli per vocazione',
+            self::NomadelfaMamma => 'Una Nomadelfa che diventa mamma',
+            self::MammaNubile => 'Una mamma con i propri figli',
+            self::CelibeDiElezione => 'Un uomo che sceglie il celibato e guida una famiglia',
+        };
+    }
+
+    /**
+     * The meaning of the data_creazione of the famiglia: the matrimonio for the coniugi, the start of the famiglia otherwise.
+     */
+    public function etichettaDataCreazione(): string
+    {
+        return match ($this) {
+            self::Coniugi => 'Data matrimonio',
+            self::MammaDiVocazione => 'Data inizio vocazione',
+            self::NomadelfaMamma => 'Data inizio come Nomadelfa mamma',
+            self::MammaNubile => 'Data inizio famiglia',
+            self::CelibeDiElezione => 'Data della scelta',
+        };
+    }
+
+    /**
+     * The sesso of the capofamiglia: the marito for the coniugi, the mamma for the famiglie of a mamma.
+     */
+    public function sessoCapofamiglia(): string
+    {
+        return $this->isMamma() ? 'F' : 'M';
+    }
 }

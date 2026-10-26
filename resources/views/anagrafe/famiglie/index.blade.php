@@ -2,6 +2,13 @@
 
 @section("content")
   @include("partials.header", ["title" => "Gestione Famiglie"])
+  @can("popolazione.persona.inserisci")
+    <div class="d-flex justify-content-end mb-3">
+      <a class="btn btn-success" href="{{ route("anagrafe.families.create") }}">
+        Nuova famiglia
+      </a>
+    </div>
+  @endcan
   <div class="row row-cols-1 row-cols-md-4 d-flex">
     <div class="col">
       <div id="accordion">
