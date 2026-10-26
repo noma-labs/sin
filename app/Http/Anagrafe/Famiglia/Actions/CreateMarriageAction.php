@@ -8,27 +8,33 @@ use App\Anagrafe\Famiglia\Models\Famiglia;
 use App\Anagrafe\Famiglia\Models\TipoFamiglia;
 use App\Anagrafe\Persona\Models\Persona;
 use Carbon\Carbon;
-use Exception;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 final class CreateMarriageAction
 {
-    public function execute(Persona $husband, Persona $wife, Carbon $data_matrimonio)
+    /**
+     * Creates the famiglia of the spouses and moves the spouses already in Nomadelfia into the gruppo familiare.
+     *
+     * @param  int|null  $gruppoId  the gruppo familiare of the new famiglia, required when a spouse is in Nomadelfia
+     *
+     * @throws Throwable nothing is changed
+     */
+    public function execute(Persona $husband, Persona $wife, Carbon $data_matrimonio, ?int $gruppoId = null): Famiglia
     {
-        // create a new family
-        $fam = Famiglia::create(['nome_famiglia' => $husband->nominativo, 'tipo' => TipoFamiglia::Coniugi, 'data_creazione' => $data_matrimonio]);
-
-        DB::connection('db_nomadelfia')->beginTransaction();
-        try {
+        return DB::connection('db_nomadelfia')->transaction(function () use ($husband, $wife, $data_matrimonio, $gruppoId): Famiglia {
             $conn = DB::connection('db_nomadelfia');
 
-            // remove from existing active family
-            $conn->insert("UPDATE famiglie_persone SET stato = '0' WHERE stato = '1' and persona_id = ?", [$husband->id]);
-            $conn->insert("UPDATE famiglie_persone SET stato = '0' WHERE stato = '1' and persona_id = ?", [$wife->id]);
+            $fam = Famiglia::create(['nome_famiglia' => $husband->nominativo, 'tipo' => TipoFamiglia::Coniugi, 'data_creazione' => $data_matrimonio]);
 
-            // remove from gruppo familiari
-            $conn->insert("UPDATE gruppi_persone SET stato = '0' WHERE stato = '1' and persona_id = ?", [$husband->id]);
-            $conn->insert("UPDATE gruppi_persone SET stato = '0' WHERE stato = '1' and persona_id = ?", [$wife->id]);
+            foreach ([$husband, $wife] as $sposo) {
+                // remove from existing active family
+                $conn->update("UPDATE famiglie_persone SET stato = '0' WHERE stato = '1' and persona_id = ?", [$sposo->id]);
+
+                if ($gruppoId && $sposo->isPersonaInterna()) {
+                    $sposo->spostaNelGruppoFamiliare($gruppoId, $data_matrimonio);
+                }
+            }
 
             // assign the husband and the wife in the family
             $conn->insert("INSERT INTO famiglie_persone (famiglia_id, persona_id, posizione_famiglia, stato) VALUES (?, ?, ?, '1')",
@@ -36,13 +42,7 @@ final class CreateMarriageAction
             $conn->insert("INSERT INTO famiglie_persone (famiglia_id, persona_id, posizione_famiglia, stato) VALUES (?, ?, ?, '1')",
                 [$fam->id, $wife->id, 'MOGLIE']);
 
-            DB::connection('db_nomadelfia')->commit();
-
-        } catch (Exception $e) {
-            DB::connection('db_nomadelfia')->rollback();
-            dd($e);
-        }
-
-        return $fam;
+            return $fam;
+        });
     }
 }

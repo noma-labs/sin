@@ -356,7 +356,7 @@ it('RientroMinorenneInNuovaFamigliaNomadelfia', function (): void {
     expect($figlio->getDataEntrataNomadelfia())->toEqual($data_entrata);
 
     // la famiglia esce da Nomadelfia
-    $data_uscita = Carbon::now()->addYears(5)->startOfDay();
+    $data_uscita = Carbon::now()->addYears(3)->startOfDay();
     $action = app(UscitaFamigliaAction::class);
     $action->execute($famiglia, $data_uscita);
 
@@ -372,7 +372,7 @@ it('RientroMinorenneInNuovaFamigliaNomadelfia', function (): void {
     $famiglia_rientro->assegnaCapoFamiglia($cp);
     $this->assertCount(0, $famiglia_rientro->figliAttuali()->get());
 
-    $data_rientro = Carbon::now()->addYears(10)->startOfDay();
+    $data_rientro = Carbon::now()->addYears(5)->startOfDay();
     //        $figlio->entrataMinorenneAccolto($data_rientro, $famiglia_rientro->id);
 
     $act = app(EntrataMinorenneAccoltoAction::class);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Http\Nomadelfia;
 
+use App\Anagrafe\Famiglia\Controllers\MarriageController;
 use App\Anagrafe\Famiglia\Models\Famiglia;
 use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
@@ -160,4 +161,108 @@ it('entrata_maggiorenne_sposato', function (): void {
     $this->assertEquals($persona->gruppofamiliareAttuale()->id, $gruppo->id);
     $this->assertEquals($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo, $data_entrata->toDateString());
     $this->assertNull($persona->famigliaAttuale());
+});
+
+it('enters a famiglia: the spouses, then the matrimonio with the gruppo, then the figli', function (): void {
+    login();
+    $gruppo = GruppoFamiliare::first();
+    $marito = Persona::factory()->maggiorenne()->maschio()->create();
+    $moglie = Persona::factory()->maggiorenne()->femmina()->create();
+    $figlio = Persona::factory()->minorenne()->maschio()->create();
+    $data_entrata = Carbon::now()->startOfDay();
+
+    foreach ([$marito, $moglie] as $sposo) {
+        $this->post(action([JoinCommunityController::class, 'store'], $sposo->id), [
+            'tipologia' => 'maggiorenne_famiglia',
+            'gruppo_id' => $gruppo->id,
+            'data_entrata' => $data_entrata->toDateString(),
+        ])->assertSessionHasNoErrors();
+    }
+    $this->post(action([MarriageController::class, 'store']), [
+        'husband' => $marito->id,
+        'wife' => $moglie->id,
+        'data_matrimonio' => '2010-05-01',
+        'gruppo_id' => $gruppo->id,
+    ])->assertSessionHasNoErrors();
+    $famiglia = $marito->famigliaAttuale();
+
+    $this->post(action([JoinCommunityController::class, 'store'], $figlio->id), [
+        'tipologia' => 'minorenne_famiglia',
+        'famiglia_id' => $famiglia->id,
+        'data_entrata' => $data_entrata->toDateString(),
+    ])->assertSessionHasNoErrors();
+
+    expect($marito->gruppofamiliareAttuale()->id)->toBe($gruppo->id)
+        ->and($moglie->gruppofamiliareAttuale()->id)->toBe($gruppo->id)
+        ->and($marito->statoCivile()['nome'])->toBe('Sposato')
+        ->and($figlio->isPersonaInterna())->toBeTrue()
+        ->and($figlio->gruppofamiliareAttuale()->id)->toBe($gruppo->id)
+        ->and($figlio->famigliaAttuale()->id)->toBe($famiglia->id)
+        ->and($figlio->famigliaAttuale()->pivot->posizione_famiglia)->toBe(Famiglia::getFiglioNatoEnum());
+});
+
+it('shows an error instead of failing when the famiglia has no gruppo familiare', function (): void {
+    login();
+    $famiglia = Famiglia::factory()->create(['nome_famiglia' => 'Famiglia Senza Gruppo']);
+    $famiglia->assegnaCapoFamiglia(Persona::factory()->maggiorenne()->maschio()->create());
+    $figlio = Persona::factory()->minorenne()->maschio()->create();
+
+    $this->post(action([JoinCommunityController::class, 'store'], $figlio->id), [
+        'tipologia' => 'minorenne_famiglia',
+        'famiglia_id' => $famiglia->id,
+        'data_entrata' => Carbon::now()->toDateString(),
+    ])->assertSessionHasErrors('tipologia');
+
+    expect($figlio->isPersonaInterna())->toBeFalse();
+});
+
+it('refuses to enter as minorenne a person who is maggiorenne at the entrata', function (string $tipologia): void {
+    login();
+    $famiglia = Famiglia::factory()->create();
+    $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
+    app(EntrataMaggiorenneConFamigliaAction::class)->execute($capoFam, Carbon::now()->startOfDay(), GruppoFamiliare::first());
+    $famiglia->assegnaCapoFamiglia($capoFam);
+    $adulto = Persona::factory()->maggiorenne()->maschio()->create(['nominativo' => 'Adulto Accolto']);
+
+    $this->post(action([JoinCommunityController::class, 'store'], $adulto->id), [
+        'tipologia' => $tipologia,
+        'famiglia_id' => $famiglia->id,
+        'data_entrata' => Carbon::now()->toDateString(),
+    ])->assertSessionHasErrors(['tipologia' => 'La persona `Adulto Accolto` è maggiorenne.']);
+
+    expect($adulto->isPersonaInterna())->toBeFalse();
+})->with(['minorenne_accolto', 'minorenne_famiglia']);
+
+it('enters as minorenne an adult who was minorenne at the entrata', function (): void {
+    login();
+    $famiglia = Famiglia::factory()->create();
+    $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
+    app(EntrataMaggiorenneConFamigliaAction::class)->execute($capoFam, Carbon::parse('1990-01-01'), GruppoFamiliare::first());
+    $famiglia->assegnaCapoFamiglia($capoFam);
+    $accolto = Persona::factory()->nato(Carbon::parse('1985-03-01'))->maschio()->create();
+
+    $this->post(action([JoinCommunityController::class, 'store'], $accolto->id), [
+        'tipologia' => 'minorenne_accolto',
+        'famiglia_id' => $famiglia->id,
+        'data_entrata' => '1995-09-01',
+    ])->assertSessionHasNoErrors();
+
+    expect($accolto->isPersonaInterna())->toBeTrue();
+});
+
+it('refuses a famiglia or a gruppo that does not exist', function (): void {
+    login();
+    $persona = Persona::factory()->minorenne()->maschio()->create();
+
+    $this->post(action([JoinCommunityController::class, 'store'], $persona->id), [
+        'tipologia' => 'minorenne_accolto',
+        'famiglia_id' => 999999,
+        'data_entrata' => Carbon::now()->toDateString(),
+    ])->assertSessionHasErrors(['famiglia_id' => 'La famiglia selezionata non esiste.']);
+
+    $this->post(action([JoinCommunityController::class, 'store'], $persona->id), [
+        'tipologia' => 'maggiorenne_single',
+        'gruppo_id' => 999999,
+        'data_entrata' => Carbon::now()->toDateString(),
+    ])->assertSessionHasErrors(['gruppo_id' => 'Il gruppo familiare selezionato non esiste.']);
 });

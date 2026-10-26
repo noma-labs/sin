@@ -14,6 +14,7 @@ use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use App\Nomadelfia\PopolazioneNomadelfia\Requests\EntrataPersonaRequest;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
 
@@ -36,38 +37,41 @@ final class JoinCommunityController
         $persona = Persona::findOrFail($id);
         $data_entrata = \Illuminate\Support\Facades\Date::parse($request->input('data_entrata'));
 
-        switch ($request->tipologia) {
-            case 'dalla_nascita':
-                $famiglia = Famiglia::findOrFail($request->input('famiglia_id'));
-                $action = resolve(EntrataDallaNascitaAction::class);
-                $action->execute($persona, $famiglia);
-                break;
-            case 'minorenne_accolto':
-                $famiglia = Famiglia::findOrFail($request->input('famiglia_id'));
-                $action = resolve(EntrataMinorenneAccoltoAction::class);
-                $action->execute($persona, $data_entrata, $famiglia);
-                break;
-            case 'minorenne_famiglia':
-                $famiglia = Famiglia::findOrFail($request->input('famiglia_id'));
-                $action = resolve(EntrataMinorenneConFamigliaAction::class);
-                $action->execute($persona, $data_entrata, $famiglia);
-                break;
-            case 'maggiorenne_single':
-                $gruppoFamiliare = GruppoFamiliare::findOrFail($request->input('gruppo_id'));
-                $action = resolve(EntrataMaggiorenneSingleAction::class);
-                $action->execute($persona, $data_entrata, $gruppoFamiliare);
-                break;
-            case 'maggiorenne_famiglia':
-                $gruppoFamiliare = GruppoFamiliare::findOrFail($request->input('gruppo_id'));
-                $act = resolve(EntrataMaggiorenneConFamigliaAction::class);
-                $act->execute($persona, $data_entrata, $gruppoFamiliare);
-                break;
-            default:
-                return back()->withErrore("Tipologia di entrata per $request->tipologia non riconosciuta.");
-
+        try {
+            switch ($request->tipologia) {
+                case 'dalla_nascita':
+                    $famiglia = Famiglia::findOrFail($request->input('famiglia_id'));
+                    $action = resolve(EntrataDallaNascitaAction::class);
+                    $action->execute($persona, $famiglia);
+                    break;
+                case 'minorenne_accolto':
+                    $famiglia = Famiglia::findOrFail($request->input('famiglia_id'));
+                    $action = resolve(EntrataMinorenneAccoltoAction::class);
+                    $action->execute($persona, $data_entrata, $famiglia);
+                    break;
+                case 'minorenne_famiglia':
+                    $famiglia = Famiglia::findOrFail($request->input('famiglia_id'));
+                    $action = resolve(EntrataMinorenneConFamigliaAction::class);
+                    $action->execute($persona, $data_entrata, $famiglia);
+                    break;
+                case 'maggiorenne_single':
+                    $gruppoFamiliare = GruppoFamiliare::findOrFail($request->input('gruppo_id'));
+                    $action = resolve(EntrataMaggiorenneSingleAction::class);
+                    $action->execute($persona, $data_entrata, $gruppoFamiliare);
+                    break;
+                case 'maggiorenne_famiglia':
+                    $gruppoFamiliare = GruppoFamiliare::findOrFail($request->input('gruppo_id'));
+                    $act = resolve(EntrataMaggiorenneConFamigliaAction::class);
+                    $act->execute($persona, $data_entrata, $gruppoFamiliare);
+                    break;
+                default:
+                    return back()->withInput()->withErrors(['tipologia' => "Tipologia di entrata per $request->tipologia non riconosciuta."]);
+            }
+        } catch (Exception $e) {
+            return back()->withInput()->withErrors(['tipologia' => $e->getMessage()]);
         }
 
-        return to_route('nomadelfia.person.show', $persona->id)->withSuccess('Persona '.$persona->nominativo.'inserita correttamente.');
+        return to_route('nomadelfia.person.show', $persona->id)->withSuccess('Persona '.$persona->nominativo.' inserita correttamente.');
     }
 
     #[Middleware('can:popolazione.persona.modifica')]

@@ -132,3 +132,21 @@ it('does not update the origine column the second time a person enter', function
     // the "origine" column is not changed.
     expect($persona->origine)->toEqual(Origine::Interno->value);
 });
+
+it('re-enters a person in the famiglia with the posizione of the new entrata', function (): void {
+    $famiglia = Famiglia::factory()->create();
+    $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
+    app(EntrataMaggiorenneSingleAction::class)->execute($capoFam, Carbon::parse('2000-01-01'), GruppoFamiliare::first());
+    $famiglia->assegnaCapoFamiglia($capoFam);
+    $figlio = Persona::factory()->minorenne()->maschio()->create();
+    app(EntrataMinorenneConFamigliaAction::class)->execute($figlio, Carbon::now()->subYears(2)->startOfDay(), $famiglia);
+    $conn = DB::connection('db_nomadelfia');
+    $conn->table('popolazione')->where('persona_id', $figlio->id)->update(['data_uscita' => Carbon::now()->subYear()->toDateString()]);
+    foreach (['famiglie_persone', 'gruppi_persone', 'persone_posizioni'] as $tabella) {
+        $conn->table($tabella)->where('persona_id', $figlio->id)->update(['stato' => '0']);
+    }
+
+    app(EntrataMinorenneAccoltoAction::class)->execute($figlio, Carbon::now()->startOfDay(), $famiglia);
+
+    expect($figlio->famigliaAttuale()->pivot->posizione_famiglia)->toBe(Famiglia::getFiglioAccoltoEnum());
+});

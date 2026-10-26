@@ -775,12 +775,6 @@ parameters:
 			path: app/Http/Anagrafe/Famiglia/Actions/CreateMarriageAction.php
 
 		-
-			message: '#^Method App\\Anagrafe\\Famiglia\\Actions\\CreateMarriageAction\:\:execute\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Anagrafe/Famiglia/Actions/CreateMarriageAction.php
-
-		-
 			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$data_creazione\.$#'
 			identifier: property.notFound
 			count: 1
@@ -4761,12 +4755,6 @@ parameters:
 		-
 			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$data_entrata\.$#'
 			identifier: property.notFound
-			count: 1
-			path: app/Http/Nomadelfia/Persona/Controllers/JoinCommunityController.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withErrore\(\)\.$#'
-			identifier: method.notFound
 			count: 1
 			path: app/Http/Nomadelfia/Persona/Controllers/JoinCommunityController.php
 

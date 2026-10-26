@@ -6,6 +6,7 @@ namespace App\Nomadelfia\PopolazioneNomadelfia\Actions;
 
 use App\Anagrafe\Famiglia\Models\Famiglia;
 use App\Anagrafe\Persona\Models\Persona;
+use App\Nomadelfia\Exceptions\PersonaIsMaggiorenne;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaData;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Origine;
@@ -18,6 +19,11 @@ final readonly class EntrataMinorenneConFamigliaAction
 
     public function execute(Persona $persona, Carbon $data_entrata, ?Famiglia $famiglia = null): void
     {
+        // the age at the entrata: an entrata can be recorded years later, when the person is an adult
+        if (\Illuminate\Support\Facades\Date::parse($persona->data_nascita)->addYears(18)->lessThanOrEqualTo($data_entrata)) {
+            throw PersonaIsMaggiorenne::named($persona->nominativo);
+        }
+
         $dto = new EntrataPersonaData;
         $dto->persona = $persona;
         $dto->data_entrata = $data_entrata;

@@ -24,10 +24,10 @@
           type="radio"
           name="tipologia"
           wire:model.live="tipologia"
-          id="dallaNascita"
+          id="tipologia-dalla-nascita"
           value="dalla_nascita"
         />
-        <label class="form-check-label" for="dallaNascita">
+        <label class="form-check-label" for="tipologia-dalla-nascita">
           Nato a Nomadelfia
         </label>
       </div>
@@ -38,10 +38,10 @@
           type="radio"
           name="tipologia"
           wire:model.live="tipologia"
-          id="dallaNascita"
+          id="tipologia-minorenne-accolto"
           value="minorenne_accolto"
         />
-        <label class="form-check-label" for="dallaNascita">
+        <label class="form-check-label" for="tipologia-minorenne-accolto">
           Minorenne accolto
         </label>
       </div>
@@ -52,10 +52,10 @@
           type="radio"
           name="tipologia"
           wire:model.live="tipologia"
-          id="dallaNascita"
+          id="tipologia-minorenne-famiglia"
           value="minorenne_famiglia"
         />
-        <label class="form-check-label" for="dallaNascita">
+        <label class="form-check-label" for="tipologia-minorenne-famiglia">
           Minorenne entrato/a con la famiglia
         </label>
       </div>
@@ -66,10 +66,10 @@
           type="radio"
           name="tipologia"
           wire:model.live="tipologia"
-          id="dallaNascita"
+          id="tipologia-maggiorenne-single"
           value="maggiorenne_single"
         />
-        <label class="form-check-label" for="dallaNascita">
+        <label class="form-check-label" for="tipologia-maggiorenne-single">
           Maggiorenne single
         </label>
       </div>
@@ -80,10 +80,10 @@
           type="radio"
           name="tipologia"
           wire:model.live="tipologia"
-          id="dallaNascita"
+          id="tipologia-maggiorenne-famiglia"
           value="maggiorenne_famiglia"
         />
-        <label class="form-check-label" for="dallaNascita">
+        <label class="form-check-label" for="tipologia-maggiorenne-famiglia">
           Maggiorenne con famiglia
         </label>
       </div>

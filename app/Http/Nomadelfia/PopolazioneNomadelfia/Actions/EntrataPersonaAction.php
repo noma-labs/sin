@@ -27,7 +27,6 @@ final readonly class EntrataPersonaAction
 
     public function save(EntrataPersonaData $entrataPersonaData): void
     {
-        // TODO: se la persona esiste già nella tabella popolazione e la data di fine a null, allora fail
         $persona = $entrataPersonaData->persona;
         if ($persona->isPersonaInterna()) {
             throw new Exception("Impossibile inserire `{$persona->nominativo}` come prima volta nella comunita. Risulta essere già stata inserita.");
@@ -35,8 +34,7 @@ final readonly class EntrataPersonaAction
 
         $persona_id = $persona->id;
 
-        DB::connection('db_nomadelfia')->beginTransaction();
-        try {
+        DB::connection('db_nomadelfia')->transaction(function () use ($entrataPersonaData, $persona_id): void {
             $conn = DB::connection('db_nomadelfia');
 
             $conn->update('UPDATE persone SET origine = ? WHERE id = ? and origine IS NULL', [$entrataPersonaData->origine->value, $persona_id]);
@@ -58,20 +56,16 @@ final readonly class EntrataPersonaAction
 
             // inserisce la persona nella famiglia con una posizione
             if ($entrataPersonaData->famiglia) {
-                // NOTE: se la persone è già nella famiglia (è duplicato) si aggiorna lo stato a 1 con la nuova data
-                $conn->insert("INSERT INTO famiglie_persone (famiglia_id, persona_id, posizione_famiglia, stato) VALUES (?, ?, ?, '1')  ON DUPLICATE KEY UPDATE stato='1'",
+                // NOTE: se la persona è già nella famiglia (rientra) si riattiva con la posizione della nuova entrata
+                $conn->insert("INSERT INTO famiglie_persone (famiglia_id, persona_id, posizione_famiglia, stato) VALUES (?, ?, ?, '1') ON DUPLICATE KEY UPDATE stato = '1', posizione_famiglia = ?",
                     [
                         $entrataPersonaData->famiglia->id,
                         $persona_id,
                         $entrataPersonaData->famiglia_posizione,
+                        $entrataPersonaData->famiglia_posizione,
                     ]
                 );
             }
-            DB::connection('db_nomadelfia')->commit();
-
-        } catch (Exception $e) {
-            DB::connection('db_nomadelfia')->rollback();
-            dd($e);
-        }
+        });
     }
 }

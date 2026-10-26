@@ -8,6 +8,8 @@ use App\Anagrafe\Famiglia\Controllers\MarriageController;
 use App\Anagrafe\Famiglia\Models\Famiglia;
 use App\Anagrafe\Famiglia\Models\TipoFamiglia;
 use App\Anagrafe\Persona\Models\Persona;
+use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Carbon\Carbon;
 
 it('marries two people who are not part of the popolazione', function (): void {
@@ -101,4 +103,62 @@ it('keeps the spouses selected before a validation error', function (): void {
         ->get(action([MarriageController::class, 'create']))
         ->assertViewHas('husbandId', [$husband->id])
         ->assertViewHas('wifeId', [$wife->id]);
+});
+
+it('moves the spouses in Nomadelfia into the gruppo chosen for the famiglia', function (): void {
+    login();
+    [$vecchioGruppo, $nuovoGruppo] = GruppoFamiliare::query()->take(2)->get();
+    $husband = Persona::factory()->maggiorenne()->maschio()->create();
+    $wife = Persona::factory()->maggiorenne()->femmina()->create();
+    app(EntrataMaggiorenneSingleAction::class)->execute($husband, Carbon::parse('2020-01-01'), $vecchioGruppo);
+    app(EntrataMaggiorenneSingleAction::class)->execute($wife, Carbon::parse('2020-01-01'), $nuovoGruppo);
+
+    $this->post(action([MarriageController::class, 'store']), [
+        'husband' => $husband->id,
+        'wife' => $wife->id,
+        'data_matrimonio' => '2022-06-12',
+        'gruppo_id' => $nuovoGruppo->id,
+    ])->assertSessionHasNoErrors();
+
+    expect($husband->gruppofamiliareAttuale()->id)->toBe($nuovoGruppo->id)
+        ->and($husband->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toBe('2022-06-12')
+        ->and($husband->gruppofamiliariStorico()->first()->pivot->data_uscita_gruppo)->toBe('2022-06-12')
+        ->and($wife->gruppofamiliareAttuale()->id)->toBe($nuovoGruppo->id)
+        ->and($wife->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toBe('2020-01-01')
+        ->and($husband->famigliaAttuale()->gruppoFamiliareAttuale()->id)->toBe($nuovoGruppo->id);
+});
+
+it('moves a spouse married before entering into the gruppo from the entrata', function (): void {
+    login();
+    [$vecchioGruppo, $nuovoGruppo] = GruppoFamiliare::query()->take(2)->get();
+    $husband = Persona::factory()->maggiorenne()->maschio()->create();
+    $wife = Persona::factory()->maggiorenne()->femmina()->create();
+    app(EntrataMaggiorenneSingleAction::class)->execute($husband, Carbon::parse('2020-01-01'), $vecchioGruppo);
+
+    $this->post(action([MarriageController::class, 'store']), [
+        'husband' => $husband->id,
+        'wife' => $wife->id,
+        'data_matrimonio' => '1998-06-12',
+        'gruppo_id' => $nuovoGruppo->id,
+    ])->assertSessionHasNoErrors();
+
+    expect($husband->gruppofamiliareAttuale()->id)->toBe($nuovoGruppo->id)
+        ->and($husband->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toBe('2020-01-01')
+        ->and($wife->gruppofamiliareAttuale())->toBeNull();
+});
+
+it('requires the gruppo when a spouse is in Nomadelfia', function (): void {
+    login();
+    $husband = Persona::factory()->maggiorenne()->maschio()->create();
+    $wife = Persona::factory()->maggiorenne()->femmina()->create();
+    app(EntrataMaggiorenneSingleAction::class)->execute($wife, Carbon::parse('2020-01-01'), GruppoFamiliare::first());
+
+    $this->post(action([MarriageController::class, 'store']), [
+        'husband' => $husband->id,
+        'wife' => $wife->id,
+        'data_matrimonio' => '2022-06-12',
+    ])->assertSessionHasErrors(['gruppo_id' => 'Il gruppo familiare è obbligatorio quando uno degli sposi è in Nomadelfia.']);
+
+    expect($husband->famigliaAttuale())->toBeNull()
+        ->and($wife->gruppofamiliareAttuale()->id)->toBe(GruppoFamiliare::first()->id);
 });

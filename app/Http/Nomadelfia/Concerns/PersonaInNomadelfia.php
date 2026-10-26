@@ -68,6 +68,30 @@ trait PersonaInNomadelfia
         throw PersonaHasMultipleGroup::named($this);
     }
 
+    /**
+     * Moves the person into the gruppo familiare from the date, or from the entrata in the current gruppo when the date is earlier.
+     * Nothing changes when the person is already in the gruppo.
+     */
+    public function spostaNelGruppoFamiliare(int $gruppoId, Carbon $data): void
+    {
+        $attuale = $this->gruppofamiliareAttuale();
+        if ($attuale?->id === $gruppoId) {
+            return;
+        }
+        if ($attuale && $attuale->pivot->data_entrata_gruppo) {
+            $data = \Illuminate\Support\Facades\Date::parse($attuale->pivot->data_entrata_gruppo)->max($data);
+        }
+
+        DB::connection('db_nomadelfia')->transaction(function () use ($attuale, $gruppoId, $data): void {
+            $conn = DB::connection('db_nomadelfia');
+            if ($attuale) {
+                $conn->update("UPDATE gruppi_persone SET stato = '0', data_uscita_gruppo = ? WHERE stato = '1' and persona_id = ?", [$data->toDateString(), $this->id]);
+            }
+            $conn->insert("INSERT INTO gruppi_persone (gruppo_famigliare_id, persona_id, data_entrata_gruppo, stato) VALUES (?, ?, ?, '1')",
+                [$gruppoId, $this->id, $data->toDateString()]);
+        });
+    }
+
     public function gruppofamiliariStorico(): BelongsToMany
     {
         return $this->gruppifamiliari()->wherePivot('stato', '0');
