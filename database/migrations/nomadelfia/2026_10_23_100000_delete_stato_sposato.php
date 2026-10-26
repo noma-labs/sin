@@ -8,15 +8,23 @@ use SqlMigrations\SqlMigration;
 final class DeleteStatoSposato extends SqlMigration
 {
     /**
-     * The stati sposato whose date is not the data_creazione of a famiglia where the person is capofamiglia or moglie:
-     * deleting them would lose the marriage date.
+     * The stati sposato that get deleted, because the coniuge is in the famiglia, but whose date is not the data_creazione
+     * of a famiglia where the person is capofamiglia or moglie: deleting them would lose the marriage date.
      */
     private const string SPOSATI_SENZA_DATA_IN_FAMIGLIA = "
         SELECT persone.id, persone.nominativo, persone_stati.data_inizio
         FROM persone_stati
         JOIN stati ON stati.id = persone_stati.stato_id AND stati.stato = 'SPO'
         JOIN persone ON persone.id = persone_stati.persona_id
-        WHERE NOT EXISTS (
+        WHERE EXISTS (
+            SELECT 1 FROM famiglie_persone
+            JOIN famiglie_persone coniuge ON coniuge.famiglia_id = famiglie_persone.famiglia_id
+                AND coniuge.persona_id <> famiglie_persone.persona_id
+                AND coniuge.posizione_famiglia IN ('CAPO FAMIGLIA', 'MOGLIE')
+            WHERE famiglie_persone.persona_id = persone.id
+            AND famiglie_persone.posizione_famiglia IN ('CAPO FAMIGLIA', 'MOGLIE')
+        )
+        AND NOT EXISTS (
             SELECT 1 FROM famiglie_persone
             JOIN famiglie ON famiglie.id = famiglie_persone.famiglia_id
             WHERE famiglie_persone.persona_id = persone.id
@@ -28,7 +36,9 @@ final class DeleteStatoSposato extends SqlMigration
     public $connection = 'db_nomadelfia';
 
     /**
-     * Deletes the stato sposato only when every date of a stato sposato is already stored as the data_creazione of the famiglia.
+     * Deletes the stato sposato of the people with the coniuge in the famiglia, only when every date of those stati sposato
+     * is already stored as the data_creazione of the famiglia.
+     * A sposato/a without coniuge in the famiglia (the coniuge lives outside Nomadelfia) keeps the stato SPO: see PersonaInNomadelfia::statoCivile().
      *
      * @throws RuntimeException listing the people to fix; nothing is changed
      */

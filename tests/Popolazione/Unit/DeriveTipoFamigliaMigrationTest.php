@@ -40,9 +40,9 @@ beforeEach(function (): void {
 });
 
 afterEach(function (): void {
-    $stati = DB::connection('db_nomadelfia')->table('stati')->where('stato', 'SPO')->pluck('id');
-    DB::connection('db_nomadelfia')->table('persone_stati')->whereIn('stato_id', $stati)->delete();
-    DB::connection('db_nomadelfia')->table('stati')->whereIn('id', $stati)->delete();
+    // the stato SPO stays, for the sposati without coniuge in the famiglia
+    $stato = DB::connection('db_nomadelfia')->table('stati')->where('stato', 'SPO')->value('id');
+    DB::connection('db_nomadelfia')->table('persone_stati')->where('stato_id', $stato)->delete();
 });
 
 it('sets coniugi for the famiglie with both coniugi, also a vedova next to the deceased husband', function (): void {

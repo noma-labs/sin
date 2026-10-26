@@ -47,3 +47,13 @@ it('prefers the coniuge in the famiglia to the stato vedovo: a vedova who remarr
 
     expect($moglie->statoCivile()['nome'])->toBe('Sposata');
 });
+
+it('derives sposato from the stato sposato when the coniuge is not in the anagrafe', function (): void {
+    $sposato = Persona::factory()->maggiorenne()->maschio()->create();
+    Famiglia::factory()->create()->assegnaCapoFamiglia($sposato);
+
+    $sposato->assegnaStato(Stato::perNome('sposato'), '1998-06-12');
+
+    expect($sposato->statoCivile()['nome'])->toBe('Sposato')
+        ->and($sposato->statoCivile()['dal']?->toDateString())->toBe('1998-06-12');
+});
