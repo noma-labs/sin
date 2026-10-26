@@ -1,0 +1,40 @@
+.selected-option {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  line-height: 1.42857143;
+  border-radius: 4px;
+  margin: 4px 2px 0px 2px;
+  padding: 0 0.25em;
+  padding-top: 0.25em;
+}
+
+.deselect-option {
+  font-size: 1.25em;
+  background: none;
+  border: none;
+  padding: 0;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.available-option {
+  list-style-type: none;
+  margin: 10px;
+}
+
+.available-option:hover {
+  background-color: lightblue;
+  color: white; /* Change the text color to white for better contrast */
+  border-radius: 4px;
+  padding: 0 0.25em;
+  cursor: pointer;
+}
+
+.my-dropdown-menu {
+  position: absolute;
+  background: white;
+  z-index: 1000;
+  width: 100%;
+  padding: 0px;
+  overflow-y: scroll;
+}

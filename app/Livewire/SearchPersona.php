@@ -5,56 +5,67 @@ declare(strict_types=1);
 namespace App\Livewire;
 
 use App\Anagrafe\Persona\Models\Persona;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\JoinClause;
+use Illuminate\Support\Facades\Date;
 
 final class SearchPersona extends Autocomplete
 {
     public function searchBy(string $term): array
     {
-        $persone = Persona::query()
-            ->selectRaw('persone.id, persone.nominativo, persone.nome, persone.cognome, persone.data_nascita, popolazione.data_entrata, MAX(popolazione.data_uscita) as data_uscita')
-            ->leftJoin('popolazione', 'persone.id', '=', 'popolazione.persona_id')
+        $term = addcslashes($term, '%_\\');
+
+        $query = $this->personeWithLatestStay();
+        $query->where(fn (Builder $query): Builder => $query
             ->where('nominativo', 'LIKE', "$term%")
             ->orWhere('cognome', 'LIKE', "$term%")
-            ->orWhere('nome', 'LIKE', "$term%")
-            ->groupBy('persone.id')
-            ->orderBy('nominativo', 'asc')
-            ->limit(50)
-            ->get();
+            ->orWhere('nome', 'LIKE', "$term%"))
+            ->limit(50);
 
-        $options = [];
-        foreach ($persone as $persona) {
-            $year = empty($persona->data_nascita) ? null : \Illuminate\Support\Facades\Date::parse($persona->data_nascita)->year;
-            $details = ($year ? "($year) " : '')."$persona->nome  $persona->cognome ($persona->nominativo)";
-            if (! empty($persona->data_entrata) && ! empty($persona->data_uscita)) {
-                $details .= ' '.$persona->data_entrata.' - '.$persona->data_uscita;
-            } elseif (! empty($persona->data_entrata)) {
-                $details .= ' '.$persona->data_entrata;
-            } elseif (! empty($persona->data_uscita)) {
-                $details .= ' - '.$persona->data_uscita;
-            }
-            $options[] = new Option(
-                $persona->id,
-                $details
-            );
-        }
-
-        return $options;
+        return $query->get()
+            ->map(fn (Persona $persona): Option => $this->toOption($persona))
+            ->all();
     }
 
     public function selected(array $ids): array
     {
-        $q = Persona::query()
-            ->select('persone.id', 'persone.nominativo', 'persone.nome', 'persone.cognome', 'persone.data_nascita')
-            ->whereIn('id', $ids)
+        $query = $this->personeWithLatestStay();
+        $query->whereIn('persone.id', $ids);
+
+        return $query->get()
+            ->map(fn (Persona $persona): Option => $this->toOption($persona))
+            ->all();
+    }
+
+    /**
+     * @return Builder<Persona>
+     */
+    private function personeWithLatestStay(): Builder
+    {
+        $query = Persona::query();
+        $query->select('persone.id', 'persone.nominativo', 'persone.nome', 'persone.cognome', 'persone.data_nascita', 'popolazione.data_entrata', 'popolazione.data_uscita')
+            ->leftJoin('popolazione', function (JoinClause $join): void {
+                $join->on('persone.id', '=', 'popolazione.persona_id')
+                    ->whereRaw('popolazione.data_entrata = (SELECT MAX(p.data_entrata) FROM popolazione p WHERE p.persona_id = persone.id)');
+            })
             ->orderBy('nominativo', 'asc');
 
-        $persone = $q->get();
+        return $query;
+    }
 
-        $selected = [];
-        foreach ($persone as $persona) {
-            $selected[] = new Option($persona->id, $persona->nominativo.' ('.$persona->data_nascita.')');
+    private function toOption(Persona $persona): Option
+    {
+        $year = empty($persona->data_nascita) ? null : Date::parse($persona->data_nascita)->year;
+        $label = ($year ? "($year) " : '')."$persona->nome  $persona->cognome ($persona->nominativo)";
+
+        if (! empty($persona->data_entrata)) {
+            $label .= ' '.$persona->data_entrata;
         }
 
-        return $selected;
+        if (! empty($persona->data_uscita)) {
+            $label .= ' - '.$persona->data_uscita;
+        }
+
+        return new Option($persona->id, $label);
     }
 }

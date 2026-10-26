@@ -9973,54 +9973,6 @@ parameters:
 			path: app/Livewire/Autocomplete.php
 
 		-
-			message: '#^Method App\\Livewire\\Option\:\:fromLivewire\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Livewire/Autocomplete.php
-
-		-
-			message: '#^Method App\\Livewire\\Option\:\:fromLivewire\(\) has parameter \$value with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Livewire/Autocomplete.php
-
-		-
-			message: '#^Method App\\Livewire\\Option\:\:toLivewire\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Livewire/Autocomplete.php
-
-		-
-			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<\(int\|string\),mixed\>\:\:first\(\) expects \(callable\(mixed, int\|string\)\: bool\)\|null, Closure\(App\\Livewire\\Option\)\: bool given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Livewire/Autocomplete.php
-
-		-
-			message: '#^Property App\\Livewire\\Autocomplete\:\:\$options has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: app/Livewire/Autocomplete.php
-
-		-
-			message: '#^Property App\\Livewire\\Autocomplete\:\:\$selected has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: app/Livewire/Autocomplete.php
-
-		-
-			message: '#^Unable to resolve the template type TKey in call to function collect$#'
-			identifier: argument.templateType
-			count: 3
-			path: app/Livewire/Autocomplete.php
-
-		-
-			message: '#^Unable to resolve the template type TValue in call to function collect$#'
-			identifier: argument.templateType
-			count: 3
-			path: app/Livewire/Autocomplete.php
-
-		-
 			message: '#^Method App\\Livewire\\EntrataPersona\:\:render\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
