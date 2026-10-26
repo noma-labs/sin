@@ -11,15 +11,18 @@ final class Option implements Wireable
 {
     public function __construct(public int|string $id, public string $value) {}
 
-    public static function fromLivewire($value)
+    /**
+     * @param  array{id: int|string, value: string}  $value
+     */
+    public static function fromLivewire($value): self
     {
-        $id = $value['id'];
-        $value = $value['value'];
-
-        return new self($id, $value);
+        return new self($value['id'], $value['value']);
     }
 
-    public function toLivewire()
+    /**
+     * @return array{id: int|string, value: string}
+     */
+    public function toLivewire(): array
     {
         return [
             'id' => $this->id,
@@ -30,13 +33,15 @@ final class Option implements Wireable
 
 abstract class Autocomplete extends Component
 {
-    public string $searchTerm;
+    public string $searchTerm = '';
 
     public string $placeholder;
 
-    public $options = [];
+    /** @var Option[] */
+    public array $options = [];
 
-    public $selected = [];
+    /** @var Option[] */
+    public array $selected = [];
 
     public string $noResultsMessage = '-- Nessun risultato --';
 
@@ -82,7 +87,7 @@ abstract class Autocomplete extends Component
         }
 
         if ($this->multiple) {
-            $this->selected = collect($this->selected)->push($found)->unique();
+            $this->selected = collect($this->selected)->push($found)->unique('id')->values()->all();
         } else {
             $this->selected = [$found];
         }
@@ -93,7 +98,7 @@ abstract class Autocomplete extends Component
 
     final public function deselect(int|string $id): void
     {
-        $this->selected = collect($this->selected)->reject(fn (Option $selected): bool => (string) $selected->id === (string) $id);
+        $this->selected = collect($this->selected)->reject(fn (Option $selected): bool => (string) $selected->id === (string) $id)->values()->all();
     }
 
     final public function updatedSearchTerm(string $value): void
@@ -107,7 +112,7 @@ abstract class Autocomplete extends Component
         $this->reset('options');
 
         if (mb_strlen($term) < 3) {
-            $this->noResultsMessage = '--Inserisci almeno 3 caratteri --';
+            $this->noResultsMessage = '-- Inserisci almeno 3 caratteri --';
 
             return;
         }
