@@ -12,8 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * A stato of a person that cannot be derived from the famiglia: sacerdote, separato.
  * The stato civile (celibe, nubile, sposato, vedovo) is derived by PersonaInNomadelfia::statoCivile(),
- * mamma di vocazione, nomadelfa mamma and mamma nubile by the tipo of the famiglia the person heads (TipoFamiglia).
- * The old rows MAV, MAM and MAN are still in the tables stati and persone_stati, but are ignored.
+ * mamma di vocazione, nomadelfa mamma, mamma nubile and celibe di elezione by the tipo of the famiglia the person heads (TipoFamiglia).
  *
  * @property string $stato
  * @property string $nome
@@ -39,13 +38,11 @@ final class Stato extends Model
     protected $primaryKey = 'id';
 
     /**
-     * The stati a person can have, without the old stati replaced by the tipo of the famiglia.
-     *
      * @return Collection<int, self>
      */
     public static function assegnabili(): Collection
     {
-        return self::all()->whereIn('stato', self::$mapNamesToDB)->sortBy('nome')->values();
+        return self::all()->sortBy('nome')->values();
     }
 
     public static function find(string $name): self

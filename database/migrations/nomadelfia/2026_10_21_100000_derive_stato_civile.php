@@ -10,7 +10,6 @@ final class DeriveStatoCivile extends SqlMigration
 {
     /**
      * The checks that the date of a stato sposato can be copied into the famiglia without choosing between different dates.
-     * TODO: when the stati sposato and vedovo get deleted, check that the coniuge of a vedovo/a is deceased.
      *
      * @var array<string, string>
      */

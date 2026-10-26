@@ -10,7 +10,6 @@ use App\Nomadelfia\Persona\Controllers\PersonaStatoController;
 use App\Nomadelfia\Persona\Controllers\PersonPositionController;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
-use Illuminate\Support\Facades\DB;
 
 it('can render the stato index page of a person', function (): void {
     login();
@@ -34,18 +33,6 @@ it('adds a stato to a person keeping the other active stati', function (): void 
     expect($persona->statiAttivi()->pluck('stati.stato')->all())->toBe(['SAC', 'SEP']);
 });
 
-it('refuses the old stati mamma: they are the tipo of the famiglia', function (string $stato): void {
-    login();
-    $persona = Persona::factory()->maggiorenne()->femmina()->create();
-
-    $this->post(action([PersonaStatoController::class, 'store'], $persona->id), [
-        'stato_id' => Stato::find($stato)->id,
-        'data_inizio' => '1990-01-01',
-    ])->assertSessionHasErrors(['stato_id' => 'Lo stato non esiste. Celibe, nubile, sposato, vedovo, mamma di vocazione, nomadelfa mamma e mamma nubile derivano dalla famiglia.']);
-
-    expect(DB::connection('db_nomadelfia')->table('persone_stati')->where('persona_id', $persona->id)->exists())->toBeFalse();
-})->with(['MAV', 'MAM', 'MAN']);
-
 it('refuses a stato the person already has active', function (): void {
     login();
     $persona = Persona::factory()->maggiorenne()->maschio()->create(['nominativo' => 'Don Prete']);
@@ -67,7 +54,7 @@ it('refuses a stato that does not exist', function (): void {
     $this->post(action([PersonaStatoController::class, 'store'], $persona->id), [
         'stato_id' => 999999,
         'data_inizio' => '1990-01-01',
-    ])->assertSessionHasErrors(['stato_id' => 'Lo stato non esiste. Celibe, nubile, sposato, vedovo, mamma di vocazione, nomadelfa mamma e mamma nubile derivano dalla famiglia.']);
+    ])->assertSessionHasErrors(['stato_id' => 'Lo stato non esiste. Celibe, nubile, sposato, vedovo, mamma di vocazione, nomadelfa mamma, mamma nubile e celibe di elezione derivano dalla famiglia.']);
 
     expect($persona->stati()->count())->toBe(0);
 });
