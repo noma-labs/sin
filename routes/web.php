@@ -146,6 +146,8 @@ Route::prefix('anagrafe')->middleware('auth')->group(function () {
     Route::view('search', 'anagrafe.persone.search')->middleware('can:popolazione.persona.visualizza')->name('anagrafe.people.search');
     Route::get('search/submit', [SearchablePersonController::class, 'show'])->name('anagrafe.people.search.show');
     Route::get('families', [FamilyController::class, 'index'])->name('anagrafe.families');
+    Route::get('families-new', [FamilyController::class, 'create'])->name('anagrafe.families.create');
+    Route::post('families', [FamilyController::class, 'store'])->name('anagrafe.families.store');
     Route::get('families/{id}', [FamilyController::class, 'show'])->name('anagrafe.families.show');
     Route::put('families/{id}', [FamilyController::class, 'update'])->name('anagrafe.families.update');
     Route::get('people/{id}/families', [PersonaFamigliaController::class, 'index'])->name('anagrafe.person.families');
