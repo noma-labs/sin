@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use App\Anagrafe\Famiglia\Models\Famiglia;
 use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 use Carbon\Carbon;
@@ -25,3 +26,24 @@ it('refuses to assign twice the same active stato', function (): void {
 
     $persona->assegnaStato(Stato::perNome('sacerdote'), '1990-01-01');
 })->throws(Exception::class, 'ha già lo stato SACERDOTE');
+
+it('derives vedova from the stato vedovo when the coniuge is not in the anagrafe', function (): void {
+    $vedova = Persona::factory()->maggiorenne()->femmina()->create();
+    Famiglia::factory()->create()->assegnaCapoFamiglia($vedova);
+
+    $vedova->assegnaStato(Stato::perNome('vedovo'), '1970-04-02');
+
+    expect($vedova->statoCivile()['nome'])->toBe('Vedova')
+        ->and($vedova->statoCivile()['dal']?->toDateString())->toBe('1970-04-02');
+});
+
+it('prefers the coniuge in the famiglia to the stato vedovo: a vedova who remarries is sposata', function (): void {
+    $moglie = Persona::factory()->maggiorenne()->femmina()->create();
+    $famiglia = Famiglia::factory()->create(['data_creazione' => '1990-05-12']);
+    $famiglia->assegnaCapoFamiglia(Persona::factory()->maggiorenne()->maschio()->create());
+    $famiglia->assegnaMoglie($moglie);
+
+    $moglie->assegnaStato(Stato::perNome('vedovo'), '1970-04-02');
+
+    expect($moglie->statoCivile()['nome'])->toBe('Sposata');
+});

@@ -54,7 +54,7 @@ it('refuses a stato that does not exist', function (): void {
     $this->post(action([PersonaStatoController::class, 'store'], $persona->id), [
         'stato_id' => 999999,
         'data_inizio' => '1990-01-01',
-    ])->assertSessionHasErrors(['stato_id' => 'Lo stato non esiste. Celibe, nubile, sposato, vedovo, mamma di vocazione, nomadelfa mamma, mamma nubile e celibe di elezione derivano dalla famiglia.']);
+    ])->assertSessionHasErrors(['stato_id' => 'Lo stato non esiste. Celibe, nubile, sposato, mamma di vocazione, nomadelfa mamma, mamma nubile e celibe di elezione derivano dalla famiglia.']);
 
     expect($persona->stati()->count())->toBe(0);
 });
