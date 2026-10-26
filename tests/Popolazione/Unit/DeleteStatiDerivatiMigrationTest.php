@@ -9,10 +9,11 @@ use App\Anagrafe\Famiglia\Models\TipoFamiglia;
 use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 use DeleteStatiDerivati;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use RuntimeException;
 
-const STATI_DERIVATI = ['CEL', 'NUB', 'VED', 'CDE', 'MAV', 'MAM', 'MAN'];
+const STATI_DERIVATI = ['CEL', 'NUB', 'CDE', 'MAV', 'MAM', 'MAN'];
 
 /**
  * The migration already ran on the test database: these tests add the derived stati back, and run it again.
@@ -39,6 +40,8 @@ function eliminaStatiDerivati(): void
     $stati = DB::connection('db_nomadelfia')->table('stati')->whereIn('stato', STATI_DERIVATI)->pluck('id');
     DB::connection('db_nomadelfia')->table('persone_stati')->whereIn('stato_id', $stati)->delete();
     DB::connection('db_nomadelfia')->table('stati')->whereIn('id', $stati)->delete();
+    // the stato VED stays, for the vedovi without coniuge in the famiglia
+    DB::connection('db_nomadelfia')->table('persone_stati')->where('stato_id', Stato::perNome('vedovo')->id)->delete();
 }
 
 beforeEach(function (): void {
@@ -50,7 +53,7 @@ afterEach(function (): void {
     eliminaStatiDerivati();
 });
 
-it('deletes the stati derived from the famiglia, keeping sacerdote and separato', function (): void {
+it('deletes the stati derived from the famiglia, keeping sacerdote, separato and vedovo', function (): void {
     $marito = Persona::factory()->maggiorenne()->maschio()->create(['data_decesso' => '2015-11-03']);
     $vedova = Persona::factory()->maggiorenne()->femmina()->create();
     $famiglia = Famiglia::factory()->create(['tipo' => TipoFamiglia::Coniugi]);
@@ -73,6 +76,17 @@ it('deletes the stati derived from the famiglia, keeping sacerdote and separato'
         ->and($mamma->stati()->count())->toBe(0)
         ->and($celibe->stati()->count())->toBe(0)
         ->and($sacerdote->stati()->pluck('stati.stato')->all())->toBe(['SAC']);
+});
+
+it('keeps the stato vedovo of a vedova without coniuge in the famiglia: she entered Nomadelfia already vedova', function (): void {
+    $vedova = Persona::factory()->maggiorenne()->femmina()->create();
+    Famiglia::factory()->create(['tipo' => TipoFamiglia::Coniugi])->assegnaCapoFamiglia($vedova);
+    assegnaStatoDerivato($vedova, 'VED', '1970-04-02');
+
+    migrazioneDeleteStatiDerivati()->up();
+
+    expect($vedova->stati()->pluck('stati.stato')->all())->toBe(['VED'])
+        ->and($vedova->statoCivile())->toEqual(['nome' => 'Vedova', 'dal' => Date::parse('1970-04-02')]);
 });
 
 it('sets celibe di elezione as the tipo of the famiglia headed by the celibe di elezione', function (): void {

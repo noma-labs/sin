@@ -34,7 +34,8 @@ function assegnaStatoCivile(Persona $persona, string $stato, string $dataInizio,
 afterEach(function (): void {
     $stati = DB::connection('db_nomadelfia')->table('stati')->whereIn('stato', ['SPO', 'VED'])->pluck('id');
     DB::connection('db_nomadelfia')->table('persone_stati')->whereIn('stato_id', $stati)->delete();
-    DB::connection('db_nomadelfia')->table('stati')->whereIn('id', $stati)->delete();
+    // the stato VED stays, for the vedovi without coniuge in the famiglia
+    DB::connection('db_nomadelfia')->table('stati')->where('stato', 'SPO')->delete();
 });
 
 it('copies the date of the stato sposato into the famiglia, keeping the stati untouched', function (): void {

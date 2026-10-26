@@ -283,7 +283,7 @@
                 <label class="col-sm-4 fw-bold"> Stato familiare: </label>
                 <div class="col-sm-6">
                   <span>
-                    {{ collect([$persona->statoCivile()["nome"]])->merge($persona->statiAttivi()->get()->reject->isSeparato()->pluck("nome"))->push($persona->famigliaSenzaConiuge()?->tipo->nome())->filter()->implode(" · ") }}
+                    {{ collect([$persona->statoCivile()["nome"]])->merge($persona->statiAttivi()->get()->reject->isStatoCivile()->pluck("nome"))->push($persona->famigliaSenzaConiuge()?->tipo->nome())->filter()->implode(" · ") }}
                   </span>
                 </div>
                 <div class="col-sm-2">

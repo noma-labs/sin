@@ -9,6 +9,7 @@ final class DeleteStatiDerivati extends SqlMigration
 {
     /**
      * The checks that the active stati celibe, nubile, vedovo, mamma and celibe di elezione are already derived from the famiglia.
+     * A vedovo/a without coniuge in the famiglia (entered Nomadelfia already vedovo/a) keeps the stato VED: see PersonaInNomadelfia::statoCivile().
      *
      * @var array<string, string>
      */
@@ -18,6 +19,11 @@ final class DeleteStatiDerivati extends SqlMigration
             FROM persone_stati
             JOIN stati ON stati.id = persone_stati.stato_id AND stati.stato = 'VED'
             JOIN persone ON persone.id = persone_stati.persona_id
+            JOIN famiglie_persone ON famiglie_persone.persona_id = persone.id
+                AND famiglie_persone.posizione_famiglia IN ('CAPO FAMIGLIA', 'MOGLIE')
+            JOIN famiglie_persone coniuge ON coniuge.famiglia_id = famiglie_persone.famiglia_id
+                AND coniuge.persona_id <> persone.id
+                AND coniuge.posizione_famiglia IN ('CAPO FAMIGLIA', 'MOGLIE')
             WHERE persone_stati.stato = '1'
             AND NOT EXISTS (
                 SELECT 1 FROM famiglie_persone
@@ -72,7 +78,7 @@ final class DeleteStatiDerivati extends SqlMigration
 
     /**
      * Moves the celibe di elezione into the tipo of the famiglia and deletes the stati derived from the famiglia,
-     * keeping only sacerdote and separato.
+     * keeping only sacerdote, separato and the vedovo/a without coniuge in the famiglia.
      * Refuses when an active stato is not derived from the famiglia: those people must be fixed by hand before migrating.
      *
      * @throws RuntimeException listing the people to fix; nothing is changed
