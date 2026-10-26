@@ -32,12 +32,12 @@ function assegnaStatoSposato(Persona $persona, string $dataInizio): void
 }
 
 afterEach(function (): void {
-    $stati = DB::connection('db_nomadelfia')->table('stati')->where('stato', 'SPO')->pluck('id');
-    DB::connection('db_nomadelfia')->table('persone_stati')->whereIn('stato_id', $stati)->delete();
-    DB::connection('db_nomadelfia')->table('stati')->whereIn('id', $stati)->delete();
+    // the stato SPO stays, for the sposati without coniuge in the famiglia
+    $stato = DB::connection('db_nomadelfia')->table('stati')->where('stato', 'SPO')->value('id');
+    DB::connection('db_nomadelfia')->table('persone_stati')->where('stato_id', $stato)->delete();
 });
 
-it('deletes the stato sposato when its date is the data_creazione of the famiglia, keeping the other stati', function (): void {
+it('deletes the stato sposato of the coniugi when its date is the data_creazione of the famiglia, keeping the other stati', function (): void {
     $marito = Persona::factory()->maggiorenne()->maschio()->create();
     $moglie = Persona::factory()->maggiorenne()->femmina()->create();
     $famiglia = Famiglia::factory()->create(['data_creazione' => '1998-06-12']);
@@ -49,8 +49,7 @@ it('deletes the stato sposato when its date is the data_creazione of the famigli
 
     migrazioneDeleteStatoSposato()->up();
 
-    expect(DB::connection('db_nomadelfia')->table('stati')->where('stato', 'SPO')->exists())->toBeFalse()
-        ->and($marito->stati()->count())->toBe(0)
+    expect($marito->stati()->count())->toBe(0)
         ->and($moglie->stati()->pluck('stati.stato')->all())->toBe(['SEP'])
         ->and(Famiglia::findOrFail($famiglia->id)->data_creazione)->toBe('1998-06-12')
         ->and($moglie->matrimonioAttuale()?->id)->toBe($famiglia->id);
@@ -60,6 +59,7 @@ it('refuses to run when the date of a stato sposato is not the data_creazione of
     $marito = Persona::factory()->maggiorenne()->maschio()->create(['nominativo' => 'Marito Data Diversa']);
     $famiglia = Famiglia::factory()->create(['data_creazione' => '2000-01-01']);
     $famiglia->assegnaCapoFamiglia($marito);
+    $famiglia->assegnaMoglie(Persona::factory()->maggiorenne()->femmina()->create());
     assegnaStatoSposato($marito, '1998-06-12');
 
     expect(fn () => migrazioneDeleteStatoSposato()->up())
@@ -67,11 +67,14 @@ it('refuses to run when the date of a stato sposato is not the data_creazione of
         ->and(DB::connection('db_nomadelfia')->table('persone_stati')->where('persona_id', $marito->id)->count())->toBe(1);
 });
 
-it('refuses to run when the sposato is in no famiglia', function (): void {
-    $sposato = Persona::factory()->maggiorenne()->maschio()->create(['nominativo' => 'Sposato Senza Famiglia']);
+it('keeps the stato sposato of a sposato without coniuge in the famiglia: the coniuge lives outside Nomadelfia', function (): void {
+    $sposato = Persona::factory()->maggiorenne()->maschio()->create();
+    Famiglia::factory()->create(['data_creazione' => '2000-01-01'])->assegnaCapoFamiglia($sposato);
     assegnaStatoSposato($sposato, '1998-06-12');
 
-    expect(fn () => migrazioneDeleteStatoSposato()->up())
-        ->toThrow(RuntimeException::class, "Sposato Senza Famiglia (id {$sposato->id}): sposato/a dal 1998-06-12")
-        ->and(DB::connection('db_nomadelfia')->table('persone_stati')->where('persona_id', $sposato->id)->count())->toBe(1);
+    migrazioneDeleteStatoSposato()->up();
+
+    expect($sposato->stati()->pluck('stati.stato')->all())->toBe(['SPO'])
+        ->and($sposato->statoCivile()['nome'])->toBe('Sposato')
+        ->and($sposato->statoCivile()['dal']?->toDateString())->toBe('1998-06-12');
 });

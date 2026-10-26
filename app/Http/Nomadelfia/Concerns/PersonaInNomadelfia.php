@@ -196,12 +196,12 @@ trait PersonaInNomadelfia
     /**
      * The stato civile of the person, derived instead of stored:
      * separato (stato SEP), vedovo (the coniuge is deceased), sposato (from the creation of the famiglia, unknown when the famiglia has no date),
-     * vedovo (stato VED), otherwise celibe or nubile.
+     * vedovo (stato VED), sposato (stato SPO), otherwise celibe or nubile.
      *
-     * The vedovanza is stored in two ways on purpose. It is derived from the data_decesso of the coniuge in the famiglia,
-     * but a person who entered Nomadelfia already vedovo/a has no coniuge in the anagrafe, so there is no date of death to derive it from:
-     * only for them the stato VED keeps the vedovanza and its date. The coniuge in the famiglia wins over the stato VED,
-     * so the two cannot contradict each other: a vedovo/a who remarries is sposato/a.
+     * The vedovanza and the matrimonio are stored in two ways on purpose. They are derived from the coniuge in the famiglia,
+     * but a person whose coniuge is not in the anagrafe (entered Nomadelfia already vedovo/a, or the coniuge lives outside Nomadelfia)
+     * has no coniuge to derive them from: only for them the stato VED or SPO keeps the stato civile and its date.
+     * The coniuge in the famiglia wins over the stati VED and SPO, so the two cannot contradict each other: a vedovo/a who remarries is sposato/a.
      *
      * @return array{nome: string, dal: Carbon|null}
      */
@@ -225,6 +225,11 @@ trait PersonaInNomadelfia
         $vedovanza = $this->statiAttivi()->where('stati.stato', Stato::$mapNamesToDB['vedovo'])->value('persone_stati.data_inizio');
         if (is_string($vedovanza)) {
             return ['nome' => $maschio ? 'Vedovo' : 'Vedova', 'dal' => \Illuminate\Support\Facades\Date::parse($vedovanza)];
+        }
+
+        $matrimonio = $this->statiAttivi()->where('stati.stato', Stato::$mapNamesToDB['sposato'])->value('persone_stati.data_inizio');
+        if (is_string($matrimonio)) {
+            return ['nome' => $maschio ? 'Sposato' : 'Sposata', 'dal' => \Illuminate\Support\Facades\Date::parse($matrimonio)];
         }
 
         return ['nome' => $maschio ? 'Celibe' : 'Nubile', 'dal' => \Illuminate\Support\Facades\Date::parse($this->data_nascita)];

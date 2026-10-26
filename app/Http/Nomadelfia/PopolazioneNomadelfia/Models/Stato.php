@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * A stato of a person that cannot be derived from the famiglia: sacerdote, separato,
- * vedovo for a person whose coniuge is not in the anagrafe (see PersonaInNomadelfia::statoCivile()).
+ * sposato and vedovo for a person whose coniuge is not in the anagrafe (see PersonaInNomadelfia::statoCivile()).
  * The stato civile (celibe, nubile, sposato, vedovo) is otherwise derived by PersonaInNomadelfia::statoCivile(),
  * mamma di vocazione, nomadelfa mamma, mamma nubile and celibe di elezione by the tipo of the famiglia the person heads (TipoFamiglia).
  *
@@ -31,6 +31,7 @@ final class Stato extends Model
         'sacerdote' => 'SAC',
         'separato' => 'SEP',
         'vedovo' => 'VED',
+        'sposato' => 'SPO',
     ];
 
     protected $connection = 'db_nomadelfia';
@@ -76,11 +77,11 @@ final class Stato extends Model
     }
 
     /**
-     * Separato and vedovo are part of the stato civile, shown by PersonaInNomadelfia::statoCivile().
+     * Separato, vedovo and sposato are part of the stato civile, shown by PersonaInNomadelfia::statoCivile().
      */
     public function isStatoCivile(): bool
     {
-        return in_array($this->stato, [self::$mapNamesToDB['separato'], self::$mapNamesToDB['vedovo']], true);
+        return in_array($this->stato, [self::$mapNamesToDB['separato'], self::$mapNamesToDB['vedovo'], self::$mapNamesToDB['sposato']], true);
     }
 
     #[\Illuminate\Database\Eloquent\Attributes\Scope]
