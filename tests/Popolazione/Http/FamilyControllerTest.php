@@ -103,3 +103,142 @@ it('refuses a tipo of famiglia that does not exist', function (): void {
 
     expect(Famiglia::findOrFail($famiglia->id)->tipo)->toBeNull();
 });
+
+it('renders the form of a nuova famiglia with the search of the persone', function (): void {
+    login();
+
+    $this->get(action([FamilyController::class, 'create']))
+        ->assertSuccessful()
+        ->assertSee('Data matrimonio')
+        ->assertSeeLivewire('search-persona');
+});
+
+it('creates a famiglia of coniugi with figli nati and accolti', function (): void {
+    login();
+    $marito = Persona::factory()->maggiorenne()->maschio()->create();
+    $moglie = Persona::factory()->maggiorenne()->femmina()->create();
+    $figlioNato = Persona::factory()->minorenne()->maschio()->create();
+    $figlioAccolto = Persona::factory()->minorenne()->femmina()->create();
+
+    $this->post(action([FamilyController::class, 'store']), [
+        'tipo' => 'CON',
+        'data_creazione' => '2015-06-20',
+        'capofamiglia' => $marito->id,
+        'moglie' => $moglie->id,
+        'figli_nati' => [$figlioNato->id],
+        'figli_accolti' => [$figlioAccolto->id],
+    ])->assertSessionHasNoErrors()->assertRedirect();
+
+    $famiglia = $marito->famigliaAttuale();
+    expect($famiglia)->toBeInstanceOf(Famiglia::class)
+        ->and($famiglia->tipo)->toBe(TipoFamiglia::Coniugi)
+        ->and($famiglia->data_creazione)->toStartWith('2015-06-20')
+        ->and($famiglia->nome_famiglia)->toBe($marito->nominativo)
+        ->and($famiglia->moglie()->id)->toBe($moglie->id)
+        ->and($famiglia->figliAttuali()->get()->mapWithKeys(fn (Persona $figlio): array => [$figlio->id => $figlio->pivot->posizione_famiglia])->all())
+        ->toEqual([
+            $figlioNato->id => 'FIGLIO NATO',
+            $figlioAccolto->id => 'FIGLIO ACCOLTO',
+        ]);
+});
+
+it('creates a famiglia of a mamma di vocazione without data_creazione', function (): void {
+    login();
+    $mamma = Persona::factory()->maggiorenne()->femmina()->create();
+    $nome = 'Famiglia '.ucfirst(fake()->unique()->lexify('??????????'));
+
+    $this->post(action([FamilyController::class, 'store']), [
+        'tipo' => 'MAV',
+        'capofamiglia' => $mamma->id,
+        'nome_famiglia' => $nome,
+    ])->assertSessionHasNoErrors();
+
+    $famiglia = $mamma->famigliaAttuale();
+    expect($famiglia->tipo)->toBe(TipoFamiglia::MammaDiVocazione)
+        ->and($famiglia->data_creazione)->toBeNull()
+        ->and($famiglia->nome_famiglia)->toBe($nome)
+        ->and($famiglia->capofamiglia()->id)->toBe($mamma->id);
+});
+
+it('moves the capofamiglia out of the famiglia in which is a figlio', function (): void {
+    login();
+    $mamma = Persona::factory()->maggiorenne()->femmina()->create();
+    $famigliaOrigine = Famiglia::factory()->create();
+    $famigliaOrigine->assegnaFiglioNato($mamma);
+
+    $this->post(action([FamilyController::class, 'store']), [
+        'tipo' => 'MAN',
+        'capofamiglia' => $mamma->id,
+    ])->assertSessionHasNoErrors();
+
+    expect($mamma->famigliaAttuale()->tipo)->toBe(TipoFamiglia::MammaNubile)
+        ->and($famigliaOrigine->figliAttuali()->count())->toBe(0);
+});
+
+it('requires the data del matrimonio and the moglie for the coniugi', function (): void {
+    login();
+    $marito = Persona::factory()->maggiorenne()->maschio()->create();
+
+    $this->post(action([FamilyController::class, 'store']), [
+        'tipo' => 'CON',
+        'capofamiglia' => $marito->id,
+    ])->assertSessionHasErrors([
+        'data_creazione' => 'La data del matrimonio è obbligatoria.',
+        'moglie' => 'La moglie è obbligatoria.',
+    ]);
+
+    expect($marito->famigliaAttuale())->toBeNull();
+});
+
+it('refuses a capofamiglia of the wrong sesso for the tipo', function (string $tipo, string $sesso, string $message): void {
+    login();
+    $capofamiglia = Persona::factory()->maggiorenne()->create(['sesso' => $sesso]);
+
+    $this->post(action([FamilyController::class, 'store']), [
+        'tipo' => $tipo,
+        'capofamiglia' => $capofamiglia->id,
+    ])->assertSessionHasErrors(['capofamiglia' => $message]);
+
+    expect($capofamiglia->famigliaAttuale())->toBeNull();
+})->with([
+    'a man as mamma' => ['MAV', 'M', 'La mamma deve essere una donna maggiorenne, viva e non già capofamiglia o sposata.'],
+    'a woman as celibe' => ['CDE', 'F', 'Il capofamiglia deve essere un uomo maggiorenne, vivo e non già capofamiglia o sposato.'],
+]);
+
+it('refuses a figlio who is already in another famiglia attuale', function (): void {
+    login();
+    $mamma = Persona::factory()->maggiorenne()->femmina()->create();
+    $figlio = Persona::factory()->minorenne()->maschio()->create();
+    $altraFamiglia = Famiglia::factory()->create(['nome_famiglia' => 'Altra Famiglia']);
+    $altraFamiglia->assegnaFiglioNato($figlio);
+
+    $this->post(action([FamilyController::class, 'store']), [
+        'tipo' => 'MAV',
+        'capofamiglia' => $mamma->id,
+        'figli_accolti' => [$figlio->id],
+    ])->assertSessionHasErrors(['figli_accolti.0' => "$figlio->nominativo è già nella famiglia Altra Famiglia: toglilo prima da quella famiglia."]);
+
+    expect($mamma->famigliaAttuale())->toBeNull();
+});
+
+it('refuses the nome of a famiglia that already exists', function (): void {
+    login();
+    $esistente = Famiglia::factory()->create();
+    $mamma = Persona::factory()->maggiorenne()->femmina()->create();
+
+    $this->post(action([FamilyController::class, 'store']), [
+        'tipo' => 'MAV',
+        'capofamiglia' => $mamma->id,
+        'nome_famiglia' => $esistente->nome_famiglia,
+    ])->assertSessionHasErrors(['nome_famiglia' => 'Esiste già una famiglia con questo nome.']);
+
+    expect($mamma->famigliaAttuale())->toBeNull();
+});
+
+it('links the nuova famiglia from the list of the famiglie', function (): void {
+    login();
+
+    $this->get(action([FamilyController::class, 'index']))
+        ->assertSuccessful()
+        ->assertSee(route('anagrafe.families.create'));
+});

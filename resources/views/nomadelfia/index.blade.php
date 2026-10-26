@@ -29,6 +29,9 @@
     <a class="nav-link" href="{{ route("nomadelfia.index") }}">Popolazione</a>
   </li>
   <li class="nav-item">
+    <a class="nav-link" href="{{ route("anagrafe.families") }}">Famiglie</a>
+  </li>
+  <li class="nav-item">
     <a class="nav-link" href="{{ route("nomadelfia.gruppifamiliari") }}">
       Gruppi familiari
     </a>
