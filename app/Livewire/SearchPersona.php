@@ -5,18 +5,22 @@ declare(strict_types=1);
 namespace App\Livewire;
 
 use App\Anagrafe\Persona\Models\Persona;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\JoinClause;
 
 final class SearchPersona extends Autocomplete
 {
     public function searchBy(string $term): array
     {
         $persone = Persona::query()
-            ->selectRaw('persone.id, persone.nominativo, persone.nome, persone.cognome, persone.data_nascita, popolazione.data_entrata, MAX(popolazione.data_uscita) as data_uscita')
-            ->leftJoin('popolazione', 'persone.id', '=', 'popolazione.persona_id')
-            ->where('nominativo', 'LIKE', "$term%")
-            ->orWhere('cognome', 'LIKE', "$term%")
-            ->orWhere('nome', 'LIKE', "$term%")
-            ->groupBy('persone.id')
+            ->select('persone.id', 'persone.nominativo', 'persone.nome', 'persone.cognome', 'persone.data_nascita', 'popolazione.data_entrata', 'popolazione.data_uscita')
+            ->leftJoin('popolazione', fn (JoinClause $join): JoinClause => $join
+                ->on('persone.id', '=', 'popolazione.persona_id')
+                ->whereRaw('popolazione.data_entrata = (SELECT MAX(p.data_entrata) FROM popolazione p WHERE p.persona_id = persone.id)'))
+            ->where(fn (Builder $query): Builder => $query
+                ->where('nominativo', 'LIKE', "$term%")
+                ->orWhere('cognome', 'LIKE', "$term%")
+                ->orWhere('nome', 'LIKE', "$term%"))
             ->orderBy('nominativo', 'asc')
             ->limit(50)
             ->get();

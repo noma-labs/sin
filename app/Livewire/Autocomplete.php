@@ -77,6 +77,10 @@ abstract class Autocomplete extends Component
     {
         $found = collect($this->options)->first(fn (Option $opt): bool => (string) $opt->id === (string) $id);
 
+        if ($found === null) {
+            return;
+        }
+
         if ($this->multiple) {
             $this->selected = collect($this->selected)->push($found)->unique();
         } else {
