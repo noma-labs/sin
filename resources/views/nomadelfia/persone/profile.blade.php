@@ -75,9 +75,9 @@
                 {{ Illuminate\Support\Str::ucfirst(mb_strtolower($stato->nome)) }}
               </span>
             @endforeach
-            @if ($famigliaDaMamma)
+            @if ($famigliaSenzaConiuge)
               <span class="profile-chip">
-                {{ $famigliaDaMamma->tipo->nome() }}
+                {{ $famigliaSenzaConiuge->tipo->nome() }}
               </span>
             @endif
 
@@ -412,12 +412,12 @@
                     dal {{ Carbon::parse($stato->pivot->data_inizio)->translatedFormat("j M Y") }}
                   </small>
                 @endforeach
-                @if ($famigliaDaMamma)
+                @if ($famigliaSenzaConiuge)
                   <br />
-                  {{ $famigliaDaMamma->tipo->nome() }}
-                  @if ($famigliaDaMamma->data_creazione)
+                  {{ $famigliaSenzaConiuge->tipo->nome() }}
+                  @if ($famigliaSenzaConiuge->data_creazione)
                     <small>
-                      dal {{ Carbon::parse($famigliaDaMamma->data_creazione)->translatedFormat("j M Y") }}
+                      dal {{ Carbon::parse($famigliaSenzaConiuge->data_creazione)->translatedFormat("j M Y") }}
                     </small>
                   @endif
                 @endif
@@ -555,7 +555,7 @@
             <div class="profile-event-rail"></div>
             <div class="profile-event-card">
               <div class="fw-semibold">
-                {{ collect([$isPresente ? "Presente" : null, $posizioneAttuale?->nome, $statoCivile["nome"]])->merge($statiAttivi->map(fn ($stato) => Illuminate\Support\Str::ucfirst(mb_strtolower($stato->nome))))->push($famigliaDaMamma?->tipo->nome())->filter()->implode(" · ") ?: "Nessuna situazione attuale" }}
+                {{ collect([$isPresente ? "Presente" : null, $posizioneAttuale?->nome, $statoCivile["nome"]])->merge($statiAttivi->map(fn ($stato) => Illuminate\Support\Str::ucfirst(mb_strtolower($stato->nome))))->push($famigliaSenzaConiuge?->tipo->nome())->filter()->implode(" · ") ?: "Nessuna situazione attuale" }}
               </div>
             </div>
           </li>

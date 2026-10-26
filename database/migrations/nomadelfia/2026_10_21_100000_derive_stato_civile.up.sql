@@ -1,8 +1,6 @@
 -- Run the migrations
 
 -- The stato civile (celibe, nubile, sposato, vedovo) is derived from the sesso, the famiglia and the death of the coniuge.
--- TODO: delete the CEL, NUB, VED and CDE rows from persone_stati and from stati (DeleteStatoSposato deletes the SPO rows):
--- persone_stati will keep only the stati that cannot be derived (SAC, MAV, MAM, MAN, SEP).
 
 -- The date of the stato sposato becomes the marriage date of the famiglia (the earliest one if the spouses have different dates),
 -- only where the famiglia has a different date.

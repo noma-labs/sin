@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Anagrafe\Famiglia\Models;
 
 /**
- * The kind of famiglia: born from a marriage, or headed by a mamma raising her figli without a husband.
+ * The kind of famiglia: born from a marriage, or headed by one person without a coniuge (a mamma raising her figli, a celibe di elezione).
  */
 enum TipoFamiglia: string
 {
@@ -13,6 +13,7 @@ enum TipoFamiglia: string
     case MammaDiVocazione = 'MAV';
     case NomadelfaMamma = 'MAM';
     case MammaNubile = 'MAN';
+    case CelibeDiElezione = 'CDE';
 
     /**
      * @return list<self> the tipi of a famiglia headed by a mamma
@@ -20,6 +21,14 @@ enum TipoFamiglia: string
     public static function mamme(): array
     {
         return [self::MammaDiVocazione, self::NomadelfaMamma, self::MammaNubile];
+    }
+
+    /**
+     * @return list<self> the tipi of a famiglia headed by one person without a coniuge
+     */
+    public static function senzaConiuge(): array
+    {
+        return [...self::mamme(), self::CelibeDiElezione];
     }
 
     public function isMamma(): bool
@@ -34,6 +43,7 @@ enum TipoFamiglia: string
             self::MammaDiVocazione => 'Mamma di vocazione',
             self::NomadelfaMamma => 'Nomadelfa mamma',
             self::MammaNubile => 'Mamma nubile',
+            self::CelibeDiElezione => 'Celibe di elezione',
         };
     }
 }

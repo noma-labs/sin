@@ -36,7 +36,7 @@ final class PersonaStatoController
             'data_inizio' => ['required', 'date'],
         ], [
             'stato_id.required' => 'Lo stato è obbligatorio',
-            'stato_id.exists' => 'Lo stato non esiste. Celibe, nubile, sposato, vedovo, mamma di vocazione, nomadelfa mamma e mamma nubile derivano dalla famiglia.',
+            'stato_id.exists' => 'Lo stato non esiste. Celibe, nubile, sposato, vedovo, mamma di vocazione, nomadelfa mamma, mamma nubile e celibe di elezione derivano dalla famiglia.',
             'data_inizio.required' => 'La data iniziale dello stato è obbligatoria.',
         ]);
         $persona = Persona::findOrFail($idPersona);
