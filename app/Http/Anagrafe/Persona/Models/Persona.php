@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\Pivot;
+use App\Anagrafe\Famiglia\Models\FamigliaPersona;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
@@ -132,11 +132,12 @@ class Persona extends Model
     }
 
     /**
-     * @return BelongsToMany<Famiglia, $this, Pivot, 'pivot'>
+     * @return BelongsToMany<Famiglia, $this, FamigliaPersona, 'pivot'>
      */
     public function famiglie(): BelongsToMany
     {
         return $this->belongsToMany(Famiglia::class, 'famiglie_persone', 'persona_id', 'famiglia_id')
+            ->using(FamigliaPersona::class)
             ->withPivot('stato');
     }
 
@@ -154,6 +155,23 @@ class Persona extends Model
             return $famiglia[0];
         }
         throw PersonaHasMultipleFamigliaAttuale::named($this->nominativo);
+    }
+
+    /**
+     * The famiglia attuale or, for a persona outside every nucleo (deceased, uscito da solo, imported from the history),
+     * the last famiglia of the persona: the one as capofamiglia or moglie before the one as figlio, the most recent first.
+     * The pivot carries the stato and the posizione_famiglia.
+     *
+     * @return (Famiglia&object{pivot: FamigliaPersona})|null
+     */
+    public function ultimaFamiglia(): ?Famiglia
+    {
+        return $this->famigliaAttuale() ?? $this->famiglie()
+            ->withPivot('posizione_famiglia')
+            ->orderByRaw("famiglie_persone.posizione_famiglia IN ('CAPO FAMIGLIA', 'MOGLIE') DESC")
+            ->orderByDesc('famiglie.data_creazione')
+            ->orderByDesc('famiglie.id')
+            ->first();
     }
 
     public function famigliaPosizione(string $posizione): bool
@@ -191,7 +209,7 @@ class Persona extends Model
     }
 
     /**
-     * @return BelongsToMany<Famiglia, $this>
+     * @return BelongsToMany<Famiglia, $this, FamigliaPersona, 'pivot'>
      */
     public function famiglieAttuali(): BelongsToMany
     {

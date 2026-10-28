@@ -415,21 +415,25 @@
           @endif
 
           @php
-            $posizioneFamiglia = $famigliaAttuale?->pivot->posizione_famiglia;
+            $posizioneFamiglia = $famiglia?->pivot->posizione_famiglia;
             $inCoppia = in_array($posizioneFamiglia, ["CAPO FAMIGLIA", "MOGLIE"], true);
             $isFiglio = in_array($posizioneFamiglia, ["FIGLIO NATO", "FIGLIO ACCOLTO"], true);
           @endphp
 
-          @if ($famigliaAttuale)
+          @if ($famiglia)
+            @php
+              $componenti = $nelNucleo ? $famiglia->componentiAttuali() : $famiglia->componenti();
+            @endphp
+
             <ul class="list-group list-group-flush">
               <li class="list-group-item">
                 <div class="row">
                   <label class="col-sm-4 fw-bold">Famiglia:</label>
                   <div class="col-sm-8">
                     <a
-                      href="{{ route("anagrafe.families.show", $famigliaAttuale->id) }}"
+                      href="{{ route("anagrafe.families.show", $famiglia->id) }}"
                     >
-                      {{ $famigliaAttuale->nome_famiglia }}
+                      {{ $famiglia->nome_famiglia }}
                     </a>
                   </div>
                 </div>
@@ -437,13 +441,19 @@
               <li class="list-group-item">
                 <div class="row">
                   <label class="col-sm-4 fw-bold">Posizione:</label>
-                  <div class="col-sm-8">{{ $posizioneFamiglia }}</div>
+                  <div class="col-sm-8">
+                    {{ $posizioneFamiglia }}
+                    @if (! $nelNucleo)
+                      <span class="badge rounded-pill bg-danger">
+                        Fuori da nucleo
+                      </span>
+                    @endif
+                  </div>
                 </div>
               </li>
               @if ($inCoppia)
                 @php
-                  $coniuge = $famigliaAttuale
-                      ->componentiAttuali()
+                  $coniuge = $componenti
                       ->wherePivot("posizione_famiglia", $posizioneFamiglia === "CAPO FAMIGLIA" ? "MOGLIE" : "CAPO FAMIGLIA")
                       ->first();
                 @endphp
@@ -467,7 +477,7 @@
                   <div class="row">
                     <label class="col-sm-4 fw-bold">Figli:</label>
                     <div class="col-sm-8">
-                      {{ $famigliaAttuale->figliAttuali()->count() }}
+                      {{ $famiglia->figliAttuali()->count() }}
                     </div>
                   </div>
                 </li>
@@ -476,7 +486,7 @@
                   <div class="row">
                     <label class="col-sm-4 fw-bold">Genitori:</label>
                     <div class="col-sm-8">
-                      @foreach ($famigliaAttuale->componentiAttuali()->wherePivotIn("posizione_famiglia", ["CAPO FAMIGLIA", "MOGLIE"])->get() as $genitore)
+                      @foreach ($componenti->wherePivotIn("posizione_famiglia", ["CAPO FAMIGLIA", "MOGLIE"])->get() as $genitore)
                         <a
                           href="{{ route("nomadelfia.person.show", $genitore->id) }}"
                         >
@@ -505,7 +515,7 @@
                   Nuovo matrimonio
                 </a>
               @endif
-              @if (! $famigliaAttuale)
+              @if (! $nelNucleo)
                 @include("nomadelfia.templates.addPersonToFamiliy", ["persona" => $persona])
               @endif
             </div>

@@ -133,6 +133,20 @@ it('shows the parents of a figlio as the family of origin', function (): void {
         ->assertSeeInOrder(["Famiglia d'origine", 'Padre Da Mostrare', 'Padre'], false);
 });
 
+it('shows the last famiglia of a person outside every nucleo with the coniuge', function (): void {
+    login();
+    $marito = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();
+    $vedova = Persona::factory()->nato(Carbon::parse('1972-02-01'))->femmina()->create(['nominativo' => 'Vedova Da Mostrare']);
+    $famiglia = Famiglia::factory()->create(['nome_famiglia' => 'Del Defunto']);
+    $famiglia->assegnaCapoFamiglia($marito, stato: '0');
+    $famiglia->assegnaMoglie($vedova);
+
+    $this->get(route('nomadelfia.person.profile', $marito->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Famiglia Del Defunto', 'Capo famiglia', 'non più nel nucleo', 'Coniuge e figli', 'Vedova Da Mostrare'])
+        ->assertDontSee('Nessuna famiglia');
+});
+
 it('shows a married person as sposato from the creation of the famiglia', function (): void {
     login();
     $marito = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();

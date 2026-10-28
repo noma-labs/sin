@@ -26,15 +26,16 @@ final class PersonProfileController
     public function show(string $id, BuildPersonTimelineAction $buildTimeline): View
     {
         $persona = Persona::query()->findOrFail($id);
-        $famigliaAttuale = $persona->famigliaAttuale();
-        $posizioneFamiglia = $famigliaAttuale?->pivot->posizione_famiglia;
+        $famiglia = $persona->ultimaFamiglia();
+        $nelNucleo = $famiglia?->pivot->stato === '1';
+        $posizioneFamiglia = $famiglia?->pivot->posizione_famiglia;
         $inCoppia = in_array($posizioneFamiglia, ['CAPO FAMIGLIA', 'MOGLIE'], true);
 
         $coniuge = $inCoppia
-            ? $famigliaAttuale->componentiAttuali()->wherePivot('posizione_famiglia', $posizioneFamiglia === 'CAPO FAMIGLIA' ? 'MOGLIE' : 'CAPO FAMIGLIA')->first()
+            ? ($nelNucleo ? $famiglia->componentiAttuali() : $famiglia->componenti())->wherePivot('posizione_famiglia', $posizioneFamiglia === 'CAPO FAMIGLIA' ? 'MOGLIE' : 'CAPO FAMIGLIA')->first()
             : null;
-        $figliNelNucleo = $inCoppia ? $famigliaAttuale->figliAttuali()->get() : collect();
-        $figliFuoriNucleo = $inCoppia ? $famigliaAttuale->figli()->wherePivot('stato', '0')->get() : collect();
+        $figliNelNucleo = $inCoppia ? $famiglia->figliAttuali()->get() : collect();
+        $figliFuoriNucleo = $inCoppia ? $famiglia->figli()->wherePivot('stato', '0')->get() : collect();
 
         $famigliaOrigine = $persona->famiglie()
             ->withPivot('posizione_famiglia')
@@ -60,7 +61,8 @@ final class PersonProfileController
             'gruppoAttuale' => $persona->gruppofamiliareAttuale(),
             'aziende' => $persona->aziendeAttuali()->get(),
             'incarichi' => $persona->incarichiAttuali()->get(),
-            'famigliaAttuale' => $famigliaAttuale,
+            'famiglia' => $famiglia,
+            'nelNucleo' => $nelNucleo,
             'posizioneFamiglia' => $posizioneFamiglia,
             'coniuge' => $coniuge,
             'figliNelNucleo' => $figliNelNucleo,
