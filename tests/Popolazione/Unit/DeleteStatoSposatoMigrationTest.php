@@ -32,15 +32,16 @@ function assegnaStatoSposato(Persona $persona, string $dataInizio): void
 }
 
 afterEach(function (): void {
-    // the stato SPO stays, for the sposati without coniuge in the famiglia
+    // the stato SPO is deleted by DeleteStatoSposatoSenzaConiuge: drop the one added back
     $stato = DB::connection('db_nomadelfia')->table('stati')->where('stato', 'SPO')->value('id');
     DB::connection('db_nomadelfia')->table('persone_stati')->where('stato_id', $stato)->delete();
+    DB::connection('db_nomadelfia')->table('stati')->where('stato', 'SPO')->delete();
 });
 
 it('deletes the stato sposato of the coniugi when its date is the data_creazione of the famiglia, keeping the other stati', function (): void {
     $marito = Persona::factory()->maggiorenne()->maschio()->create();
     $moglie = Persona::factory()->maggiorenne()->femmina()->create();
-    $famiglia = Famiglia::factory()->create(['data_creazione' => '1998-06-12']);
+    $famiglia = Famiglia::factory()->coniugi()->create(['data_creazione' => '1998-06-12']);
     $famiglia->assegnaCapoFamiglia($marito);
     $famiglia->assegnaMoglie($moglie);
     assegnaStatoSposato($marito, '1998-06-12');
@@ -74,7 +75,5 @@ it('keeps the stato sposato of a sposato without coniuge in the famiglia: the co
 
     migrazioneDeleteStatoSposato()->up();
 
-    expect($sposato->stati()->pluck('stati.stato')->all())->toBe(['SPO'])
-        ->and($sposato->statoCivile()['nome'])->toBe('Sposato')
-        ->and($sposato->statoCivile()['dal']?->toDateString())->toBe('1998-06-12');
+    expect($sposato->stati()->pluck('stati.stato')->all())->toBe(['SPO']);
 });

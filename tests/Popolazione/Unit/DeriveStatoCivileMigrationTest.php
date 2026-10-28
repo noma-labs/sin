@@ -34,13 +34,14 @@ function assegnaStatoCivile(Persona $persona, string $stato, string $dataInizio,
 afterEach(function (): void {
     $stati = DB::connection('db_nomadelfia')->table('stati')->whereIn('stato', ['SPO', 'VED'])->pluck('id');
     DB::connection('db_nomadelfia')->table('persone_stati')->whereIn('stato_id', $stati)->delete();
-    // the stati SPO and VED stay, for the sposati and vedovi without coniuge in the famiglia
+    // the stato VED stays, for the vedovi without coniuge in the famiglia; SPO is deleted by DeleteStatoSposatoSenzaConiuge
+    DB::connection('db_nomadelfia')->table('stati')->where('stato', 'SPO')->delete();
 });
 
 it('copies the date of the stato sposato into the famiglia, keeping the stati untouched', function (): void {
     $marito = Persona::factory()->maggiorenne()->maschio()->create();
     $moglie = Persona::factory()->maggiorenne()->femmina()->create();
-    $famiglia = Famiglia::factory()->create(['data_creazione' => '2000-01-01']);
+    $famiglia = Famiglia::factory()->coniugi()->create(['data_creazione' => '2000-01-01']);
     $famiglia->assegnaCapoFamiglia($marito);
     $famiglia->assegnaMoglie($moglie);
     assegnaStatoCivile($marito, 'SPO', '1998-06-12');

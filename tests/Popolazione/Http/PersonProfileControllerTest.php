@@ -136,7 +136,7 @@ it('shows the parents of a figlio as the family of origin', function (): void {
 it('shows a married person as sposato from the creation of the famiglia', function (): void {
     login();
     $marito = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();
-    $famiglia = Famiglia::factory()->create(['data_creazione' => '1998-06-12']);
+    $famiglia = Famiglia::factory()->coniugi()->create(['data_creazione' => '1998-06-12']);
     $famiglia->assegnaCapoFamiglia($marito);
     $famiglia->assegnaMoglie(Persona::factory()->nato(Carbon::parse('1972-02-01'))->femmina()->create());
 
@@ -148,7 +148,7 @@ it('shows a married person as sposato from the creation of the famiglia', functi
 it('shows a married person as sposato without a date when the famiglia has no data_creazione', function (): void {
     login();
     $marito = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();
-    $famiglia = Famiglia::factory()->create(['data_creazione' => null]);
+    $famiglia = Famiglia::factory()->coniugi()->create(['data_creazione' => null]);
     $famiglia->assegnaCapoFamiglia($marito);
     $famiglia->assegnaMoglie(Persona::factory()->nato(Carbon::parse('1972-02-01'))->femmina()->create());
 
@@ -191,7 +191,7 @@ it('shows a vedova heading the famiglia as vedova of the husband capofamiglia ou
 it('keeps a deceased married person sposato', function (): void {
     login();
     $marito = Persona::factory()->nato(Carbon::parse('1940-05-01'))->maschio()->create(['data_decesso' => '2015-11-03']);
-    $famiglia = Famiglia::factory()->create(['data_creazione' => '1968-06-12']);
+    $famiglia = Famiglia::factory()->coniugi()->create(['data_creazione' => '1968-06-12']);
     $famiglia->assegnaCapoFamiglia($marito);
     $famiglia->assegnaMoglie(Persona::factory()->nato(Carbon::parse('1942-02-01'))->femmina()->create());
     $famiglia->uscitaDalNucleoFamiliare($marito);

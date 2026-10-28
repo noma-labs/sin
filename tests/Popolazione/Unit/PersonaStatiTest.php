@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Anagrafe\Famiglia\Models\Famiglia;
+use App\Anagrafe\Famiglia\Models\TipoFamiglia;
 use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 use Carbon\Carbon;
@@ -39,7 +40,7 @@ it('derives vedova from the stato vedovo when the coniuge is not in the anagrafe
 
 it('prefers the coniuge in the famiglia to the stato vedovo: a vedova who remarries is sposata', function (): void {
     $moglie = Persona::factory()->maggiorenne()->femmina()->create();
-    $famiglia = Famiglia::factory()->create(['data_creazione' => '1990-05-12']);
+    $famiglia = Famiglia::factory()->coniugi()->create(['data_creazione' => '1990-05-12']);
     $famiglia->assegnaCapoFamiglia(Persona::factory()->maggiorenne()->maschio()->create());
     $famiglia->assegnaMoglie($moglie);
 
@@ -48,12 +49,19 @@ it('prefers the coniuge in the famiglia to the stato vedovo: a vedova who remarr
     expect($moglie->statoCivile()['nome'])->toBe('Sposata');
 });
 
-it('derives sposato from the stato sposato when the coniuge is not in the anagrafe', function (): void {
+it('derives sposato from the famiglia of tipo coniugi when the coniuge is not in the anagrafe', function (): void {
     $sposato = Persona::factory()->maggiorenne()->maschio()->create();
-    Famiglia::factory()->create()->assegnaCapoFamiglia($sposato);
-
-    $sposato->assegnaStato(Stato::perNome('sposato'), '1998-06-12');
+    $famiglia = Famiglia::factory()->coniugi()->create(['data_creazione' => '1998-06-12']);
+    $famiglia->assegnaCapoFamiglia($sposato);
 
     expect($sposato->statoCivile()['nome'])->toBe('Sposato')
-        ->and($sposato->statoCivile()['dal']?->toDateString())->toBe('1998-06-12');
+        ->and($sposato->statoCivile()['dal']?->toDateString())->toBe('1998-06-12')
+        ->and($sposato->matrimonioAttuale()?->id)->toBe($famiglia->id);
+});
+
+it('derives celibe for a capofamiglia alone of a famiglia without tipo coniugi', function (): void {
+    $celibe = Persona::factory()->maggiorenne()->maschio()->create();
+    Famiglia::factory()->create(['tipo' => TipoFamiglia::CelibeDiElezione])->assegnaCapoFamiglia($celibe);
+
+    expect($celibe->statoCivile()['nome'])->toBe('Celibe');
 });
