@@ -18,7 +18,8 @@ final class PersonaPopolazioneController
         $persona = Persona::query()->findOrFail($id);
         $posizioneAttuale = $persona->posizioneAttuale();
         $gruppoAttuale = $persona->gruppofamiliareAttuale();
-        $famigliaAttuale = $persona->famigliaAttuale();
+        $famiglia = $persona->ultimaFamiglia();
+        $nelNucleo = $famiglia?->pivot->stato === '1';
 
         $famigliaEnrico = DB::connection('db_nomadelfia')
             ->table('alfa_enrico_15_feb_23')
@@ -27,6 +28,6 @@ final class PersonaPopolazioneController
             ->first();
 
         return view('nomadelfia.persone.show',
-            compact('persona', 'posizioneAttuale', 'gruppoAttuale', 'famigliaAttuale', 'famigliaEnrico'));
+            compact('persona', 'posizioneAttuale', 'gruppoAttuale', 'famiglia', 'nelNucleo', 'famigliaEnrico'));
     }
 }

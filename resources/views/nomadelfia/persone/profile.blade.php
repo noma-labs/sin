@@ -612,16 +612,17 @@
           </div>
         @endif
 
-        @if ($famigliaAttuale)
+        @if ($famiglia)
           <div class="fw-semibold">
-            <a
-              href="{{ route("anagrafe.families.show", $famigliaAttuale->id) }}"
-            >
-              Famiglia {{ $famigliaAttuale->nome_famiglia }}
+            <a href="{{ route("anagrafe.families.show", $famiglia->id) }}">
+              Famiglia {{ $famiglia->nome_famiglia }}
             </a>
           </div>
           <div class="text-body-secondary small mb-3">
             {{ Illuminate\Support\Str::ucfirst(mb_strtolower($posizioneFamiglia)) }}
+            @if (! $nelNucleo)
+              &middot; non più nel nucleo
+            @endif
           </div>
         @else
           <p class="text-body-secondary">Nessuna famiglia</p>
@@ -672,7 +673,7 @@
               </a>
             @endif
 
-            @if (! $famigliaAttuale)
+            @if (! $nelNucleo)
               @include("nomadelfia.templates.addPersonToFamiliy", ["persona" => $persona])
             @endif
           </div>

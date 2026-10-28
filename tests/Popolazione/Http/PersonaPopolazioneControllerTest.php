@@ -114,8 +114,62 @@ it('does not offer a nuovo matrimonio to a person who was already capofamiglia',
 
     $this->get(action([PersonaPopolazioneController::class, 'show'], $persona->id))
         ->assertSuccessful()
-        ->assertSee('Nessuna famiglia')
         ->assertDontSee('Nuovo matrimonio');
+});
+
+it('shows the last famiglia of a person outside every nucleo with the coniuge', function (): void {
+    login();
+    $marito = Persona::factory()->maggiorenne()->maschio()->create();
+    $vedova = Persona::factory()->maggiorenne()->femmina()->create(['nominativo' => 'Vedova Da Mostrare']);
+    $famiglia = Famiglia::factory()->create(['nome_famiglia' => 'Famiglia Del Defunto']);
+    $famiglia->assegnaCapoFamiglia($marito, stato: '0');
+    $famiglia->assegnaMoglie($vedova);
+
+    $this->get(action([PersonaPopolazioneController::class, 'show'], $marito->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Famiglia:', 'Famiglia Del Defunto', 'Posizione:', 'CAPO FAMIGLIA', 'Fuori da nucleo', 'Coniuge:', 'Vedova Da Mostrare'])
+        ->assertDontSee('Nessuna famiglia');
+});
+
+it('shows the parents of a figlio outside the nucleo', function (): void {
+    login();
+    $padre = Persona::factory()->maggiorenne()->maschio()->create(['nominativo' => 'Padre Da Mostrare']);
+    $figlio = Persona::factory()->maggiorenne()->maschio()->create();
+    $famiglia = Famiglia::factory()->create();
+    $famiglia->assegnaCapoFamiglia($padre, stato: '0');
+    $famiglia->assegnaFiglioNato($figlio, stato: '0');
+
+    $this->get(action([PersonaPopolazioneController::class, 'show'], $figlio->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['FIGLIO NATO', 'Fuori da nucleo', 'Genitori:', 'Padre Da Mostrare']);
+});
+
+it('shows the famiglia as capofamiglia before the one as figlio for a person outside every nucleo', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    Famiglia::factory()->create(['nome_famiglia' => 'Famiglia Di Origine', 'data_creazione' => '1990-01-01'])
+        ->assegnaFiglioNato($persona, stato: '0');
+    Famiglia::factory()->create(['nome_famiglia' => 'Famiglia Propria', 'data_creazione' => '1980-01-01'])
+        ->assegnaCapoFamiglia($persona, stato: '0');
+
+    $this->get(action([PersonaPopolazioneController::class, 'show'], $persona->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Famiglia:', 'Famiglia Propria', 'CAPO FAMIGLIA'])
+        ->assertDontSee('Famiglia Di Origine');
+});
+
+it('shows the most recent famiglia of a person married more times and outside every nucleo', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    Famiglia::factory()->create(['nome_famiglia' => 'Primo Matrimonio', 'data_creazione' => '1980-01-01'])
+        ->assegnaCapoFamiglia($persona, stato: '0');
+    Famiglia::factory()->create(['nome_famiglia' => 'Secondo Matrimonio', 'data_creazione' => '1995-01-01'])
+        ->assegnaCapoFamiglia($persona, stato: '0');
+
+    $this->get(action([PersonaPopolazioneController::class, 'show'], $persona->id))
+        ->assertSuccessful()
+        ->assertSee('Secondo Matrimonio')
+        ->assertDontSee('Primo Matrimonio');
 });
 
 it('does not show parents for a single', function (): void {
