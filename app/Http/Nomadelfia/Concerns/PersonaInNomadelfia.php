@@ -184,24 +184,24 @@ trait PersonaInNomadelfia
     }
 
     /**
-     * The famiglia born from the marriage of the person, or null if the person is not married.
+     * The famiglia born from the marriage of the person (tipo coniugi), or null if the person is not married.
      */
     public function matrimonioAttuale(): ?Famiglia
     {
         $famiglia = $this->famigliaDaCapofamigliaOMoglie();
 
-        return $famiglia && $this->coniugeNellaFamiglia($famiglia) ? $famiglia : null;
+        return $famiglia?->tipo === TipoFamiglia::Coniugi ? $famiglia : null;
     }
 
     /**
      * The stato civile of the person, derived instead of stored:
-     * separato (stato SEP), vedovo (the coniuge is deceased), sposato (from the creation of the famiglia, unknown when the famiglia has no date),
-     * vedovo (stato VED), sposato (stato SPO), otherwise celibe or nubile.
+     * separato (stato SEP), vedovo (the coniuge is deceased), sposato (capofamiglia or moglie of a famiglia of tipo coniugi,
+     * from the creation of the famiglia, unknown when the famiglia has no date), otherwise celibe or nubile.
      *
-     * The vedovanza and the matrimonio are stored in two ways on purpose. They are derived from the coniuge in the famiglia,
-     * but a person whose coniuge is not in the anagrafe (entered Nomadelfia already vedovo/a, or the coniuge lives outside Nomadelfia)
-     * has no coniuge to derive them from: only for them the stato VED or SPO keeps the stato civile and its date.
-     * The coniuge in the famiglia wins over the stati VED and SPO, so the two cannot contradict each other: a vedovo/a who remarries is sposato/a.
+     * The vedovanza is stored in two ways on purpose. It is derived from the coniuge in the famiglia,
+     * but a person who entered Nomadelfia already vedovo/a has no coniuge to derive it from: only for them the stato VED keeps it and its date.
+     * The coniuge in the famiglia wins over the stato VED, so the two cannot contradict each other: a vedovo/a who remarries is sposato/a.
+     * A sposato/a whose coniuge lives outside Nomadelfia heads a famiglia of tipo coniugi alone: the matrimonio is the data_creazione of that famiglia.
      *
      * @return array{nome: string, dal: Carbon|null}
      */
@@ -218,7 +218,8 @@ trait PersonaInNomadelfia
         if ($coniuge?->data_decesso) {
             return ['nome' => $maschio ? 'Vedovo' : 'Vedova', 'dal' => \Illuminate\Support\Facades\Date::parse($coniuge->data_decesso)];
         }
-        if ($coniuge) {
+        $sposato = $famiglia?->tipo === TipoFamiglia::Coniugi;
+        if ($sposato && $coniuge) {
             return ['nome' => $maschio ? 'Sposato' : 'Sposata', 'dal' => $famiglia->data_creazione ? \Illuminate\Support\Facades\Date::parse($famiglia->data_creazione) : null];
         }
 
@@ -227,9 +228,8 @@ trait PersonaInNomadelfia
             return ['nome' => $maschio ? 'Vedovo' : 'Vedova', 'dal' => \Illuminate\Support\Facades\Date::parse($vedovanza)];
         }
 
-        $matrimonio = $this->statiAttivi()->where('stati.stato', Stato::$mapNamesToDB['sposato'])->value('persone_stati.data_inizio');
-        if (is_string($matrimonio)) {
-            return ['nome' => $maschio ? 'Sposato' : 'Sposata', 'dal' => \Illuminate\Support\Facades\Date::parse($matrimonio)];
+        if ($sposato) {
+            return ['nome' => $maschio ? 'Sposato' : 'Sposata', 'dal' => $famiglia->data_creazione ? \Illuminate\Support\Facades\Date::parse($famiglia->data_creazione) : null];
         }
 
         return ['nome' => $maschio ? 'Celibe' : 'Nubile', 'dal' => \Illuminate\Support\Facades\Date::parse($this->data_nascita)];

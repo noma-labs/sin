@@ -40,9 +40,10 @@ beforeEach(function (): void {
 });
 
 afterEach(function (): void {
-    // the stato SPO stays, for the sposati without coniuge in the famiglia
+    // the stato SPO is deleted by DeleteStatoSposatoSenzaConiuge: drop the one added back
     $stato = DB::connection('db_nomadelfia')->table('stati')->where('stato', 'SPO')->value('id');
     DB::connection('db_nomadelfia')->table('persone_stati')->where('stato_id', $stato)->delete();
+    DB::connection('db_nomadelfia')->table('stati')->where('stato', 'SPO')->delete();
 });
 
 it('sets coniugi for the famiglie with both coniugi, also a vedova next to the deceased husband', function (): void {
