@@ -1,7 +1,7 @@
 <x-modal
   modal-title="Aggiorna famiglia"
   button-title="Modifica"
-  button-style="btn-warning my-2"
+  :button-style="$buttonStyle ?? 'btn-warning my-2'"
 >
   <x-slot:body>
     <form

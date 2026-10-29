@@ -1,13 +1,13 @@
 <x-modal
   modal-title="Aggiorna componente"
   button-title="Modifica"
-  button-style="btn-warning my-2"
+  button-style="btn-sm profile-btn"
 >
   <x-slot:body>
     <form
       class="form"
       method="POST"
-      id="formComponenteAggiorna{{ $componente->persona_id }}"
+      id="formComponenteAggiorna{{ $componente->id }}"
       action="{{ route("anagrafe.family.member.update", ["id" => $famiglia->id]) }}"
     >
       @csrf
@@ -33,16 +33,7 @@
         </label>
         <div class="col-8">
           <select class="form-select" name="posizione">
-            <option selected>---scegli posizione---</option>
-            @foreach (App\Anagrafe\Famiglia\Models\Famiglia::getEnum("Posizione") as $posizione)
-              @if ($posizione == $componente->posizione_famiglia)
-                <option value="{{ $posizione }}" selected>
-                  {{ $posizione }}
-                </option>
-              @else
-                <option value="{{ $posizione }}">{{ $posizione }}</option>
-              @endif
-            @endforeach
+            @include("nomadelfia.templates.opzioniPosizione", ["famiglia" => $famiglia, "selezionata" => $componente->pivot->posizione_famiglia])
           </select>
         </div>
       </div>
@@ -56,11 +47,11 @@
               class="form-check-input"
               type="radio"
               name="stato"
-              id="stato1"
+              id="stato1-{{ $componente->id }}"
               value="1"
-              {{ $componente->stato === "1" ? "checked" : "" }}
+              @checked($componente->pivot->stato === "1")
             />
-            <label class="form-check-label" for="stato1">
+            <label class="form-check-label" for="stato1-{{ $componente->id }}">
               Includi nel nucleo familiare
             </label>
           </div>
@@ -69,11 +60,11 @@
               class="form-check-input"
               type="radio"
               name="stato"
-              id="stato2"
+              id="stato2-{{ $componente->id }}"
               value="0"
-              {{ $componente->stato === "0" ? "checked" : "" }}
+              @checked($componente->pivot->stato === "0")
             />
-            <label class="form-check-label" for="stato2">
+            <label class="form-check-label" for="stato2-{{ $componente->id }}">
               Non includere nel nucleo familiare
             </label>
           </div>
@@ -85,7 +76,7 @@
           <textarea
             class="form-control"
             name="note"
-            id="exampleFormControlTextarea1"
+            id="note-componente-{{ $componente->id }}"
             rows="3"
           ></textarea>
         </div>
@@ -95,7 +86,7 @@
   <x-slot:footer>
     <button
       class="btn btn-danger"
-      form="formComponenteAggiorna{{ $componente->persona_id }}"
+      form="formComponenteAggiorna{{ $componente->id }}"
     >
       Salva
     </button>

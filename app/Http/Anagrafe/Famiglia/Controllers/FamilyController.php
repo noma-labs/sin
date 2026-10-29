@@ -94,14 +94,24 @@ final class FamilyController
     }
 
     #[Middleware('can:popolazione.persona.visualizza')]
-    public function show(Request $request, $id)
+    public function show(string $id): View
     {
-        $famiglia = Famiglia::findorfail($id);
-        $componenti = $famiglia->mycomponenti();
-        $gruppoAttuale = $famiglia->gruppoFamiliareAttuale();
-        $gruppiStorici = $famiglia->gruppiFamiliariStorico();
+        $famiglia = Famiglia::query()->findOrFail($id);
 
-        return view('anagrafe.famiglie.show', compact('famiglia', 'componenti', 'gruppoAttuale', 'gruppiStorici'));
+        return view('anagrafe.famiglie.show', [
+            'famiglia' => $famiglia,
+            'genitori' => $famiglia->componenti()
+                ->wherePivotIn('posizione_famiglia', ['CAPO FAMIGLIA', 'MOGLIE'])
+                ->reorder()
+                ->orderByPivot('posizione_famiglia')
+                ->get(),
+            'figliNelNucleo' => $famiglia->figliAttuali()->get(),
+            'figliFuoriNucleo' => $famiglia->figli()->wherePivot('stato', '0')->get(),
+            'componentiNelNucleo' => $famiglia->componentiAttuali()->get(),
+            'inNomadelfia' => $famiglia->componentiAttuali()->whereIn('persone.id', Persona::queryIdsInterni())->exists(),
+            'gruppoAttuale' => $famiglia->gruppoFamiliareAttuale(),
+            'gruppiStorici' => $famiglia->gruppiFamiliariStorico(),
+        ]);
     }
 
     #[Middleware('can:popolazione.persona.modifica')]

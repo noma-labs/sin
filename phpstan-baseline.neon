@@ -801,7 +801,7 @@ parameters:
 		-
 			message: '#^Call to an undefined static method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:findorfail\(\)\.$#'
 			identifier: staticMethod.notFound
-			count: 2
+			count: 1
 			path: app/Http/Anagrafe/Famiglia/Controllers/FamilyController.php
 
 		-
@@ -813,18 +813,6 @@ parameters:
 		-
 			message: '#^Method App\\Anagrafe\\Famiglia\\Controllers\\FamilyController\:\:index\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: app/Http/Anagrafe/Famiglia/Controllers/FamilyController.php
-
-		-
-			message: '#^Method App\\Anagrafe\\Famiglia\\Controllers\\FamilyController\:\:show\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Anagrafe/Famiglia/Controllers/FamilyController.php
-
-		-
-			message: '#^Method App\\Anagrafe\\Famiglia\\Controllers\\FamilyController\:\:show\(\) has parameter \$id with no type specified\.$#'
-			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Anagrafe/Famiglia/Controllers/FamilyController.php
 
@@ -1321,12 +1309,6 @@ parameters:
 			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
-			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:mycomponenti\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
-
-		-
 			message: '#^Method App\\Anagrafe\\Famiglia\\Models\\Famiglia\:\:newFactory\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -1401,7 +1383,7 @@ parameters:
 		-
 			message: '#^Parameter \#1 \$query of method Illuminate\\Database\\Connection\:\:select\(\) expects string, float\|int\|string given\.$#'
 			identifier: argument.type
-			count: 10
+			count: 9
 			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
 
 		-
