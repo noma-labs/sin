@@ -31,6 +31,17 @@ enum TipoFamiglia: string
         return [...self::mamme(), self::CelibeDiElezione];
     }
 
+    /**
+     * @return list<self> the tipi of a famiglia that a person of the given sesso can start: as coniuge, or as the one heading it
+     */
+    public static function perSesso(string $sesso): array
+    {
+        return array_values(array_filter(
+            self::cases(),
+            fn (self $tipo): bool => $tipo === self::Coniugi || $tipo->sessoCapofamiglia() === $sesso,
+        ));
+    }
+
     public function isMamma(): bool
     {
         return in_array($this, self::mamme(), true);

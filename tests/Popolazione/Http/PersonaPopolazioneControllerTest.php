@@ -60,11 +60,11 @@ it('shows the spouse of a capofamiglia and no family actions', function (): void
     $this->get(action([PersonaPopolazioneController::class, 'show'], $marito->id))
         ->assertSuccessful()
         ->assertSeeInOrder(['Coniuge:', 'Moglie Da Mostrare', 'Figli:'])
-        ->assertDontSee('Nuovo matrimonio')
+        ->assertDontSee('Nuova famiglia')
         ->assertDontSee('Aggiungi come figlio');
 });
 
-it('shows the parents of a figlio and offers a nuovo matrimonio when adult', function (): void {
+it('shows the parents of a figlio and offers a nuova famiglia when adult', function (): void {
     login();
     $padre = Persona::factory()->maggiorenne()->maschio()->create(['nominativo' => 'Padre Da Mostrare']);
     $figlio = Persona::factory()->maggiorenne()->maschio()->create();
@@ -75,7 +75,7 @@ it('shows the parents of a figlio and offers a nuovo matrimonio when adult', fun
     $this->get(action([PersonaPopolazioneController::class, 'show'], $figlio->id))
         ->assertSuccessful()
         ->assertSeeInOrder(['Genitori:', 'Padre Da Mostrare'])
-        ->assertSee('Nuovo matrimonio')
+        ->assertSee('Nuova famiglia')
         ->assertDontSee('Aggiungi come figlio');
 });
 
@@ -86,7 +86,7 @@ it('offers both family actions to an adult without a family', function (): void 
     $this->get(action([PersonaPopolazioneController::class, 'show'], $persona->id))
         ->assertSuccessful()
         ->assertSee('Nessuna famiglia')
-        ->assertSee('Nuovo matrimonio')
+        ->assertSee('Nuova famiglia')
         ->assertSee('Aggiungi come figlio');
 });
 
@@ -105,7 +105,7 @@ it('does not show a former wife as the spouse of a capofamiglia', function (): v
         ->assertDontSee('Ex Moglie Uscita');
 });
 
-it('does not offer a nuovo matrimonio to a person who was already capofamiglia', function (): void {
+it('does not offer a nuova famiglia to a person who was already capofamiglia', function (): void {
     login();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $famiglia = Famiglia::factory()->create();
@@ -114,7 +114,7 @@ it('does not offer a nuovo matrimonio to a person who was already capofamiglia',
 
     $this->get(action([PersonaPopolazioneController::class, 'show'], $persona->id))
         ->assertSuccessful()
-        ->assertDontSee('Nuovo matrimonio');
+        ->assertDontSee('Nuova famiglia');
 });
 
 it('shows the last famiglia of a person outside every nucleo with the coniuge', function (): void {

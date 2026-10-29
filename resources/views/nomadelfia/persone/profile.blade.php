@@ -665,12 +665,7 @@
         @can("popolazione.persona.inserisci")
           <div class="d-flex flex-wrap gap-2 mt-3">
             @if ($persona->puoSposarsi())
-              <a
-                class="btn btn-sm btn-success"
-                href="{{ route("anagrafe.marriage.create", ["persona" => $persona->id]) }}"
-              >
-                Nuovo matrimonio
-              </a>
+              @include("nomadelfia.templates.nuovaFamiglia", ["persona" => $persona, "buttonStyle" => "btn-sm btn-success"])
             @endif
 
             @if (! $nelNucleo)
