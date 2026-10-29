@@ -11,16 +11,62 @@ use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 
-it('lists the families of people who are not part of the popolazione', function (): void {
+it('lists the famiglie of people who are not part of the popolazione only when all are requested', function (): void {
     login();
-    $capofamiglia = Persona::factory()->maggiorenne()->maschio()->create();
-    $famiglia = Famiglia::factory()->create(['nome_famiglia' => 'Famiglia Fuori Nomadelfia']);
-    $famiglia->assegnaCapoFamiglia($capofamiglia);
+    $interno = Persona::factory()->maggiorenne()->maschio()->create();
+    app(EntrataMaggiorenneSingleAction::class)->execute($interno, Carbon::now(), GruppoFamiliare::all()->random());
+    Famiglia::factory()->create(['nome_famiglia' => 'Famiglia In Nomadelfia'])->assegnaCapoFamiglia($interno);
+    Famiglia::factory()->create(['nome_famiglia' => 'Famiglia Fuori Nomadelfia'])
+        ->assegnaCapoFamiglia(Persona::factory()->maggiorenne()->maschio()->create());
 
     $this->get(action([FamilyController::class, 'index']))
         ->assertSuccessful()
+        ->assertSee('Famiglia In Nomadelfia')
+        ->assertDontSee('Famiglia Fuori Nomadelfia');
+
+    $this->get(action([FamilyController::class, 'index'], ['famiglie' => 'tutte']))
+        ->assertSuccessful()
+        ->assertSee('Famiglia In Nomadelfia')
         ->assertSee('Famiglia Fuori Nomadelfia');
+});
+
+it('lists each famiglia in the column of its tipo', function (): void {
+    login();
+    Famiglia::factory()->create(['nome_famiglia' => 'Famiglia Di Una Mamma', 'tipo' => TipoFamiglia::MammaDiVocazione])
+        ->assegnaCapoFamiglia(Persona::factory()->maggiorenne()->femmina()->create());
+    Famiglia::factory()->create(['nome_famiglia' => 'Famiglia Di Un Celibe', 'tipo' => TipoFamiglia::CelibeDiElezione])
+        ->assegnaCapoFamiglia(Persona::factory()->maggiorenne()->maschio()->create());
+
+    $this->get(action([FamilyController::class, 'index'], ['famiglie' => 'tutte']))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Mamma di vocazione', 'Famiglia Di Una Mamma', 'Nomadelfa mamma'])
+        ->assertSeeInOrder(['Celibe di elezione', 'Famiglia Di Un Celibe']);
+});
+
+it('lists the famiglia of a vedova whose capofamiglia is deceased', function (): void {
+    login();
+    $famiglia = Famiglia::factory()->create(['nome_famiglia' => 'Famiglia Della Vedova', 'tipo' => TipoFamiglia::Coniugi]);
+    $famiglia->assegnaCapoFamiglia(Persona::factory()->maggiorenne()->maschio()->create(['data_decesso' => '2020-01-01']), stato: '0');
+    $famiglia->assegnaMoglie(Persona::factory()->maggiorenne()->femmina()->create());
+
+    $this->get(action([FamilyController::class, 'index'], ['famiglie' => 'tutte']))
+        ->assertSuccessful()
+        ->assertSee('Famiglia Della Vedova');
+});
+
+it('does not list a famiglia without living componenti in the nucleo', function (): void {
+    login();
+    $famiglia = Famiglia::factory()->create(['nome_famiglia' => 'Famiglia Senza Nucleo']);
+    $capofamiglia = Persona::factory()->maggiorenne()->maschio()->create();
+    $famiglia->assegnaCapoFamiglia($capofamiglia);
+    $famiglia->uscitaDalNucleoFamiliare($capofamiglia);
+
+    $this->get(action([FamilyController::class, 'index'], ['famiglie' => 'tutte']))
+        ->assertSuccessful()
+        ->assertViewHas('colonne', fn (Collection $colonne): bool => $colonne->flatten(1)->pluck('nome_famiglia')->doesntContain('Famiglia Senza Nucleo'))
+        ->assertSeeInOrder(['Da sistemare', 'Famiglia Senza Nucleo']);
 });
 
 it('lists only the single people in Nomadelfia unless all are requested', function (): void {
