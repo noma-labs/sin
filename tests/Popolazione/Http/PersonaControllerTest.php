@@ -40,12 +40,14 @@ it('lists all people in the anagrafe, marking who is in Nomadelfia', function ()
         ->assertSee(route('anagrafe.person.create'));
 });
 
-it('offers a nuovo matrimonio from the page of an unmarried adult', function (): void {
+it('offers a nuova famiglia of the tipi of her sesso from the page of an unmarried adult', function (): void {
     login();
-    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    $persona = Persona::factory()->maggiorenne()->femmina()->create();
 
     $this->get(action([PersonaPopolazioneController::class, 'show'], $persona->id))
-        ->assertSee(route('anagrafe.marriage.create', ['persona' => $persona->id]));
+        ->assertSee(route('anagrafe.families.create', ['persona' => $persona->id, 'tipo' => 'CON']))
+        ->assertSee(route('anagrafe.families.create', ['persona' => $persona->id, 'tipo' => 'MAV']))
+        ->assertDontSee(route('anagrafe.families.create', ['persona' => $persona->id, 'tipo' => 'CDE']));
 });
 
 it('requires authentication for the anagrafe search page', function (): void {
