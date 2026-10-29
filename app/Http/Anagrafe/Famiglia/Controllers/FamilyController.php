@@ -28,7 +28,6 @@ final class FamilyController
         $tuttiSingle = $request->query('single') === 'tutti';
 
         $famiglie = Famiglia::query()
-            ->conComponentiInVita()
             ->withCount(['componentiAttuali as componenti_nel_nucleo'])
             ->withExists(['componentiAttuali as in_nomadelfia' => function (Builder $query): void {
                 $query->whereIn('persone.id', Persona::queryIdsInterni());
