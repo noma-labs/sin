@@ -151,7 +151,6 @@ Route::prefix('anagrafe')->middleware('auth')->group(function () {
     Route::put('families/{id}', [FamilyController::class, 'update'])->name('anagrafe.families.update');
     Route::get('people/{id}/families', [PersonaFamigliaController::class, 'index'])->name('anagrafe.person.families');
     Route::post('people/{id}/add-family', [PersonaFamigliaController::class, 'store'])->name('anagrafe.person.add-family');
-    Route::permanentRedirect('marriage', '/anagrafe/families-new');
     Route::post('families/{id}/member', [FamilyMemberController::class, 'store'])->name('anagrafe.family.member.store');
     Route::put('families/{id}/member', [FamilyMemberController::class, 'update'])->name('anagrafe.family.member.update');
 });

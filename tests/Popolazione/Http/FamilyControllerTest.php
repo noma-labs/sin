@@ -316,9 +316,3 @@ it('refuses a capofamiglia that is not a persona id', function (): void {
         'capofamiglia' => ['1'],
     ])->assertSessionHasErrors('capofamiglia');
 });
-
-it('redirects the old matrimonio url to the nuova famiglia', function (): void {
-    login();
-
-    $this->get('/anagrafe/marriage')->assertRedirect('/anagrafe/families-new');
-});
