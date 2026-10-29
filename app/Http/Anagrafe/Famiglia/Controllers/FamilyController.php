@@ -43,8 +43,10 @@ final class FamilyController
     {
         $tipoScelto = $request->old('tipo', $request->query('tipo'));
         $tipo = (is_string($tipoScelto) ? TipoFamiglia::tryFrom($tipoScelto) : null) ?? TipoFamiglia::Coniugi;
-        $capofamigliaId = $this->selectedPersone($request->old('capofamiglia', $request->query('persona')));
-        $moglieId = $this->selectedPersone($request->old('moglie'));
+        $persona = $request->filled('persona') ? Persona::query()->find($request->integer('persona')) : null;
+        $isMoglie = $tipo === TipoFamiglia::Coniugi && $persona?->sesso === 'F';
+        $capofamigliaId = $this->selectedPersone($request->old('capofamiglia') ?? ($isMoglie ? null : $persona?->id));
+        $moglieId = $this->selectedPersone($request->old('moglie') ?? ($isMoglie ? $persona->id : null));
         $figliNatiId = $this->selectedPersone($request->old('figli_nati'));
         $figliAccoltiId = $this->selectedPersone($request->old('figli_accolti'));
 

@@ -14,7 +14,6 @@ use App\Agraria\Controllers\SearchableMaintenanceController;
 use App\Agraria\Controllers\VehicleHourController;
 use App\Anagrafe\Famiglia\Controllers\FamilyController;
 use App\Anagrafe\Famiglia\Controllers\FamilyMemberController;
-use App\Anagrafe\Famiglia\Controllers\MarriageController;
 use App\Anagrafe\Famiglia\Controllers\PersonaFamigliaController;
 use App\Anagrafe\Persona\Controllers\InternalNameController;
 use App\Anagrafe\Persona\Controllers\PersonController;
@@ -152,8 +151,7 @@ Route::prefix('anagrafe')->middleware('auth')->group(function () {
     Route::put('families/{id}', [FamilyController::class, 'update'])->name('anagrafe.families.update');
     Route::get('people/{id}/families', [PersonaFamigliaController::class, 'index'])->name('anagrafe.person.families');
     Route::post('people/{id}/add-family', [PersonaFamigliaController::class, 'store'])->name('anagrafe.person.add-family');
-    Route::get('marriage', [MarriageController::class, 'create'])->name('anagrafe.marriage.create');
-    Route::post('marriage', [MarriageController::class, 'store'])->name('anagrafe.marriage.store');
+    Route::permanentRedirect('marriage', '/anagrafe/families-new');
     Route::post('families/{id}/member', [FamilyMemberController::class, 'store'])->name('anagrafe.family.member.store');
     Route::put('families/{id}/member', [FamilyMemberController::class, 'update'])->name('anagrafe.family.member.update');
 });

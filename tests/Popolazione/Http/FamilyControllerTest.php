@@ -242,3 +242,83 @@ it('links the nuova famiglia from the list of the famiglie', function (): void {
         ->assertSuccessful()
         ->assertSee(route('anagrafe.families.create'));
 });
+
+it('preselects the persona the famiglia starts from in the role of the tipo', function (string $tipo, string $sesso, string $ruolo): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->create(['sesso' => $sesso]);
+
+    $this->get(action([FamilyController::class, 'create'], ['persona' => $persona->id, 'tipo' => $tipo]))
+        ->assertSuccessful()
+        ->assertViewHas('tipo', TipoFamiglia::from($tipo))
+        ->assertViewHas($ruolo, [$persona->id])
+        ->assertViewHas($ruolo === 'moglieId' ? 'capofamigliaId' : 'moglieId', []);
+})->with([
+    'a man as marito' => ['CON', 'M', 'capofamigliaId'],
+    'a woman as moglie' => ['CON', 'F', 'moglieId'],
+    'a woman as mamma' => ['MAV', 'F', 'capofamigliaId'],
+    'a man as celibe di elezione' => ['CDE', 'M', 'capofamigliaId'],
+]);
+
+it('keeps the persone selected before a validation error', function (): void {
+    login();
+    $marito = Persona::factory()->maggiorenne()->maschio()->create();
+    $moglie = Persona::factory()->maggiorenne()->femmina()->create();
+
+    $this->withSession(['_old_input' => ['tipo' => 'CON', 'capofamiglia' => (string) $marito->id, 'moglie' => (string) $moglie->id]])
+        ->get(action([FamilyController::class, 'create'], ['persona' => $moglie->id]))
+        ->assertViewHas('capofamigliaId', [$marito->id])
+        ->assertViewHas('moglieId', [$moglie->id]);
+});
+
+it('refuses a marito who cannot marry', function (Persona $marito): void {
+    login();
+    $moglie = Persona::factory()->maggiorenne()->femmina()->create();
+
+    $this->post(action([FamilyController::class, 'store']), [
+        'tipo' => 'CON',
+        'data_creazione' => '2015-06-20',
+        'capofamiglia' => $marito->id,
+        'moglie' => $moglie->id,
+    ])->assertSessionHasErrors(['capofamiglia' => 'Il capofamiglia deve essere un uomo maggiorenne, vivo e non già capofamiglia o sposato.']);
+
+    expect($moglie->famigliaAttuale())->toBeNull();
+})->with([
+    'deceased' => fn (): Persona => Persona::factory()->maggiorenne()->maschio()->create(['data_decesso' => '2020-01-01']),
+    'minor' => fn (): Persona => Persona::factory()->minorenne()->maschio()->create(),
+    'already married' => function (): Persona {
+        $persona = Persona::factory()->maggiorenne()->maschio()->create();
+        Famiglia::factory()->create()->assegnaCapoFamiglia($persona);
+
+        return $persona;
+    },
+]);
+
+it('refuses a moglie who cannot marry', function (): void {
+    login();
+    $marito = Persona::factory()->maggiorenne()->maschio()->create();
+    $moglie = Persona::factory()->maggiorenne()->femmina()->create(['data_decesso' => '2020-01-01']);
+
+    $this->post(action([FamilyController::class, 'store']), [
+        'tipo' => 'CON',
+        'data_creazione' => '2015-06-20',
+        'capofamiglia' => $marito->id,
+        'moglie' => $moglie->id,
+    ])->assertSessionHasErrors(['moglie' => 'La moglie deve essere una donna maggiorenne, viva e non già sposata.']);
+
+    expect($marito->famigliaAttuale())->toBeNull();
+});
+
+it('refuses a capofamiglia that is not a persona id', function (): void {
+    login();
+
+    $this->post(action([FamilyController::class, 'store']), [
+        'tipo' => 'MAV',
+        'capofamiglia' => ['1'],
+    ])->assertSessionHasErrors('capofamiglia');
+});
+
+it('redirects the old matrimonio url to the nuova famiglia', function (): void {
+    login();
+
+    $this->get('/anagrafe/marriage')->assertRedirect('/anagrafe/families-new');
+});
