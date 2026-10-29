@@ -11,6 +11,26 @@
           </div>
         </div>
         <div class="d-flex flex-wrap gap-2">
+          <div
+            class="btn-group"
+            role="group"
+            aria-label="Componenti contati per famiglia"
+          >
+            <a
+              class="btn profile-btn @if (! $tuttiIComponenti) active @endif"
+              href="{{ route("anagrafe.families", request()->except("componenti")) }}"
+              @if (! $tuttiIComponenti) aria-current="true" @endif
+            >
+              Nel nucleo
+            </a>
+            <a
+              class="btn profile-btn @if ($tuttiIComponenti) active @endif"
+              href="{{ route("anagrafe.families", [...request()->query(), "componenti" => "tutti"]) }}"
+              @if ($tuttiIComponenti) aria-current="true" @endif
+            >
+              Tutti
+            </a>
+          </div>
           @if ($tutteLeFamiglie)
             <a
               class="btn profile-btn"
@@ -69,9 +89,9 @@
                       @endif
                       <span
                         class="small text-body-secondary"
-                        title="Componenti nel nucleo"
+                        title="{{ $tuttiIComponenti ? "Tutti i componenti" : "Componenti nel nucleo" }}"
                       >
-                        {{ $famiglia->componenti_nel_nucleo }}
+                        {{ $famiglia->numero_componenti }}
                       </span>
                     </span>
                   </li>

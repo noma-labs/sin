@@ -25,10 +25,14 @@ final class FamilyController
     {
         $interni = Persona::idsInterni();
         $tutteLeFamiglie = $request->query('famiglie') === 'tutte';
+        $tuttiIComponenti = $request->query('componenti') === 'tutti';
         $tuttiSingle = $request->query('single') === 'tutti';
 
         $famiglie = Famiglia::query()
-            ->withCount(['componentiAttuali as componenti_nel_nucleo'])
+            ->withCount([
+                'componentiAttuali as componenti_nel_nucleo',
+                ($tuttiIComponenti ? 'componenti' : 'componentiAttuali').' as numero_componenti',
+            ])
             ->withExists(['componentiAttuali as in_nomadelfia' => function (Builder $query): void {
                 $query->whereIn('persone.id', Persona::queryIdsInterni());
             }]);
@@ -52,7 +56,7 @@ final class FamilyController
         $famigliaError = Famiglia::famigliaConErrore()->filter(fn (stdClass $errore): bool => $errore->results !== []);
 
         return view('anagrafe.famiglie.index',
-            compact('colonne', 'singleMaschio', 'singleFemmine', 'famigliaError', 'interni', 'tutteLeFamiglie', 'tuttiSingle'));
+            compact('colonne', 'singleMaschio', 'singleFemmine', 'famigliaError', 'interni', 'tutteLeFamiglie', 'tuttiIComponenti', 'tuttiSingle'));
     }
 
     #[Middleware('can:popolazione.persona.inserisci')]
