@@ -1,224 +1,166 @@
 @extends("nomadelfia.index")
 
 @section("content")
-  @include("partials.header", ["title" => "Gestione Famiglie"])
-  @can("popolazione.persona.inserisci")
-    <div class="d-flex justify-content-end mb-3">
-      <a class="btn btn-success" href="{{ route("anagrafe.families.create") }}">
-        Nuova famiglia
-      </a>
-    </div>
-  @endcan
-  <div class="row row-cols-1 row-cols-md-4 d-flex">
-    <div class="col">
-      <div id="accordion">
-        <div class="card">
-          <div class="card-header" id="headSingle">
-            <h5 class="mb-0">
-              <button
-                class="btn btn-link"
-                data-bs-toggle="collapse"
-                data-bs-target="#Single"
-                aria-expanded="true"
-                aria-controls="Single"
-              >
-                Famiglie
-              </button>
-            </h5>
-          </div>
-          <div
-            id="Single"
-            class="show"
-            aria-labelledby="headSingle"
-            data-parent="#accordion"
-          >
-            <div class="card-body">
-              <div class="row">
-                <div class="col-md-6">
-                  <h5>
-                    Uomini
-                    <span class="badge bg-primary rounded-pill">
-                      {{ $capifamiglieMaschio->count() }}
-                    </span>
-                  </h5>
-
-                  @foreach ($capifamiglieMaschio->get() as $uomo)
-                    <div>
-                      <a
-                        href="{{ route("anagrafe.families.show", $uomo->id) }}"
-                      >
-                        {{ $uomo->nome_famiglia }}
-                      </a>
-                      @if ($interni->contains($uomo->persona_id))
-                        <span class="badge bg-success">In Nomadelfia</span>
-                      @endif
-                    </div>
-                  @endforeach
-                </div>
-                <div class="col-md-6">
-                  <h5>
-                    Donne
-                    <span class="badge bg-primary rounded-pill">
-                      {{ $capifamiglieFemmina->count() }}
-                    </span>
-                  </h5>
-                  @foreach ($capifamiglieFemmina->get() as $donna)
-                    <div>
-                      <a
-                        href="{{ route("anagrafe.families.show", $donna->id) }}"
-                      >
-                        {{ $donna->nome_famiglia }}
-                      </a>
-                      @if ($interni->contains($donna->persona_id))
-                        <span class="badge bg-success">In Nomadelfia</span>
-                      @endif
-                    </div>
-                  @endforeach
-                </div>
-              </div>
-            </div>
+  <div class="person-profile">
+    <header class="profile-band profile-band-solo rounded-3 mb-4">
+      <div class="d-flex flex-wrap gap-3 align-items-center">
+        <div class="flex-grow-1" style="min-width: 0">
+          <h1 class="profile-name mb-0">Famiglie</h1>
+          <div class="profile-muted">
+            {{ $colonne->sum(fn ($famiglie) => $famiglie->count()) }} {{ $tutteLeFamiglie ? "famiglie in anagrafe" : "famiglie in Nomadelfia" }}
           </div>
         </div>
-      </div>
-    </div>
-
-    <div class="col">
-      <div id="accordion">
-        <div class="card">
-          <div class="card-header" id="headCapoFamiglia">
-            <h5 class="mb-0">
-              <button
-                class="btn btn-link"
-                data-bs-toggle="collapse"
-                data-bs-target="#CapoFamiglia"
-                aria-expanded="true"
-                aria-controls="CapoFamiglia"
-              >
-                Single
-              </button>
-              @if ($tuttiSingle)
-                <a
-                  class="btn btn-sm btn-outline-secondary"
-                  href="{{ route("anagrafe.families") }}"
-                >
-                  Solo in Nomadelfia
-                </a>
-              @else
-                <a
-                  class="btn btn-sm btn-outline-secondary"
-                  href="{{ route("anagrafe.families", ["single" => "tutti"]) }}"
-                >
-                  Mostra tutti
-                </a>
-              @endif
-            </h5>
-          </div>
-          <div
-            id="CapoFamiglia"
-            class="show"
-            aria-labelledby="headCapoFamiglia"
-            data-parent="#accordion"
-          >
-            <div class="card-body">
-              <div class="row">
-                <div class="col-md-6">
-                  <h5>
-                    Uomini
-                    <span class="badge bg-primary rounded-pill">
-                      {{ $singleMaschio->count() }}
-                    </span>
-                  </h5>
-
-                  @foreach ($singleMaschio->get() as $uomo)
-                    <div>
-                      <a
-                        href="{{ route("nomadelfia.person.show", ["id" => $uomo->id]) }}"
-                      >
-                        {{ $uomo->nome_famiglia }}
-                      </a>
-                      @if ($interni->contains($uomo->persona_id))
-                        <span class="badge bg-success">In Nomadelfia</span>
-                      @endif
-                    </div>
-                  @endforeach
-                </div>
-                <div class="col-md-6">
-                  <h5>
-                    Donne
-                    <span class="badge bg-primary rounded-pill">
-                      {{ $singleFemmine->count() }}
-                    </span>
-                  </h5>
-                  @foreach ($singleFemmine->get() as $donna)
-                    <div>
-                      <a
-                        href="{{ route("nomadelfia.person.show", ["id" => $donna->id]) }}"
-                      >
-                        {{ $donna->nome_famiglia }}
-                      </a>
-                      @if ($interni->contains($donna->persona_id))
-                        <span class="badge bg-success">In Nomadelfia</span>
-                      @endif
-                    </div>
-                  @endforeach
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="d-flex flex-wrap gap-2">
+          @if ($tutteLeFamiglie)
+            <a
+              class="btn profile-btn"
+              href="{{ route("anagrafe.families", request()->except("famiglie")) }}"
+            >
+              Solo in Nomadelfia
+            </a>
+          @else
+            <a
+              class="btn profile-btn"
+              href="{{ route("anagrafe.families", [...request()->query(), "famiglie" => "tutte"]) }}"
+            >
+              Mostra tutte
+            </a>
+          @endif
+          @can("popolazione.persona.inserisci")
+            <a
+              class="btn btn-success"
+              href="{{ route("anagrafe.families.create") }}"
+            >
+              Nuova famiglia
+            </a>
+          @endcan
         </div>
       </div>
-    </div>
+    </header>
 
-    <div class="col">
-      <div id="accordion">
-        <div class="card">
-          <div class="card-header" id="headCapoFamiglia">
-            <h5 class="mb-0">
-              <button
-                class="btn btn-link"
-                data-bs-toggle="collapse"
-                data-bs-target="#Errori"
-                aria-expanded="true"
-                aria-controls="Errori"
+    <section class="mb-4" aria-labelledby="titolo-famiglie">
+      <h2 id="titolo-famiglie" class="visually-hidden">Famiglie per tipo</h2>
+      <div class="row row-cols-1 row-cols-md-3 row-cols-xxl-5 g-3">
+        @foreach ($colonne as $tipo => $famiglie)
+          <div class="col">
+            <div class="card h-100">
+              <div
+                class="card-header d-flex justify-content-between align-items-center"
               >
-                <span class="text text-danger">
-                  Risolvi i seguenti errori
+                <span class="fw-semibold">{{ $tipo }}</span>
+                <span class="badge rounded-pill text-bg-light">
+                  {{ $famiglie->count() }}
                 </span>
-              </button>
-            </h5>
-          </div>
-          <div
-            id="Errori"
-            class="show"
-            aria-labelledby="headErrori"
-            data-parent="#accordion"
-          >
-            <div class="card-body">
-              <div class="row">
-                <div class="col-md-12">
-                  @foreach ($famigliaError as $famigliaWithDescr)
-                    <
-                    <span class="text text-danger">
-                      {{ $famigliaWithDescr->descrizione }} ({{ count($famigliaWithDescr->results) }})
-                    </span>
-                    <ul>
-                      @foreach ($famigliaWithDescr->results as $famiglia)
-                        <li>
-                          <a
-                            href="{{ route("anagrafe.families.show", $famiglia->id) }}"
-                          >
-                            {{ $famiglia->nome_famiglia }}
-                          </a>
-                        </li>
-                      @endforeach
-                    </ul>
-                  @endforeach
-                </div>
               </div>
+              <ul class="list-group list-group-flush">
+                @forelse ($famiglie as $famiglia)
+                  <li
+                    class="list-group-item d-flex justify-content-between align-items-center gap-2"
+                  >
+                    <a
+                      class="text-truncate"
+                      href="{{ route("anagrafe.families.show", $famiglia->id) }}"
+                    >
+                      {{ $famiglia->nome_famiglia }}
+                    </a>
+                    <span class="d-flex align-items-center gap-1 flex-shrink-0">
+                      @if ($tutteLeFamiglie && $famiglia->in_nomadelfia)
+                        <span class="badge bg-success">In Nomadelfia</span>
+                      @endif
+                      <span
+                        class="small text-body-secondary"
+                        title="Componenti nel nucleo"
+                      >
+                        {{ $famiglia->componenti_nel_nucleo }}
+                      </span>
+                    </span>
+                  </li>
+                @empty
+                  <li class="list-group-item text-body-secondary">
+                    Nessuna famiglia
+                  </li>
+                @endforelse
+              </ul>
             </div>
           </div>
-        </div>
+        @endforeach
       </div>
+    </section>
+
+    <div class="row g-4">
+      <section class="col-lg-6" aria-labelledby="titolo-senza-famiglia">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h2 id="titolo-senza-famiglia" class="h5 mb-0">
+            Persone senza famiglia
+          </h2>
+          @if ($tuttiSingle)
+            <a
+              class="btn btn-sm profile-btn"
+              href="{{ route("anagrafe.families", request()->except("single")) }}"
+            >
+              Solo in Nomadelfia
+            </a>
+          @else
+            <a
+              class="btn btn-sm profile-btn"
+              href="{{ route("anagrafe.families", [...request()->query(), "single" => "tutti"]) }}"
+            >
+              Mostra tutti
+            </a>
+          @endif
+        </div>
+        <div class="row">
+          @foreach (["Uomini" => $singleMaschio, "Donne" => $singleFemmine] as $titolo => $single)
+            <div class="col-md-6">
+              <h3 class="h6">
+                {{ $titolo }}
+                <span class="badge rounded-pill text-bg-light">
+                  {{ $single->count() }}
+                </span>
+              </h3>
+              @foreach ($single->get() as $persona)
+                <div>
+                  <a
+                    href="{{ route("nomadelfia.person.show", ["id" => $persona->id]) }}"
+                  >
+                    {{ $persona->nome_famiglia }}
+                  </a>
+                  @if ($tuttiSingle && $interni->contains($persona->persona_id))
+                    <span class="badge bg-success">In Nomadelfia</span>
+                  @endif
+                </div>
+              @endforeach
+            </div>
+          @endforeach
+        </div>
+      </section>
+
+      @if ($famigliaError->isNotEmpty())
+        <section class="col-lg-6" aria-labelledby="titolo-da-sistemare">
+          <h2 id="titolo-da-sistemare" class="h5 mb-3 text-danger">
+            Da sistemare
+          </h2>
+          @foreach ($famigliaError as $errore)
+            <h3 class="h6">
+              {{ $errore->descrizione }}
+              <span class="badge rounded-pill text-bg-light">
+                {{ count($errore->results) }}
+              </span>
+            </h3>
+            <ul>
+              @foreach ($errore->results as $famiglia)
+                <li>
+                  <a
+                    href="{{ route("anagrafe.families.show", $famiglia->id) }}"
+                  >
+                    {{ $famiglia->nome_famiglia }}
+                  </a>
+                </li>
+              @endforeach
+            </ul>
+          @endforeach
+        </section>
+      @endif
     </div>
   </div>
 @endsection
