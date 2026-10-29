@@ -73,6 +73,26 @@ it('lists a famiglia whose componenti are all outside the nucleo when all are re
         ->assertViewHas('colonne', fn (Collection $colonne): bool => $colonne->flatten(1)->pluck('nome_famiglia')->doesntContain('Famiglia Senza Nucleo'));
 });
 
+it('counts the componenti in the nucleo, or all of them when requested', function (): void {
+    login();
+    $famiglia = Famiglia::factory()->create(['nome_famiglia' => 'Famiglia Da Contare', 'tipo' => TipoFamiglia::Coniugi]);
+    $famiglia->assegnaCapoFamiglia(Persona::factory()->maggiorenne()->maschio()->create());
+    $famiglia->assegnaFiglioNato(Persona::factory()->minorenne()->maschio()->create());
+    $uscito = Persona::factory()->maggiorenne()->femmina()->create();
+    $famiglia->assegnaFiglioNato($uscito);
+    $famiglia->uscitaDalNucleoFamiliare($uscito);
+    $numeroComponenti = fn (Collection $colonne): int => $colonne->flatten(1)->firstWhere('nome_famiglia', 'Famiglia Da Contare')->numero_componenti;
+
+    $this->get(action([FamilyController::class, 'index'], ['famiglie' => 'tutte']))
+        ->assertSuccessful()
+        ->assertViewHas('colonne', fn (Collection $colonne): bool => $numeroComponenti($colonne) === 2);
+
+    $this->get(action([FamilyController::class, 'index'], ['famiglie' => 'tutte', 'componenti' => 'tutti']))
+        ->assertSuccessful()
+        ->assertViewHas('colonne', fn (Collection $colonne): bool => $numeroComponenti($colonne) === 3)
+        ->assertSee(route('anagrafe.families', ['famiglie' => 'tutte']));
+});
+
 it('lists only the single people in Nomadelfia unless all are requested', function (): void {
     login();
     $interno = Persona::factory()->maggiorenne()->maschio()->create(['nominativo' => 'Single Interno']);

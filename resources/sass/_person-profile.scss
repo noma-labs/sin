@@ -97,7 +97,8 @@
 
     &:hover,
     &:focus-visible,
-    &.show {
+    &.show,
+    &.active {
       background: #dde7f8;
       border-color: #b4c6ea;
       color: $nomadelfia-blu;
