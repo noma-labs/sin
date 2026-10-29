@@ -8,6 +8,7 @@ use App\Anagrafe\Exceptions\AnagrafeException;
 use App\Anagrafe\Famiglia\Models\Famiglia;
 use App\Anagrafe\Persona\Models\Persona;
 use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
 
@@ -82,5 +83,25 @@ final class FamilyMemberController
             return redirect(route('anagrafe.families.show',
                 ['id' => $id]))->withError('Errore. Nessun componente aggiornato alla famiglia.');
         }
+    }
+
+    /**
+     * Deletes a figlio from the famiglia, as if he had never been part of it: for a figlio added by mistake.
+     * The capofamiglia and the moglie cannot be removed this way.
+     */
+    #[Middleware('can:popolazione.persona.modifica')]
+    public function destroy(string $id, string $personaId): RedirectResponse
+    {
+        $famiglia = Famiglia::query()->findOrFail($id);
+        $figlio = $famiglia->figli()->where('persone.id', $personaId)->first();
+        if ($figlio === null) {
+            return to_route('anagrafe.families.show', $famiglia->id)
+                ->withErrors(['persona_id' => 'Si può rimuovere dalla famiglia solo un figlio.']);
+        }
+
+        $famiglia->figli()->detach($figlio->id);
+
+        return to_route('anagrafe.families.show', $famiglia->id)
+            ->with('success', "$figlio->nominativo rimosso dalla famiglia $famiglia->nome_famiglia");
     }
 }

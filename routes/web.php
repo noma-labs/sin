@@ -153,6 +153,7 @@ Route::prefix('anagrafe')->middleware('auth')->group(function () {
     Route::post('people/{id}/add-family', [PersonaFamigliaController::class, 'store'])->name('anagrafe.person.add-family');
     Route::post('families/{id}/member', [FamilyMemberController::class, 'store'])->name('anagrafe.family.member.store');
     Route::put('families/{id}/member', [FamilyMemberController::class, 'update'])->name('anagrafe.family.member.update');
+    Route::delete('families/{id}/member/{personaId}', [FamilyMemberController::class, 'destroy'])->name('anagrafe.family.member.destroy');
 });
 
 Route::prefix('nomadelfia')->group(function () {

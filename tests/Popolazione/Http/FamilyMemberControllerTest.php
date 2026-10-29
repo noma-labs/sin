@@ -42,3 +42,52 @@ it('refuses a second capofamiglia in the nucleo', function (): void {
 
     expect($famiglia->componenti()->where('persone.id', $altro->id)->exists())->toBeFalse();
 });
+
+it('removes a figlio from the famiglia, keeping the other componenti', function (string $stato): void {
+    login();
+    $capo = Persona::factory()->maggiorenne()->maschio()->create();
+    $figlio = Persona::factory()->minorenne()->maschio()->create();
+    $fratello = Persona::factory()->minorenne()->femmina()->create();
+    $famiglia = Famiglia::factory()->create();
+    $famiglia->assegnaCapoFamiglia($capo);
+    $famiglia->assegnaFiglioNato($figlio, stato: $stato);
+    $famiglia->assegnaFiglioAccolto($fratello);
+
+    $this->delete(route('anagrafe.family.member.destroy', ['id' => $famiglia->id, 'personaId' => $figlio->id]))
+        ->assertRedirect(route('anagrafe.families.show', ['id' => $famiglia->id]))
+        ->assertSessionHasNoErrors();
+
+    expect($famiglia->componenti()->pluck('persone.id')->sort()->values()->all())
+        ->toEqual(collect([$capo->id, $fratello->id])->sort()->values()->all())
+        ->and(Persona::query()->whereKey($figlio->id)->exists())->toBeTrue();
+})->with([
+    'in the nucleo' => '1',
+    'outside the nucleo' => '0',
+]);
+
+it('refuses to remove the capofamiglia or the moglie with the removal of a figlio', function (string $posizione): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->create(['sesso' => $posizione === 'MOGLIE' ? 'F' : 'M']);
+    $famiglia = Famiglia::factory()->create();
+    $posizione === 'MOGLIE' ? $famiglia->assegnaMoglie($persona) : $famiglia->assegnaCapoFamiglia($persona);
+
+    $this->delete(route('anagrafe.family.member.destroy', ['id' => $famiglia->id, 'personaId' => $persona->id]))
+        ->assertRedirect(route('anagrafe.families.show', ['id' => $famiglia->id]))
+        ->assertSessionHasErrors(['persona_id' => 'Si può rimuovere dalla famiglia solo un figlio.']);
+
+    expect($famiglia->componenti()->where('persone.id', $persona->id)->exists())->toBeTrue();
+})->with(['CAPO FAMIGLIA', 'MOGLIE']);
+
+it('offers the removal only for the figli on the page of the famiglia', function (): void {
+    login();
+    $capo = Persona::factory()->maggiorenne()->maschio()->create();
+    $figlio = Persona::factory()->minorenne()->maschio()->create();
+    $famiglia = Famiglia::factory()->create();
+    $famiglia->assegnaCapoFamiglia($capo);
+    $famiglia->assegnaFiglioNato($figlio);
+
+    $this->get(route('anagrafe.families.show', $famiglia->id))
+        ->assertSuccessful()
+        ->assertSee(route('anagrafe.family.member.destroy', ['id' => $famiglia->id, 'personaId' => $figlio->id]))
+        ->assertDontSee(route('anagrafe.family.member.destroy', ['id' => $famiglia->id, 'personaId' => $capo->id]));
+});
