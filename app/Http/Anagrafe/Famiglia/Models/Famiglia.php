@@ -22,6 +22,8 @@ use InvalidArgumentException;
  * @property string $nome_famiglia.
  * @property TipoFamiglia|null $tipo.
  * @property string|null $data_creazione.
+ *
+ * @method static FamigliaQueryBuilder query()
  */
 final class Famiglia extends Model
 {
@@ -113,7 +115,7 @@ final class Famiglia extends Model
         $famiglie = DB::connection('db_nomadelfia')->select(
             $expression->getValue(DB::connection()->getQueryGrammar())
         );
-        $result->push((object) ['descrizione' => 'Invalid families', 'results' => $famiglie]);
+        $result->push((object) ['descrizione' => 'Più capifamiglia o più mogli nel nucleo', 'results' => $famiglie]);
 
         $expression = DB::raw(
             "SELECT *
@@ -130,7 +132,7 @@ final class Famiglia extends Model
         );
 
         $result->push((object) [
-            'descrizione' => 'Families without members or with no active member',
+            'descrizione' => 'Nessun componente nel nucleo',
             'results' => $famiglieSenzaComponenti,
         ]);
         $expression = DB::raw("
@@ -146,7 +148,7 @@ final class Famiglia extends Model
         $famiglieSenzaCapo = DB::connection('db_nomadelfia')->select(
             $expression->getValue(DB::connection()->getQueryGrammar())
         );
-        $result->push((object) ['descrizione' => 'Families without a HEAD OF FAMILY', 'results' => $famiglieSenzaCapo]);
+        $result->push((object) ['descrizione' => 'Nessun capofamiglia nel nucleo', 'results' => $famiglieSenzaCapo]);
 
         $expression = DB::raw("SELECT *
               from famiglie
@@ -163,7 +165,7 @@ final class Famiglia extends Model
             $expression->getValue(DB::connection()->getQueryGrammar())
         );
         $result->push((object) [
-            'descrizione' => 'Families assigned to more than one family group',
+            'descrizione' => 'Capofamiglia in più gruppi familiari',
             'results' => $famiglieConPiuGruppi,
         ]);
 

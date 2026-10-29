@@ -10,32 +10,50 @@ use App\Anagrafe\Famiglia\Models\TipoFamiglia;
 use App\Anagrafe\Persona\Models\Persona;
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Illuminate\Validation\Rule;
+use stdClass;
 
 #[Middleware('auth')]
 final class FamilyController
 {
     #[Middleware('can:popolazione.persona.visualizza')]
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $interni = Persona::idsInterni();
+        $tutteLeFamiglie = $request->query('famiglie') === 'tutte';
         $tuttiSingle = $request->query('single') === 'tutti';
 
-        $capifamiglieMaschio = Famiglia::onlyCapoFamiglia()->maschio();
-        $capifamiglieFemmina = Famiglia::onlyCapoFamiglia()->femmina();
+        $famiglie = Famiglia::query()
+            ->conComponentiInVita()
+            ->withCount(['componentiAttuali as componenti_nel_nucleo'])
+            ->withExists(['componentiAttuali as in_nomadelfia' => function (Builder $query): void {
+                $query->whereIn('persone.id', Persona::queryIdsInterni());
+            }]);
+        if (! $tutteLeFamiglie) {
+            $famiglie->inNomadelfia();
+        }
+        $famiglie->orderBy('nome_famiglia');
+        $famigliePerTipo = $famiglie->get()->groupBy(fn (Famiglia $famiglia): string => $famiglia->tipo->value ?? '');
+
+        $colonne = collect(TipoFamiglia::cases())
+            ->mapWithKeys(fn (TipoFamiglia $tipo): array => [$tipo->nome() => $famigliePerTipo->get($tipo->value, collect())]);
+        if ($famigliePerTipo->has('')) {
+            $colonne->put('Senza tipo', $famigliePerTipo->get(''));
+        }
 
         $singleMaschio = Famiglia::single()->maschio()
             ->when(! $tuttiSingle, fn ($query) => $query->whereIn('persone.id', Persona::queryIdsInterni()));
         $singleFemmine = Famiglia::single()->femmina()
             ->when(! $tuttiSingle, fn ($query) => $query->whereIn('persone.id', Persona::queryIdsInterni()));
 
-        $famigliaError = Famiglia::famigliaConErrore();
+        $famigliaError = Famiglia::famigliaConErrore()->filter(fn (stdClass $errore): bool => $errore->results !== []);
 
         return view('anagrafe.famiglie.index',
-            compact('capifamiglieMaschio', 'capifamiglieFemmina', 'singleMaschio', 'singleFemmine', 'famigliaError', 'interni', 'tuttiSingle'));
+            compact('colonne', 'singleMaschio', 'singleFemmine', 'famigliaError', 'interni', 'tutteLeFamiglie', 'tuttiSingle'));
     }
 
     #[Middleware('can:popolazione.persona.inserisci')]
@@ -43,8 +61,10 @@ final class FamilyController
     {
         $tipoScelto = $request->old('tipo', $request->query('tipo'));
         $tipo = (is_string($tipoScelto) ? TipoFamiglia::tryFrom($tipoScelto) : null) ?? TipoFamiglia::Coniugi;
-        $capofamigliaId = $this->selectedPersone($request->old('capofamiglia', $request->query('persona')));
-        $moglieId = $this->selectedPersone($request->old('moglie'));
+        $persona = $request->filled('persona') ? Persona::query()->find($request->integer('persona')) : null;
+        $isMoglie = $tipo === TipoFamiglia::Coniugi && $persona?->sesso === 'F';
+        $capofamigliaId = $this->selectedPersone($request->old('capofamiglia') ?? ($isMoglie ? null : $persona?->id));
+        $moglieId = $this->selectedPersone($request->old('moglie') ?? ($isMoglie ? $persona->id : null));
         $figliNatiId = $this->selectedPersone($request->old('figli_nati'));
         $figliAccoltiId = $this->selectedPersone($request->old('figli_accolti'));
 

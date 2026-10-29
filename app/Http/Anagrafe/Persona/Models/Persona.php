@@ -98,7 +98,7 @@ class Persona extends Model
 
     /**
      * Whether the person can marry: an adult, alive, and never capofamiglia or moglie of a family.
-     * Same rules as FamigliaQueryBuilder::notAlreadyMarried(), used to validate a nuovo matrimonio.
+     * Used to validate the capofamiglia and the moglie of a nuova famiglia.
      */
     public function puoSposarsi(): bool
     {

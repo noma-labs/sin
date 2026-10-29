@@ -11,16 +11,62 @@ use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 
-it('lists the families of people who are not part of the popolazione', function (): void {
+it('lists the famiglie of people who are not part of the popolazione only when all are requested', function (): void {
     login();
-    $capofamiglia = Persona::factory()->maggiorenne()->maschio()->create();
-    $famiglia = Famiglia::factory()->create(['nome_famiglia' => 'Famiglia Fuori Nomadelfia']);
-    $famiglia->assegnaCapoFamiglia($capofamiglia);
+    $interno = Persona::factory()->maggiorenne()->maschio()->create();
+    app(EntrataMaggiorenneSingleAction::class)->execute($interno, Carbon::now(), GruppoFamiliare::all()->random());
+    Famiglia::factory()->create(['nome_famiglia' => 'Famiglia In Nomadelfia'])->assegnaCapoFamiglia($interno);
+    Famiglia::factory()->create(['nome_famiglia' => 'Famiglia Fuori Nomadelfia'])
+        ->assegnaCapoFamiglia(Persona::factory()->maggiorenne()->maschio()->create());
 
     $this->get(action([FamilyController::class, 'index']))
         ->assertSuccessful()
+        ->assertSee('Famiglia In Nomadelfia')
+        ->assertDontSee('Famiglia Fuori Nomadelfia');
+
+    $this->get(action([FamilyController::class, 'index'], ['famiglie' => 'tutte']))
+        ->assertSuccessful()
+        ->assertSee('Famiglia In Nomadelfia')
         ->assertSee('Famiglia Fuori Nomadelfia');
+});
+
+it('lists each famiglia in the column of its tipo', function (): void {
+    login();
+    Famiglia::factory()->create(['nome_famiglia' => 'Famiglia Di Una Mamma', 'tipo' => TipoFamiglia::MammaDiVocazione])
+        ->assegnaCapoFamiglia(Persona::factory()->maggiorenne()->femmina()->create());
+    Famiglia::factory()->create(['nome_famiglia' => 'Famiglia Di Un Celibe', 'tipo' => TipoFamiglia::CelibeDiElezione])
+        ->assegnaCapoFamiglia(Persona::factory()->maggiorenne()->maschio()->create());
+
+    $this->get(action([FamilyController::class, 'index'], ['famiglie' => 'tutte']))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Mamma di vocazione', 'Famiglia Di Una Mamma', 'Nomadelfa mamma'])
+        ->assertSeeInOrder(['Celibe di elezione', 'Famiglia Di Un Celibe']);
+});
+
+it('lists the famiglia of a vedova whose capofamiglia is deceased', function (): void {
+    login();
+    $famiglia = Famiglia::factory()->create(['nome_famiglia' => 'Famiglia Della Vedova', 'tipo' => TipoFamiglia::Coniugi]);
+    $famiglia->assegnaCapoFamiglia(Persona::factory()->maggiorenne()->maschio()->create(['data_decesso' => '2020-01-01']), stato: '0');
+    $famiglia->assegnaMoglie(Persona::factory()->maggiorenne()->femmina()->create());
+
+    $this->get(action([FamilyController::class, 'index'], ['famiglie' => 'tutte']))
+        ->assertSuccessful()
+        ->assertSee('Famiglia Della Vedova');
+});
+
+it('does not list a famiglia without living componenti in the nucleo', function (): void {
+    login();
+    $famiglia = Famiglia::factory()->create(['nome_famiglia' => 'Famiglia Senza Nucleo']);
+    $capofamiglia = Persona::factory()->maggiorenne()->maschio()->create();
+    $famiglia->assegnaCapoFamiglia($capofamiglia);
+    $famiglia->uscitaDalNucleoFamiliare($capofamiglia);
+
+    $this->get(action([FamilyController::class, 'index'], ['famiglie' => 'tutte']))
+        ->assertSuccessful()
+        ->assertViewHas('colonne', fn (Collection $colonne): bool => $colonne->flatten(1)->pluck('nome_famiglia')->doesntContain('Famiglia Senza Nucleo'))
+        ->assertSeeInOrder(['Da sistemare', 'Famiglia Senza Nucleo']);
 });
 
 it('lists only the single people in Nomadelfia unless all are requested', function (): void {
@@ -273,4 +319,78 @@ it('links the nuova famiglia from the list of the famiglie', function (): void {
     $this->get(action([FamilyController::class, 'index']))
         ->assertSuccessful()
         ->assertSee(route('anagrafe.families.create'));
+});
+
+it('preselects the persona the famiglia starts from in the role of the tipo', function (string $tipo, string $sesso, string $ruolo): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->create(['sesso' => $sesso]);
+
+    $this->get(action([FamilyController::class, 'create'], ['persona' => $persona->id, 'tipo' => $tipo]))
+        ->assertSuccessful()
+        ->assertViewHas('tipo', TipoFamiglia::from($tipo))
+        ->assertViewHas($ruolo, [$persona->id])
+        ->assertViewHas($ruolo === 'moglieId' ? 'capofamigliaId' : 'moglieId', []);
+})->with([
+    'a man as marito' => ['CON', 'M', 'capofamigliaId'],
+    'a woman as moglie' => ['CON', 'F', 'moglieId'],
+    'a woman as mamma' => ['MAV', 'F', 'capofamigliaId'],
+    'a man as celibe di elezione' => ['CDE', 'M', 'capofamigliaId'],
+]);
+
+it('keeps the persone selected before a validation error', function (): void {
+    login();
+    $marito = Persona::factory()->maggiorenne()->maschio()->create();
+    $moglie = Persona::factory()->maggiorenne()->femmina()->create();
+
+    $this->withSession(['_old_input' => ['tipo' => 'CON', 'capofamiglia' => (string) $marito->id, 'moglie' => (string) $moglie->id]])
+        ->get(action([FamilyController::class, 'create'], ['persona' => $moglie->id]))
+        ->assertViewHas('capofamigliaId', [$marito->id])
+        ->assertViewHas('moglieId', [$moglie->id]);
+});
+
+it('refuses a marito who cannot marry', function (Persona $marito): void {
+    login();
+    $moglie = Persona::factory()->maggiorenne()->femmina()->create();
+
+    $this->post(action([FamilyController::class, 'store']), [
+        'tipo' => 'CON',
+        'data_creazione' => '2015-06-20',
+        'capofamiglia' => $marito->id,
+        'moglie' => $moglie->id,
+    ])->assertSessionHasErrors(['capofamiglia' => 'Il capofamiglia deve essere un uomo maggiorenne, vivo e non già capofamiglia o sposato.']);
+
+    expect($moglie->famigliaAttuale())->toBeNull();
+})->with([
+    'deceased' => fn (): Persona => Persona::factory()->maggiorenne()->maschio()->create(['data_decesso' => '2020-01-01']),
+    'minor' => fn (): Persona => Persona::factory()->minorenne()->maschio()->create(),
+    'already married' => function (): Persona {
+        $persona = Persona::factory()->maggiorenne()->maschio()->create();
+        Famiglia::factory()->create()->assegnaCapoFamiglia($persona);
+
+        return $persona;
+    },
+]);
+
+it('refuses a moglie who cannot marry', function (): void {
+    login();
+    $marito = Persona::factory()->maggiorenne()->maschio()->create();
+    $moglie = Persona::factory()->maggiorenne()->femmina()->create(['data_decesso' => '2020-01-01']);
+
+    $this->post(action([FamilyController::class, 'store']), [
+        'tipo' => 'CON',
+        'data_creazione' => '2015-06-20',
+        'capofamiglia' => $marito->id,
+        'moglie' => $moglie->id,
+    ])->assertSessionHasErrors(['moglie' => 'La moglie deve essere una donna maggiorenne, viva e non già sposata.']);
+
+    expect($marito->famigliaAttuale())->toBeNull();
+});
+
+it('refuses a capofamiglia that is not a persona id', function (): void {
+    login();
+
+    $this->post(action([FamilyController::class, 'store']), [
+        'tipo' => 'MAV',
+        'capofamiglia' => ['1'],
+    ])->assertSessionHasErrors('capofamiglia');
 });
