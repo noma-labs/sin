@@ -131,6 +131,9 @@
                   </div>
                   @can("popolazione.persona.modifica")
                     @include("nomadelfia.templates.aggiornaComponente", ["componente" => $componente, "famiglia" => $famiglia])
+                    @if (in_array($componente->pivot->posizione_famiglia, ["FIGLIO NATO", "FIGLIO ACCOLTO"], true))
+                      @include("nomadelfia.templates.rimuoviFiglio", ["figlio" => $componente, "famiglia" => $famiglia])
+                    @endif
                   @endcan
                 </div>
               @empty
