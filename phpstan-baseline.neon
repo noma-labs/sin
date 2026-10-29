@@ -811,12 +811,6 @@ parameters:
 			path: app/Http/Anagrafe/Famiglia/Controllers/FamilyController.php
 
 		-
-			message: '#^Method App\\Anagrafe\\Famiglia\\Controllers\\FamilyController\:\:index\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Anagrafe/Famiglia/Controllers/FamilyController.php
-
-		-
 			message: '#^Method App\\Anagrafe\\Famiglia\\Controllers\\FamilyController\:\:show\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -1451,12 +1445,6 @@ parameters:
 			identifier: argument.templateType
 			count: 1
 			path: app/Http/Anagrafe/Famiglia/Models/Famiglia.php
-
-		-
-			message: '#^Class App\\Anagrafe\\Famiglia\\QueryBuilders\\FamigliaQueryBuilder extends generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
-			identifier: missingType.generics
-			count: 1
-			path: app/Http/Anagrafe/Famiglia/QueryBuilders/FamigliaQueryBuilder.php
 
 		-
 			message: '#^Method App\\Anagrafe\\Famiglia\\QueryBuilders\\FamigliaQueryBuilder\:\:notAlreadyMarried\(\) should return App\\Anagrafe\\Famiglia\\QueryBuilders\\FamigliaQueryBuilder but returns Illuminate\\Database\\Query\\Builder\.$#'
