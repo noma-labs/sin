@@ -102,6 +102,38 @@ it('shows a family whose members are not part of the popolazione', function (): 
         ->assertSee('Famiglia Da Mostrare');
 });
 
+it('shows the coniugi and the figli in and out of the nucleo of a famiglia', function (): void {
+    login();
+    $famiglia = Famiglia::factory()->create(['tipo' => TipoFamiglia::Coniugi, 'data_creazione' => '2010-05-01']);
+    $famiglia->assegnaCapoFamiglia(Persona::factory()->maggiorenne()->maschio()->create(['nominativo' => 'Marito Della Famiglia']));
+    $famiglia->assegnaMoglie(Persona::factory()->maggiorenne()->femmina()->create(['nominativo' => 'Moglie Della Famiglia']));
+    $famiglia->assegnaFiglioNato(Persona::factory()->minorenne()->maschio()->create(['nominativo' => 'Figlio Nel Nucleo']));
+    $figlioUscito = Persona::factory()->maggiorenne()->femmina()->create(['nominativo' => 'Figlia Uscita']);
+    $famiglia->assegnaFiglioAccolto($figlioUscito);
+    $famiglia->uscitaDalNucleoFamiliare($figlioUscito);
+
+    $this->get(action([FamilyController::class, 'show'], $famiglia->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Coniugi', 'Data matrimonio'])
+        ->assertSeeInOrder([
+            'Coniugi', 'Marito Della Famiglia', 'Marito', 'Moglie Della Famiglia', 'Moglie',
+            'Figli nel nucleo', 'Figlio Nel Nucleo', 'Figlio nato',
+            'Figli non più nel nucleo', 'Figlia Uscita', 'Figlio accolto',
+        ]);
+});
+
+it('shows the mamma of a famiglia of a mamma without offering a moglie', function (): void {
+    login();
+    $famiglia = Famiglia::factory()->create(['tipo' => TipoFamiglia::MammaDiVocazione, 'data_creazione' => null]);
+    $famiglia->assegnaCapoFamiglia(Persona::factory()->maggiorenne()->femmina()->create(['nominativo' => 'Mamma Della Famiglia']));
+
+    $this->get(action([FamilyController::class, 'show'], $famiglia->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Data inizio vocazione', 'non conosciuta'])
+        ->assertSeeInOrder(['Capofamiglia', 'Mamma Della Famiglia', 'Mamma di vocazione'])
+        ->assertDontSee('value="MOGLIE"', escape: false);
+});
+
 it('does not list deceased single people', function (): void {
     login();
     Persona::factory()->maggiorenne()->maschio()->create(['nominativo' => 'Single Deceduto', 'data_decesso' => '2020-01-01']);

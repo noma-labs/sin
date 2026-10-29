@@ -193,21 +193,6 @@ final class Famiglia extends Model
         return new FamigliaQueryBuilder($query);
     }
 
-    public function mycomponenti()
-    {
-        $expresson = DB::raw('SELECT famiglie.id, famiglie_persone.*, persone.id, persone.nominativo, persone.data_nascita
-                    FROM famiglie
-                    INNER JOIN famiglie_persone ON famiglie_persone.famiglia_id = famiglie.id
-                    INNER JOIN persone ON persone.id = famiglie_persone.persona_id
-                    WHERE famiglie.id = :famiglia
-                    ORDER BY persone.data_nascita, famiglie_persone.posizione_famiglia');
-
-        return DB::connection('db_nomadelfia')->select(
-            $expresson->getValue(DB::connection()->getQueryGrammar()),
-            ['famiglia' => $this->id]
-        );
-    }
-
     /**
      * @param  string  $stato  '1' in the nucleo, '0' outside the nucleo (e.g. the deceased husband of a vedova who heads the famiglia)
      */
@@ -323,9 +308,6 @@ final class Famiglia extends Model
 
     /**
      * Returns the members who have been part of the family (father, mother, and children)
-     *
-     * @Deprecated
-     * Use the mycomponenti()
      **/
     public function componenti()
     {

@@ -1,6 +1,6 @@
 <x-modal
   modal-title="Sposta in un nuovo gruppo familiare"
-  button-style="btn-warning my-2"
+  :button-style="$buttonStyle ?? 'btn-warning my-2'"
   button-title="Sposta"
 >
   <x-slot:body>
