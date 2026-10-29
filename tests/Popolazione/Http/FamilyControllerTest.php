@@ -56,7 +56,7 @@ it('lists the famiglia of a vedova whose capofamiglia is deceased', function ():
         ->assertSee('Famiglia Della Vedova');
 });
 
-it('does not list a famiglia without living componenti in the nucleo', function (): void {
+it('lists a famiglia whose componenti are all outside the nucleo when all are requested', function (): void {
     login();
     $famiglia = Famiglia::factory()->create(['nome_famiglia' => 'Famiglia Senza Nucleo']);
     $capofamiglia = Persona::factory()->maggiorenne()->maschio()->create();
@@ -65,8 +65,12 @@ it('does not list a famiglia without living componenti in the nucleo', function 
 
     $this->get(action([FamilyController::class, 'index'], ['famiglie' => 'tutte']))
         ->assertSuccessful()
-        ->assertViewHas('colonne', fn (Collection $colonne): bool => $colonne->flatten(1)->pluck('nome_famiglia')->doesntContain('Famiglia Senza Nucleo'))
+        ->assertViewHas('colonne', fn (Collection $colonne): bool => $colonne->flatten(1)->pluck('nome_famiglia')->contains('Famiglia Senza Nucleo'))
         ->assertSeeInOrder(['Da sistemare', 'Famiglia Senza Nucleo']);
+
+    $this->get(action([FamilyController::class, 'index']))
+        ->assertSuccessful()
+        ->assertViewHas('colonne', fn (Collection $colonne): bool => $colonne->flatten(1)->pluck('nome_famiglia')->doesntContain('Famiglia Senza Nucleo'));
 });
 
 it('lists only the single people in Nomadelfia unless all are requested', function (): void {

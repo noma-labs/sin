@@ -14,16 +14,6 @@ use Illuminate\Database\Eloquent\Builder;
 final class FamigliaQueryBuilder extends Builder
 {
     /**
-     * The famiglie with at least one living componente in the nucleo: also the famiglia of a vedova, whose capofamiglia is deceased.
-     */
-    public function conComponentiInVita(): self
-    {
-        return $this->whereHas('componenti', function (Builder $query): void {
-            $query->where('famiglie_persone.stato', '1')->whereNull('persone.data_decesso');
-        });
-    }
-
-    /**
      * The famiglie with at least one componente in the nucleo living in Nomadelfia.
      */
     public function inNomadelfia(): self
