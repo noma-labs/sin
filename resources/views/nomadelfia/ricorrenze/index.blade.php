@@ -41,15 +41,15 @@
     </header>
 
     <div
-      class="d-flex flex-wrap gap-2 mb-4 d-print-none"
+      class="profile-filtri-ricorrenze d-flex flex-wrap gap-2 mb-4 d-print-none"
       role="group"
-      aria-label="Filtra ricorrenze"
+      aria-label="Mostra solo le ricorrenze di un tipo"
     >
       @foreach ($tipi as $tipo)
         <button
           class="profile-filter profile-ricorrenza-{{ $tipo->value }}"
           type="button"
-          aria-pressed="true"
+          aria-pressed="false"
           data-tipo="{{ $tipo->value }}"
         >
           <i class="profile-dot-ricorrenza"></i>
@@ -221,16 +221,23 @@
   </div>
 
   <script>
+    // No tipo selected shows all the ricorrenze, otherwise only the ones of the selected tipi
     document.querySelectorAll(".profile-filter").forEach(function (filtro) {
       filtro.addEventListener("click", function () {
-        const attivo = filtro.getAttribute("aria-pressed") !== "true";
-        filtro.setAttribute("aria-pressed", attivo ? "true" : "false");
+        filtro.setAttribute(
+          "aria-pressed",
+          filtro.getAttribute("aria-pressed") === "true" ? "false" : "true",
+        );
+        const scelti = Array.from(
+          document.querySelectorAll('.profile-filter[aria-pressed="true"]'),
+        ).map(function (scelto) {
+          return scelto.dataset.tipo;
+        });
         document
-          .querySelectorAll(
-            '.profile-ricorrenza[data-tipo="' + filtro.dataset.tipo + '"]',
-          )
+          .querySelectorAll(".profile-ricorrenza[data-tipo]")
           .forEach(function (ricorrenza) {
-            ricorrenza.hidden = !attivo;
+            ricorrenza.hidden =
+              scelti.length > 0 && !scelti.includes(ricorrenza.dataset.tipo);
           });
 
         let visibili = 0;
