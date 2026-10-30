@@ -386,6 +386,197 @@
     color: #9a4b16;
   }
 
+  // Ricorrenze
+  .profile-ricorrenza-matrimonio {
+    --profile-dot: #8a5a00;
+    --profile-ricorrenza-sfondo: #fbefd6;
+    --profile-ricorrenza-punto: var(--profile-famiglia);
+  }
+
+  .profile-ricorrenza-entrata {
+    --profile-dot: #{$nomadelfia-blu};
+    --profile-ricorrenza-sfondo: #e3eaf8;
+    --profile-ricorrenza-punto: #{$nomadelfia-blu};
+  }
+
+  .profile-ricorrenza-mamma {
+    --profile-dot: #a3335a;
+    --profile-ricorrenza-sfondo: #f8e1e9;
+    --profile-ricorrenza-punto: #c2477a;
+  }
+
+  .profile-ricorrenza-sacerdozio {
+    --profile-dot: #6b3fa0;
+    --profile-ricorrenza-sfondo: #ece4f6;
+    --profile-ricorrenza-punto: #7c4fb5;
+  }
+
+  .profile-ricorrenza-decesso {
+    --profile-dot: #4b5563;
+    --profile-ricorrenza-sfondo: #eceef1;
+    --profile-ricorrenza-punto: #6b7280;
+  }
+
+  .profile-dot-ricorrenza {
+    display: inline-block;
+    flex: none;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--profile-ricorrenza-punto);
+  }
+
+  .profile-filter b {
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--bs-secondary-color);
+  }
+
+  .profile-giorno {
+    grid-template-columns: 4rem 1.4rem minmax(0, 1fr);
+
+    .profile-event-when b {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.5rem;
+      line-height: 1.1;
+      color: $nomadelfia-blu;
+    }
+  }
+
+  .profile-giorno-oggi {
+    .profile-event-rail::after {
+      background: $nomadelfia-giallo;
+      border-color: $nomadelfia-giallo;
+    }
+
+    .profile-ricorrenza {
+      border-color: $nomadelfia-giallo;
+      box-shadow: 0 0 0 1px $nomadelfia-giallo;
+    }
+  }
+
+  .profile-oggi,
+  .profile-giubileo {
+    display: inline-block;
+    font-weight: 700;
+    border-radius: 999px;
+    background: $nomadelfia-giallo;
+    color: #3d2a00;
+  }
+
+  .profile-oggi {
+    margin-top: 0.3rem;
+    padding: 0.05rem 0.45rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .profile-giubileo {
+    padding: 0.1rem 0.55rem;
+    font-size: 0.75rem;
+  }
+
+  .profile-giorno-ricorrenze {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 0 0 1.25rem 0.4rem;
+  }
+
+  .profile-ricorrenza {
+    display: flex;
+    gap: 0.9rem;
+    align-items: flex-start;
+    padding: 0.8rem 0.9rem;
+    background: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color);
+    border-radius: 0.5rem;
+    break-inside: avoid;
+  }
+
+  .profile-ricorrenza-icona {
+    width: 44px;
+    height: 44px;
+    flex: none;
+    border-radius: 0.6rem;
+    display: grid;
+    place-items: center;
+    background: var(--profile-ricorrenza-sfondo);
+    color: var(--profile-dot);
+  }
+
+  .profile-ricorrenza-persona {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.15rem 0.6rem 0.15rem 0.15rem;
+    border: 1px solid var(--bs-border-color);
+    border-radius: 999px;
+    color: var(--bs-body-color);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+
+    &:hover {
+      border-color: $nomadelfia-azzurro;
+    }
+
+    .profile-person-avatar {
+      width: 26px;
+      height: 26px;
+      font-size: 0.7rem;
+    }
+  }
+
+  .profile-ricorrenza-anni {
+    flex: none;
+    min-width: 3.5rem;
+    text-align: center;
+
+    b {
+      display: block;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 2rem;
+      line-height: 1;
+      color: var(--profile-dot);
+    }
+
+    small {
+      color: var(--bs-secondary-color);
+    }
+  }
+
+  .profile-giubileo-row {
+    display: grid;
+    grid-template-columns: 3.2rem minmax(0, 1fr);
+    gap: 0.6rem;
+    align-items: start;
+    padding: 0.6rem 0.9rem;
+    border-top: 1px solid var(--bs-border-color);
+
+    &:first-child {
+      border-top: 0;
+    }
+  }
+
+  .profile-giubileo-data {
+    text-align: center;
+    line-height: 1.15;
+    font-variant-numeric: tabular-nums;
+
+    b {
+      display: block;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.25rem;
+      color: $nomadelfia-blu;
+    }
+
+    small {
+      color: var(--bs-secondary-color);
+    }
+  }
+
   @include media-breakpoint-down(md) {
     .profile-avatar {
       width: 64px;
