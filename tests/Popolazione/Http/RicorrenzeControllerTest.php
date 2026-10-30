@@ -31,20 +31,20 @@ function ricorrenzeDi(Collection $giorni, Persona $persona): Collection
     return $giorni->flatten(1)->filter(fn (Ricorrenza $ricorrenza): bool => $ricorrenza->persone->contains('id', $persona->id))->values();
 }
 
-it('lists the anniversaries of every tipo in the next 30 days ordered by day', function (): void {
+it('lists the anniversaries of every tipo in the next 30 days ordered by day, with the nome and cognome of the people', function (): void {
     login();
     $this->travelTo(Carbon::parse('2026-10-30'));
-    $marito = entraInNomadelfiaPerRicorrenze(Persona::factory()->nato(Carbon::parse('1950-01-01'))->maschio()->create(['nominativo' => 'Marito Delle Nozze']));
-    $moglie = entraInNomadelfiaPerRicorrenze(Persona::factory()->nato(Carbon::parse('1952-01-01'))->femmina()->create(['nominativo' => 'Moglie Delle Nozze']));
+    $marito = entraInNomadelfiaPerRicorrenze(Persona::factory()->nato(Carbon::parse('1950-01-01'))->maschio()->create(['nome' => 'Marito', 'cognome' => 'Delle Nozze', 'nominativo' => 'Nominativo Interno']));
+    $moglie = entraInNomadelfiaPerRicorrenze(Persona::factory()->nato(Carbon::parse('1952-01-01'))->femmina()->create(['nome' => 'Moglie', 'cognome' => 'Delle Nozze', 'nominativo' => 'Nominativo Interno']));
     $famiglia = Famiglia::factory()->create(['data_creazione' => '1976-11-02', 'tipo' => TipoFamiglia::Coniugi]);
     $famiglia->assegnaCapoFamiglia($marito);
     $famiglia->assegnaMoglie($moglie);
-    entraInNomadelfiaPerRicorrenze(Persona::factory()->nato(Carbon::parse('1980-01-01'))->maschio()->create(['nominativo' => 'Entrato Da Dodici Anni']), '2014-11-05');
-    $mamma = entraInNomadelfiaPerRicorrenze(Persona::factory()->nato(Carbon::parse('1955-01-01'))->femmina()->create(['nominativo' => 'Mamma Da Quarant Anni']));
+    entraInNomadelfiaPerRicorrenze(Persona::factory()->nato(Carbon::parse('1980-01-01'))->maschio()->create(['nome' => 'Entrato', 'cognome' => 'Da Dodici Anni', 'nominativo' => 'Nominativo Interno']), '2014-11-05');
+    $mamma = entraInNomadelfiaPerRicorrenze(Persona::factory()->nato(Carbon::parse('1955-01-01'))->femmina()->create(['nome' => 'Mamma', 'cognome' => 'Da Quarant Anni', 'nominativo' => 'Nominativo Interno']));
     Famiglia::factory()->create(['data_creazione' => '1986-11-10', 'tipo' => TipoFamiglia::MammaDiVocazione])->assegnaCapoFamiglia($mamma);
-    $prete = entraInNomadelfiaPerRicorrenze(Persona::factory()->nato(Carbon::parse('1970-01-01'))->maschio()->create(['nominativo' => 'Prete Da Venticinque Anni']));
+    $prete = entraInNomadelfiaPerRicorrenze(Persona::factory()->nato(Carbon::parse('1970-01-01'))->maschio()->create(['nome' => 'Prete', 'cognome' => 'Da Venticinque Anni', 'nominativo' => 'Nominativo Interno']));
     $prete->assegnaStato(Stato::perNome('sacerdote'), '2001-11-15');
-    $defunto = entraInNomadelfiaPerRicorrenze(Persona::factory()->nato(Carbon::parse('1930-01-01'))->maschio()->create(['nominativo' => 'Defunto Da Ricordare']), '1960-01-15');
+    $defunto = entraInNomadelfiaPerRicorrenze(Persona::factory()->nato(Carbon::parse('1930-01-01'))->maschio()->create(['nome' => 'Defunto', 'cognome' => 'Da Ricordare', 'nominativo' => 'Nominativo Interno']), '1960-01-15');
     app(DecessoPersonaAction::class)->execute($defunto, Carbon::parse('2018-11-20'));
 
     $this->get(route('nomadelfia.ricorrenze'))
@@ -55,7 +55,8 @@ it('lists the anniversaries of every tipo in the next 30 days ordered by day', f
             '40 anni come mamma di vocazione', 'Mamma Da Quarant Anni',
             'Giubileo d’argento', '25 anni di sacerdozio', 'Prete Da Venticinque Anni',
             '8° anniversario della morte', 'Defunto Da Ricordare', 'Morto il 20 novembre 2018, a 88 anni',
-        ]);
+        ])
+        ->assertDontSee('Nominativo Interno');
 });
 
 it('remembers together the people of a famiglia who entered on the same day', function (): void {
@@ -158,6 +159,7 @@ it('lists the giubilei until the end of the year beyond the next 30 days', funct
     $this->get(route('nomadelfia.ricorrenze'))
         ->assertSuccessful()
         ->assertViewHas('giorni', fn (Collection $giorni): bool => ricorrenzeDi($giorni, $prete)->isEmpty())
+        ->assertSeeInOrder(['Ricorrenze dell’anno', '20', 'dic', '50 anni di sacerdozio', route('nomadelfia.person.profile', $prete->id)])
         ->assertViewHas('giubilei', fn (Collection $giubilei): bool => ricorrenzeDi(collect([$giubilei]), $prete)->sole()->giubileo() === 'Giubileo d’oro'
             && ricorrenzeDi(collect([$giubilei]), $preteDelProssimoAnno)->isEmpty());
 });

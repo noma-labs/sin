@@ -167,7 +167,7 @@
                             >
                               {{ mb_substr($persona->nome, 0, 1) }}{{ mb_substr($persona->cognome, 0, 1) }}
                             </span>
-                            {{ $persona->nominativo }}
+                            {{ $persona->nome }} {{ $persona->cognome }}
                           </a>
                         @endforeach
                       </div>
@@ -190,9 +190,9 @@
       </section>
 
       <aside class="col-lg-4" aria-labelledby="titolo-giubilei">
-        <h2 id="titolo-giubilei" class="h5 mb-3">Giubilei fino a fine anno</h2>
+        <h2 id="titolo-giubilei" class="h5 mb-3">Ricorrenze dell’anno</h2>
         @if ($giubilei->isEmpty())
-          <p class="text-body-secondary">Nessun giubileo fino a fine anno.</p>
+          <p class="text-body-secondary">Nessuna ricorrenza fino a fine anno.</p>
         @else
           <ul class="profile-kv card list-unstyled mb-0">
             @foreach ($giubilei as $giubileo)
@@ -206,10 +206,10 @@
                 <div style="min-width: 0">
                   <div class="d-flex align-items-center gap-2 fw-semibold">
                     <i class="profile-dot-ricorrenza" aria-hidden="true"></i>
-                    {{ $giubileo->giubileo() }} &middot; {{ $giubileo->tipo->nome() }}
+                    {{ $giubileo->titolo() }}
                   </div>
                   <div class="small text-body-secondary">
-                    {{ $giubileo->persone->pluck("nominativo")->join(", ", " e ") }}
+                    {!! $giubileo->persone->map(fn ($persona) => '<a href="'.e(route("nomadelfia.person.profile", $persona->id)).'">'.e($persona->nome." ".$persona->cognome)."</a>")->join(", ", " e ") !!}
                   </div>
                 </div>
               </li>
