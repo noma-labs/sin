@@ -59,6 +59,7 @@ use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneSummaryControlle
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PrintableExcelPopolazioneController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PrintableWordPopolazioneController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\RecentActivitesController;
+use App\Nomadelfia\PopolazioneNomadelfia\Controllers\RicorrenzeController;
 use App\Officina\Controllers\FiltersController;
 use App\Officina\Controllers\OilsController;
 use App\Officina\Controllers\PatentiController;
@@ -214,6 +215,8 @@ Route::prefix('nomadelfia')->group(function () {
     Route::get('gruppifamiliari', [GruppofamiliareController::class, 'index'])->name('nomadelfia.gruppifamiliari');
     Route::get('gruppifamiliari/{id}', [GruppofamiliareController::class, 'show'])->name('nomadelfia.gruppifamiliari.show');
     Route::post('gruppifamiliari/{id}/capogruppo', [CapogruppoController::class, 'store'])->name('nomadelfia.capogruppo.store');
+
+    Route::get('ricorrenze', [RicorrenzeController::class, 'index'])->name('nomadelfia.ricorrenze');
 
     Route::post('families/{id}/leave', [FamilyLeaveController::class, 'store'])->name('nomadelfia.family.leave');
     Route::post('families/{id}/gruppo/{currentGruppo}', [FamilyGruppofamiliareController::class, 'store'])->name('nomadelfia.family.gruppo.move');

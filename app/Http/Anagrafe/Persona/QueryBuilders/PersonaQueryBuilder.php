@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\Anagrafe\Persona\QueryBuilders;
 
+use App\Anagrafe\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Builder;
 
+/**
+ * @extends Builder<Persona>
+ */
 final class PersonaQueryBuilder extends Builder
 {
     public function NumeroElencoPrefixByLetter(string $lettera)

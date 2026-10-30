@@ -36,6 +36,13 @@
       Gruppi familiari
     </a>
   </li>
+  @can("popolazione.persona.visualizza")
+    <li class="nav-item">
+      <a class="nav-link" href="{{ route("nomadelfia.ricorrenze") }}">
+        Ricorrenze
+      </a>
+    </li>
+  @endcan
   <li class="nav-item">
     <a class="nav-link" href="{{ route("nomadelfia.aziende") }}">Aziende</a>
   </li>

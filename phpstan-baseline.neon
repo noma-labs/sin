@@ -1933,12 +1933,6 @@ parameters:
 			path: app/Http/Anagrafe/Persona/Models/Persona.php
 
 		-
-			message: '#^Class App\\Anagrafe\\Persona\\QueryBuilders\\PersonaQueryBuilder extends generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
-			identifier: missingType.generics
-			count: 1
-			path: app/Http/Anagrafe/Persona/QueryBuilders/PersonaQueryBuilder.php
-
-		-
 			message: '#^Method App\\Anagrafe\\Persona\\QueryBuilders\\PersonaQueryBuilder\:\:NumeroElencoPrefixByLetter\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
