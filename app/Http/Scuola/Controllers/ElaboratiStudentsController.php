@@ -19,6 +19,11 @@ final class ElaboratiStudentsController
 
     public function store(Request $request, $id)
     {
+        $request->validate([
+            'students' => ['required', 'array'],
+        ], [
+            'students.required' => 'Seleziona almeno uno studente.',
+        ]);
 
         $elaborato = Elaborato::findOrFail($id);
         $elaborato->studenti()->sync($request->students);

@@ -7,6 +7,7 @@ namespace Tests\Http\Scuola;
 use App\Biblioteca\Models\Libro;
 use App\Scuola\Controllers\CoverImageController;
 use App\Scuola\Controllers\ElaboratiController;
+use App\Scuola\Controllers\ElaboratiMediaController;
 use App\Scuola\Models\Elaborato;
 use App\Scuola\Models\Studente;
 use Faker\Factory as Faker;
@@ -25,6 +26,90 @@ it('can show an elaborato', function (): void {
     login();
     $this->get(action([ElaboratiController::class, 'show'], $elaborato->id))
         ->assertStatus(200);
+});
+
+it('returns not found when showing an elaborato that does not exist', function (): void {
+    login();
+
+    $this->get(action([ElaboratiController::class, 'show'], 0))
+        ->assertNotFound();
+});
+
+it('shows the details of an elaborato', function (): void {
+    $elaborato = Elaborato::factory()->create([
+        'titolo' => 'La storia del villaggio',
+        'collocazione' => 'SPA001',
+        'anno_scolastico' => '2015/2016',
+        'classi' => '1 media,2 media',
+        'rilegatura' => 'Spirale',
+    ]);
+
+    login();
+
+    $this->get(action([ElaboratiController::class, 'show'], $elaborato->id))
+        ->assertOk()
+        ->assertSee('La storia del villaggio')
+        ->assertSee('SPA001')
+        ->assertSee('2015/2016')
+        ->assertSee('1 media, 2 media')
+        ->assertSee('Spirale');
+});
+
+it('offers the preview and the download of an elaborato with a file', function (): void {
+    $elaborato = Elaborato::factory()->create();
+
+    login();
+
+    $this->get(action([ElaboratiController::class, 'show'], $elaborato->id))
+        ->assertOk()
+        ->assertSee(route('scuola.elaborati.preview', $elaborato->id))
+        ->assertSee(route('scuola.elaborati.download', $elaborato->id))
+        ->assertDontSee(route('scuola.elaborati.media.store', $elaborato->id));
+});
+
+it('offers the upload instead of the download of an elaborato without a file', function (): void {
+    $elaborato = Elaborato::factory()->create(['file_path' => null]);
+
+    login();
+
+    $this->get(action([ElaboratiController::class, 'show'], $elaborato->id))
+        ->assertOk()
+        ->assertSee(route('scuola.elaborati.media.store', $elaborato->id))
+        ->assertDontSee(route('scuola.elaborati.download', $elaborato->id))
+        ->assertDontSee(route('scuola.elaborati.preview', $elaborato->id));
+});
+
+it('tells when an elaborato has no studenti and no coordinatori', function (): void {
+    $elaborato = Elaborato::factory()->create();
+
+    login();
+
+    $this->get(action([ElaboratiController::class, 'show'], $elaborato->id))
+        ->assertOk()
+        ->assertSee('Nessuno studente.')
+        ->assertSee('Nessun coordinatore.');
+});
+
+it('links an elaborato to its libro', function (): void {
+    $libro = Libro::factory()->create();
+    $elaborato = Elaborato::factory()->create(['libro_id' => $libro->id]);
+
+    login();
+
+    $this->get(action([ElaboratiController::class, 'show'], $elaborato->id))
+        ->assertOk()
+        ->assertSee(route('books.show', $libro->id));
+});
+
+it('rejects the upload of an elaborato without a file', function (): void {
+    $elaborato = Elaborato::factory()->create(['file_path' => null]);
+
+    login();
+
+    $this->post(action([ElaboratiMediaController::class, 'store'], $elaborato->id))
+        ->assertSessionHasErrors(['file' => 'Il file è obbligatorio.']);
+
+    expect($elaborato->fresh()->file_path)->toBeNull();
 });
 
 it('can update an elaborato', function (): void {
