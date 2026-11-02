@@ -20,14 +20,15 @@ final class FilterAlunno extends Component
 
     public $selectedClassiOption = [];
 
-    public Anno $selectedAnnoScolastico;
+    public ?Anno $selectedAnnoScolastico = null;
 
-    public function mount(?string $scolastico): void
+    public function mount(?string $scolastico = null): void
     {
         $this->anni = Anno::select('id', 'scolastico')->orderBy('scolastico', 'asc')->get();
-        if ($scolastico) {
-            $this->selectedAnnoScolastico = Anno::with('classi', 'classi.tipo')->where('scolastico', $scolastico)->first();
-            $this->selectAnnoScolastico($this->selectedAnnoScolastico->id);
+
+        $anno = Anno::query()->where('scolastico', $scolastico)->first();
+        if ($anno !== null) {
+            $this->selectAnnoScolastico($anno->id);
         }
     }
 
@@ -81,7 +82,7 @@ final class FilterAlunno extends Component
 
     public function toggleSelectAll($value): void
     {
-        if ($value === 'on') {
+        if ($value === 'on' && $this->selectedAnnoScolastico) {
             $this->selectedClassiOption = [];
             $this->selectedCicloOption = [];
             $this->students = Studente::InAnnoScolastico($this->selectedAnnoScolastico->id)

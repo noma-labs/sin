@@ -6,8 +6,12 @@
       id="annoScolastico"
       wire:change="selectAnnoScolastico($event.target.value)"
     >
+      @if (! $selectedAnnoScolastico)
+        <option value="" selected disabled>Seleziona anno scolastico</option>
+      @endif
+
       @foreach ($anni as $anno)
-        @if ($selectedAnnoScolastico->scolastico == $anno->scolastico)
+        @if ($selectedAnnoScolastico?->scolastico == $anno->scolastico)
           <option value="{{ $anno->id }}" selected>
             {{ $anno->scolastico }}
           </option>
