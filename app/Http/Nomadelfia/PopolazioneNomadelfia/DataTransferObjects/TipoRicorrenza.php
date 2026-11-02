@@ -10,7 +10,7 @@ namespace App\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects;
 enum TipoRicorrenza: string
 {
     case Matrimonio = 'matrimonio';
-    case Entrata = 'entrata';
+    case Compleanno = 'compleanno';
     case MammaDiVocazione = 'mamma';
     case Sacerdozio = 'sacerdozio';
     case Decesso = 'decesso';
@@ -19,7 +19,7 @@ enum TipoRicorrenza: string
     {
         return match ($this) {
             self::Matrimonio => 'Matrimonio',
-            self::Entrata => 'Entrata in Nomadelfia',
+            self::Compleanno => 'Compleanno',
             self::MammaDiVocazione => 'Mamma di vocazione',
             self::Sacerdozio => 'Sacerdozio',
             self::Decesso => 'Anniversario morte',

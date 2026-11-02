@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date;
 
 /**
- * An anniversary of an event of the community (matrimonio, entrata, mamma di vocazione, sacerdozio, decesso) falling on a day.
+ * An anniversary of an event of the community (matrimonio, compleanno, mamma di vocazione, sacerdozio, decesso) falling on a day.
  */
 final readonly class Ricorrenza
 {
@@ -31,7 +31,7 @@ final readonly class Ricorrenza
 
         return match ($this->tipo) {
             TipoRicorrenza::Matrimonio => $anni.' di matrimonio',
-            TipoRicorrenza::Entrata => $anni.' in Nomadelfia',
+            TipoRicorrenza::Compleanno => 'Compie '.$anni,
             TipoRicorrenza::MammaDiVocazione => $anni.' come mamma di vocazione',
             TipoRicorrenza::Sacerdozio => $anni.' di sacerdozio',
             TipoRicorrenza::Decesso => $this->anni.'° anniversario della morte',
@@ -45,11 +45,7 @@ final readonly class Ricorrenza
 
         return match ($this->tipo) {
             TipoRicorrenza::Matrimonio => 'Sposati il '.$origine,
-            TipoRicorrenza::Entrata => match (true) {
-                $this->persone->count() > 1 => 'Entrati il '.$origine,
-                $persona?->isMaschio() => 'Entrato il '.$origine,
-                default => 'Entrata il '.$origine,
-            },
+            TipoRicorrenza::Compleanno => ($persona?->isMaschio() ? 'Nato' : 'Nata').' il '.$origine,
             TipoRicorrenza::MammaDiVocazione => 'Mamma di vocazione dal '.$origine,
             TipoRicorrenza::Sacerdozio => 'Ordinato sacerdote il '.$origine,
             TipoRicorrenza::Decesso => ($persona?->isMaschio() ? 'Morto' : 'Morta').' il '.$origine
@@ -58,11 +54,11 @@ final readonly class Ricorrenza
     }
 
     /**
-     * The name of a round anniversary (25, 50, 60, 70, 75... years), null for the others and for a decesso.
+     * The name of a round anniversary (25, 50, 60, 70, 75... years), null for the others and for a decesso or a compleanno.
      */
     public function giubileo(): ?string
     {
-        if ($this->tipo === TipoRicorrenza::Decesso || $this->anni < 25 || ($this->anni % 25 !== 0 && $this->anni % 10 !== 0)) {
+        if ($this->tipo === TipoRicorrenza::Decesso || $this->tipo === TipoRicorrenza::Compleanno || $this->anni < 25 || ($this->anni % 25 !== 0 && $this->anni % 10 !== 0)) {
             return null;
         }
 

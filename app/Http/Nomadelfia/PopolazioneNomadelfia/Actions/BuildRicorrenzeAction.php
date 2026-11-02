@@ -17,7 +17,7 @@ use stdClass;
 
 /**
  * Builds the anniversaries remembered by the community in a period:
- * the matrimonio of the coniugi in Nomadelfia, the entrata of the people present (not the ones born in Nomadelfia),
+ * the matrimonio of the coniugi in Nomadelfia, the compleanno of the people present,
  * the start of a mamma di vocazione, the ordination of the sacerdoti present and the death of the people who lived in Nomadelfia.
  */
 final class BuildRicorrenzeAction
@@ -70,17 +70,11 @@ final class BuildRicorrenzeAction
         $db = DB::connection('db_nomadelfia');
         $presenti = Persona::queryIdsInterni()->get()->map(fn (stdClass $presente): int => (int) $presente->persona_id);
 
-        // the people of a famiglia who entered on the same day are remembered together
-        $entrate = $db->table('v_popolazione_attuale')
-            ->whereColumn('data_entrata', '!=', 'data_nascita')
-            ->orderBy('data_nascita')
-            ->get(['id', 'data_entrata', 'famiglia']);
-        $entratiInsieme = [];
-        foreach ($entrate as $persona) {
-            $entratiInsieme[$persona->data_entrata.'|'.($persona->famiglia ?? 'persona-'.$persona->id)][] = $persona;
-        }
-        foreach ($entratiInsieme as $entrati) {
-            $eventi[] = ['tipo' => TipoRicorrenza::Entrata, 'origine' => (string) $entrati[0]->data_entrata, 'persone' => array_map(fn (stdClass $persona): int => (int) $persona->id, $entrati)];
+        $festeggiati = $db->table('v_popolazione_attuale')
+            ->whereNotNull('data_nascita')
+            ->get(['id', 'data_nascita']);
+        foreach ($festeggiati as $festeggiato) {
+            $eventi[] = ['tipo' => TipoRicorrenza::Compleanno, 'origine' => (string) $festeggiato->data_nascita, 'persone' => [(int) $festeggiato->id]];
         }
 
         $separati = $db->table('persone_stati')
