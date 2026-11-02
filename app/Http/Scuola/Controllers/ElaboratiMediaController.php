@@ -15,6 +15,12 @@ final class ElaboratiMediaController
 
     public function store(Request $request, $id)
     {
+        $request->validate([
+            'file' => ['required', 'file'],
+        ], [
+            'file.required' => 'Il file è obbligatorio.',
+        ]);
+
         $elaborato = Elaborato::findOrFail($id);
 
         if (! $elaborato->collocazione) {

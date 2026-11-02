@@ -147,11 +147,11 @@ final class ElaboratiController
 
     public function show($id)
     {
-        $elaborato = Elaborato::with('studenti')
+        $elaborato = Elaborato::with('studenti', 'coordinatori')
             ->leftjoin('archivio_biblioteca.libro', 'elaborati.libro_id', '=', 'libro.id')
             ->select('elaborati.*', 'libro.autore')
             ->where('elaborati.id', $id)
-            ->first();
+            ->firstOrFail();
 
         return view('scuola.elaborati.show', ['elaborato' => $elaborato]);
     }

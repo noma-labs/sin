@@ -1,140 +1,177 @@
 @extends("scuola.index")
 
 @section("content")
-  @include("partials.header", ["title" => "Gestione elaborato"])
-  <div class="row">
-    <div class="col-md-6">
-      @if (empty($elaborato->file_path))
-        <p>Nessun file digitale</p>
-        <form
-          method="POST"
-          action="{{ route("scuola.elaborati.media.store", ["id" => $elaborato->id]) }}"
-          enctype="multipart/form-data"
-        >
-          @csrf
-          <div class="mb-3">
-            <label for="file" class="form-label">Scegli file</label>
-            <input type="file" id="file" name="file" class="form-control" />
-          </div>
-          <button class="btn btn-success" type="submit">Carica</button>
-        </form>
-      @else
-        <div class="card">
-          <div class="card-body">
-            <iframe
-              src="{{ route("scuola.elaborati.preview", $elaborato->id) }}"
-              width="100%"
-              height="600px"
-            ></iframe>
-            <a
-              href="{{ route("scuola.elaborati.preview", $elaborato->id) }}"
-              class="stretched-link"
-            ></a>
-          </div>
-        </div>
-      @endif
-    </div>
+  @include("partials.header", [
+    "title" => $elaborato->titolo,
+    "subtitle" => collect([$elaborato->collocazione, $elaborato->anno_scolastico])->filter()->implode(" · "),
+  ])
 
-    <div class="col-md-3">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <a href="{{ route("scuola.elaborati.index") }}">&larr; Elaborati</a>
+    <a
+      href="{{ route("scuola.elaborati.edit", $elaborato->id) }}"
+      class="btn btn-warning"
+    >
+      Modifica
+    </a>
+  </div>
+
+  <div class="row g-3">
+    <div class="col-lg-4 d-flex flex-column gap-3">
       <div class="card">
-        <div class="card-header">Informazioni Elaborato</div>
+        <div class="card-header">Scheda</div>
         <div class="card-body">
-          <p><strong>Copertina:</strong></p>
+          <div class="d-flex gap-3">
+            <div class="flex-shrink-0 text-center" style="width: 100px">
+              <img
+                src="{{ $elaborato->cover_image_path ? route("scuola.elaborati.cover.show", $elaborato->id) : asset("images/placeholder.svg") }}"
+                class="img-fluid mb-1"
+                alt="Copertina di {{ $elaborato->titolo }}"
+              />
+              <a
+                href="{{ route("scuola.elaborati.cover.create", $elaborato->id) }}"
+                class="small"
+              >
+                {{ $elaborato->cover_image_path ? "Cambia copertina" : "Carica copertina" }}
+              </a>
+            </div>
+            <dl class="flex-grow-1 mb-0">
+              @foreach ([
+                  "Collocazione" => $elaborato->collocazione,
+                  "Anno scolastico" => $elaborato->anno_scolastico,
+                  "Classi" => str_replace(",", ", ", (string) $elaborato->classi),
+                  "Dimensione" => $elaborato->dimensione,
+                  "Rilegatura" => $elaborato->rilegatura,
+                  "Autore" => $elaborato->autore,
+                ]
+                as $etichetta => $valore)
+                <dt class="small text-body-secondary fw-normal">
+                  {{ $etichetta }}
+                </dt>
+                <dd class="mb-2">{{ filled($valore) ? $valore : "—" }}</dd>
+              @endforeach
 
-          @if ($elaborato->cover_image_path)
-            <img
-              src="{{ route("scuola.elaborati.cover.show", $elaborato->id) }}"
-              class="mb-3"
-              alt="Thumbnail"
-            />
-          @else
-            <a
-              src="{{ asset("images/placeholder.svg") }}"
-              class="btn btn-primary mb-3"
-              href="{{ route("scuola.elaborati.cover.create", $elaborato->id) }}"
-            >
-              Carica copertina
-            </a>
-          @endif
-          <p>
-            <strong>Titolo:</strong>
-            {{ $elaborato->titolo }}
-          </p>
-          <p>
-            <strong>Descrizione:</strong>
-            {{ $elaborato->note }}
-          </p>
-          <p>
-            <strong>Anno Scolastico:</strong>
-            {{ $elaborato->anno_scolastico }}
-          </p>
-          <p>
-            <strong>Collocazione:</strong>
-            {{ $elaborato->collocazione }}
-          </p>
-          <p>
-            <strong>Dimensione:</strong>
-            {{ $elaborato->dimensione }}
-          </p>
-          @if ($elaborato->autore !== null && $elaborato->autore !== "")
-            <p class="alert alert-warning">{{ $elaborato->autore }}</p>
-          @endif
-        </div>
-        <div class="card-footer">
-          <a
-            href="{{ route("scuola.elaborati.download", $elaborato->id) }}"
-            class="btn btn-primary"
-          >
-            Download
-          </a>
-          <a
-            href="{{ route("scuola.elaborati.edit", $elaborato->id) }}"
-            class="btn btn-warning"
-          >
-            Modifica
-          </a>
+              @if ($elaborato->libro_id)
+                @can("biblioteca.libro.prenota")
+                  <dt class="small text-body-secondary fw-normal">Libro</dt>
+                  <dd class="mb-0">
+                    <a href="{{ route("books.show", $elaborato->libro_id) }}">
+                      Vedi scheda
+                    </a>
+                  </dd>
+                @endcan
+              @endif
+            </dl>
+          </div>
+          <hr />
+          <div class="small text-body-secondary">Note</div>
+          <p class="mb-0">{{ filled($elaborato->note) ? $elaborato->note : "—" }}</p>
         </div>
       </div>
-    </div>
 
-    <div class="col-md-3">
       <div class="card">
-        <div class="card-header">Studenti/Coordinatori</div>
-        <div class="card-body">
+        <div
+          class="card-header d-flex justify-content-between align-items-center"
+        >
+          <span>Studenti ({{ $elaborato->studenti->count() }})</span>
           <a
-            class="btn btn-primary mb-3"
+            class="btn btn-primary btn-sm"
             href="{{ route("scuola.elaborati.students.create", $elaborato->id) }}"
             role="button"
           >
-            Importa studenti
+            Gestisci
           </a>
-          <div class="row">
-            <div class="col-md-6">
-              <strong>Studenti:</strong>
-              <ul>
-                @forelse ($elaborato->studenti as $studente)
-                  <li>
-                    @include("scuola.templates.student", ["persona" => $studente])
-                  </li>
-                @empty
-                  <li>Nessuno studente.</li>
-                @endforelse
-              </ul>
-            </div>
-            <div class="col-md-6">
-              <strong>Coordinatori</strong>
-              <ul>
-                @forelse ($elaborato->coordinatori as $coordinatore)
-                  <li>
-                    @include("nomadelfia.templates.persona", ["persona" => $coordinatore])
-                  </li>
-                @empty
-                  <li>Nessuno $coordinatore.</li>
-                @endforelse
-              </ul>
-            </div>
-          </div>
         </div>
+        <ul class="list-group list-group-flush">
+          @forelse ($elaborato->studenti as $studente)
+            <li class="list-group-item">
+              @include("scuola.templates.student", ["persona" => $studente])
+            </li>
+          @empty
+            <li class="list-group-item text-body-secondary">
+              Nessuno studente.
+            </li>
+          @endforelse
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          Coordinatori ({{ $elaborato->coordinatori->count() }})
+        </div>
+        <ul class="list-group list-group-flush">
+          @forelse ($elaborato->coordinatori as $coordinatore)
+            <li class="list-group-item">
+              @include("nomadelfia.templates.persona", ["persona" => $coordinatore])
+            </li>
+          @empty
+            <li class="list-group-item text-body-secondary">
+              Nessun coordinatore.
+            </li>
+          @endforelse
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-lg-8">
+      <div class="card">
+        @if (empty($elaborato->file_path))
+          <div class="card-header">Documento</div>
+          <div class="card-body">
+            <p class="text-body-secondary">Nessun file digitale caricato.</p>
+            <form
+              method="POST"
+              action="{{ route("scuola.elaborati.media.store", ["id" => $elaborato->id]) }}"
+              enctype="multipart/form-data"
+            >
+              @csrf
+              <div class="mb-3">
+                <label for="file" class="form-label">Scegli file</label>
+                <input
+                  type="file"
+                  id="file"
+                  name="file"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <button class="btn btn-success" type="submit">Carica</button>
+            </form>
+          </div>
+        @else
+          <div
+            class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2"
+          >
+            <span>
+              Documento
+              <small class="text-body-secondary">
+                {{ collect([$elaborato->file_mime_type, $elaborato->file_size ? Illuminate\Support\Number::fileSize($elaborato->file_size) : null])->filter()->implode(" · ") }}
+              </small>
+            </span>
+            <span class="d-flex gap-2">
+              <a
+                href="{{ route("scuola.elaborati.preview", $elaborato->id) }}"
+                class="btn btn-outline-primary btn-sm"
+                target="_blank"
+                rel="noopener"
+              >
+                Apri
+              </a>
+              <a
+                href="{{ route("scuola.elaborati.download", $elaborato->id) }}"
+                class="btn btn-primary btn-sm"
+              >
+                Scarica
+              </a>
+            </span>
+          </div>
+          <iframe
+            src="{{ route("scuola.elaborati.preview", $elaborato->id) }}"
+            class="d-block w-100 border-0"
+            style="height: 75vh"
+            title="Anteprima di {{ $elaborato->titolo }}"
+          ></iframe>
+        @endif
       </div>
     </div>
   </div>
