@@ -109,10 +109,16 @@
                             <circle cx="15" cy="14" r="5.5" />
                             <path d="M10.5 3.5h3l-1.5 2.5z" />
                             @break
-                          @case (TipoRicorrenza::Entrata)
-                            <path d="M3 10.5 12 3l9 7.5" />
-                            <path d="M5 9.5V21h14V9.5" />
-                            <path d="M10 21v-6h4v6" />
+                          @case (TipoRicorrenza::Compleanno)
+                            <path d="M4 21h16" />
+                            <path
+                              d="M5 21v-8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8"
+                            />
+                            <path
+                              d="M5 16c1.2 1.2 2.3 1.2 3.5 0s2.3-1.2 3.5 0 2.3 1.2 3.5 0 2.3-1.2 3.5 0"
+                            />
+                            <path d="M12 11V7" />
+                            <path d="M12 3c.9 1 .9 2 0 3-.9-1-.9-2 0-3z" />
                             @break
                           @case (TipoRicorrenza::MammaDiVocazione)
                             <path

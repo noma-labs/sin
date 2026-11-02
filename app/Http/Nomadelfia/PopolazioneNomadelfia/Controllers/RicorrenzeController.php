@@ -13,7 +13,7 @@ use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Illuminate\Support\Facades\Date;
 
 /**
- * The anniversaries of the community in the next days (matrimoni, entrate, mamme di vocazione, sacerdozi, decessi),
+ * The anniversaries of the community in the next days (matrimoni, compleanni, mamme di vocazione, sacerdozi, decessi),
  * with the round ones until the end of the year.
  */
 #[Middleware('auth')]
