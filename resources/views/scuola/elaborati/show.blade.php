@@ -1,21 +1,6 @@
 @extends("scuola.index")
 
 @section("content")
-  <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
-    <h1 class="h4 mb-0">{{ $elaborato->titolo }}</h1>
-    @if ($elaborato->collocazione)
-      <span class="badge rounded-pill bg-primary">
-        {{ $elaborato->collocazione }}
-      </span>
-    @endif
-
-    @if ($elaborato->anno_scolastico)
-      <span class="badge rounded-pill bg-secondary">
-        {{ $elaborato->anno_scolastico }}
-      </span>
-    @endif
-  </div>
-
   <div class="row g-3">
     <div class="col-lg-4 d-flex flex-column gap-3">
       <div class="card">
@@ -31,6 +16,7 @@
           </a>
         </div>
         <div class="card-body">
+          <h1 class="h5 mb-3">{{ $elaborato->titolo }}</h1>
           <div class="d-flex gap-3">
             <div class="flex-shrink-0 text-center" style="width: 100px">
               <img
