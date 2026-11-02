@@ -49,7 +49,8 @@ it('shows the details of an elaborato', function (): void {
     $this->get(action([ElaboratiController::class, 'show'], $elaborato->id))
         ->assertOk()
         ->assertSee('La storia del villaggio')
-        ->assertSee('SPA001 · 2015/2016')
+        ->assertSee('SPA001')
+        ->assertSee('2015/2016')
         ->assertSee('1 media, 2 media')
         ->assertSee('Spirale');
 });

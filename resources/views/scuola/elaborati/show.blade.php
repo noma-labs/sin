@@ -1,25 +1,35 @@
 @extends("scuola.index")
 
 @section("content")
-  @include("partials.header", [
-    "title" => $elaborato->titolo,
-    "subtitle" => collect([$elaborato->collocazione, $elaborato->anno_scolastico])->filter()->implode(" · "),
-  ])
+  <div class="card text-white bg-primary mb-3">
+    <div class="card-body py-2 d-flex flex-wrap align-items-center gap-2">
+      <h1 class="h4 mb-0">{{ $elaborato->titolo }}</h1>
+      @if ($elaborato->collocazione)
+        <span class="badge text-bg-light">{{ $elaborato->collocazione }}</span>
+      @endif
 
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <a href="{{ route("scuola.elaborati.index") }}">&larr; Elaborati</a>
-    <a
-      href="{{ route("scuola.elaborati.edit", $elaborato->id) }}"
-      class="btn btn-warning"
-    >
-      Modifica
-    </a>
+      @if ($elaborato->anno_scolastico)
+        <span class="badge text-bg-light">
+          {{ $elaborato->anno_scolastico }}
+        </span>
+      @endif
+    </div>
   </div>
 
   <div class="row g-3">
     <div class="col-lg-4 d-flex flex-column gap-3">
       <div class="card">
-        <div class="card-header">Scheda</div>
+        <div
+          class="card-header d-flex justify-content-between align-items-center"
+        >
+          <span>Scheda</span>
+          <a
+            href="{{ route("scuola.elaborati.edit", $elaborato->id) }}"
+            class="btn btn-warning btn-sm"
+          >
+            Modifica
+          </a>
+        </div>
         <div class="card-body">
           <div class="d-flex gap-3">
             <div class="flex-shrink-0 text-center" style="width: 100px">
@@ -168,7 +178,7 @@
           <iframe
             src="{{ route("scuola.elaborati.preview", $elaborato->id) }}"
             class="d-block w-100 border-0"
-            style="height: 75vh"
+            style="height: 85vh"
             title="Anteprima di {{ $elaborato->titolo }}"
           ></iframe>
         @endif
