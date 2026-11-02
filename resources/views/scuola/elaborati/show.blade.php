@@ -1,19 +1,19 @@
 @extends("scuola.index")
 
 @section("content")
-  <div class="card text-white bg-primary mb-3">
-    <div class="card-body py-2 d-flex flex-wrap align-items-center gap-2">
-      <h1 class="h4 mb-0">{{ $elaborato->titolo }}</h1>
-      @if ($elaborato->collocazione)
-        <span class="badge text-bg-light">{{ $elaborato->collocazione }}</span>
-      @endif
+  <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+    <h1 class="h4 mb-0">{{ $elaborato->titolo }}</h1>
+    @if ($elaborato->collocazione)
+      <span class="badge rounded-pill bg-primary">
+        {{ $elaborato->collocazione }}
+      </span>
+    @endif
 
-      @if ($elaborato->anno_scolastico)
-        <span class="badge text-bg-light">
-          {{ $elaborato->anno_scolastico }}
-        </span>
-      @endif
-    </div>
+    @if ($elaborato->anno_scolastico)
+      <span class="badge rounded-pill bg-secondary">
+        {{ $elaborato->anno_scolastico }}
+      </span>
+    @endif
   </div>
 
   <div class="row g-3">
