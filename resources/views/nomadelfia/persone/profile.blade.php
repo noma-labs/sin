@@ -89,6 +89,18 @@
           </div>
         </div>
         <div class="d-flex flex-wrap gap-2">
+          @can("photo.view")
+            @if ($fotoCount > 0)
+              <a
+                class="btn profile-btn"
+                href="{{ route("photos.index", ["persona_id" => $persona->id]) }}"
+                title="Le foto in cui compare {{ $persona->nominativo }}"
+              >
+                Foto
+                <span class="badge text-bg-secondary">{{ $fotoCount }}</span>
+              </a>
+            @endif
+          @endcan
           <div class="dropdown">
             <button
               class="btn profile-btn dropdown-toggle"

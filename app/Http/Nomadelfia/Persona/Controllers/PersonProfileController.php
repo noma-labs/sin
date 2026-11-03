@@ -8,6 +8,7 @@ use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\Persona\Actions\BuildPersonTimelineAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
+use App\Photo\Models\Photo;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
@@ -72,6 +73,7 @@ final class PersonProfileController
             'famigliaEnrico' => $famigliaEnrico,
             'periodi' => $this->periodiInNomadelfia($persona),
             'timeline' => $buildTimeline->execute($persona),
+            'fotoCount' => Photo::idsWherePersonaAppears($persona->id)->count(),
         ]);
     }
 

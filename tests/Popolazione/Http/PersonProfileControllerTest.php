@@ -15,7 +15,9 @@ use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
+use App\Photo\Models\Photo;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 it('shows the profile of a person present in Nomadelfia with a link back to the classic page', function (): void {
     login();
@@ -37,6 +39,31 @@ it('links the classic page of a person to the new profile', function (): void {
     $this->get(route('nomadelfia.person.show', $persona->id))
         ->assertSuccessful()
         ->assertSee(route('nomadelfia.person.profile', $persona->id));
+});
+
+it('links the photos where the person appears', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    $photos = Photo::factory()->count(2)->create();
+    $photos->each(fn (Photo $photo) => DB::connection('db_foto')->table('photos_people')->insert([
+        'photo_id' => $photo->id,
+        'persona_id' => $persona->id,
+        'persona_nome' => 'persona-nome-into-photo',
+    ]));
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSee(route('photos.index', ['persona_id' => $persona->id]))
+        ->assertSeeInOrder(['Foto', '2']);
+});
+
+it('does not link the photos of a person who appears in none', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertDontSee(route('photos.index', ['persona_id' => $persona->id]));
 });
 
 it('shows a person who never entered Nomadelfia', function (): void {
