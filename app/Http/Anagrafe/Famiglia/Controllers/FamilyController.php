@@ -84,7 +84,7 @@ final class FamilyController
         $validated = $request->validate([
             'tipo' => ['required', Rule::enum(TipoFamiglia::class)],
             'nome_famiglia' => ['nullable', 'string', Rule::unique('db_nomadelfia.famiglie', 'nome_famiglia')],
-            'data_creazione' => [Rule::requiredIf($isConiugi), 'nullable', 'date'],
+            'data_creazione' => ['nullable', 'date'],
             'capofamiglia' => ['bail', 'required', 'integer', $this->canHeadFamiglia($tipo?->sessoCapofamiglia() ?? 'M',
                 $tipo?->isMamma() === true
                     ? 'La mamma deve essere una donna maggiorenne, viva e non già capofamiglia o sposata.'
@@ -97,7 +97,6 @@ final class FamilyController
         ], [
             'tipo.required' => 'Il tipo della famiglia è obbligatorio.',
             'nome_famiglia.unique' => 'Esiste già una famiglia con questo nome.',
-            'data_creazione.required' => 'La data del matrimonio è obbligatoria.',
             'capofamiglia.required' => 'Il capofamiglia è obbligatorio.',
             'moglie.required' => 'La moglie è obbligatoria.',
             'figli_accolti.*.not_in' => 'Un figlio non può essere sia nato che accolto.',

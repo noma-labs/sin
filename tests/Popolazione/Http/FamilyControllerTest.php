@@ -277,7 +277,25 @@ it('moves the capofamiglia out of the famiglia in which is a figlio', function (
         ->and($famigliaOrigine->figliAttuali()->count())->toBe(0);
 });
 
-it('requires the data del matrimonio and the moglie for the coniugi', function (): void {
+it('creates a famiglia of coniugi without the data del matrimonio', function (): void {
+    login();
+    $marito = Persona::factory()->maggiorenne()->maschio()->create();
+    $moglie = Persona::factory()->maggiorenne()->femmina()->create();
+
+    $this->post(action([FamilyController::class, 'store']), [
+        'tipo' => 'CON',
+        'data_creazione' => '',
+        'capofamiglia' => $marito->id,
+        'moglie' => $moglie->id,
+    ])->assertSessionHasNoErrors()->assertRedirect();
+
+    $famiglia = $marito->famigliaAttuale();
+    expect($famiglia->tipo)->toBe(TipoFamiglia::Coniugi)
+        ->and($famiglia->data_creazione)->toBeNull()
+        ->and($famiglia->moglie()->id)->toBe($moglie->id);
+});
+
+it('requires the moglie for the coniugi', function (): void {
     login();
     $marito = Persona::factory()->maggiorenne()->maschio()->create();
 
@@ -285,9 +303,8 @@ it('requires the data del matrimonio and the moglie for the coniugi', function (
         'tipo' => 'CON',
         'capofamiglia' => $marito->id,
     ])->assertSessionHasErrors([
-        'data_creazione' => 'La data del matrimonio è obbligatoria.',
         'moglie' => 'La moglie è obbligatoria.',
-    ]);
+    ])->assertSessionDoesntHaveErrors('data_creazione');
 
     expect($marito->famigliaAttuale())->toBeNull();
 });
