@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\Persona\Controllers;
 
+use App\Anagrafe\Famiglia\Models\Famiglia;
+use App\Anagrafe\Famiglia\Models\FamigliaPersona;
 use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\Persona\Actions\BuildPersonTimelineAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
@@ -14,6 +16,7 @@ use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 /**
  * The new profile page of a person: summary on top, timeline of the important events, current situation and family.
@@ -37,10 +40,11 @@ final class PersonProfileController
         $figliNelNucleo = $inCoppia ? $famiglia->figliAttuali()->get() : collect();
         $figliFuoriNucleo = $inCoppia ? $famiglia->figli()->wherePivot('stato', '0')->get() : collect();
 
-        $famigliaOrigine = $persona->famiglie()
-            ->withPivot('posizione_famiglia')
-            ->wherePivotIn('posizione_famiglia', ['FIGLIO NATO', 'FIGLIO ACCOLTO', 'AGGREGATO'])
-            ->first();
+        /** @var Collection<int, Famiglia&object{pivot: FamigliaPersona}> $percorsoFamiliare */
+        $percorsoFamiliare = $persona->percorsoFamiliare()->get();
+        $famigliaOrigine = $percorsoFamiliare->first(
+            fn ($famiglia): bool => in_array($famiglia->pivot->posizione_famiglia, ['FIGLIO NATO', 'FIGLIO ACCOLTO', 'AGGREGATO'], true)
+        );
         $genitori = $famigliaOrigine
             ? $famigliaOrigine->componenti()->wherePivotIn('posizione_famiglia', ['CAPO FAMIGLIA', 'MOGLIE'])->get()
             : collect();
@@ -69,10 +73,51 @@ final class PersonProfileController
             'figliFuoriNucleo' => $figliFuoriNucleo,
             'famigliaOrigine' => $famigliaOrigine,
             'genitori' => $genitori,
+            'percorsoFamiliare' => $this->tappeFamiliari($persona, $percorsoFamiliare),
             'famigliaEnrico' => $famigliaEnrico,
             'periodi' => $this->periodiInNomadelfia($persona),
             'timeline' => $buildTimeline->execute($persona),
         ]);
+    }
+
+    /**
+     * The famiglie of the persona from the most recent, each with the role of the persona in it.
+     * The date is known only when it can be derived: the birth for a figlio nato, the data_creazione of the famiglia
+     * for a capofamiglia or a moglie. The entrata of a figlio accolto or aggregato is not recorded.
+     *
+     * @param  Collection<int, Famiglia&object{pivot: FamigliaPersona}>  $famiglie  ordered from the first to the last one
+     * @return Collection<int, array{famiglia: Famiglia, ruolo: string, tipo: string, nelNucleo: bool, dal: ?Carbon}>
+     */
+    private function tappeFamiliari(Persona $persona, Collection $famiglie): Collection
+    {
+        $maschio = $persona->isMaschio();
+
+        return $famiglie
+            ->map(fn ($famiglia): array => [
+                'famiglia' => $famiglia,
+                'ruolo' => match ($famiglia->pivot->posizione_famiglia) {
+                    'CAPO FAMIGLIA' => 'Capofamiglia',
+                    'MOGLIE' => 'Moglie',
+                    'FIGLIO NATO' => $maschio ? 'Figlio nato' : 'Figlia nata',
+                    'FIGLIO ACCOLTO' => $maschio ? 'Figlio accolto' : 'Figlia accolta',
+                    'AGGREGATO' => $maschio ? 'Aggregato' : 'Aggregata',
+                    default => Str::ucfirst(mb_strtolower($famiglia->pivot->posizione_famiglia)),
+                },
+                'tipo' => match ($famiglia->pivot->posizione_famiglia) {
+                    'CAPO FAMIGLIA', 'MOGLIE' => 'coniuge',
+                    'FIGLIO NATO' => 'nato',
+                    'FIGLIO ACCOLTO' => 'accolto',
+                    default => 'aggregato',
+                },
+                'nelNucleo' => $famiglia->pivot->stato === '1',
+                'dal' => match ($famiglia->pivot->posizione_famiglia) {
+                    'FIGLIO NATO' => Date::parse($persona->data_nascita),
+                    'CAPO FAMIGLIA', 'MOGLIE' => $famiglia->data_creazione ? Date::parse($famiglia->data_creazione) : null,
+                    default => null,
+                },
+            ])
+            ->reverse()
+            ->values();
     }
 
     /**

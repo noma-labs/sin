@@ -25,6 +25,7 @@ final class NomadelfiaTableSeeder extends Seeder
         $this->insertFamiglieSenzaConiuge();
         $this->insertFamiglieFuoriDaNomadelfia();
         $this->insertPersoneSinglePopolazione();
+        $this->call(PercorsoFamiliareSeeder::class);
     }
 
     protected function insertFamigliaInPopolazione(): void
