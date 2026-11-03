@@ -86,10 +86,12 @@ final class FamilyController
             'tipo' => ['required', Rule::enum(TipoFamiglia::class)],
             'nome_famiglia' => ['nullable', 'string', Rule::unique('db_nomadelfia.famiglie', 'nome_famiglia')],
             'data_creazione' => ['nullable', 'date'],
-            'capofamiglia' => ['bail', 'required', 'integer', $this->canHeadFamiglia($tipo?->sessoCapofamiglia() ?? 'M',
-                $tipo?->isMamma() === true
-                    ? 'La mamma deve essere una donna maggiorenne, viva e non già capofamiglia o sposata.'
-                    : 'Il capofamiglia deve essere un uomo maggiorenne, vivo e non già capofamiglia o sposato.')],
+            'capofamiglia' => ['bail', 'required', 'integer', $tipo === TipoFamiglia::NomadelfaMamma
+                ? $this->hasSesso('F', 'La Nomadelfa mamma deve essere una donna.')
+                : $this->canHeadFamiglia($tipo?->sessoCapofamiglia() ?? 'M',
+                    $tipo?->isMamma() === true
+                        ? 'La mamma deve essere una donna maggiorenne, viva e non già capofamiglia o sposata.'
+                        : 'Il capofamiglia deve essere un uomo maggiorenne, vivo e non già capofamiglia o sposato.')],
             'moglie' => [Rule::excludeIf(! $isConiugi), 'bail', 'required', 'integer', $this->canHeadFamiglia('F', 'La moglie deve essere una donna maggiorenne, viva e non già sposata.')],
             'figli_nati' => ['array'],
             'figli_nati.*' => ['bail', 'integer', 'distinct', $this->canBeFiglio($genitori)],
@@ -187,6 +189,18 @@ final class FamilyController
             $persona = Persona::query()->whereKey($value)->first();
 
             if ($persona?->sesso !== $sesso || ! $persona->puoSposarsi()) {
+                $fail($message);
+            }
+        };
+    }
+
+    /**
+     * Validates only the sex of the person: a Nomadelfa mamma can be a minor, deceased (to record the storico) or already capofamiglia of another famiglia.
+     */
+    private function hasSesso(string $sesso, string $message): Closure
+    {
+        return function (string $attribute, mixed $value, Closure $fail) use ($sesso, $message): void {
+            if (Persona::query()->whereKey($value)->value('sesso') !== $sesso) {
                 $fail($message);
             }
         };

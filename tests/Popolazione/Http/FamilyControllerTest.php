@@ -425,6 +425,40 @@ it('keeps the persone selected before a validation error', function (): void {
         ->assertViewHas('moglieId', [$moglie->id]);
 });
 
+it('creates a famiglia of a Nomadelfa mamma who cannot marry', function (Persona $mamma): void {
+    login();
+
+    $this->post(action([FamilyController::class, 'store']), [
+        'tipo' => 'MAM',
+        'data_creazione' => '1990-05-01',
+        'capofamiglia' => $mamma->id,
+    ])->assertSessionHasNoErrors()->assertRedirect();
+
+    $famiglia = Famiglia::query()->where('tipo', TipoFamiglia::NomadelfaMamma)->latest('id')->first();
+    expect($famiglia->capofamiglia()->id)->toBe($mamma->id);
+})->with([
+    'minor' => fn (): Persona => Persona::factory()->minorenne()->femmina()->create(),
+    'deceased' => fn (): Persona => Persona::factory()->maggiorenne()->femmina()->create(['data_decesso' => '2020-01-01']),
+    'already capofamiglia' => function (): Persona {
+        $persona = Persona::factory()->maggiorenne()->femmina()->create();
+        Famiglia::factory()->create(['tipo' => TipoFamiglia::MammaDiVocazione])->assegnaCapoFamiglia($persona);
+
+        return $persona;
+    },
+]);
+
+it('refuses a man as Nomadelfa mamma', function (): void {
+    login();
+    $uomo = Persona::factory()->minorenne()->maschio()->create();
+
+    $this->post(action([FamilyController::class, 'store']), [
+        'tipo' => 'MAM',
+        'capofamiglia' => $uomo->id,
+    ])->assertSessionHasErrors(['capofamiglia' => 'La Nomadelfa mamma deve essere una donna.']);
+
+    expect($uomo->famigliaAttuale())->toBeNull();
+});
+
 it('refuses a marito who cannot marry', function (Persona $marito): void {
     login();
     $moglie = Persona::factory()->maggiorenne()->femmina()->create();
