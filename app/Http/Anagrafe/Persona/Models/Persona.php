@@ -35,6 +35,7 @@ use Illuminate\Support\Str;
  * @property string $biografia
  * @property string $origine
  * @property int|null $id_alfa_enrico
+ * @property string|null $avatar_path
  */
 class Persona extends Model
 {

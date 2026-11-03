@@ -10,9 +10,24 @@
   <div class="person-profile">
     <header class="profile-band rounded-3 mb-0">
       <div class="d-flex flex-wrap gap-3 align-items-start">
-        <div class="profile-avatar" aria-hidden="true">
-          {{ mb_substr($persona->nome, 0, 1) }}{{ mb_substr($persona->cognome, 0, 1) }}
-        </div>
+        @can("popolazione.persona.modifica")
+          <button
+            type="button"
+            class="profile-avatar profile-avatar-edit"
+            data-bs-toggle="modal"
+            data-bs-target="#modal-foto"
+            title="{{ $persona->avatar_path ? "Cambia foto" : "Carica foto" }}"
+          >
+            @include("nomadelfia.persone.partials.profile-avatar-content")
+            <span class="profile-avatar-hint">
+              {{ $persona->avatar_path ? "Cambia foto" : "Carica foto" }}
+            </span>
+          </button>
+        @else
+          <div class="profile-avatar">
+            @include("nomadelfia.persone.partials.profile-avatar-content")
+          </div>
+        @endcan
         <div class="flex-grow-1" style="min-width: 0">
           <h1 class="profile-name mb-0">{{ $persona->nominativo }}</h1>
           <div class="profile-muted mb-1">
@@ -164,6 +179,19 @@
                   Dati anagrafici
                 </a>
               </li>
+              @can("popolazione.persona.modifica")
+                <li>
+                  <button
+                    class="dropdown-item"
+                    type="button"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modal-foto"
+                  >
+                    Foto
+                  </button>
+                </li>
+              @endcan
+
               <li>
                 <a
                   class="dropdown-item"
@@ -732,6 +760,10 @@
       </x-slot:footer>
     </x-modal>
   @endif
+
+  @can("popolazione.persona.modifica")
+    @include("nomadelfia.persone.partials.avatar-modal", ["persona" => $persona])
+  @endcan
 
   <script>
     document.querySelectorAll(".profile-filter").forEach(function (filtro) {
