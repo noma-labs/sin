@@ -116,12 +116,7 @@
             </div>
           </div>
           <div id="aiuto-data" class="text-body-secondary small mt-2">
-            <span data-solo-coniugi>
-              Obbligatoria: diventa la data di creazione della famiglia.
-            </span>
-            <span data-senza-coniuge>
-              Facoltativa: lasciala vuota se non è conosciuta.
-            </span>
+            Facoltativa: lasciala vuota se non è conosciuta.
           </div>
         </section>
 
@@ -227,7 +222,6 @@
   <script>
     (function () {
       const form = document.getElementById("form-nuova-famiglia");
-      const dataCreazione = document.getElementById("data_creazione");
 
       function aggiornaTipo() {
         const tipo = form.querySelector('input[name="tipo"]:checked');
@@ -243,10 +237,6 @@
         form.querySelectorAll("[data-solo-coniugi]").forEach(function (el) {
           el.hidden = !isConiugi;
         });
-        form.querySelectorAll("[data-senza-coniuge]").forEach(function (el) {
-          el.hidden = isConiugi;
-        });
-        dataCreazione.required = isConiugi;
       }
 
       form.querySelectorAll('input[name="tipo"]').forEach(function (radio) {
