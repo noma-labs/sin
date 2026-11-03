@@ -86,8 +86,8 @@ final class FamilyController
             'tipo' => ['required', Rule::enum(TipoFamiglia::class)],
             'nome_famiglia' => ['nullable', 'string', Rule::unique('db_nomadelfia.famiglie', 'nome_famiglia')],
             'data_creazione' => ['nullable', 'date'],
-            'capofamiglia' => ['bail', 'required', 'integer', $tipo === TipoFamiglia::NomadelfaMamma
-                ? $this->hasSesso('F', 'La Nomadelfa mamma deve essere una donna.')
+            'capofamiglia' => ['bail', 'required', 'integer', $tipo?->accettaQualsiasiMamma() === true
+                ? $this->hasSesso('F', 'La mamma deve essere una donna.')
                 : $this->canHeadFamiglia($tipo?->sessoCapofamiglia() ?? 'M',
                     $tipo?->isMamma() === true
                         ? 'La mamma deve essere una donna maggiorenne, viva e non già capofamiglia o sposata.'
@@ -195,7 +195,7 @@ final class FamilyController
     }
 
     /**
-     * Validates only the sex of the person: a Nomadelfa mamma can be a minor, deceased (to record the storico) or already capofamiglia of another famiglia.
+     * Validates only the sex of the person: a Nomadelfa mamma or a mamma nubile can be a minor, deceased (to record the storico) or already capofamiglia of another famiglia.
      */
     private function hasSesso(string $sesso, string $message): Closure
     {

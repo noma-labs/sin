@@ -47,6 +47,14 @@ enum TipoFamiglia: string
         return in_array($this, self::mamme(), true);
     }
 
+    /**
+     * Whether the mamma only has to be a woman: she can be a minor, deceased (to record the storico) or already capofamiglia of another famiglia.
+     */
+    public function accettaQualsiasiMamma(): bool
+    {
+        return in_array($this, [self::NomadelfaMamma, self::MammaNubile], true);
+    }
+
     public function nome(): string
     {
         return match ($this) {
