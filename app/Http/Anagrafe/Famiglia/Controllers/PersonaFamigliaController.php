@@ -31,22 +31,22 @@ final class PersonaFamigliaController
     {
         $request->validate([
             'family_id' => ['required', 'exists:db_nomadelfia.famiglie,id'],
-            'type' => ['required', Rule::in(['FIGLIO NATO', 'FIGLIO ACCOLTO'])],
+            'type' => ['required', Rule::in(['FIGLIO NATO', 'FIGLIO ACCOLTO', 'AGGREGATO'])],
         ], [
             'family_id.required' => 'La famiglia è obbligatoria.',
             'family_id.exists' => 'La famiglia selezionata non esiste.',
             'type.required' => 'La posizione nella famiglia è obbligatoria.',
-            'type.in' => 'La posizione deve essere figlio nato o figlio accolto. Capofamiglia e moglie si assegnano con un nuovo matrimonio.',
+            'type.in' => 'La posizione deve essere figlio nato, figlio accolto o aggregato. Capofamiglia e moglie si assegnano con un nuovo matrimonio.',
         ]);
 
         $persona = Persona::query()->findOrFail($id);
         $famiglia = Famiglia::query()->findOrFail($request->integer('family_id'));
 
-        if ($request->string('type')->toString() === 'FIGLIO NATO') {
-            $famiglia->assegnaFiglioNato($persona);
-        } else {
-            $famiglia->assegnaFiglioAccolto($persona);
-        }
+        match ($request->string('type')->toString()) {
+            'FIGLIO NATO' => $famiglia->assegnaFiglioNato($persona),
+            'AGGREGATO' => $famiglia->assegnaAggregato($persona),
+            default => $famiglia->assegnaFiglioAccolto($persona),
+        };
 
         return to_route('nomadelfia.person.show', $persona->id)
             ->with('success', $persona->nominativo.' aggiunto alla famiglia '.$famiglia->nome_famiglia.' con successo');

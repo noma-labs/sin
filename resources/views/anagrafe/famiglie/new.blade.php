@@ -197,6 +197,21 @@
               </dd>
               <span></span>
             </div>
+            <div class="profile-kv-row">
+              <dt>Aggregati</dt>
+              <dd>
+                <livewire:search-persona
+                  name_input="aggregati[]"
+                  :persone_id="$aggregatiId"
+                  :multiple="true"
+                  placeholder="Cerca in anagrafe"
+                />
+                @error("aggregati.*")
+                  <div class="text-danger small">{{ $message }}</div>
+                @enderror
+              </dd>
+              <span></span>
+            </div>
           </div>
 
           <div class="text-body-secondary small">

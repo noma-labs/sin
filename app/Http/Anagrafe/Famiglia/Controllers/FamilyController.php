@@ -70,8 +70,9 @@ final class FamilyController
         $moglieId = $this->selectedPersone($request->old('moglie') ?? ($isMoglie ? $persona->id : null));
         $figliNatiId = $this->selectedPersone($request->old('figli_nati'));
         $figliAccoltiId = $this->selectedPersone($request->old('figli_accolti'));
+        $aggregatiId = $this->selectedPersone($request->old('aggregati'));
 
-        return view('anagrafe.famiglie.new', compact('tipo', 'capofamigliaId', 'moglieId', 'figliNatiId', 'figliAccoltiId'));
+        return view('anagrafe.famiglie.new', compact('tipo', 'capofamigliaId', 'moglieId', 'figliNatiId', 'figliAccoltiId', 'aggregatiId'));
     }
 
     #[Middleware('can:popolazione.persona.inserisci')]
@@ -94,12 +95,15 @@ final class FamilyController
             'figli_nati.*' => ['bail', 'integer', 'distinct', $this->canBeFiglio($genitori)],
             'figli_accolti' => ['array'],
             'figli_accolti.*' => ['bail', 'integer', 'distinct', Rule::notIn((array) $request->input('figli_nati', [])), $this->canBeFiglio($genitori)],
+            'aggregati' => ['array'],
+            'aggregati.*' => ['bail', 'integer', 'distinct', Rule::notIn([...(array) $request->input('figli_nati', []), ...(array) $request->input('figli_accolti', [])]), $this->canBeFiglio($genitori)],
         ], [
             'tipo.required' => 'Il tipo della famiglia è obbligatorio.',
             'nome_famiglia.unique' => 'Esiste già una famiglia con questo nome.',
             'capofamiglia.required' => 'Il capofamiglia è obbligatorio.',
             'moglie.required' => 'La moglie è obbligatoria.',
             'figli_accolti.*.not_in' => 'Un figlio non può essere sia nato che accolto.',
+            'aggregati.*.not_in' => 'Un aggregato non può essere anche figlio nato o accolto.',
         ]);
 
         $famiglia = $action->execute(
@@ -110,6 +114,7 @@ final class FamilyController
             array_values(Persona::query()->findMany($validated['figli_nati'] ?? [])->all()),
             array_values(Persona::query()->findMany($validated['figli_accolti'] ?? [])->all()),
             $validated['nome_famiglia'] ?? null,
+            array_values(Persona::query()->findMany($validated['aggregati'] ?? [])->all()),
         );
 
         return to_route('anagrafe.families.show', $famiglia->id)->with('success', "Famiglia $famiglia->nome_famiglia creata con successo");

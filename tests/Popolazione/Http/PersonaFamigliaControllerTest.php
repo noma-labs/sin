@@ -29,6 +29,22 @@ it('adds a person to a family as figlio', function (): void {
         ->and($persona->isFiglioAccolto())->toBeTrue();
 });
 
+it('adds a person to a family as aggregato', function (): void {
+    login();
+    $persona = Persona::factory()->minorenne()->maschio()->create();
+    $famiglia = Famiglia::factory()->create();
+
+    $this->post(action([PersonaFamigliaController::class, 'store'], $persona->id), [
+        'family_id' => $famiglia->id,
+        'type' => 'AGGREGATO',
+    ])->assertRedirectToRoute('nomadelfia.person.show', $persona->id);
+
+    expect($persona->famigliaAttuale()->id)->toBe($famiglia->id)
+        ->and($persona->isAggregato())->toBeTrue()
+        ->and($persona->isFiglio())->toBeTrue()
+        ->and($famiglia->figliAttuali()->pluck('persone.id')->all())->toBe([$persona->id]);
+});
+
 it('refuses to add a person to a family as capofamiglia or moglie', function (string $posizione): void {
     login();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
@@ -37,7 +53,7 @@ it('refuses to add a person to a family as capofamiglia or moglie', function (st
     $this->post(action([PersonaFamigliaController::class, 'store'], $persona->id), [
         'family_id' => $famiglia->id,
         'type' => $posizione,
-    ])->assertSessionHasErrors(['type' => 'La posizione deve essere figlio nato o figlio accolto. Capofamiglia e moglie si assegnano con un nuovo matrimonio.']);
+    ])->assertSessionHasErrors(['type' => 'La posizione deve essere figlio nato, figlio accolto o aggregato. Capofamiglia e moglie si assegnano con un nuovo matrimonio.']);
 
     expect($persona->famigliaAttuale())->toBeNull();
 })->with(['CAPO FAMIGLIA', 'MOGLIE']);

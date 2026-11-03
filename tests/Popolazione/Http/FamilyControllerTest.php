@@ -244,6 +244,42 @@ it('creates a famiglia of coniugi with figli nati and accolti', function (): voi
         ]);
 });
 
+it('creates a famiglia with an aggregato', function (): void {
+    login();
+    $mamma = Persona::factory()->maggiorenne()->femmina()->create();
+    $aggregato = Persona::factory()->minorenne()->maschio()->create();
+
+    $this->post(action([FamilyController::class, 'store']), [
+        'tipo' => 'MAV',
+        'capofamiglia' => $mamma->id,
+        'aggregati' => [$aggregato->id],
+    ])->assertSessionHasNoErrors()->assertRedirect();
+
+    $famiglia = $mamma->famigliaAttuale();
+    expect($famiglia->figliAttuali()->get()->mapWithKeys(fn (Persona $figlio): array => [$figlio->id => $figlio->pivot->posizione_famiglia])->all())
+        ->toEqual([$aggregato->id => 'AGGREGATO']);
+
+    $this->get(route('anagrafe.families.show', $famiglia->id))
+        ->assertSuccessful()
+        ->assertSee($aggregato->nominativo)
+        ->assertSee('Aggregato');
+});
+
+it('refuses an aggregato who is also accolto', function (): void {
+    login();
+    $mamma = Persona::factory()->maggiorenne()->femmina()->create();
+    $figlio = Persona::factory()->minorenne()->maschio()->create();
+
+    $this->post(action([FamilyController::class, 'store']), [
+        'tipo' => 'MAV',
+        'capofamiglia' => $mamma->id,
+        'figli_accolti' => [$figlio->id],
+        'aggregati' => [$figlio->id],
+    ])->assertSessionHasErrors(['aggregati.0' => 'Un aggregato non può essere anche figlio nato o accolto.']);
+
+    expect($mamma->famigliaAttuale())->toBeNull();
+});
+
 it('creates a famiglia of a mamma di vocazione without data_creazione', function (): void {
     login();
     $mamma = Persona::factory()->maggiorenne()->femmina()->create();

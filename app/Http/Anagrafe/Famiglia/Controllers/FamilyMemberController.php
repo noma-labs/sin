@@ -45,6 +45,9 @@ final class FamilyMemberController
                 case 'FIGLIO ACCOLTO':
                     $famiglia->assegnaFiglioAccolto($persona, stato: $stato);
                     break;
+                case 'AGGREGATO':
+                    $famiglia->assegnaAggregato($persona, stato: $stato);
+                    break;
                 default:
                     return redirect(route('anagrafe.families.show',
                         ['id' => $id]))->withErrors("Posizione `{$request->posizione}` non riconosciuta");

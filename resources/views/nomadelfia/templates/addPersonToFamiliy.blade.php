@@ -18,6 +18,7 @@
         <option value="" disabled selected>--- scegli posizione ---</option>
         <option value="FIGLIO NATO">Figlio nato</option>
         <option value="FIGLIO ACCOLTO">Figlio accolto</option>
+        <option value="AGGREGATO">Aggregato</option>
       </select>
     </form>
   </x-slot:body>

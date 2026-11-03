@@ -39,7 +39,8 @@ final class GruppoFamiliareQueryBuilder extends Builder
             ->whereIn('famiglie_persone.posizione_famiglia', ['CAPO FAMIGLIA',
                 'MOGLIE',
                 'FIGLIO NATO',
-                'FIGLIO ACCOLTO'])
+                'FIGLIO ACCOLTO',
+                'AGGREGATO'])
             ->orderBy('famiglie.nome_famiglia')
             ->orderBy('persone.data_nascita', 'asc');
 

@@ -39,7 +39,7 @@ final class PersonProfileController
 
         $famigliaOrigine = $persona->famiglie()
             ->withPivot('posizione_famiglia')
-            ->wherePivotIn('posizione_famiglia', ['FIGLIO NATO', 'FIGLIO ACCOLTO'])
+            ->wherePivotIn('posizione_famiglia', ['FIGLIO NATO', 'FIGLIO ACCOLTO', 'AGGREGATO'])
             ->first();
         $genitori = $famigliaOrigine
             ? $famigliaOrigine->componenti()->wherePivotIn('posizione_famiglia', ['CAPO FAMIGLIA', 'MOGLIE'])->get()

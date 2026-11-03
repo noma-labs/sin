@@ -417,7 +417,7 @@
           @php
             $posizioneFamiglia = $famiglia?->pivot->posizione_famiglia;
             $inCoppia = in_array($posizioneFamiglia, ["CAPO FAMIGLIA", "MOGLIE"], true);
-            $isFiglio = in_array($posizioneFamiglia, ["FIGLIO NATO", "FIGLIO ACCOLTO"], true);
+            $isFiglio = in_array($posizioneFamiglia, ["FIGLIO NATO", "FIGLIO ACCOLTO", "AGGREGATO"], true);
           @endphp
 
           @if ($famiglia)
