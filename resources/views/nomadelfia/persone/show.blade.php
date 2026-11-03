@@ -98,6 +98,30 @@
       <div class="card">
         <div class="card-header">Dati anagrafici</div>
         <div class="card-body">
+          @if ($persona->avatar_path)
+            <div class="text-center mb-2">
+              <img
+                src="{{ route("anagrafe.person.avatar.show", $persona->id) }}"
+                alt="Foto di {{ $persona->nominativo }}"
+                class="img-thumbnail"
+                style="max-width: 160px; max-height: 200px; object-fit: cover"
+              />
+            </div>
+          @endif
+
+          @can("popolazione.persona.modifica")
+            <div class="text-center mb-2">
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#modal-foto"
+              >
+                {{ $persona->avatar_path ? "Cambia foto" : "Carica foto" }}
+              </button>
+            </div>
+            @include("nomadelfia.persone.partials.avatar-modal", ["persona" => $persona])
+          @endcan
           <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <div class="row">
