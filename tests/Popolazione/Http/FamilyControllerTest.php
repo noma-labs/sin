@@ -425,18 +425,18 @@ it('keeps the persone selected before a validation error', function (): void {
         ->assertViewHas('moglieId', [$moglie->id]);
 });
 
-it('creates a famiglia of a Nomadelfa mamma who cannot marry', function (Persona $mamma): void {
+it('creates a famiglia of a mamma who cannot marry', function (string $tipo, Persona $mamma): void {
     login();
 
     $this->post(action([FamilyController::class, 'store']), [
-        'tipo' => 'MAM',
+        'tipo' => $tipo,
         'data_creazione' => '1990-05-01',
         'capofamiglia' => $mamma->id,
     ])->assertSessionHasNoErrors()->assertRedirect();
 
-    $famiglia = Famiglia::query()->where('tipo', TipoFamiglia::NomadelfaMamma)->latest('id')->first();
+    $famiglia = Famiglia::query()->where('tipo', $tipo)->latest('id')->first();
     expect($famiglia->capofamiglia()->id)->toBe($mamma->id);
-})->with([
+})->with(['Nomadelfa mamma' => 'MAM', 'mamma nubile' => 'MAN'])->with([
     'minor' => fn (): Persona => Persona::factory()->minorenne()->femmina()->create(),
     'deceased' => fn (): Persona => Persona::factory()->maggiorenne()->femmina()->create(['data_decesso' => '2020-01-01']),
     'already capofamiglia' => function (): Persona {
@@ -447,17 +447,17 @@ it('creates a famiglia of a Nomadelfa mamma who cannot marry', function (Persona
     },
 ]);
 
-it('refuses a man as Nomadelfa mamma', function (): void {
+it('refuses a man as mamma who cannot marry', function (string $tipo): void {
     login();
     $uomo = Persona::factory()->minorenne()->maschio()->create();
 
     $this->post(action([FamilyController::class, 'store']), [
-        'tipo' => 'MAM',
+        'tipo' => $tipo,
         'capofamiglia' => $uomo->id,
-    ])->assertSessionHasErrors(['capofamiglia' => 'La Nomadelfa mamma deve essere una donna.']);
+    ])->assertSessionHasErrors(['capofamiglia' => 'La mamma deve essere una donna.']);
 
     expect($uomo->famigliaAttuale())->toBeNull();
-});
+})->with(['Nomadelfa mamma' => 'MAM', 'mamma nubile' => 'MAN']);
 
 it('refuses a marito who cannot marry', function (Persona $marito): void {
     login();

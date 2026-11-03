@@ -213,7 +213,7 @@ final class Famiglia extends Model
             if ($capo !== null) {
                 throw CouldNotAssignCapoFamiglia::hasAlreadyCapoFamiglia($this, $capo);
             }
-            if ($this->tipo !== TipoFamiglia::NomadelfaMamma && $persona->isMaggiorenne() !== true) {
+            if ($this->tipo?->accettaQualsiasiMamma() !== true && $persona->isMaggiorenne() !== true) {
                 throw CouldNotAssignCapoFamiglia::beacuseIsMinorenne($this, $persona);
             }
 
