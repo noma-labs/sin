@@ -662,6 +662,35 @@
           @endforeach
         @endif
 
+        @if ($percorsoFamiliare->count() > 1)
+          <div class="text-body-secondary small mt-3 mb-2">
+            Percorso familiare
+          </div>
+          <ol class="profile-percorso">
+            @foreach ($percorsoFamiliare as $tappa)
+              <li
+                class="profile-tappa profile-tappa-{{ $tappa["tipo"] }} @if ($tappa["nelNucleo"]) profile-tappa-attuale @endif"
+              >
+                <span class="profile-tappa-ruolo">{{ $tappa["ruolo"] }}</span>
+                <a
+                  class="fw-semibold"
+                  href="{{ route("anagrafe.families.show", $tappa["famiglia"]->id) }}"
+                >
+                  {{ $tappa["famiglia"]->nome_famiglia }}
+                </a>
+                <div class="small text-body-secondary">
+                  @if ($tappa["dal"])
+                    {{ ($tappa["tipo"] === "nato" ? "Dalla nascita " : "Dal ") . $tappa["dal"]->format("d/m/Y") }}
+                  @else
+                    Data di ingresso non registrata
+                  @endif
+                  &middot; {{ $tappa["nelNucleo"] ? "nel nucleo" : "non più nel nucleo" }}
+                </div>
+              </li>
+            @endforeach
+          </ol>
+        @endif
+
         @can("popolazione.persona.inserisci")
           <div class="d-flex flex-wrap gap-2 mt-3">
             @if ($persona->puoSposarsi())

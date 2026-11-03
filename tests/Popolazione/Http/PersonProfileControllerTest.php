@@ -133,6 +133,49 @@ it('shows the parents of a figlio as the family of origin', function (): void {
         ->assertSeeInOrder(["Famiglia d'origine", 'Padre Da Mostrare', 'Padre'], false);
 });
 
+it('shows the percorso familiare from the famiglia attuale back to the one of birth with the role in each one', function (): void {
+    login();
+    $persona = Persona::factory()->nato(Carbon::parse('1980-04-10'))->femmina()->create();
+    Famiglia::factory()->create(['nome_famiglia' => 'Propria', 'data_creazione' => '2005-09-01'])
+        ->assegnaMoglie($persona);
+    Famiglia::factory()->create(['nome_famiglia' => 'Che Accoglie', 'data_creazione' => '1960-01-01'])
+        ->assegnaFiglioAccolto($persona, stato: '0');
+    Famiglia::factory()->create(['nome_famiglia' => 'Di Nascita', 'data_creazione' => '1975-01-01'])
+        ->assegnaFiglioNato($persona, stato: '0');
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder([
+            'Percorso familiare',
+            'Moglie', 'Propria', 'Dal 01/09/2005', 'nel nucleo',
+            'Figlia accolta', 'Che Accoglie', 'Data di ingresso non registrata', 'non più nel nucleo',
+            'Figlia nata', 'Di Nascita', 'Dalla nascita 10/04/1980', 'non più nel nucleo',
+        ]);
+});
+
+it('shows the percorso familiare of a person married twice from the most recent famiglia', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    Famiglia::factory()->create(['nome_famiglia' => 'Prime Nozze', 'data_creazione' => '1980-01-01'])
+        ->assegnaCapoFamiglia($persona, stato: '0');
+    Famiglia::factory()->create(['nome_famiglia' => 'Seconde Nozze', 'data_creazione' => '1995-01-01'])
+        ->assegnaCapoFamiglia($persona, stato: '0');
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Percorso familiare', 'Seconde Nozze', 'Dal 01/01/1995', 'Prime Nozze', 'Dal 01/01/1980']);
+});
+
+it('does not show the percorso familiare of a person with a single famiglia', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    Famiglia::factory()->create()->assegnaCapoFamiglia($persona);
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertDontSee('Percorso familiare');
+});
+
 it('shows the last famiglia of a person outside every nucleo with the coniuge', function (): void {
     login();
     $marito = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();

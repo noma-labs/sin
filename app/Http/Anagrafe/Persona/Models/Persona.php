@@ -166,12 +166,28 @@ class Persona extends Model
      */
     public function ultimaFamiglia(): ?Famiglia
     {
-        return $this->famigliaAttuale() ?? $this->famiglie()
-            ->withPivot('posizione_famiglia')
-            ->orderByRaw("famiglie_persone.posizione_famiglia IN ('CAPO FAMIGLIA', 'MOGLIE') DESC")
-            ->orderByDesc('famiglie.data_creazione')
-            ->orderByDesc('famiglie.id')
-            ->first();
+        return $this->famigliaAttuale() ?? $this->percorsoFamiliare()->get()->last();
+    }
+
+    /**
+     * All the famiglie of the persona from the first to the last one.
+     * The table famiglie_persone has no date of entrata, so the order is rebuilt from what is known:
+     * the famiglie left before the famiglia attuale, the famiglia as figlio nato (from the birth) before the ones as
+     * figlio accolto or aggregato, before the ones as capofamiglia or moglie, then by the data_creazione of the
+     * famiglia (the one without it first) and by its id.
+     *
+     * @return BelongsToMany<Famiglia, $this, FamigliaPersona, 'pivot'>
+     */
+    public function percorsoFamiliare(): BelongsToMany
+    {
+        $famiglie = $this->famiglie()->withPivot('posizione_famiglia');
+        $famiglie->getQuery()
+            ->orderByRaw("famiglie_persone.stato = '1'")
+            ->orderByRaw("CASE famiglie_persone.posizione_famiglia WHEN 'FIGLIO NATO' THEN 0 WHEN 'CAPO FAMIGLIA' THEN 2 WHEN 'MOGLIE' THEN 2 ELSE 1 END")
+            ->orderBy('famiglie.data_creazione')
+            ->orderBy('famiglie.id');
+
+        return $famiglie;
     }
 
     public function famigliaPosizione(string $posizione): bool
