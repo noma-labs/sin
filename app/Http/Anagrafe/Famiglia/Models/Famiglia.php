@@ -46,6 +46,7 @@ final class Famiglia extends Model
         'MOGLIE',
         'FIGLIO NATO',
         'FIGLIO ACCOLTO',
+        'AGGREGATO',
     ];
 
     public static function getCapoFamigliaEnum()
@@ -66,6 +67,11 @@ final class Famiglia extends Model
     public static function getFiglioAccoltoEnum()
     {
         return self::getEnum('Posizione')[3];
+    }
+
+    public static function getAggregatoEnum(): string
+    {
+        return 'AGGREGATO';
     }
 
     public static function figliEnums()
@@ -278,6 +284,11 @@ final class Famiglia extends Model
         throw new InvalidArgumentException('Bad person as argument. It must be the id or the model of a person.');
     }
 
+    public function assegnaAggregato(Persona $persona, ?string $note = null, string $stato = '1'): void
+    {
+        $this->assegnaComponente($persona, self::getAggregatoEnum(), $stato, $note);
+    }
+
     public function assegnaComponente($persona, string $posizione, string $stato = '1', $note = null)
     {
         if (! in_array($posizione, $this->enumPosizione)) {
@@ -346,7 +357,7 @@ final class Famiglia extends Model
     {
         return $this->belongsToMany(Persona::class, 'famiglie_persone', 'famiglia_id', 'persona_id')
             ->withPivot('stato', 'posizione_famiglia')
-            ->wherePivotIn('posizione_famiglia', ['FIGLIO NATO', 'FIGLIO ACCOLTO'])
+            ->wherePivotIn('posizione_famiglia', ['FIGLIO NATO', 'FIGLIO ACCOLTO', 'AGGREGATO'])
             ->orderBy('data_nascita');
     }
 

@@ -195,7 +195,7 @@ class Persona extends Model
 
     public function isFiglio(): bool
     {
-        return $this->isFiglioNato() or $this->isFiglioAccolto();
+        return $this->isFiglioNato() or $this->isFiglioAccolto() or $this->isAggregato();
     }
 
     public function isFiglioNato(): bool
@@ -206,6 +206,11 @@ class Persona extends Model
     public function isFiglioAccolto(): bool
     {
         return $this->famigliaPosizione('FIGLIO ACCOLTO');
+    }
+
+    public function isAggregato(): bool
+    {
+        return $this->famigliaPosizione('AGGREGATO');
     }
 
     /**

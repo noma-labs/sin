@@ -132,7 +132,7 @@ final class BuildPersonTimelineAction
                         Date::parse($dataAccoglienza),
                         TimelineEvent::CATEGORIA_FAMIGLIA,
                         'Famiglia',
-                        ($figlio->isMaschio() ? 'Accoglie il figlio ' : 'Accoglie la figlia ').$figlio->nominativo,
+                        ($figlio->pivot->posizione_famiglia === 'AGGREGATO' ? 'Aggrega ' : ($figlio->isMaschio() ? 'Accoglie il figlio ' : 'Accoglie la figlia ')).$figlio->nominativo,
                         ($figlio->isMaschio() ? 'Nato il ' : 'Nata il ').Date::parse($figlio->data_nascita)->format('d/m/Y'),
                         $figlio,
                     ));

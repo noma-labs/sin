@@ -2,7 +2,7 @@
   $posizioni = in_array($famiglia->tipo, App\Anagrafe\Famiglia\Models\TipoFamiglia::senzaConiuge(), true)
       ? ["CAPO FAMIGLIA" => $famiglia->tipo->nome()]
       : ["CAPO FAMIGLIA" => "Marito", "MOGLIE" => "Moglie"];
-  $posizioni += ["FIGLIO NATO" => "Figlio nato", "FIGLIO ACCOLTO" => "Figlio accolto"];
+  $posizioni += ["FIGLIO NATO" => "Figlio nato", "FIGLIO ACCOLTO" => "Figlio accolto", "AGGREGATO" => "Aggregato"];
   if (isset($selezionata) && ! array_key_exists($selezionata, $posizioni)) {
       $posizioni[$selezionata] = Illuminate\Support\Str::ucfirst(mb_strtolower($selezionata));
   }

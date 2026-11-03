@@ -18,6 +18,7 @@ final class CreateFamigliaAction
     /**
      * @param  list<Persona>  $figliNati
      * @param  list<Persona>  $figliAccolti
+     * @param  list<Persona>  $aggregati
      */
     public function execute(
         TipoFamiglia $tipo,
@@ -27,8 +28,9 @@ final class CreateFamigliaAction
         array $figliNati = [],
         array $figliAccolti = [],
         ?string $nomeFamiglia = null,
+        array $aggregati = [],
     ): Famiglia {
-        return DB::connection('db_nomadelfia')->transaction(function () use ($tipo, $dataCreazione, $capofamiglia, $moglie, $figliNati, $figliAccolti, $nomeFamiglia): Famiglia {
+        return DB::connection('db_nomadelfia')->transaction(function () use ($tipo, $dataCreazione, $capofamiglia, $moglie, $figliNati, $figliAccolti, $nomeFamiglia, $aggregati): Famiglia {
             $famiglia = Famiglia::query()->create([
                 'nome_famiglia' => $nomeFamiglia ?: $capofamiglia->nominativo,
                 'tipo' => $tipo,
@@ -51,6 +53,9 @@ final class CreateFamigliaAction
             }
             foreach ($figliAccolti as $figlio) {
                 $famiglia->assegnaFiglioAccolto($figlio);
+            }
+            foreach ($aggregati as $figlio) {
+                $famiglia->assegnaAggregato($figlio);
             }
 
             return $famiglia;
