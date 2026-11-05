@@ -49,7 +49,7 @@ it('links the people of a gruppo familiare to their page', function (): void {
         ->assertSee(route('nomadelfia.person.show', $persona->id));
 });
 
-it('shows the spouse of a capofamiglia and no family actions', function (): void {
+it('shows the spouse of a capofamiglia and offers a nuova famiglia for the storico', function (): void {
     login();
     $marito = Persona::factory()->maggiorenne()->maschio()->create();
     $moglie = Persona::factory()->maggiorenne()->femmina()->create(['nominativo' => 'Moglie Da Mostrare']);
@@ -60,7 +60,7 @@ it('shows the spouse of a capofamiglia and no family actions', function (): void
     $this->get(action([PersonaPopolazioneController::class, 'show'], $marito->id))
         ->assertSuccessful()
         ->assertSeeInOrder(['Coniuge:', 'Moglie Da Mostrare', 'Figli:'])
-        ->assertDontSee('Nuova famiglia')
+        ->assertSee('Nuova famiglia')
         ->assertDontSee('Aggiungi come figlio');
 });
 
@@ -105,7 +105,7 @@ it('does not show a former wife as the spouse of a capofamiglia', function (): v
         ->assertDontSee('Ex Moglie Uscita');
 });
 
-it('does not offer a nuova famiglia to a person who was already capofamiglia', function (): void {
+it('offers a nuova famiglia for the storico to a person who was already capofamiglia', function (): void {
     login();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $famiglia = Famiglia::factory()->create();
@@ -114,7 +114,7 @@ it('does not offer a nuova famiglia to a person who was already capofamiglia', f
 
     $this->get(action([PersonaPopolazioneController::class, 'show'], $persona->id))
         ->assertSuccessful()
-        ->assertDontSee('Nuova famiglia');
+        ->assertSee('Nuova famiglia');
 });
 
 it('shows the last famiglia of a person outside every nucleo with the coniuge', function (): void {

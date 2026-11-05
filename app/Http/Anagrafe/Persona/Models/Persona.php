@@ -96,17 +96,6 @@ class Persona extends Model
         return $this->data_decesso !== null;
     }
 
-    /**
-     * Whether the person can marry: an adult, alive, and never capofamiglia or moglie of a family.
-     * Used to validate the capofamiglia and the moglie of a nuova famiglia.
-     */
-    public function puoSposarsi(): bool
-    {
-        return $this->isMaggiorenne()
-            && ! $this->isDeceduta()
-            && ! $this->famiglie()->wherePivotIn('posizione_famiglia', ['CAPO FAMIGLIA', 'MOGLIE'])->exists();
-    }
-
     public function isMaggiorenne(): bool
     {
         return \Illuminate\Support\Facades\Date::now()->diffInYears(\Illuminate\Support\Facades\Date::parse($this->data_nascita), true) > 18;

@@ -507,9 +507,7 @@
 
           @can("popolazione.persona.inserisci")
             <div class="d-flex flex-wrap gap-2 mt-2">
-              @if ($persona->puoSposarsi())
-                @include("nomadelfia.templates.nuovaFamiglia", ["persona" => $persona])
-              @endif
+              @include("nomadelfia.templates.nuovaFamiglia", ["persona" => $persona])
               @if (! $nelNucleo)
                 @include("nomadelfia.templates.addPersonToFamiliy", ["persona" => $persona])
               @endif
