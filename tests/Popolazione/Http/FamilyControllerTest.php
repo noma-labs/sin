@@ -360,7 +360,7 @@ it('refuses a capofamiglia of the wrong sesso for the tipo', function (string $t
     'a woman as celibe' => ['CDE', 'F', 'Il capofamiglia deve essere un uomo maggiorenne, vivo e non già capofamiglia o sposato.'],
 ]);
 
-it('refuses a figlio who is already in another famiglia attuale', function (): void {
+it('records in the storico a figlio who is already in another famiglia attuale', function (): void {
     login();
     $mamma = Persona::factory()->maggiorenne()->femmina()->create();
     $figlio = Persona::factory()->minorenne()->maschio()->create();
@@ -371,9 +371,12 @@ it('refuses a figlio who is already in another famiglia attuale', function (): v
         'tipo' => 'MAV',
         'capofamiglia' => $mamma->id,
         'figli_accolti' => [$figlio->id],
-    ])->assertSessionHasErrors(['figli_accolti.0' => "$figlio->nominativo è già nella famiglia Altra Famiglia: toglilo prima da quella famiglia."]);
+    ])->assertSessionHasNoErrors();
 
-    expect($mamma->famigliaAttuale())->toBeNull();
+    $famiglia = $mamma->famigliaAttuale();
+    expect($famiglia)->not->toBeNull()
+        ->and($famiglia->figli()->wherePivot('stato', '0')->pluck('persone.id')->all())->toBe([$figlio->id])
+        ->and($figlio->famigliaAttuale()->id)->toBe($altraFamiglia->id);
 });
 
 it('refuses the nome of a famiglia that already exists', function (): void {

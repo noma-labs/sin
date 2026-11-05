@@ -207,7 +207,8 @@ final class FamilyController
     }
 
     /**
-     * Validates that the figlio exists, is not one of the genitori and is not in another famiglia attuale.
+     * Validates that the figlio exists and is not one of the genitori. A figlio already in another famiglia attuale is allowed:
+     * the new famiglia records him in the storico, outside the nucleo.
      *
      * @param  list<int>  $genitori
      */
@@ -222,12 +223,6 @@ final class FamilyController
             }
             if (in_array($figlio->id, $genitori, true)) {
                 $fail("$figlio->nominativo non può essere sia genitore che figlio.");
-
-                return;
-            }
-            $famigliaAttuale = $figlio->famiglie()->wherePivot('stato', '1')->first();
-            if ($famigliaAttuale !== null) {
-                $fail("$figlio->nominativo è già nella famiglia $famigliaAttuale->nome_famiglia: toglilo prima da quella famiglia.");
             }
         };
     }

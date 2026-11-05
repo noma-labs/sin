@@ -216,7 +216,9 @@
 
           <div class="text-body-secondary small">
             La ricerca include tutta l'anagrafe, anche chi non è in comunità. I
-            genitori lasciano la famiglia in cui sono ora. Non è in anagrafe?
+            genitori lasciano la famiglia in cui sono ora. Un figlio che è già
+            in un'altra famiglia ci resta e viene aggiunto a questa fuori dal
+            nucleo. Non è in anagrafe?
             <a href="{{ route("anagrafe.person.create") }}" target="_blank">
               Inserisci la persona
             </a>
