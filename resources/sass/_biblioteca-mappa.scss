@@ -184,7 +184,7 @@ $mappa-aree: (
 }
 
 .mappa-argomento {
-  font-size: 6.4px;
+  font-size: 7px;
   fill: #141a26;
   pointer-events: none;
 }
@@ -214,5 +214,92 @@ $mappa-aree: (
 @media (prefers-reduced-motion: reduce) {
   .mappa-colonna {
     transition: none;
+  }
+}
+
+.mappa-legenda-stampa {
+  flex-wrap: wrap;
+  gap: 0.15rem 0.9rem;
+  font-size: 0.75rem;
+}
+
+.mappa-indice h5 {
+  margin-bottom: 0.25rem;
+}
+
+.mappa-indice-aree {
+  columns: 3;
+  column-gap: 1.25rem;
+  font-size: 0.72rem;
+  line-height: 1.25;
+}
+
+.mappa-indice-area {
+  margin-bottom: 0.5rem;
+
+  h6 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 0.15rem;
+    break-after: avoid;
+  }
+
+  dl {
+    margin: 0;
+  }
+
+  dl > div {
+    display: grid;
+    grid-template-columns: 2.1rem 1fr;
+    break-inside: avoid;
+    margin-bottom: 0.1rem;
+  }
+
+  dt {
+    font-family: $font-family-monospace;
+  }
+
+  dd {
+    margin: 0;
+  }
+}
+
+// Stampa (Ctrl+P): piantina intera su una pagina A4 orizzontale, poi l'indice degli argomenti
+@media print {
+  .mappa-biblioteca {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+
+    > .row > .col-lg-9 {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  }
+
+  .mappa-contenitore {
+    overflow: visible;
+    border: 0;
+    break-inside: avoid;
+  }
+
+  .mappa-svg {
+    min-width: 0;
+    max-height: 160mm;
+  }
+
+  .mappa-colonna.mappa-selezionata rect {
+    stroke: $gray-700;
+    stroke-width: 1;
+  }
+
+  .mappa-filtrata {
+    .mappa-attenuata,
+    .mappa-secondaria {
+      opacity: 1;
+    }
+  }
+
+  .mappa-indice {
+    break-before: page;
   }
 }

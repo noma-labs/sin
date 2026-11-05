@@ -1,6 +1,6 @@
 <div class="mappa-biblioteca">
   <div class="row g-3">
-    <div class="col-lg-3 order-lg-2">
+    <div class="col-lg-3 order-lg-2 d-print-none">
       <label for="mappa-cerca" class="visually-hidden"
         >Cerca un argomento o una collocazione</label
       >
@@ -323,7 +323,7 @@
               <text
                 class="mappa-codice"
                 x="{{ $forma["x"] + $forma["larghezza"] / 2 }}"
-                y="{{ $forma["y"] + ($conArgomento ? 13 : $forma["altezza"] / 2 + 4) }}"
+                y="{{ $forma["y"] + ($conArgomento ? 12 : $forma["altezza"] / 2 + 4) }}"
                 text-anchor="middle"
               >
                 {{ $etichetta }}
@@ -332,17 +332,57 @@
                 <text
                   class="mappa-argomento"
                   x="{{ $forma["x"] + $forma["larghezza"] / 2 }}"
-                  y="{{ $forma["y"] + 24 }}"
+                  y="{{ $forma["y"] + 21 }}"
                   text-anchor="middle"
                 >
-                  {{ \Illuminate\Support\Str::limit($info["argomento"], (int) floor($forma["larghezza"] / 3.3) - 1, "…") }}
+                  @foreach ($this->righeArgomento($info["argomento"], $forma["larghezza"]) as $riga)
+                    <tspan
+                      x="{{ $forma["x"] + $forma["larghezza"] / 2 }}"
+                      dy="{{ $loop->first ? 0 : 7.5 }}"
+                      >{{ $riga }}</tspan
+                    >
+                  @endforeach
                 </text>
               @endif
             </g>
           @endforeach
         </svg>
       </div>
-      <p class="small text-muted mt-1">In rosso le porte, in verde l'uscita di emergenza. VUOTO: spazio senza libri.</p>
+      <p class="small text-muted mt-1 mb-1">In rosso le porte, in verde l'uscita di emergenza. VUOTO: spazio senza libri.</p>
+      <ul class="d-none d-print-flex list-unstyled mappa-legenda-stampa">
+        @foreach ($aree as $chiave => $nome)
+          <li>
+            <span class="mappa-colore mappa-area-{{ $chiave }}"></span>
+            {{ $nome }}
+          </li>
+        @endforeach
+      </ul>
     </div>
   </div>
+
+  <section class="d-none d-print-block mappa-indice">
+    <h5>Argomenti delle colonne</h5>
+    <p class="small text-muted">La collocazione si legge così: DGB039 è parete D, colonna G, ripiano B, posizione 39. Le lettere nel dettaglio sono i ripiani.</p>
+    <div class="mappa-indice-aree">
+      @foreach ($aree as $chiave => $nome)
+        <div class="mappa-indice-area">
+          <h6>
+            <span class="mappa-colore mappa-area-{{ $chiave }}"></span>
+            {{ $nome }}
+          </h6>
+          <dl>
+            @foreach ($indice[$chiave] ?? [] as $codice => $info)
+              <div>
+                <dt>{{ str_starts_with($codice, "Z-") ? "Z" : $codice }}</dt>
+                <dd>
+                  <span class="fw-semibold">{{ $info["argomento"] }}</span>
+                  <span class="text-muted">— {{ $info["dettaglio"] }}</span>
+                </dd>
+              </div>
+            @endforeach
+          </dl>
+        </div>
+      @endforeach
+    </div>
+  </section>
 </div>
