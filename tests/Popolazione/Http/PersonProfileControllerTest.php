@@ -421,6 +421,31 @@ it('shows a sacerdote as celibe with the ordination in the timeline', function (
         ->assertSeeInOrder(['Stato familiare', 'Celibe', 'Sacerdote', 'dal 29 giu 1978']);
 });
 
+it('links each page of a person only once from the profile', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create(['numero_elenco' => null]);
+    app(EntrataMaggiorenneSingleAction::class)->execute($persona, Carbon::now(), GruppoFamiliare::all()->random());
+
+    $pagina = $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSee('Scheda scuola')
+        ->getContent();
+
+    $paginePersona = [
+        route('nomadelfia.join-leave-history.index', $persona->id),
+        route('anagrafe.person.families', $persona->id),
+        route('nomadelfia.persone.aziende', ['idPersona' => $persona->id]),
+        route('nomadelfia.person.position.index', $persona->id),
+        route('nomadelfia.persone.stato', $persona->id),
+        route('nomadelfia.person.gruppo', $persona->id),
+        route('nomadelfia.folder-number.create', $persona->id),
+        route('scuola.student.show', $persona->id),
+    ];
+    foreach ($paginePersona as $url) {
+        expect(mb_substr_count((string) $pagina, '"'.$url.'"'))->toBe(1, "$url is linked more than once");
+    }
+});
+
 it('forbids the profile to a user without the permission to see the popolazione', function (): void {
     $user = User::query()->create(['username' => 'senza-permessi', 'email' => 'senza-permessi@email.it', 'password' => 'secret', 'persona_id' => 0]);
     login($user);
