@@ -143,7 +143,7 @@ class Persona extends Model
         if ($famiglia->count() === 1) {
             return $famiglia[0];
         }
-        throw PersonaHasMultipleFamigliaAttuale::named($this->nominativo);
+        throw PersonaHasMultipleFamigliaAttuale::of($this);
     }
 
     /**

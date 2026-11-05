@@ -151,6 +151,7 @@ Route::prefix('anagrafe')->middleware('auth')->group(function () {
     Route::get('families/{id}', [FamilyController::class, 'show'])->name('anagrafe.families.show');
     Route::put('families/{id}', [FamilyController::class, 'update'])->name('anagrafe.families.update');
     Route::get('people/{id}/families', [PersonaFamigliaController::class, 'index'])->name('anagrafe.person.families');
+    Route::put('people/{id}/families/attuale', [PersonaFamigliaController::class, 'updateAttuale'])->name('anagrafe.person.families.attuale');
     Route::post('people/{id}/add-family', [PersonaFamigliaController::class, 'store'])->name('anagrafe.person.add-family');
     Route::post('families/{id}/member', [FamilyMemberController::class, 'store'])->name('anagrafe.family.member.store');
     Route::put('families/{id}/member', [FamilyMemberController::class, 'update'])->name('anagrafe.family.member.update');

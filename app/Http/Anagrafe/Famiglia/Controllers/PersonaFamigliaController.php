@@ -6,6 +6,7 @@ namespace App\Anagrafe\Famiglia\Controllers;
 
 use App\Anagrafe\Famiglia\Models\Famiglia;
 use App\Anagrafe\Persona\Models\Persona;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Illuminate\Validation\Rule;
@@ -17,14 +18,39 @@ final class PersonaFamigliaController
     public function index($id)
     {
         $persona = Persona::findOrFail($id);
-        $attuale = $persona->famigliaAttuale();
+        $attuali = $persona->famiglieAttuali()->withPivot('posizione_famiglia')->get();
         $storico = $persona->famiglieStorico;
 
-        return view('anagrafe.persone.famiglia.show', compact('persona', 'attuale', 'storico'));
+        return view('anagrafe.persone.famiglia.show', compact('persona', 'attuali', 'storico'));
     }
 
     /**
-     * @return \Illuminate\Http\RedirectResponse
+     * Resolves a persona in the nucleo of more than one famiglia: the chosen famiglia stays the famiglia attuale,
+     * the persona leaves the nucleo of the others, which pass in the storico.
+     */
+    #[Middleware('can:popolazione.persona.modifica')]
+    public function updateAttuale(Request $request, string $id): RedirectResponse
+    {
+        $persona = Persona::query()->findOrFail($id);
+        $request->validate([
+            'famiglia_id' => ['required', Rule::in($persona->famiglieAttuali()->pluck('famiglie.id')->all())],
+        ], [
+            'famiglia_id.required' => 'La famiglia attuale è obbligatoria.',
+            'famiglia_id.in' => 'La famiglia scelta non è una famiglia attuale della persona.',
+        ]);
+
+        $famiglia = Famiglia::query()->findOrFail($request->integer('famiglia_id'));
+        $persona->famiglieAttuali()
+            ->where('famiglie.id', '!=', $famiglia->id)
+            ->get()
+            ->each(fn (Famiglia $altra) => $altra->uscitaDalNucleoFamiliare($persona));
+
+        return to_route('anagrafe.person.families', $persona->id)
+            ->with('success', "{$famiglia->nome_famiglia} è ora la famiglia attuale di {$persona->nominativo}");
+    }
+
+    /**
+     * @return RedirectResponse
      */
     #[Middleware('can:popolazione.persona.inserisci')]
     public function store(Request $request, string $id)
