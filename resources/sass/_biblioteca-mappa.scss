@@ -114,6 +114,18 @@ $mappa-aree: (
   font-weight: 700;
 }
 
+.mappa-porta-emergenza {
+  .mappa-porta-anta,
+  .mappa-porta-apertura {
+    stroke: $success;
+  }
+
+  .mappa-porta-cardine,
+  .mappa-etichetta.mappa-etichetta-porta {
+    fill: $success;
+  }
+}
+
 .mappa-etichetta {
   font-family: $font-family-monospace;
   font-size: 9px;

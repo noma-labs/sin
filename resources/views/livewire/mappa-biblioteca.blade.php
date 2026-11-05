@@ -114,12 +114,15 @@
             <text class="mappa-etichetta" x="254" y="770">WC</text>
             <rect class="mappa-arredo mappa-vuoto" x="425" y="592" width="70" height="32" />
             <text class="mappa-etichetta" x="438" y="612">VUOTO</text>
-            <g class="mappa-porta-disegno" aria-label="Ingresso principale">
+            <g class="mappa-porta-disegno mappa-porta-emergenza" aria-label="Uscita di emergenza">
               <path class="mappa-porta-apertura" d="M1033 680 A28 28 0 0 0 1005 652" />
               <path class="mappa-porta-anta" d="M1005 680 H1033" />
               <circle class="mappa-porta-cardine" cx="1005" cy="680" r="2.5" />
-              <text class="mappa-etichetta mappa-etichetta-porta" x="1010" y="648">
-                INGRESSO
+              <text class="mappa-etichetta mappa-etichetta-porta" x="1010" y="636">
+                USCITA DI
+              </text>
+              <text class="mappa-etichetta mappa-etichetta-porta" x="1010" y="647">
+                EMERGENZA
               </text>
             </g>
             <g class="mappa-porta-disegno" aria-label="Porta della stanza sotto DC">
@@ -142,10 +145,13 @@
               <path class="mappa-porta-anta" d="M295 715 V750" />
               <circle class="mappa-porta-cardine" cx="295" cy="715" r="2.5" />
             </g>
-            <g class="mappa-porta-disegno" aria-label="Porta vicino allo scaffale HE">
+            <g class="mappa-porta-disegno" aria-label="Ingresso principale, tra HF e HE">
               <path class="mappa-porta-apertura" d="M622 804 A46 46 0 0 0 576 850" />
               <path class="mappa-porta-anta" d="M622 850 V804" />
               <circle class="mappa-porta-cardine" cx="622" cy="850" r="2.5" />
+              <text class="mappa-etichetta mappa-etichetta-porta" x="599" y="866" text-anchor="middle">
+                INGRESSO
+              </text>
             </g>
           </g>
 
@@ -210,7 +216,7 @@
           @endforeach
         </svg>
       </div>
-      <p class="small text-muted mt-1">In rosso le porte. VUOTO: spazio senza libri.</p>
+      <p class="small text-muted mt-1">In rosso le porte, in verde l'uscita di emergenza. VUOTO: spazio senza libri.</p>
     </div>
 
     <div class="col-lg-3">

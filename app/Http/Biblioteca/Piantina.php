@@ -10,7 +10,7 @@ namespace App\Biblioteca;
  */
 final class Piantina
 {
-    public const VIEW_BOX = '96 186 978 676';
+    public const VIEW_BOX = '96 186 978 690';
 
     /**
      * @var list<array{codice: string, x: int, y: int, larghezza: int, altezza: int}>
