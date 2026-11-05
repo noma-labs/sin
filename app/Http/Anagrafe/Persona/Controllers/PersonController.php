@@ -65,6 +65,6 @@ final class PersonController
         );
         $persona->save();
 
-        return to_route('nomadelfia.person.show', $persona->id)->withSuccess("Dati anagrafici di $persona->nominativo inseriti correttamente.");
+        return to_route('nomadelfia.person.profile', $persona->id)->withSuccess("Dati anagrafici di $persona->nominativo inseriti correttamente.");
     }
 }

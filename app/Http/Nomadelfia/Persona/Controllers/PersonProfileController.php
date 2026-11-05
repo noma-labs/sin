@@ -19,8 +19,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 /**
- * The new profile page of a person: summary on top, timeline of the important events, current situation and family.
- * It lives next to the classic page (PersonaPopolazioneController@show) so the users can go back to it.
+ * The profile page of a person: summary on top, timeline of the important events, current situation and family.
  */
 #[Middleware('auth')]
 final class PersonProfileController

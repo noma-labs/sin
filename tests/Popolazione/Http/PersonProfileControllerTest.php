@@ -17,7 +17,7 @@ use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 use Carbon\Carbon;
 
-it('shows the profile of a person present in Nomadelfia with a link back to the classic page', function (): void {
+it('shows the profile of a person present in Nomadelfia', function (): void {
     login();
     $persona = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();
     app(EntrataMaggiorenneSingleAction::class)->execute($persona, Carbon::parse('1995-09-15'), GruppoFamiliare::all()->random());
@@ -26,17 +26,85 @@ it('shows the profile of a person present in Nomadelfia with a link back to the 
         ->assertSuccessful()
         ->assertSee('Presente')
         ->assertSeeInOrder(['Dati anagrafici', 'Situazione attuale', 'Percorso in Nomadelfia', 'Famiglia'])
-        ->assertSeeInOrder(['Entra in Nomadelfia come Ospite', 'Nascita'])
-        ->assertSee(route('nomadelfia.person.show', $persona->id));
+        ->assertSeeInOrder(['Entra in Nomadelfia come Ospite', 'Nascita']);
 });
 
-it('links the classic page of a person to the new profile', function (): void {
+it('links the people of a gruppo familiare to their profile', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    $gruppo = GruppoFamiliare::all()->random();
+    app(EntrataMaggiorenneSingleAction::class)->execute($persona, Carbon::now(), $gruppo);
+
+    $this->get(route('nomadelfia.gruppifamiliari.show', $gruppo->id))
+        ->assertSuccessful()
+        ->assertSee(route('nomadelfia.person.profile', $persona->id));
+});
+
+it('renders the popolazione history of a person', function (): void {
+    login();
+    $persona = Persona::factory()->minorenne()->maschio()->create();
+
+    $this->get(route('nomadelfia.join-leave-history.index', $persona->id))
+        ->assertSuccessful();
+});
+
+it('offers a nuova famiglia but not to be added as figlio to a person in the nucleo of a famiglia', function (string $posizione): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    $famiglia = Famiglia::factory()->create();
+    $posizione === 'CAPO FAMIGLIA' ? $famiglia->assegnaCapoFamiglia($persona) : $famiglia->assegnaFiglioNato($persona);
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSee('Nuova famiglia')
+        ->assertDontSee('Aggiungi come figlio');
+})->with(['CAPO FAMIGLIA', 'FIGLIO NATO']);
+
+it('offers both family actions to an adult without a family', function (): void {
     login();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
 
-    $this->get(route('nomadelfia.person.show', $persona->id))
+    $this->get(route('nomadelfia.person.profile', $persona->id))
         ->assertSuccessful()
-        ->assertSee(route('nomadelfia.person.profile', $persona->id));
+        ->assertSee('Nessuna famiglia')
+        ->assertSee('Nuova famiglia')
+        ->assertSee('Aggiungi come figlio');
+});
+
+it('offers a nuova famiglia for the storico to a person who was already capofamiglia', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    $famiglia = Famiglia::factory()->create();
+    $famiglia->assegnaCapoFamiglia($persona);
+    $famiglia->uscitaDalNucleoFamiliare($persona);
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSee('Nuova famiglia');
+});
+
+it('does not show a former wife as the spouse of a capofamiglia', function (): void {
+    login();
+    $marito = Persona::factory()->maggiorenne()->maschio()->create();
+    $famiglia = Famiglia::factory()->create();
+    $famiglia->assegnaCapoFamiglia($marito);
+    $famiglia->assegnaMoglie(Persona::factory()->maggiorenne()->femmina()->create());
+    $famiglia->uscitaDalNucleoFamiliare($famiglia->componenti()->wherePivot('posizione_famiglia', 'MOGLIE')->firstOrFail());
+
+    $this->get(route('nomadelfia.person.profile', $marito->id))
+        ->assertSuccessful()
+        ->assertDontSee('Coniuge e figli');
+});
+
+it('does not show a family of origin for a single', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    Famiglia::factory()->create()->componenti()->attach($persona->id, ['stato' => '1', 'posizione_famiglia' => 'SINGLE']);
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSee('Single')
+        ->assertDontSee("Famiglia d'origine", false);
 });
 
 it('shows a person who never entered Nomadelfia', function (): void {

@@ -24,7 +24,7 @@ it('adds a person to a family as figlio', function (): void {
     $this->post(action([PersonaFamigliaController::class, 'store'], $persona->id), [
         'family_id' => $famiglia->id,
         'type' => 'FIGLIO ACCOLTO',
-    ])->assertRedirectToRoute('nomadelfia.person.show', $persona->id);
+    ])->assertRedirectToRoute('nomadelfia.person.profile', $persona->id);
 
     expect($persona->famigliaAttuale()->id)->toBe($famiglia->id)
         ->and($persona->isFiglioAccolto())->toBeTrue();
@@ -38,7 +38,7 @@ it('adds a person to a family as aggregato', function (): void {
     $this->post(action([PersonaFamigliaController::class, 'store'], $persona->id), [
         'family_id' => $famiglia->id,
         'type' => 'AGGREGATO',
-    ])->assertRedirectToRoute('nomadelfia.person.show', $persona->id);
+    ])->assertRedirectToRoute('nomadelfia.person.profile', $persona->id);
 
     expect($persona->famigliaAttuale()->id)->toBe($famiglia->id)
         ->and($persona->isAggregato())->toBeTrue()
@@ -65,7 +65,7 @@ it('sends to the famiglie of a person in the nucleo of more than one famiglia to
     Famiglia::factory()->create()->assegnaFiglioNato($persona);
     Famiglia::factory()->create()->assegnaFiglioAccolto($persona);
 
-    $this->get(route('nomadelfia.person.show', $persona->id))
+    $this->get(route('nomadelfia.person.profile', $persona->id))
         ->assertRedirectToRoute('anagrafe.person.families', $persona->id)
         ->assertSessionHasErrors(['famiglia_id' => "La persona `{$persona->nominativo}` ha più di uno stato familiare attuale. Scegli la famiglia attuale: le altre passano nello storico."]);
 });

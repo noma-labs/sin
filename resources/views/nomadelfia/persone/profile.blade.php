@@ -289,15 +289,6 @@
           </a>
         </li>
       @endcan
-
-      <li class="nav-item ms-auto">
-        <a
-          class="nav-link"
-          href="{{ route("nomadelfia.person.show", $persona->id) }}"
-        >
-          Torna alla vista classica
-        </a>
-      </li>
     </ul>
 
     <div class="row g-4">

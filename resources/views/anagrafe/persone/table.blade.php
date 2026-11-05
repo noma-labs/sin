@@ -45,7 +45,7 @@
             <div class="button-group" role="group">
               <a
                 class="btn btn-warning btn-sm"
-                href="{{ route("nomadelfia.person.show", ["id" => $persona->id]) }}"
+                href="{{ route("nomadelfia.person.profile", ["id" => $persona->id]) }}"
               >
                 Dettaglio
               </a>

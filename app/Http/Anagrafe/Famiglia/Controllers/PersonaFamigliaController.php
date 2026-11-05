@@ -74,7 +74,7 @@ final class PersonaFamigliaController
             default => $famiglia->assegnaFiglioAccolto($persona),
         };
 
-        return to_route('nomadelfia.person.show', $persona->id)
+        return to_route('nomadelfia.person.profile', $persona->id)
             ->with('success', $persona->nominativo.' aggiunto alla famiglia '.$famiglia->nome_famiglia.' con successo');
     }
 }
