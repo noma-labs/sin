@@ -25,8 +25,36 @@ it('shows the profile of a person present in Nomadelfia', function (): void {
     $this->get(route('nomadelfia.person.profile', $persona->id))
         ->assertSuccessful()
         ->assertSee('Presente')
-        ->assertSeeInOrder(['Dati anagrafici', 'Situazione attuale', 'Percorso in Nomadelfia', 'Famiglia'])
+        ->assertSeeInOrder(['Biografia', 'Situazione attuale', 'Percorso in Nomadelfia', 'Famiglia'])
         ->assertSeeInOrder(['Entra in Nomadelfia come Ospite', 'Nascita']);
+});
+
+it('shows the nome and cognome of a person in the header with the nominativo they are known by', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create(['nome' => 'Giovanni', 'cognome' => 'Bianchi', 'nominativo' => 'Gianni B.']);
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Giovanni Bianchi', 'Conosciuto come', 'Gianni B.']);
+});
+
+it('does not repeat the nominativo when it is the nome and cognome of the person', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create(['nome' => 'Luca', 'cognome' => 'Verdi', 'nominativo' => 'Verdi Luca']);
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSee('Luca Verdi')
+        ->assertDontSee('Conosciuto come');
+});
+
+it('shows the sesso and the missing codice fiscale of a person in the header', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->femmina()->create(['cf' => null]);
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Nessun codice fiscale', 'Sesso', 'Femmina', 'Nascita', 'Biografia']);
 });
 
 it('links the people of a gruppo familiare to their profile', function (): void {

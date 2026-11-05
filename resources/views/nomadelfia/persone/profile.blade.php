@@ -14,14 +14,26 @@
           {{ mb_substr($persona->nome, 0, 1) }}{{ mb_substr($persona->cognome, 0, 1) }}
         </div>
         <div class="flex-grow-1" style="min-width: 0">
-          <h1 class="profile-name mb-0">{{ $persona->nominativo }}</h1>
+          <h1 class="profile-name mb-0">
+            {{ $persona->nome }} {{ $persona->cognome }}
+          </h1>
           <div class="profile-muted mb-1">
-            {{ $persona->cognome }} {{ $persona->nome }}
+            @if (! in_array(mb_strtolower(trim($persona->nominativo)), [mb_strtolower("$persona->nome $persona->cognome"), mb_strtolower("$persona->cognome $persona->nome")], true))
+              Conosciuto come
+              <strong>{{ $persona->nominativo }}</strong>
+              &middot;
+            @endif
             @if ($persona->cf)
-              &middot; CF {{ $persona->cf }}
+              CF {{ $persona->cf }}
+            @else
+              <span class="text-danger">Nessun codice fiscale</span>
             @endif
           </div>
           <div class="d-flex flex-wrap column-gap-3 row-gap-1 mb-2">
+            <span>
+              <span class="profile-label">Sesso</span>
+              {{ $persona->isMaschio() ? "Maschio" : "Femmina" }}
+            </span>
             <span>
               <span class="profile-label">Nascita</span>
               {{ $nascita->translatedFormat("j M Y") }} &middot; {{ $persona->provincia_nascita }}
@@ -293,9 +305,9 @@
 
     <div class="row g-4">
       <div class="col-xl-4 col-md-6 d-flex flex-column gap-4">
-        <section aria-labelledby="titolo-anagrafica">
+        <section aria-labelledby="titolo-biografia">
           <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2 id="titolo-anagrafica" class="h5 mb-0">Dati anagrafici</h2>
+            <h2 id="titolo-biografia" class="h5 mb-0">Biografia</h2>
             <a
               class="btn btn-sm btn-outline-secondary"
               href="{{ route("anagrafe.person.identity.edit", $persona->id) }}"
@@ -303,67 +315,16 @@
               Modifica
             </a>
           </div>
-          <dl class="profile-kv card mb-0">
-            <div class="profile-kv-row">
-              <dt>Nome</dt>
-              <dd>{{ $persona->nome }}</dd>
-              <span></span>
-            </div>
-            <div class="profile-kv-row">
-              <dt>Cognome</dt>
-              <dd>{{ $persona->cognome }}</dd>
-              <span></span>
-            </div>
-            <div class="profile-kv-row">
-              <dt>Nominativo</dt>
-              <dd>{{ $persona->nominativo }}</dd>
-              <a
-                href="{{ route("anagrafe.internal-name.edit", $persona->id) }}"
+          <div class="card card-body">
+            @if ($persona->biografia)
+              <span
+                style="white-space: pre-line"
+                >{{ $persona->biografia }}</span
               >
-                Modifica
-              </a>
-            </div>
-            <div class="profile-kv-row">
-              <dt>Sesso</dt>
-              <dd>{{ $persona->sesso }}</dd>
-              <span></span>
-            </div>
-            <div class="profile-kv-row">
-              <dt>Data di nascita</dt>
-              <dd>{{ $nascita->format("d/m/Y") }}</dd>
-              <span></span>
-            </div>
-            <div class="profile-kv-row">
-              <dt>Luogo di nascita</dt>
-              <dd>{{ $persona->provincia_nascita }}</dd>
-              <span></span>
-            </div>
-            <div class="profile-kv-row">
-              <dt>Codice fiscale</dt>
-              <dd>
-                @if ($persona->cf)
-                  {{ $persona->cf }}
-                @else
-                  <span class="text-danger">Nessun codice fiscale</span>
-                @endif
-              </dd>
-              <span></span>
-            </div>
-            <div class="profile-kv-row">
-              <dt>Biografia</dt>
-              <dd>
-                @if ($persona->biografia)
-                  <span
-                    style="white-space: pre-line"
-                    >{{ $persona->biografia }}</span
-                  >
-                @else
-                  <span class="text-danger">Nessuna biografia</span>
-                @endif
-              </dd>
-              <span></span>
-            </div>
-          </dl>
+            @else
+              <span class="text-danger">Nessuna biografia</span>
+            @endif
+          </div>
         </section>
 
         <section aria-labelledby="titolo-situazione">
