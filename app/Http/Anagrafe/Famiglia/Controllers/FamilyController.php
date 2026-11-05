@@ -86,13 +86,9 @@ final class FamilyController
             'tipo' => ['required', Rule::enum(TipoFamiglia::class)],
             'nome_famiglia' => ['nullable', 'string', Rule::unique('db_nomadelfia.famiglie', 'nome_famiglia')],
             'data_creazione' => ['nullable', 'date'],
-            'capofamiglia' => ['bail', 'required', 'integer', $tipo?->accettaQualsiasiMamma() === true
-                ? $this->hasSesso('F', 'La mamma deve essere una donna.')
-                : $this->canHeadFamiglia($tipo?->sessoCapofamiglia() ?? 'M',
-                    $tipo?->isMamma() === true
-                        ? 'La mamma deve essere una donna maggiorenne, viva e non già capofamiglia o sposata.'
-                        : 'Il capofamiglia deve essere un uomo maggiorenne, vivo e non già capofamiglia o sposato.')],
-            'moglie' => [Rule::excludeIf(! $isConiugi), 'bail', 'required', 'integer', $this->canHeadFamiglia('F', 'La moglie deve essere una donna maggiorenne, viva e non già sposata.')],
+            'capofamiglia' => ['bail', 'required', 'integer', $this->hasSesso($tipo?->sessoCapofamiglia() ?? 'M',
+                $tipo?->isMamma() === true ? 'La mamma deve essere una donna.' : 'Il capofamiglia deve essere un uomo.')],
+            'moglie' => [Rule::excludeIf(! $isConiugi), 'bail', 'required', 'integer', $this->hasSesso('F', 'La moglie deve essere una donna.')],
             'figli_nati' => ['array'],
             'figli_nati.*' => ['bail', 'integer', 'distinct', $this->canBeFiglio($genitori)],
             'figli_accolti' => ['array'],
@@ -181,21 +177,7 @@ final class FamilyController
     }
 
     /**
-     * Validates that the person has the given sex, is an adult, is alive and has never been capofamiglia or moglie.
-     */
-    private function canHeadFamiglia(string $sesso, string $message): Closure
-    {
-        return function (string $attribute, mixed $value, Closure $fail) use ($sesso, $message): void {
-            $persona = Persona::query()->whereKey($value)->first();
-
-            if ($persona?->sesso !== $sesso || ! $persona->puoSposarsi()) {
-                $fail($message);
-            }
-        };
-    }
-
-    /**
-     * Validates only the sex of the person: a Nomadelfa mamma or a mamma nubile can be a minor, deceased (to record the storico) or already capofamiglia of another famiglia.
+     * Validates only the sex of the person: a genitore can be a minor, deceased or already capofamiglia or sposato in another famiglia, to record the storico.
      */
     private function hasSesso(string $sesso, string $message): Closure
     {

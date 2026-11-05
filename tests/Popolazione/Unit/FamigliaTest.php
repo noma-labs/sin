@@ -39,11 +39,12 @@ it('assign a component', function (): void {
     expect($famiglia->moglie()->id)->toBe($persona->id);
 });
 
-it('throws exception with bad capo famiglia', function (): void {
+it('assigns a minor as capo famiglia to record the storico', function (): void {
     $famiglia = Famiglia::factory()->create();
     $minorenne = Persona::factory()->minorenne()->maschio()->create();
     $famiglia->assegnaCapoFamiglia($minorenne);
-})->throws(CouldNotAssignCapoFamiglia::class);
+    expect($famiglia->capofamiglia()->id)->toBe($minorenne->id);
+});
 
 it('throw exception with already capo famiglia', function (): void {
     $famiglia = Famiglia::factory()->create();

@@ -12,8 +12,8 @@ use Illuminate\Support\Facades\DB;
 
 /**
  * Creates a famiglia in the anagrafe. The componenti can be part of the popolazione or not: nobody enters or leaves the popolazione.
- * The genitori leave their famiglia attuale. A figlio or aggregato already in another famiglia attuale stays there
- * and is recorded in the new famiglia outside the nucleo, to keep the storico.
+ * A genitore leaves the famiglia in which is a figlio. A genitore already capofamiglia or moglie in the nucleo of another famiglia,
+ * and a figlio or aggregato already in the nucleo of another famiglia, stay there and are recorded in the new famiglia outside the nucleo, to keep the storico.
  */
 final class CreateFamigliaAction
 {
@@ -39,15 +39,20 @@ final class CreateFamigliaAction
                 'data_creazione' => $dataCreazione,
             ]);
 
-            $genitori = array_filter([$capofamiglia, $moglie]);
+            $isCapofamigliaNelloStorico = $this->isGenitoreInAltraFamiglia($capofamiglia);
+            $isMoglieNelloStorico = $moglie instanceof Persona && $this->isGenitoreInAltraFamiglia($moglie);
+            $genitoriNelNucleo = array_filter([
+                $isCapofamigliaNelloStorico ? null : $capofamiglia,
+                $isMoglieNelloStorico ? null : $moglie,
+            ]);
             DB::connection('db_nomadelfia')->table('famiglie_persone')
-                ->whereIn('persona_id', array_map(fn (Persona $genitore): int => $genitore->id, $genitori))
+                ->whereIn('persona_id', array_map(fn (Persona $genitore): int => $genitore->id, $genitoriNelNucleo))
                 ->where('stato', '1')
                 ->update(['stato' => '0']);
 
-            $famiglia->assegnaCapoFamiglia($capofamiglia);
+            $famiglia->assegnaCapoFamiglia($capofamiglia, null, $isCapofamigliaNelloStorico ? '0' : '1');
             if ($moglie instanceof Persona) {
-                $famiglia->assegnaMoglie($moglie);
+                $famiglia->assegnaMoglie($moglie, $isMoglieNelloStorico ? '0' : '1');
             }
 
             foreach ($figliNati as $figlio) {
@@ -62,6 +67,19 @@ final class CreateFamigliaAction
 
             return $famiglia;
         });
+    }
+
+    /**
+     * Whether the genitore is already capofamiglia or moglie in the nucleo of another famiglia: he stays there
+     * and enters the new famiglia outside the nucleo. Otherwise he leaves the famiglia in which is a figlio.
+     */
+    private function isGenitoreInAltraFamiglia(Persona $genitore): bool
+    {
+        return DB::connection('db_nomadelfia')->table('famiglie_persone')
+            ->where('persona_id', $genitore->id)
+            ->where('stato', '1')
+            ->whereIn('posizione_famiglia', ['CAPO FAMIGLIA', 'MOGLIE'])
+            ->exists();
     }
 
     /**

@@ -213,9 +213,6 @@ final class Famiglia extends Model
             if ($capo !== null) {
                 throw CouldNotAssignCapoFamiglia::hasAlreadyCapoFamiglia($this, $capo);
             }
-            if ($this->tipo?->accettaQualsiasiMamma() !== true && $persona->isMaggiorenne() !== true) {
-                throw CouldNotAssignCapoFamiglia::beacuseIsMinorenne($this, $persona);
-            }
 
             return $this->assegnaComponente($persona, self::getCapoFamigliaEnum(), $stato, $note);
         }
@@ -233,9 +230,6 @@ final class Famiglia extends Model
         if ($persona instanceof Persona) {
             if ($stato === '1' && $this->moglie() !== null) {
                 throw CouldNotAssignMoglie::hasAlreadyMoglie($this, $persona);
-            }
-            if ($persona->isMaggiorenne() === false) {
-                throw CouldNotAssignMoglie::beacuseIsMinorenne($this, $persona);
             }
             if ($persona->isMaschio() === true) {
                 throw CouldNotAssignMoglie::beacuseIsMan($this, $persona);

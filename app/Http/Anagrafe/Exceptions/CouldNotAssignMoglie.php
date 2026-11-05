@@ -19,11 +19,6 @@ final class CouldNotAssignMoglie extends AnagrafeException
         return new self("La moglie `{$persona->nominativo}` non può essere aggiunto alla famiglia `{$famiglia->nome_famiglia}` perchè è un maschio.");
     }
 
-    public static function beacuseIsMinorenne(Famiglia $famiglia, Persona $persona): self
-    {
-        return new self("La moglie `{$persona->nominativo}` non può essere aggiunto alla famiglia `{$famiglia->nome_famiglia}` perchè minorenne.");
-    }
-
     public static function beacuseIsSingle(Famiglia $famiglia, Persona $persona): self
     {
         return new self("La moglie `{$persona->nominativo}` non può essere aggiunto alla famiglia `{$famiglia->nome_famiglia}` perchè la famiglia è single.");
