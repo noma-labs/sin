@@ -99,7 +99,7 @@
           <g class="mappa-arredi">
             <path
               class="mappa-muro"
-              d="M110 240 H1005 V652 M1005 680 V705 M1037 705 V845 H720 V715 M690 715 V850 H622 M576 850 H425 V715 M398 715 V850 H240 V715 H130 V240 H110"
+              d="M110 240 H1005 V652 M1005 680 V705 M1037 705 V845 H720 V715 M860 715 V845 M690 715 V850 H622 M576 850 H425 V715 M398 715 V850 H240 V715 H130 V240 H110"
             />
             <rect class="mappa-finestra" x="228" y="228" width="122" height="12" />
             <rect class="mappa-finestra" x="688" y="228" width="134" height="12" />
@@ -122,9 +122,26 @@
                 INGRESSO
               </text>
             </g>
-            <path class="mappa-porta" d="M860 718 l-38 38 M860 718 l42 38" />
-            <path class="mappa-porta" d="M610 626 l-40 42" />
-            <path class="mappa-porta" d="M295 722 l38 58" />
+            <g class="mappa-porta-disegno" aria-label="Porta della stanza sotto DC">
+              <path class="mappa-porta-apertura" d="M829 743 A40 40 0 0 1 817 715" />
+              <path class="mappa-porta-anta" d="M857 715 L829 743" />
+              <circle class="mappa-porta-cardine" cx="857" cy="715" r="2.5" />
+            </g>
+            <g class="mappa-porta-disegno" aria-label="Porta della stanza sotto DB">
+              <path class="mappa-porta-apertura" d="M891 743 A40 40 0 0 0 903 715" />
+              <path class="mappa-porta-anta" d="M863 715 L891 743" />
+              <circle class="mappa-porta-cardine" cx="863" cy="715" r="2.5" />
+            </g>
+            <g class="mappa-porta-disegno" aria-label="Porta tra DG e DF">
+              <path class="mappa-porta-apertura" d="M566 633 A45 45 0 0 1 611 678" />
+              <path class="mappa-porta-anta" d="M566 678 V633" />
+              <circle class="mappa-porta-cardine" cx="566" cy="678" r="2.5" />
+            </g>
+            <g class="mappa-porta-disegno" aria-label="Porta tra DM e DL, verso il WC">
+              <path class="mappa-porta-apertura" d="M295 750 A35 35 0 0 0 330 715" />
+              <path class="mappa-porta-anta" d="M295 715 V750" />
+              <circle class="mappa-porta-cardine" cx="295" cy="715" r="2.5" />
+            </g>
             <g class="mappa-porta-disegno" aria-label="Porta vicino allo scaffale HE">
               <path class="mappa-porta-apertura" d="M622 804 A46 46 0 0 0 576 850" />
               <path class="mappa-porta-anta" d="M622 850 V804" />
