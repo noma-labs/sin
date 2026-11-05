@@ -111,7 +111,8 @@
             <text class="mappa-etichetta" x="727" y="472">TAVOLO</text>
             <rect class="mappa-arredo" x="700" y="322" width="95" height="54" />
             <text class="mappa-etichetta" x="738" y="353">PC</text>
-            <text class="mappa-etichetta" x="254" y="770">WC</text>
+            <path class="mappa-muro mappa-muro-interno" d="M285 715 V790 H281 M245 790 H240" />
+            <text class="mappa-etichetta" x="251" y="738">WC</text>
             <rect class="mappa-arredo mappa-vuoto" x="425" y="592" width="70" height="32" />
             <text class="mappa-etichetta" x="438" y="612">VUOTO</text>
             <g class="mappa-porta-disegno mappa-porta-emergenza" aria-label="Uscita di emergenza">
@@ -140,10 +141,15 @@
               <path class="mappa-porta-anta" d="M566 678 V633" />
               <circle class="mappa-porta-cardine" cx="566" cy="678" r="2.5" />
             </g>
-            <g class="mappa-porta-disegno" aria-label="Porta tra DM e DL, verso il WC">
+            <g class="mappa-porta-disegno" aria-label="Porta tra DM e DL">
               <path class="mappa-porta-apertura" d="M295 750 A35 35 0 0 0 330 715" />
               <path class="mappa-porta-anta" d="M295 715 V750" />
               <circle class="mappa-porta-cardine" cx="295" cy="715" r="2.5" />
+            </g>
+            <g class="mappa-porta-disegno" aria-label="Porta del WC">
+              <path class="mappa-porta-apertura" d="M281 754 A36 36 0 0 0 245 790" />
+              <path class="mappa-porta-anta" d="M281 790 V754" />
+              <circle class="mappa-porta-cardine" cx="281" cy="790" r="2.5" />
             </g>
             <g class="mappa-porta-disegno" aria-label="Ingresso principale, tra HF e HE">
               <path class="mappa-porta-apertura" d="M622 804 A46 46 0 0 0 576 850" />
