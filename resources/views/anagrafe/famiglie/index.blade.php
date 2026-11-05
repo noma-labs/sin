@@ -141,7 +141,7 @@
               @foreach ($single->get() as $persona)
                 <div>
                   <a
-                    href="{{ route("nomadelfia.person.show", ["id" => $persona->id]) }}"
+                    href="{{ route("nomadelfia.person.profile", ["id" => $persona->id]) }}"
                   >
                     {{ $persona->nome_famiglia }}
                   </a>

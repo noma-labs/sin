@@ -7,7 +7,6 @@ namespace Tests\Http\Nomadelfia;
 use App\Anagrafe\Persona\Controllers\PersonController;
 use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use App\Nomadelfia\Persona\Controllers\PersonaPopolazioneController;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
@@ -23,7 +22,7 @@ it('render the show of a person with minimal info', function (): void {
 
     login();
 
-    $this->get(action([PersonaPopolazioneController::class, 'show'], $persona->id))
+    $this->get(route('nomadelfia.person.profile', $persona->id))
         ->assertOk()
         ->assertSeeText($persona->nominativo);
 });
@@ -44,7 +43,7 @@ it('offers a nuova famiglia of the tipi of her sesso from the page of an unmarri
     login();
     $persona = Persona::factory()->maggiorenne()->femmina()->create();
 
-    $this->get(action([PersonaPopolazioneController::class, 'show'], $persona->id))
+    $this->get(route('nomadelfia.person.profile', $persona->id))
         ->assertSee(route('anagrafe.families.create', ['persona' => $persona->id, 'tipo' => 'CON']))
         ->assertSee(route('anagrafe.families.create', ['persona' => $persona->id, 'tipo' => 'MAV']))
         ->assertDontSee(route('anagrafe.families.create', ['persona' => $persona->id, 'tipo' => 'CDE']));
