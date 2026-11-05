@@ -1,0 +1,218 @@
+// Piantina della biblioteca (componente Livewire MappaBiblioteca)
+
+$mappa-aree: (
+  "romanzi": #f3c79b,
+  "gialli": #ea9a92,
+  "classici": #d9b8ea,
+  "ragazzi": #f6dc7a,
+  "religione": #a3c7ef,
+  "storia": #cfae88,
+  "geografia": #94d6bf,
+  "scienze": #b7e094,
+  "arte": #f3aacb,
+  "enciclopedie": #cdd2db,
+  "societa": #a4dbe3,
+  "tempo-libero": #e6d6aa,
+  "scuola": #aea8ec,
+  "video": #9fb0cc,
+);
+
+@each $area, $colore in $mappa-aree {
+  .mappa-area-#{$area} {
+    --mappa-area: #{$colore};
+  }
+}
+
+.mappa-colore {
+  display: inline-block;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 0.2rem;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  background: var(--mappa-area);
+  vertical-align: -0.05rem;
+}
+
+.mappa-legenda {
+  border: 1px solid $gray-300;
+  background: $white;
+  font-size: 0.8125rem;
+  padding: 0.125rem 0.4rem;
+
+  &.active {
+    border-color: $primary;
+    box-shadow: 0 0 0 2px rgba($primary, 0.35);
+  }
+}
+
+.mappa-sottomenu {
+  padding-left: 0.75rem;
+  border-left: 4px solid map-get($mappa-aree, "scuola");
+}
+
+.mappa-badge {
+  color: $body-color;
+  background: $gray-100;
+  border: 1px solid $gray-300;
+  font-weight: normal;
+}
+
+.mappa-contenitore {
+  overflow-x: auto;
+  border: 1px solid $gray-300;
+  border-radius: $border-radius;
+  background: $white;
+}
+
+.mappa-svg {
+  display: block;
+  width: 100%;
+  min-width: 760px;
+  height: auto;
+}
+
+.mappa-muro,
+.mappa-arredo {
+  fill: none;
+  stroke: $gray-700;
+  stroke-width: 1.2;
+}
+
+.mappa-muro {
+  stroke-width: 2;
+}
+
+.mappa-muro-interno {
+  stroke-width: 1.4;
+}
+
+.mappa-vuoto {
+  stroke-dasharray: 3 2;
+}
+
+.mappa-finestra {
+  fill: $white;
+  stroke: $primary;
+  stroke-width: 1.2;
+}
+
+// Porta in pianta: varco nel muro, anta aperta a 90° e arco tratteggiato dell'apertura
+.mappa-porta-anta {
+  fill: none;
+  stroke: $danger;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+}
+
+.mappa-porta-apertura {
+  fill: none;
+  stroke: $danger;
+  stroke-width: 1;
+  stroke-dasharray: 3 2;
+}
+
+.mappa-porta-cardine {
+  fill: $danger;
+}
+
+.mappa-etichetta.mappa-etichetta-porta {
+  fill: $danger;
+  font-weight: 700;
+}
+
+.mappa-porta-emergenza {
+  .mappa-porta-anta,
+  .mappa-porta-apertura {
+    stroke: $success;
+  }
+
+  .mappa-porta-cardine,
+  .mappa-etichetta.mappa-etichetta-porta {
+    fill: $success;
+  }
+}
+
+.mappa-etichetta {
+  font-family: $font-family-monospace;
+  font-size: 9px;
+  fill: $gray-600;
+  letter-spacing: 0.08em;
+}
+
+.mappa-colonna {
+  cursor: pointer;
+  transition: opacity 0.15s;
+
+  rect {
+    fill: var(--mappa-area);
+    stroke: $gray-700;
+    stroke-width: 1;
+  }
+
+  &:hover rect,
+  &:focus rect {
+    stroke: $primary;
+    stroke-width: 2.5;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &.mappa-selezionata rect {
+    stroke: $primary;
+    stroke-width: 3.5;
+  }
+}
+
+.mappa-filtrata {
+  .mappa-attenuata {
+    opacity: 0.22;
+  }
+
+  .mappa-secondaria {
+    opacity: 0.55;
+  }
+}
+
+.mappa-codice {
+  font-family: $font-family-monospace;
+  font-weight: 700;
+  font-size: 11px;
+  fill: #141a26;
+  pointer-events: none;
+}
+
+.mappa-argomento {
+  font-size: 6.4px;
+  fill: #141a26;
+  pointer-events: none;
+}
+
+.mappa-ripiani li {
+  display: grid;
+  grid-template-columns: 1.2rem 1fr 2.5rem;
+  gap: 0.5rem;
+  align-items: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.mappa-barra {
+  display: block;
+  height: 0.6rem;
+  border-radius: 0.15rem;
+  background: $gray-200;
+  overflow: hidden;
+
+  span {
+    display: block;
+    height: 100%;
+    background: rgba($primary, 0.55);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mappa-colonna {
+    transition: none;
+  }
+}

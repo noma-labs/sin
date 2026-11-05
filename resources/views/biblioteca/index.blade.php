@@ -9,8 +9,8 @@
 @endsection
 
 @section("content")
-  <div class="row mt-3">
-    <div class="col-md-4 offset-md-2">
+  <div class="row mt-3 g-3 justify-content-center">
+    <div class="col-md-4 col-lg-3">
       <div class="card" style="width: 17rem">
         <div class="card-body">
           <h3 class="card-title">Libri</h3>
@@ -21,7 +21,18 @@
         </div>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 col-lg-3">
+      <div class="card" style="width: 17rem">
+        <div class="card-body">
+          <h3 class="card-title">Mappa</h3>
+          <p class="card-text">Dove si trovano i libri e gli argomenti di ogni scaffale.</p>
+          <a href="{{ route("books.map") }}" class="btn btn-primary">
+            Apri la mappa
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 col-lg-3">
       <div class="card" style="width: 17rem">
         <div class="card-body">
           <h3 class="card-title">DVD</h3>

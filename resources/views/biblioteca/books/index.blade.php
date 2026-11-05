@@ -18,6 +18,9 @@
       <a class="dropdown-item" href="{{ route("books.index") }}">
         Ricerca libro
       </a>
+      <a class="dropdown-item" href="{{ route("books.map") }}">
+        Mappa della biblioteca
+      </a>
       @if (! Auth::guest())
         <a class="dropdown-item" href="{{ route("books.create") }}">
           Aggiungi libro

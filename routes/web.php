@@ -295,6 +295,7 @@ Route::prefix('biblioteca')->middleware('auth')->group(function () {
     Route::view('/', 'biblioteca.index')->withoutMiddleware('auth')->name('biblioteca');
     Route::get('books', [SearchableBooksController::class, 'index'])->withoutMiddleware('auth')->name('books.index');
     Route::get('books-search', [SearchableBooksController::class, 'search'])->withoutMiddleware('auth')->name('books.search');
+    Route::view('map', 'biblioteca.map.show')->withoutMiddleware('auth')->name('books.map');
 
     Route::get('books-new', [BooksController::class, 'create'])->middleware('can:biblioteca.libro.inserisci')->name('books.create');
     Route::post('books-new', [BooksController::class, 'store'])->middleware('can:biblioteca.libro.inserisci')->name('books.store');
