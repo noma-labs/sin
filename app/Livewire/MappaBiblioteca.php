@@ -23,6 +23,13 @@ final class MappaBiblioteca extends Component
 
     private const ELABORATI_MINIMI_PER_COLONNA_SECONDARIA = 3;
 
+    private const RIGHE_ARGOMENTO = 2;
+
+    /** Larghezza media di un carattere dell'argomento, in unità del viewBox (font di 7 unità). */
+    private const LARGHEZZA_CARATTERE_ARGOMENTO = 3.6;
+
+    private const MARGINE_ARGOMENTO = 4;
+
     public string $cerca = '';
 
     public ?string $area = null;
@@ -119,6 +126,35 @@ final class MappaBiblioteca extends Component
         return $colonna.mb_str_pad((string) ($ultimoNumero + 1), 3, '0', STR_PAD_LEFT);
     }
 
+    /**
+     * Argomento diviso in righe che stanno nella larghezza del rettangolo della colonna, con i puntini se non ci sta tutto.
+     *
+     * @return list<string>
+     */
+    public function righeArgomento(string $argomento, int $larghezza): array
+    {
+        $caratteriPerRiga = max(1, (int) floor(($larghezza - self::MARGINE_ARGOMENTO) / self::LARGHEZZA_CARATTERE_ARGOMENTO));
+        $righe = [''];
+        foreach (explode(' ', $argomento) as $parola) {
+            $ultima = array_key_last($righe);
+            $candidata = mb_ltrim($righe[$ultima].' '.$parola);
+            if ($righe[$ultima] === '' || mb_strlen($candidata) <= $caratteriPerRiga) {
+                $righe[$ultima] = $candidata;
+            } else {
+                $righe[] = $parola;
+            }
+        }
+
+        $troncata = count($righe) > self::RIGHE_ARGOMENTO;
+        $righe = array_slice($righe, 0, self::RIGHE_ARGOMENTO);
+        $ultima = array_key_last($righe);
+        if ($troncata || mb_strlen($righe[$ultima]) > $caratteriPerRiga) {
+            $righe[$ultima] = mb_rtrim(mb_substr($righe[$ultima], 0, $caratteriPerRiga - 1), ' ·,:').'…';
+        }
+
+        return $righe;
+    }
+
     public function render(): View
     {
         [$evidenziate, $secondarie] = $this->colonneEvidenziate();
@@ -133,7 +169,27 @@ final class MappaBiblioteca extends Component
             'secondarie' => $secondarie,
             'classificazioni' => $this->classificazioniDellaColonna(),
             'sigleVideo' => $this->sigleVideoDellaColonna(),
+            'indice' => $this->indicePerArea(),
         ]);
+    }
+
+    /**
+     * Colonne di ogni area in ordine di codice, per l'indice stampato sotto la piantina.
+     *
+     * @return array<string, array<string, array{area: string, argomento: string, dettaglio: string}>>
+     */
+    private function indicePerArea(): array
+    {
+        $indice = [];
+        foreach (ArgomentiBiblioteca::COLONNE as $codice => $colonna) {
+            $indice[$colonna['area']][$codice] = $colonna;
+        }
+
+        return array_map(function (array $colonne): array {
+            ksort($colonne);
+
+            return $colonne;
+        }, $indice);
     }
 
     /**

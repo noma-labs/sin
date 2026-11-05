@@ -110,3 +110,15 @@ it('shows only the DVD sigle in the DVD box', function (): void {
         ->call('selezionaColonna', 'Z-DVD')
         ->assertViewHas('sigleVideo', ['ZS' => 2]);
 });
+
+it('splits the argomento of a colonna into two lines that fit its rectangle', function (): void {
+    $component = Livewire::test(MappaBiblioteca::class)->instance();
+
+    expect($component->righeArgomento('Romanzi e letteratura straniera', 75))->toBe(['Romanzi e', 'letteratura…'])
+        ->and($component->righeArgomento('Storia antica', 75))->toBe(['Storia antica']);
+});
+
+it('prints the argomento of every colonna grouped by area', function (): void {
+    Livewire::test(MappaBiblioteca::class)
+        ->assertSeeInOrder(['Argomenti delle colonne', 'Gialli', 'FA', 'FB', 'MC', 'MD', 'Classici, teatro e poesia']);
+});
