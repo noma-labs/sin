@@ -21,8 +21,8 @@ it('shows form to edit anagrafica', function (): void {
         ->assertSuccessful();
 });
 
-it('can update anagrafica', function (): void {
-    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+it('can update anagrafica without touching the biografia', function (): void {
+    $persona = Persona::factory()->maggiorenne()->maschio()->create(['biografia' => 'Biografia da tenere']);
 
     login();
 
@@ -31,7 +31,6 @@ it('can update anagrafica', function (): void {
     $newNascita = '2022-12-12';
     $newLuogo = 'my-luogo';
     $newSesso = 'F';
-    $newbiografia = 'Sono nato e morto';
     $this->put(action([PersonIdentityController::class, 'update'], $persona->id),
         [
             'nome' => $newName,
@@ -39,7 +38,6 @@ it('can update anagrafica', function (): void {
             'datanascita' => $newNascita,
             'luogonascita' => $newLuogo,
             'sesso' => $newSesso,
-            'biografia' => $newbiografia,
         ])
         ->assertRedirect()
         ->assertRedirectContains(route('nomadelfia.person.profile', $persona->id));
@@ -50,7 +48,7 @@ it('can update anagrafica', function (): void {
     $this->assertEquals($newLuogo, $p->provincia_nascita);
     $this->assertEquals($newName, $p->nome);
     $this->assertEquals($newNascita, $p->data_nascita);
-    $this->assertEquals($newbiografia, $p->biografia);
+    $this->assertEquals('Biografia da tenere', $p->biografia);
 });
 
 it('can insert a persona', function (): void {

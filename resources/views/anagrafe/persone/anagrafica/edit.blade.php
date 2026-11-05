@@ -100,19 +100,6 @@
           </div>
         </div>
         <div class="mb-3">
-          <label class="form-label" for="biography">Biografia</label>
-          <textarea
-            id="biography"
-            class="form-control"
-            name="biografia"
-            rows="10"
-          >
-                    {{ $persona->biografia }}
-                </textarea
-          >
-        </div>
-
-        <div class="mb-3">
           <button class="btn btn-danger">Torna indietro</button>
           <button class="btn btn-success" type="submit">Salva Modifiche</button>
         </div>

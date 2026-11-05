@@ -16,6 +16,7 @@ use App\Anagrafe\Famiglia\Controllers\FamilyController;
 use App\Anagrafe\Famiglia\Controllers\FamilyMemberController;
 use App\Anagrafe\Famiglia\Controllers\PersonaFamigliaController;
 use App\Anagrafe\Persona\Controllers\InternalNameController;
+use App\Anagrafe\Persona\Controllers\PersonBiografiaController;
 use App\Anagrafe\Persona\Controllers\PersonController;
 use App\Anagrafe\Persona\Controllers\PersonIdentityController;
 use App\Anagrafe\Persona\Controllers\SearchablePersonController;
@@ -139,6 +140,7 @@ Route::prefix('anagrafe')->middleware('auth')->group(function () {
     Route::post('people', [PersonController::class, 'store'])->name('anagrafe.person.store');
     Route::get('people/{id}/identity', [PersonIdentityController::class, 'edit'])->name('anagrafe.person.identity.edit');
     Route::put('people/{id}/identity', [PersonIdentityController::class, 'update'])->name('anagrafe.person.identity.update');
+    Route::put('people/{id}/biografia', [PersonBiografiaController::class, 'update'])->name('anagrafe.person.biografia.update');
     Route::post('people/{id}/internal-name', [InternalNameController::class, 'store'])->name('anagrafe.internal-name.store');
     Route::get('people/{id}/internal-name', [InternalNameController::class, 'edit'])->name('anagrafe.internal-name.edit');
     Route::put('people/{id}/internal-name', [InternalNameController::class, 'update'])->name('anagrafe.internal-name.update');

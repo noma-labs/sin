@@ -25,8 +25,65 @@ it('shows the profile of a person present in Nomadelfia', function (): void {
     $this->get(route('nomadelfia.person.profile', $persona->id))
         ->assertSuccessful()
         ->assertSee('Presente')
-        ->assertSeeInOrder(['Dati anagrafici', 'Situazione attuale', 'Percorso in Nomadelfia', 'Famiglia'])
+        ->assertSeeInOrder(['Situazione attuale', 'Percorso in Nomadelfia', 'Famiglia'])
         ->assertSeeInOrder(['Entra in Nomadelfia come Ospite', 'Nascita']);
+});
+
+it('shows the nome and cognome of a person in the header with the nominativo they are known by', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create(['nome' => 'Giovanni', 'cognome' => 'Bianchi', 'nominativo' => 'Gianni B.']);
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Giovanni Bianchi', 'Conosciuto come', 'Gianni B.']);
+});
+
+it('shows the situation of the person in the row below the name', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create(['nome' => 'Marco', 'cognome' => 'Gialli']);
+    $gruppo = GruppoFamiliare::all()->random();
+    app(EntrataMaggiorenneSingleAction::class)->execute($persona, Carbon::parse('2020-03-01'), $gruppo);
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Marco Gialli', 'Presente', 'dal 1 mar 2020', 'Ospite', 'Celibe', "Gruppo {$gruppo->nome}", 'Sesso']);
+});
+
+it('does not repeat the nominativo when it is the nome and cognome of the person', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create(['nome' => 'Luca', 'cognome' => 'Verdi', 'nominativo' => 'Verdi Luca']);
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSee('Luca Verdi')
+        ->assertDontSee('Conosciuto come');
+});
+
+it('shows the biografia in the header with the form to edit only the biografia', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create(['biografia' => 'Arrivato a Nomadelfia da bambino']);
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Arrivato a Nomadelfia da bambino', 'Modifica biografia', route('anagrafe.person.biografia.update', $persona->id), 'Situazione attuale']);
+});
+
+it('offers to add a biografia to a person without one', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create(['biografia' => null]);
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSee('Aggiungi una biografia');
+});
+
+it('shows the sesso and the missing codice fiscale of a person in the header', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->femmina()->create(['cf' => null]);
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Nessun codice fiscale', 'Sesso', 'Femmina', 'Nascita']);
 });
 
 it('links the people of a gruppo familiare to their profile', function (): void {
