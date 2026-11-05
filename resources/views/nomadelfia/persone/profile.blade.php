@@ -10,7 +10,7 @@
   @endphp
 
   <div class="person-profile">
-    <header class="profile-band rounded-3 mb-0">
+    <header class="profile-band profile-band-solo rounded-3 mb-4">
       <div class="d-flex flex-wrap gap-3 align-items-start">
         <div class="profile-avatar" aria-hidden="true">
           {{ mb_substr($persona->nome, 0, 1) }}{{ mb_substr($persona->cognome, 0, 1) }}
@@ -225,6 +225,16 @@
                   Storico entrate e uscite
                 </a>
               </li>
+              @can("scuola.visualizza")
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="{{ route("scuola.student.show", $persona->id) }}"
+                  >
+                    Scheda scuola
+                  </a>
+                </li>
+              @endcan
             </ul>
           </div>
           <div class="dropdown">
@@ -251,50 +261,6 @@
                   href="{{ route("anagrafe.internal-name.edit", $persona->id) }}"
                 >
                   Nominativo
-                </a>
-              </li>
-              @if (! $persona->numero_elenco)
-                <li>
-                  <a
-                    class="dropdown-item"
-                    href="{{ route("nomadelfia.folder-number.create", $persona->id) }}"
-                  >
-                    Assegna numero elenco
-                  </a>
-                </li>
-              @endif
-
-              <li><hr class="dropdown-divider" /></li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="{{ route("nomadelfia.person.position.index", $persona->id) }}"
-                >
-                  Posizione
-                </a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="{{ route("nomadelfia.persone.stato", $persona->id) }}"
-                >
-                  Stato familiare
-                </a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="{{ route("nomadelfia.person.gruppo", $persona->id) }}"
-                >
-                  Gruppo familiare
-                </a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="{{ route("nomadelfia.persone.aziende", ["idPersona" => $persona->id]) }}"
-                >
-                  Aziende
                 </a>
               </li>
             </ul>
@@ -331,46 +297,6 @@
         </div>
       @endif
     </header>
-
-    <ul class="nav nav-underline profile-tabs mb-4 px-3">
-      <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#">Panoramica</a>
-      </li>
-      <li class="nav-item">
-        <a
-          class="nav-link"
-          href="{{ route("nomadelfia.join-leave-history.index", $persona->id) }}"
-        >
-          Storico comunità
-        </a>
-      </li>
-      <li class="nav-item">
-        <a
-          class="nav-link"
-          href="{{ route("anagrafe.person.families", $persona->id) }}"
-        >
-          Famiglie
-        </a>
-      </li>
-      <li class="nav-item">
-        <a
-          class="nav-link"
-          href="{{ route("nomadelfia.persone.aziende", ["idPersona" => $persona->id]) }}"
-        >
-          Aziende
-        </a>
-      </li>
-      @can("scuola.visualizza")
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            href="{{ route("scuola.student.show", $persona->id) }}"
-          >
-            Scuola
-          </a>
-        </li>
-      @endcan
-    </ul>
 
     <div class="row g-4">
       <div class="col-xl-4 col-md-6 d-flex flex-column gap-4">

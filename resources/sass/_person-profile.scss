@@ -135,18 +135,6 @@
     }
   }
 
-  .profile-tabs {
-    background: var(--bs-body-bg);
-    border: 1px solid var(--bs-border-color);
-    border-top: 0;
-    border-radius: 0 0 0.5rem 0.5rem;
-
-    .nav-link {
-      padding-top: 0.75rem;
-      padding-bottom: 0.75rem;
-    }
-  }
-
   // Timeline
   .profile-filter {
     font-size: 0.85rem;
