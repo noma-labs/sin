@@ -356,11 +356,11 @@ it('refuses a capofamiglia of the wrong sesso for the tipo', function (string $t
 
     expect($capofamiglia->famigliaAttuale())->toBeNull();
 })->with([
-    'a man as mamma' => ['MAV', 'M', 'La mamma deve essere una donna maggiorenne, viva e non già capofamiglia o sposata.'],
-    'a woman as celibe' => ['CDE', 'F', 'Il capofamiglia deve essere un uomo maggiorenne, vivo e non già capofamiglia o sposato.'],
+    'a man as mamma' => ['MAV', 'M', 'La mamma deve essere una donna.'],
+    'a woman as celibe' => ['CDE', 'F', 'Il capofamiglia deve essere un uomo.'],
 ]);
 
-it('refuses a figlio who is already in another famiglia attuale', function (): void {
+it('records in the storico a figlio who is already in another famiglia attuale', function (): void {
     login();
     $mamma = Persona::factory()->maggiorenne()->femmina()->create();
     $figlio = Persona::factory()->minorenne()->maschio()->create();
@@ -371,9 +371,12 @@ it('refuses a figlio who is already in another famiglia attuale', function (): v
         'tipo' => 'MAV',
         'capofamiglia' => $mamma->id,
         'figli_accolti' => [$figlio->id],
-    ])->assertSessionHasErrors(['figli_accolti.0' => "$figlio->nominativo è già nella famiglia Altra Famiglia: toglilo prima da quella famiglia."]);
+    ])->assertSessionHasNoErrors();
 
-    expect($mamma->famigliaAttuale())->toBeNull();
+    $famiglia = $mamma->famigliaAttuale();
+    expect($famiglia)->not->toBeNull()
+        ->and($famiglia->figli()->wherePivot('stato', '0')->pluck('persone.id')->all())->toBe([$figlio->id])
+        ->and($figlio->famigliaAttuale()->id)->toBe($altraFamiglia->id);
 });
 
 it('refuses the nome of a famiglia that already exists', function (): void {
@@ -425,26 +428,48 @@ it('keeps the persone selected before a validation error', function (): void {
         ->assertViewHas('moglieId', [$moglie->id]);
 });
 
-it('creates a famiglia of a mamma who cannot marry', function (string $tipo, Persona $mamma): void {
+it('creates a famiglia of a capofamiglia who is minor or deceased to record the storico', function (string $tipo, string $sesso, string $stato): void {
     login();
+    $capofamiglia = Persona::factory()->{$stato === 'minor' ? 'minorenne' : 'maggiorenne'}()->create([
+        'sesso' => $sesso,
+        'data_decesso' => $stato === 'deceased' ? '2020-01-01' : null,
+    ]);
 
     $this->post(action([FamilyController::class, 'store']), [
         'tipo' => $tipo,
         'data_creazione' => '1990-05-01',
-        'capofamiglia' => $mamma->id,
+        'capofamiglia' => $capofamiglia->id,
     ])->assertSessionHasNoErrors()->assertRedirect();
 
-    $famiglia = Famiglia::query()->where('tipo', $tipo)->latest('id')->first();
-    expect($famiglia->capofamiglia()->id)->toBe($mamma->id);
-})->with(['Nomadelfa mamma' => 'MAM', 'mamma nubile' => 'MAN'])->with([
-    'minor' => fn (): Persona => Persona::factory()->minorenne()->femmina()->create(),
-    'deceased' => fn (): Persona => Persona::factory()->maggiorenne()->femmina()->create(['data_decesso' => '2020-01-01']),
-    'already capofamiglia' => function (): Persona {
-        $persona = Persona::factory()->maggiorenne()->femmina()->create();
-        Famiglia::factory()->create(['tipo' => TipoFamiglia::MammaDiVocazione])->assegnaCapoFamiglia($persona);
+    expect(Famiglia::query()->latest('id')->first()->capofamiglia()->id)->toBe($capofamiglia->id);
+})->with([
+    'mamma di vocazione' => ['MAV', 'F'],
+    'Nomadelfa mamma' => ['MAM', 'F'],
+    'mamma nubile' => ['MAN', 'F'],
+    'celibe di elezione' => ['CDE', 'M'],
+])->with(['minor', 'deceased']);
 
-        return $persona;
-    },
+it('records in the storico a capofamiglia who is already capofamiglia of another famiglia', function (string $tipo, string $sesso): void {
+    login();
+    $capofamiglia = Persona::factory()->maggiorenne()->create(['sesso' => $sesso]);
+    $famigliaAttuale = Famiglia::factory()->create();
+    $famigliaAttuale->assegnaCapoFamiglia($capofamiglia);
+
+    $this->post(action([FamilyController::class, 'store']), [
+        'tipo' => $tipo,
+        'data_creazione' => '1990-05-01',
+        'capofamiglia' => $capofamiglia->id,
+    ])->assertSessionHasNoErrors()->assertRedirect();
+
+    $famigliaStorica = Famiglia::query()->latest('id')->first();
+    expect($famigliaStorica->componenti()->wherePivot('stato', '0')->wherePivot('posizione_famiglia', 'CAPO FAMIGLIA')->pluck('persone.id')->all())->toBe([$capofamiglia->id])
+        ->and($capofamiglia->famigliaAttuale()->id)->toBe($famigliaAttuale->id)
+        ->and($famigliaAttuale->capofamiglia()->id)->toBe($capofamiglia->id);
+})->with([
+    'mamma di vocazione' => ['MAV', 'F'],
+    'Nomadelfa mamma' => ['MAM', 'F'],
+    'mamma nubile' => ['MAN', 'F'],
+    'celibe di elezione' => ['CDE', 'M'],
 ]);
 
 it('refuses a man as mamma who cannot marry', function (string $tipo): void {
@@ -459,40 +484,79 @@ it('refuses a man as mamma who cannot marry', function (string $tipo): void {
     expect($uomo->famigliaAttuale())->toBeNull();
 })->with(['Nomadelfa mamma' => 'MAM', 'mamma nubile' => 'MAN']);
 
-it('refuses a marito who cannot marry', function (Persona $marito): void {
+it('creates the coniugi with a genitore who is minor or deceased to record the storico', function (string $genitore, string $stato): void {
     login();
-    $moglie = Persona::factory()->maggiorenne()->femmina()->create();
+    $crea = fn (string $sesso): Persona => Persona::factory()->{$stato === 'minor' ? 'minorenne' : 'maggiorenne'}()->create([
+        'sesso' => $sesso,
+        'data_decesso' => $stato === 'deceased' ? '2020-01-01' : null,
+    ]);
+    $marito = $genitore === 'marito' ? $crea('M') : Persona::factory()->maggiorenne()->maschio()->create();
+    $moglie = $genitore === 'moglie' ? $crea('F') : Persona::factory()->maggiorenne()->femmina()->create();
 
     $this->post(action([FamilyController::class, 'store']), [
         'tipo' => 'CON',
-        'data_creazione' => '2015-06-20',
+        'data_creazione' => '1960-06-20',
         'capofamiglia' => $marito->id,
         'moglie' => $moglie->id,
-    ])->assertSessionHasErrors(['capofamiglia' => 'Il capofamiglia deve essere un uomo maggiorenne, vivo e non già capofamiglia o sposato.']);
+    ])->assertSessionHasNoErrors();
 
-    expect($moglie->famigliaAttuale())->toBeNull();
-})->with([
-    'deceased' => fn (): Persona => Persona::factory()->maggiorenne()->maschio()->create(['data_decesso' => '2020-01-01']),
-    'minor' => fn (): Persona => Persona::factory()->minorenne()->maschio()->create(),
-    'already married' => function (): Persona {
-        $persona = Persona::factory()->maggiorenne()->maschio()->create();
-        Famiglia::factory()->create()->assegnaCapoFamiglia($persona);
+    $famiglia = $marito->famigliaAttuale();
+    expect($famiglia->capofamiglia()->id)->toBe($marito->id)
+        ->and($famiglia->moglie()->id)->toBe($moglie->id);
+})->with(['marito', 'moglie'])->with(['minor', 'deceased']);
 
-        return $persona;
-    },
-]);
-
-it('refuses a moglie who cannot marry', function (): void {
+it('records in the storico the coniugi who are already married in another famiglia', function (): void {
     login();
     $marito = Persona::factory()->maggiorenne()->maschio()->create();
-    $moglie = Persona::factory()->maggiorenne()->femmina()->create(['data_decesso' => '2020-01-01']);
+    $moglie = Persona::factory()->maggiorenne()->femmina()->create();
+    $famigliaDelMarito = Famiglia::factory()->create();
+    $famigliaDelMarito->assegnaCapoFamiglia($marito);
+    $famigliaDellaMoglie = Famiglia::factory()->create();
+    $famigliaDellaMoglie->assegnaMoglie($moglie);
 
     $this->post(action([FamilyController::class, 'store']), [
         'tipo' => 'CON',
-        'data_creazione' => '2015-06-20',
+        'data_creazione' => '1960-06-20',
         'capofamiglia' => $marito->id,
         'moglie' => $moglie->id,
-    ])->assertSessionHasErrors(['moglie' => 'La moglie deve essere una donna maggiorenne, viva e non già sposata.']);
+    ])->assertSessionHasNoErrors();
+
+    $famigliaStorica = Famiglia::query()->latest('id')->first();
+    expect($famigliaStorica->componenti()->wherePivot('stato', '0')->pluck('persone.id')->sort()->values()->all())->toBe(collect([$marito->id, $moglie->id])->sort()->values()->all())
+        ->and($marito->famigliaAttuale()->id)->toBe($famigliaDelMarito->id)
+        ->and($moglie->famigliaAttuale()->id)->toBe($famigliaDellaMoglie->id);
+});
+
+it('moves into the nucleo a moglie who is a figlia and records in the storico a marito already married', function (): void {
+    login();
+    $marito = Persona::factory()->maggiorenne()->maschio()->create();
+    $moglie = Persona::factory()->maggiorenne()->femmina()->create();
+    Famiglia::factory()->create()->assegnaCapoFamiglia($marito);
+    $famigliaOrigine = Famiglia::factory()->create();
+    $famigliaOrigine->assegnaFiglioNato($moglie);
+
+    $this->post(action([FamilyController::class, 'store']), [
+        'tipo' => 'CON',
+        'capofamiglia' => $marito->id,
+        'moglie' => $moglie->id,
+    ])->assertSessionHasNoErrors();
+
+    $famiglia = $moglie->famigliaAttuale();
+    expect($famiglia->moglie()->id)->toBe($moglie->id)
+        ->and($famiglia->componenti()->wherePivot('stato', '0')->pluck('persone.id')->all())->toBe([$marito->id])
+        ->and($famigliaOrigine->figliAttuali()->count())->toBe(0);
+});
+
+it('refuses a man as moglie', function (): void {
+    login();
+    $marito = Persona::factory()->maggiorenne()->maschio()->create();
+    $moglie = Persona::factory()->maggiorenne()->maschio()->create();
+
+    $this->post(action([FamilyController::class, 'store']), [
+        'tipo' => 'CON',
+        'capofamiglia' => $marito->id,
+        'moglie' => $moglie->id,
+    ])->assertSessionHasErrors(['moglie' => 'La moglie deve essere una donna.']);
 
     expect($marito->famigliaAttuale())->toBeNull();
 });
