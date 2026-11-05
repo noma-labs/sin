@@ -36,6 +36,8 @@ $mappa-aree: (
 .mappa-legenda {
   border: 1px solid $gray-300;
   background: $white;
+  font-size: 0.8125rem;
+  padding: 0.125rem 0.4rem;
 
   &.active {
     border-color: $primary;
