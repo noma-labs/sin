@@ -38,6 +38,17 @@ it('shows the nome and cognome of a person in the header with the nominativo the
         ->assertSeeInOrder(['Giovanni Bianchi', 'Conosciuto come', 'Gianni B.']);
 });
 
+it('shows the situation of the person in the row below the name', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create(['nome' => 'Marco', 'cognome' => 'Gialli']);
+    $gruppo = GruppoFamiliare::all()->random();
+    app(EntrataMaggiorenneSingleAction::class)->execute($persona, Carbon::parse('2020-03-01'), $gruppo);
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Marco Gialli', 'Presente', 'dal 1 mar 2020', 'Ospite', 'Celibe', "Gruppo {$gruppo->nome}", 'Sesso']);
+});
+
 it('does not repeat the nominativo when it is the nome and cognome of the person', function (): void {
     login();
     $persona = Persona::factory()->maggiorenne()->maschio()->create(['nome' => 'Luca', 'cognome' => 'Verdi', 'nominativo' => 'Verdi Luca']);

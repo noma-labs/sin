@@ -19,6 +19,48 @@
           <h1 class="profile-name mb-0">
             {{ $persona->nome }} {{ $persona->cognome }}
           </h1>
+          <div class="d-flex flex-wrap gap-2 my-2">
+            @if ($isPresente)
+              <span class="profile-chip profile-chip-presente">
+                Presente &middot; dal {{ $ultimoPeriodo["entrata"]->translatedFormat("j M Y") }}
+              </span>
+            @elseif ($persona->isDeceduta())
+              <span class="profile-chip">Deceduto</span>
+            @elseif ($ultimoPeriodo)
+              <span class="profile-chip">
+                Uscito &middot; il {{ $ultimoPeriodo["uscita"]->translatedFormat("j M Y") }}
+              </span>
+            @else
+              <span class="profile-chip">Mai entrato</span>
+            @endif
+            @if ($persona->numero_elenco)
+              <span class="profile-chip profile-chip-numero">
+                N° elenco {{ $persona->numero_elenco }}
+              </span>
+            @endif
+
+            @if ($posizioneAttuale)
+              <span class="profile-chip">{{ $posizioneAttuale->nome }}</span>
+            @endif
+
+            <span class="profile-chip">{{ $statoCivile["nome"] }}</span>
+            @foreach ($statiAttivi as $stato)
+              <span class="profile-chip">
+                {{ Illuminate\Support\Str::ucfirst(mb_strtolower($stato->nome)) }}
+              </span>
+            @endforeach
+            @if ($famigliaSenzaConiuge)
+              <span class="profile-chip">
+                {{ $famigliaSenzaConiuge->tipo->nome() }}
+              </span>
+            @endif
+
+            @if ($gruppoAttuale)
+              <span class="profile-chip">
+                Gruppo {{ $gruppoAttuale->nome }}
+              </span>
+            @endif
+          </div>
           <div class="profile-muted mb-1">
             @if (! in_array(mb_strtolower(trim($persona->nominativo)), [mb_strtolower("$persona->nome $persona->cognome"), mb_strtolower("$persona->cognome $persona->nome")], true))
               Conosciuto come
@@ -126,48 +168,6 @@
               @endif
             </div>
           @endif
-          <div class="d-flex flex-wrap gap-2">
-            @if ($isPresente)
-              <span class="profile-chip profile-chip-presente">
-                Presente &middot; dal {{ $ultimoPeriodo["entrata"]->translatedFormat("j M Y") }}
-              </span>
-            @elseif ($persona->isDeceduta())
-              <span class="profile-chip">Deceduto</span>
-            @elseif ($ultimoPeriodo)
-              <span class="profile-chip">
-                Uscito &middot; il {{ $ultimoPeriodo["uscita"]->translatedFormat("j M Y") }}
-              </span>
-            @else
-              <span class="profile-chip">Mai entrato</span>
-            @endif
-            @if ($persona->numero_elenco)
-              <span class="profile-chip profile-chip-numero">
-                N° elenco {{ $persona->numero_elenco }}
-              </span>
-            @endif
-
-            @if ($posizioneAttuale)
-              <span class="profile-chip">{{ $posizioneAttuale->nome }}</span>
-            @endif
-
-            <span class="profile-chip">{{ $statoCivile["nome"] }}</span>
-            @foreach ($statiAttivi as $stato)
-              <span class="profile-chip">
-                {{ Illuminate\Support\Str::ucfirst(mb_strtolower($stato->nome)) }}
-              </span>
-            @endforeach
-            @if ($famigliaSenzaConiuge)
-              <span class="profile-chip">
-                {{ $famigliaSenzaConiuge->tipo->nome() }}
-              </span>
-            @endif
-
-            @if ($gruppoAttuale)
-              <span class="profile-chip">
-                Gruppo {{ $gruppoAttuale->nome }}
-              </span>
-            @endif
-          </div>
         </div>
         <div class="d-flex flex-wrap gap-2">
           <div class="dropdown">
