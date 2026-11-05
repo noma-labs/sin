@@ -5,6 +5,8 @@
     $nascita = Carbon::parse($persona->data_nascita);
     $ultimoPeriodo = $periodi->last();
     $anniInNomadelfia = $periodi->sum(fn ($p) => $p["entrata"]->diffInDays($p["uscita"] ?? now())) / 365;
+    $puoModificare = auth()->user()?->can("popolazione.persona.modifica") ?? false;
+    $biografiaLunga = $persona->biografia && (mb_strlen($persona->biografia) > 180 || str_contains($persona->biografia, "\n"));
   @endphp
 
   <div class="person-profile">
@@ -57,6 +59,73 @@
               </span>
             @endif
           </div>
+          @if ($persona->biografia || $puoModificare)
+            <div class="profile-bio mb-2" data-bio>
+              <div data-bio-view>
+                @if ($persona->biografia)
+                  <p
+                    class="profile-bio-text mb-1 @if ($biografiaLunga) profile-bio-clamp @endif"
+                    id="biografia-testo"
+                  >{{ $persona->biografia }}</p>
+                @endif
+                <div class="d-flex flex-wrap column-gap-3 small">
+                  @if ($biografiaLunga)
+                    <button
+                      class="btn btn-link btn-sm p-0"
+                      type="button"
+                      aria-expanded="false"
+                      aria-controls="biografia-testo"
+                      data-bio-toggle
+                    >
+                      Leggi tutto
+                    </button>
+                  @endif
+                  @if ($puoModificare)
+                    <button
+                      class="btn btn-link btn-sm p-0"
+                      type="button"
+                      data-bio-edit
+                    >
+                      {{ $persona->biografia ? "Modifica biografia" : "Aggiungi una biografia" }}
+                    </button>
+                  @endif
+                </div>
+              </div>
+              @if ($puoModificare)
+                <form
+                  method="POST"
+                  action="{{ route("anagrafe.person.biografia.update", $persona->id) }}"
+                  data-bio-form
+                  hidden
+                >
+                  @csrf
+                  @method("PUT")
+                  <label class="visually-hidden" for="biografia"
+                    >Biografia</label
+                  >
+                  <textarea
+                    class="form-control mb-2"
+                    id="biografia"
+                    name="biografia"
+                    rows="5"
+                    >{{ $persona->biografia }}</textarea
+                  >
+                  <div class="d-flex gap-2">
+                    <button class="btn btn-sm btn-success" type="submit">
+                      Salva
+                    </button>
+                    <button
+                      class="btn btn-sm btn-outline-secondary"
+                      type="button"
+                      data-bio-cancel
+                    >
+                      Annulla
+                    </button>
+                  </div>
+                </form>
+              @endif
+            </div>
+          @endif
           <div class="d-flex flex-wrap gap-2">
             @if ($isPresente)
               <span class="profile-chip profile-chip-presente">
@@ -305,28 +374,6 @@
 
     <div class="row g-4">
       <div class="col-xl-4 col-md-6 d-flex flex-column gap-4">
-        <section aria-labelledby="titolo-biografia">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2 id="titolo-biografia" class="h5 mb-0">Biografia</h2>
-            <a
-              class="btn btn-sm btn-outline-secondary"
-              href="{{ route("anagrafe.person.identity.edit", $persona->id) }}"
-            >
-              Modifica
-            </a>
-          </div>
-          <div class="card card-body">
-            @if ($persona->biografia)
-              <span
-                style="white-space: pre-line"
-                >{{ $persona->biografia }}</span
-              >
-            @else
-              <span class="text-danger">Nessuna biografia</span>
-            @endif
-          </div>
-        </section>
-
         <section aria-labelledby="titolo-situazione">
           <h2 id="titolo-situazione" class="h5 mb-3">Situazione attuale</h2>
           <dl class="profile-kv card mb-0">
@@ -713,6 +760,33 @@
   @endif
 
   <script>
+    document.querySelectorAll("[data-bio]").forEach(function (bio) {
+      const vista = bio.querySelector("[data-bio-view]");
+      const form = bio.querySelector("[data-bio-form]");
+      const testo = bio.querySelector(".profile-bio-text");
+      const espandi = bio.querySelector("[data-bio-toggle]");
+
+      espandi?.addEventListener("click", function () {
+        const aperto = testo.classList.toggle("profile-bio-clamp") === false;
+        espandi.setAttribute("aria-expanded", aperto ? "true" : "false");
+        espandi.textContent = aperto ? "Mostra meno" : "Leggi tutto";
+      });
+      bio
+        .querySelector("[data-bio-edit]")
+        ?.addEventListener("click", function () {
+          vista.hidden = true;
+          form.hidden = false;
+          form.querySelector("textarea").focus();
+        });
+      bio
+        .querySelector("[data-bio-cancel]")
+        ?.addEventListener("click", function () {
+          form.reset();
+          form.hidden = true;
+          vista.hidden = false;
+        });
+    });
+
     document.querySelectorAll(".profile-filter").forEach(function (filtro) {
       filtro.addEventListener("click", function () {
         const attivo = filtro.getAttribute("aria-pressed") !== "true";

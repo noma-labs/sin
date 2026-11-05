@@ -25,7 +25,7 @@ it('shows the profile of a person present in Nomadelfia', function (): void {
     $this->get(route('nomadelfia.person.profile', $persona->id))
         ->assertSuccessful()
         ->assertSee('Presente')
-        ->assertSeeInOrder(['Biografia', 'Situazione attuale', 'Percorso in Nomadelfia', 'Famiglia'])
+        ->assertSeeInOrder(['Situazione attuale', 'Percorso in Nomadelfia', 'Famiglia'])
         ->assertSeeInOrder(['Entra in Nomadelfia come Ospite', 'Nascita']);
 });
 
@@ -48,13 +48,31 @@ it('does not repeat the nominativo when it is the nome and cognome of the person
         ->assertDontSee('Conosciuto come');
 });
 
+it('shows the biografia in the header with the form to edit only the biografia', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create(['biografia' => 'Arrivato a Nomadelfia da bambino']);
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Arrivato a Nomadelfia da bambino', 'Modifica biografia', route('anagrafe.person.biografia.update', $persona->id), 'Situazione attuale']);
+});
+
+it('offers to add a biografia to a person without one', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create(['biografia' => null]);
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSee('Aggiungi una biografia');
+});
+
 it('shows the sesso and the missing codice fiscale of a person in the header', function (): void {
     login();
     $persona = Persona::factory()->maggiorenne()->femmina()->create(['cf' => null]);
 
     $this->get(route('nomadelfia.person.profile', $persona->id))
         ->assertSuccessful()
-        ->assertSeeInOrder(['Nessun codice fiscale', 'Sesso', 'Femmina', 'Nascita', 'Biografia']);
+        ->assertSeeInOrder(['Nessun codice fiscale', 'Sesso', 'Femmina', 'Nascita']);
 });
 
 it('links the people of a gruppo familiare to their profile', function (): void {

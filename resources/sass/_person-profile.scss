@@ -47,6 +47,21 @@
     color: #5a6a8c;
   }
 
+  .profile-bio {
+    max-width: 70ch;
+  }
+
+  .profile-bio-text {
+    white-space: pre-line;
+  }
+
+  .profile-bio-clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
   .profile-label {
     font-size: 0.75rem;
     font-weight: 600;
