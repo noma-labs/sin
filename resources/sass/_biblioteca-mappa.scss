@@ -96,6 +96,30 @@ $mappa-aree: (
   stroke-width: 1.6;
 }
 
+// Porta in pianta: varco nel muro, anta aperta a 90° e arco tratteggiato dell'apertura
+.mappa-porta-anta {
+  fill: none;
+  stroke: $danger;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+}
+
+.mappa-porta-apertura {
+  fill: none;
+  stroke: $danger;
+  stroke-width: 1;
+  stroke-dasharray: 3 2;
+}
+
+.mappa-porta-cardine {
+  fill: $danger;
+}
+
+.mappa-etichetta.mappa-etichetta-porta {
+  fill: $danger;
+  font-weight: 700;
+}
+
 .mappa-etichetta {
   font-family: $font-family-monospace;
   font-size: 9px;
