@@ -266,31 +266,40 @@ final class Famiglia extends Model
         throw new InvalidArgumentException('Bad person as argument. It must be the id or the model of a person.');
     }
 
-    public function assegnaFiglioAccolto($persona, $note = null, string $stato = '1')
+    /**
+     * @param  string|null  $dataEntrata  the entrata in the famiglia of a persona already in the comunità, null when it is the entrata in the comunità
+     */
+    public function assegnaFiglioAccolto($persona, $note = null, string $stato = '1', ?string $dataEntrata = null)
     {
         // TODO: check the la persona non ha già una famiglia associata
         if (is_string($persona)) {
             $persona = Persona::findOrFail($persona);
         }
         if ($persona instanceof Persona) {
-            return $this->assegnaComponente($persona, self::getFiglioAccoltoEnum(), $stato, $note);
+            return $this->assegnaComponente($persona, self::getFiglioAccoltoEnum(), $stato, $note, $dataEntrata);
         }
         throw new InvalidArgumentException('Bad person as argument. It must be the id or the model of a person.');
     }
 
-    public function assegnaAggregato(Persona $persona, ?string $note = null, string $stato = '1'): void
+    /**
+     * @param  string|null  $dataEntrata  the entrata in the famiglia of a persona already in the comunità, null when it is the entrata in the comunità
+     */
+    public function assegnaAggregato(Persona $persona, ?string $note = null, string $stato = '1', ?string $dataEntrata = null): void
     {
-        $this->assegnaComponente($persona, self::getAggregatoEnum(), $stato, $note);
+        $this->assegnaComponente($persona, self::getAggregatoEnum(), $stato, $note, $dataEntrata);
     }
 
-    public function assegnaComponente($persona, string $posizione, string $stato = '1', $note = null)
+    /**
+     * @param  string|null  $dataEntrata  the entrata in the famiglia, only when it is not derived (see FamigliaPersona)
+     */
+    public function assegnaComponente($persona, string $posizione, string $stato = '1', $note = null, ?string $dataEntrata = null)
     {
         if (! in_array($posizione, $this->enumPosizione)) {
             throw new InvalidArgumentException("La posizione `{$posizione}` è invalida");
         }
 
         return $this->componenti()->attach($persona->id,
-            ['stato' => $stato, 'posizione_famiglia' => $posizione, 'note' => $note]);
+            ['stato' => $stato, 'posizione_famiglia' => $posizione, 'note' => $note, 'data_entrata' => $dataEntrata]);
     }
 
     /**
@@ -317,7 +326,7 @@ final class Famiglia extends Model
     public function componenti()
     {
         return $this->belongsToMany(Persona::class, 'famiglie_persone', 'famiglia_id', 'persona_id')
-            ->withPivot('stato', 'posizione_famiglia')
+            ->withPivot('stato', 'posizione_famiglia', 'data_entrata')
             ->orderby('nominativo');
     }
 
@@ -350,7 +359,7 @@ final class Famiglia extends Model
     public function figli()
     {
         return $this->belongsToMany(Persona::class, 'famiglie_persone', 'famiglia_id', 'persona_id')
-            ->withPivot('stato', 'posizione_famiglia')
+            ->withPivot('stato', 'posizione_famiglia', 'data_entrata')
             ->wherePivotIn('posizione_famiglia', ['FIGLIO NATO', 'FIGLIO ACCOLTO', 'AGGREGATO'])
             ->orderBy('data_nascita');
     }

@@ -27,7 +27,37 @@ it('adds a person to a family as figlio', function (): void {
     ])->assertRedirectToRoute('nomadelfia.person.profile', $persona->id);
 
     expect($persona->famigliaAttuale()->id)->toBe($famiglia->id)
-        ->and($persona->isFiglioAccolto())->toBeTrue();
+        ->and($persona->isFiglioAccolto())->toBeTrue()
+        ->and($persona->famigliaAttuale()->pivot->data_entrata)->toBeNull();
+});
+
+it('adds a person already in the comunità to a family as figlio accolto with the data di entrata', function (): void {
+    login();
+    $persona = Persona::factory()->minorenne()->maschio()->create();
+    $famiglia = Famiglia::factory()->create();
+
+    $this->post(action([PersonaFamigliaController::class, 'store'], $persona->id), [
+        'family_id' => $famiglia->id,
+        'type' => 'FIGLIO ACCOLTO',
+        'data_entrata' => '2018-03-01',
+    ])->assertRedirectToRoute('nomadelfia.person.profile', $persona->id);
+
+    expect($persona->famigliaAttuale()->pivot->toArray())
+        ->toMatchArray(['posizione_famiglia' => 'FIGLIO ACCOLTO', 'data_entrata' => '2018-03-01']);
+});
+
+it('refuses an invalid data di entrata in the family', function (): void {
+    login();
+    $persona = Persona::factory()->minorenne()->maschio()->create();
+    $famiglia = Famiglia::factory()->create();
+
+    $this->post(action([PersonaFamigliaController::class, 'store'], $persona->id), [
+        'family_id' => $famiglia->id,
+        'type' => 'FIGLIO ACCOLTO',
+        'data_entrata' => 'non una data',
+    ])->assertSessionHasErrors(['data_entrata' => 'La data di ingresso nella famiglia non è valida.']);
+
+    expect($persona->famiglie()->exists())->toBeFalse();
 });
 
 it('adds a person to a family as aggregato', function (): void {

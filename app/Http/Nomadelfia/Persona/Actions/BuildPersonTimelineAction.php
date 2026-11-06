@@ -126,7 +126,9 @@ final class BuildPersonTimelineAction
                     continue;
                 }
 
-                $dataAccoglienza = PopolazioneNomadelfia::query()->where('persona_id', $figlio->id)->min('data_entrata');
+                // the entrata in the famiglia of a figlio moved from another famiglia, else his entrata in the comunità
+                $dataAccoglienza = $figlio->pivot->data_entrata
+                    ?? PopolazioneNomadelfia::query()->where('persona_id', $figlio->id)->min('data_entrata');
                 if (is_string($dataAccoglienza)) {
                     $eventi->push($evento(
                         Date::parse($dataAccoglienza),

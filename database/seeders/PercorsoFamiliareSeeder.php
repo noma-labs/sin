@@ -26,7 +26,7 @@ final class PercorsoFamiliareSeeder extends Seeder
         $famigliaDiNascita->assegnaFiglioNato($persona, stato: '0');
 
         $primaAccoglienza = $this->famigliaDiConiugi(Carbon::now()->subYears(25));
-        $primaAccoglienza->assegnaFiglioAccolto($persona, stato: '0');
+        $primaAccoglienza->assegnaFiglioAccolto($persona, stato: '0', dataEntrata: Carbon::now()->subYears(10)->toDateString());
 
         $famigliaAttuale = $this->famigliaDiConiugi(Carbon::now()->subYears(20), GruppoFamiliare::all()->random());
         app(EntrataMinorenneAccoltoAction::class)->execute($persona, Carbon::now()->subYears(3), $famigliaAttuale);
