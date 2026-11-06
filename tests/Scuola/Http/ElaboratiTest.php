@@ -64,6 +64,7 @@ it('offers the preview and the download of an elaborato with a file', function (
         ->assertOk()
         ->assertSee(route('scuola.elaborati.preview', $elaborato->id))
         ->assertSee(route('scuola.elaborati.download', $elaborato->id))
+        ->assertSee(route('scuola.elaborati.media.destroy', $elaborato->id))
         ->assertDontSee(route('scuola.elaborati.media.store', $elaborato->id));
 });
 
@@ -151,6 +152,42 @@ it('can download a pdf file', function (): void {
         ->assertHeader('Content-Disposition', 'attachment; filename='.$documentName);
 
     $this->assertTrue(Storage::disk('media_originals')->exists($filePath));
+});
+
+it('deletes the file of an elaborato from the disk and from the db', function (): void {
+    Storage::fake('media_originals');
+    $filePath = UploadedFile::fake()->create('elaborato.pdf', 100, 'application/pdf')
+        ->storeAs('elaborati/2016', 'SPA001_elaborato.pdf', 'media_originals');
+
+    $elaborato = Elaborato::factory()->create([
+        'file_path' => $filePath,
+        'file_mime_type' => 'application/pdf',
+        'file_size' => 102400,
+        'file_hash' => hash('sha256', 'elaborato'),
+    ]);
+
+    login();
+
+    $this->delete(action([ElaboratiMediaController::class, 'destroy'], $elaborato->id))
+        ->assertRedirectToRoute('scuola.elaborati.show', $elaborato->id)
+        ->assertSessionHas('success');
+
+    Storage::disk('media_originals')->assertMissing($filePath);
+    $elaborato->refresh();
+    expect($elaborato->file_path)->toBeNull()
+        ->and($elaborato->file_mime_type)->toBeNull()
+        ->and($elaborato->file_size)->toBeNull()
+        ->and($elaborato->file_hash)->toBeNull();
+});
+
+it('does not delete anything of an elaborato without a file', function (): void {
+    $elaborato = Elaborato::factory()->create(['file_path' => null]);
+
+    login();
+
+    $this->delete(action([ElaboratiMediaController::class, 'destroy'], $elaborato->id))
+        ->assertRedirect()
+        ->assertSessionHas('error');
 });
 
 it('can upload a cover image', function (): void {

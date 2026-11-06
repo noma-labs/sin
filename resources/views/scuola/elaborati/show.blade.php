@@ -159,6 +159,36 @@
               >
                 Scarica
               </a>
+              <x-modal
+                modal-title="Elimina file"
+                button-title="Elimina"
+                button-style="btn-outline-danger btn-sm"
+              >
+                <x-slot:body>
+                  <form
+                    method="POST"
+                    id="formEliminaFileElaborato{{ $elaborato->id }}"
+                    action="{{ route("scuola.elaborati.media.destroy", $elaborato->id) }}"
+                  >
+                    @csrf
+                    @method("DELETE")
+                    <p>
+                      Vuoi davvero eliminare il file di
+                      <strong>{{ $elaborato->titolo }}</strong>
+                      ? Il file verrà rimosso dal disco e non potrà essere
+                      recuperato.
+                    </p>
+                  </form>
+                </x-slot:body>
+                <x-slot:footer>
+                  <button
+                    class="btn btn-danger btn-sm"
+                    form="formEliminaFileElaborato{{ $elaborato->id }}"
+                  >
+                    Elimina
+                  </button>
+                </x-slot:footer>
+              </x-modal>
             </span>
           </div>
           <iframe
