@@ -58,20 +58,23 @@ final class PersonaFamigliaController
         $request->validate([
             'family_id' => ['required', 'exists:db_nomadelfia.famiglie,id'],
             'type' => ['required', Rule::in(['FIGLIO NATO', 'FIGLIO ACCOLTO', 'AGGREGATO'])],
+            'data_entrata' => ['nullable', 'date'],
         ], [
             'family_id.required' => 'La famiglia è obbligatoria.',
             'family_id.exists' => 'La famiglia selezionata non esiste.',
             'type.required' => 'La posizione nella famiglia è obbligatoria.',
             'type.in' => 'La posizione deve essere figlio nato, figlio accolto o aggregato. Capofamiglia e moglie si assegnano con un nuovo matrimonio.',
+            'data_entrata.date' => 'La data di ingresso nella famiglia non è valida.',
         ]);
 
         $persona = Persona::query()->findOrFail($id);
         $famiglia = Famiglia::query()->findOrFail($request->integer('family_id'));
+        $dataEntrata = $request->date('data_entrata')?->toDateString();
 
         match ($request->string('type')->toString()) {
             'FIGLIO NATO' => $famiglia->assegnaFiglioNato($persona),
-            'AGGREGATO' => $famiglia->assegnaAggregato($persona),
-            default => $famiglia->assegnaFiglioAccolto($persona),
+            'AGGREGATO' => $famiglia->assegnaAggregato($persona, dataEntrata: $dataEntrata),
+            default => $famiglia->assegnaFiglioAccolto($persona, dataEntrata: $dataEntrata),
         };
 
         return to_route('nomadelfia.person.profile', $persona->id)

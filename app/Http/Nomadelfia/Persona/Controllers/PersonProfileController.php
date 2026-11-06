@@ -81,8 +81,10 @@ final class PersonProfileController
 
     /**
      * The famiglie of the persona from the most recent, each with the role of the persona in it.
-     * The date is known only when it can be derived: the birth for a figlio nato, the data_creazione of the famiglia
-     * for a capofamiglia or a moglie. The entrata of a figlio accolto or aggregato is not recorded.
+     * The date is derived when it can be: the birth for a figlio nato, the data_creazione of the famiglia for a
+     * capofamiglia or a moglie, the first entrata in the comunità for the first famiglia of the persona as figlio
+     * accolto or aggregato. A figlio accolto or aggregato who changed famiglia has the data_entrata recorded in
+     * the famiglia, if known.
      *
      * @param  Collection<int, Famiglia&object{pivot: FamigliaPersona}>  $famiglie  ordered from the first to the last one
      * @return Collection<int, array{famiglia: Famiglia, ruolo: string, tipo: string, nelNucleo: bool, dal: ?Carbon}>
@@ -90,6 +92,12 @@ final class PersonProfileController
     private function tappeFamiliari(Persona $persona, Collection $famiglie): Collection
     {
         $maschio = $persona->isMaschio();
+        $primaFamiglia = $famiglie->first();
+        $entrataPrimaAccoglienza = null;
+        if (in_array($primaFamiglia?->pivot->posizione_famiglia, ['FIGLIO ACCOLTO', 'AGGREGATO'], true) && $primaFamiglia->pivot->data_entrata === null) {
+            $entrata = PopolazioneNomadelfia::query()->where('persona_id', $persona->id)->min('data_entrata');
+            $entrataPrimaAccoglienza = is_string($entrata) ? Date::parse($entrata) : null;
+        }
 
         return $famiglie
             ->map(fn ($famiglia): array => [
@@ -109,9 +117,11 @@ final class PersonProfileController
                     default => 'aggregato',
                 },
                 'nelNucleo' => $famiglia->pivot->stato === '1',
-                'dal' => match ($famiglia->pivot->posizione_famiglia) {
-                    'FIGLIO NATO' => Date::parse($persona->data_nascita),
-                    'CAPO FAMIGLIA', 'MOGLIE' => $famiglia->data_creazione ? Date::parse($famiglia->data_creazione) : null,
+                'dal' => match (true) {
+                    $famiglia->pivot->posizione_famiglia === 'FIGLIO NATO' => Date::parse($persona->data_nascita),
+                    in_array($famiglia->pivot->posizione_famiglia, ['CAPO FAMIGLIA', 'MOGLIE'], true) => $famiglia->data_creazione ? Date::parse($famiglia->data_creazione) : null,
+                    $famiglia->pivot->data_entrata !== null => Date::parse($famiglia->pivot->data_entrata),
+                    $famiglia->is($primaFamiglia) => $entrataPrimaAccoglienza,
                     default => null,
                 },
             ])

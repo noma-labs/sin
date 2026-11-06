@@ -26,6 +26,23 @@ it('adds the deceased husband as capofamiglia outside the nucleo of the famiglia
         ->and($famiglia->capofamiglia()->id)->toBe($vedova->id);
 });
 
+it('records the data di entrata of a figlio accolto in the famiglia', function (): void {
+    login();
+    $figlio = Persona::factory()->minorenne()->femmina()->create();
+    $famiglia = Famiglia::factory()->create();
+    $famiglia->assegnaFiglioAccolto($figlio);
+
+    $this->put(route('anagrafe.family.member.update', $famiglia->id), [
+        'persona_id' => $figlio->id,
+        'posizione' => 'FIGLIO ACCOLTO',
+        'stato' => '1',
+        'data_entrata' => '2014-09-01',
+    ])->assertRedirect(route('anagrafe.families.show', ['id' => $famiglia->id]))
+        ->assertSessionHasNoErrors();
+
+    expect($famiglia->componenti()->where('persone.id', $figlio->id)->first()->pivot->data_entrata)->toBe('2014-09-01');
+});
+
 it('refuses a second capofamiglia in the nucleo', function (): void {
     login();
     $capo = Persona::factory()->maggiorenne()->maschio()->create(['nominativo' => 'Capo Presente']);

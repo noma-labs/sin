@@ -56,6 +56,23 @@
           </div>
         </div>
       </div>
+      <div class="row mb-3">
+        <label class="col-4 form-label" for="data-entrata-nuovo-componente">
+          Data di ingresso
+        </label>
+        <div class="col-8">
+          <input
+            class="form-control"
+            type="date"
+            name="data_entrata"
+            id="data-entrata-nuovo-componente"
+          />
+          <div class="form-text">
+            Solo per un figlio accolto o aggregato che cambia famiglia quando è
+            già nella comunità.
+          </div>
+        </div>
+      </div>
       <div class="row">
         <label class="col-4 form-label">Note:</label>
         <div class="col-8">

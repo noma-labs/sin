@@ -71,6 +71,27 @@
         </div>
       </div>
       <div class="row">
+        <label
+          for="data-entrata-componente-{{ $componente->id }}"
+          class="col-4 form-label"
+        >
+          Data di ingresso
+        </label>
+        <div class="col-8">
+          <input
+            class="form-control"
+            type="date"
+            name="data_entrata"
+            id="data-entrata-componente-{{ $componente->id }}"
+            value="{{ $componente->pivot->data_entrata }}"
+          />
+          <div class="form-text">
+            Solo per un figlio accolto o aggregato che cambia famiglia quando è
+            già nella comunità.
+          </div>
+        </div>
+      </div>
+      <div class="row">
         <label for="example-text-input" class="col-4 form-label"> Note: </label>
         <div class="col-8">
           <textarea

@@ -291,6 +291,50 @@ it('shows the percorso familiare of a person married twice from the most recent 
         ->assertSeeInOrder(['Percorso familiare', 'Seconde Nozze', 'Dal 01/01/1995', 'Prime Nozze', 'Dal 01/01/1980']);
 });
 
+it('shows the famiglie of a figlio accolto moved inside the comunità in the order of the data di entrata', function (): void {
+    login();
+    $persona = Persona::factory()->nato(Carbon::parse('2004-03-02'))->femmina()->create();
+    $terza = Famiglia::factory()->create(['nome_famiglia' => 'Terza Accoglienza', 'data_creazione' => '1970-01-01']);
+    $seconda = Famiglia::factory()->create(['nome_famiglia' => 'Seconda Accoglienza', 'data_creazione' => '1980-01-01']);
+    $prima = Famiglia::factory()->create(['nome_famiglia' => 'Prima Accoglienza', 'data_creazione' => '1990-01-01']);
+    $capofamiglia = Persona::factory()->maggiorenne()->maschio()->create();
+    app(EntrataMaggiorenneConFamigliaAction::class)->execute($capofamiglia, Carbon::parse('1990-01-01'), GruppoFamiliare::all()->random());
+    $prima->assegnaCapoFamiglia($capofamiglia);
+    app(EntrataMinorenneAccoltoAction::class)->execute($persona, Carbon::parse('2010-07-01'), $prima);
+    $prima->uscitaDalNucleoFamiliare($persona);
+    $terza->assegnaFiglioAccolto($persona, dataEntrata: '2018-03-01');
+    $seconda->assegnaFiglioAccolto($persona, stato: '0', dataEntrata: '2014-09-01');
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder([
+            'Percorso familiare',
+            'Terza Accoglienza', 'Dal 01/03/2018', 'nel nucleo',
+            'Seconda Accoglienza', 'Dal 01/09/2014', 'non più nel nucleo',
+            'Prima Accoglienza', 'Dal 01/07/2010', 'non più nel nucleo',
+        ]);
+});
+
+it('shows the figlio accolto from another famiglia in the timeline at the data di entrata in the famiglia', function (): void {
+    login();
+    $marito = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();
+    $accolto = Persona::factory()->nato(Carbon::parse('2004-03-02'))->femmina()->create(['nominativo' => 'Figlia Spostata']);
+    $famiglia = Famiglia::factory()->create(['data_creazione' => '2012-06-12']);
+    $famiglia->assegnaCapoFamiglia($marito);
+    $famiglia->assegnaMoglie(Persona::factory()->maggiorenne()->femmina()->create());
+    $primaAccoglienza = Famiglia::factory()->create();
+    $altroCapofamiglia = Persona::factory()->maggiorenne()->maschio()->create();
+    app(EntrataMaggiorenneConFamigliaAction::class)->execute($altroCapofamiglia, Carbon::parse('1990-01-01'), GruppoFamiliare::all()->random());
+    $primaAccoglienza->assegnaCapoFamiglia($altroCapofamiglia);
+    app(EntrataMinorenneAccoltoAction::class)->execute($accolto, Carbon::parse('2010-07-01'), $primaAccoglienza);
+    $primaAccoglienza->uscitaDalNucleoFamiliare($accolto);
+    $famiglia->assegnaFiglioAccolto($accolto, dataEntrata: '2014-09-01');
+
+    $this->get(route('nomadelfia.person.profile', $marito->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Accoglie la figlia Figlia Spostata', 'Nasce la famiglia']);
+});
+
 it('does not show the percorso familiare of a person with a single famiglia', function (): void {
     login();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();

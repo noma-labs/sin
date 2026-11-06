@@ -127,7 +127,7 @@ class Persona extends Model
     {
         return $this->belongsToMany(Famiglia::class, 'famiglie_persone', 'persona_id', 'famiglia_id')
             ->using(FamigliaPersona::class)
-            ->withPivot('stato');
+            ->withPivot('stato', 'data_entrata');
     }
 
     public function famigliaAttuale()
@@ -160,10 +160,11 @@ class Persona extends Model
 
     /**
      * All the famiglie of the persona from the first to the last one.
-     * The table famiglie_persone has no date of entrata, so the order is rebuilt from what is known:
-     * the famiglie left before the famiglia attuale, the famiglia as figlio nato (from the birth) before the ones as
-     * figlio accolto or aggregato, before the ones as capofamiglia or moglie, then by the data_creazione of the
-     * famiglia (the one without it first) and by its id.
+     * The data_entrata of famiglie_persone is recorded only when it is not derived, so the order is rebuilt from what
+     * is known: the famiglie left before the famiglia attuale, the famiglia as figlio nato (from the birth) before the
+     * ones as figlio accolto or aggregato, before the ones as capofamiglia or moglie. In the same role the famiglia
+     * without data_entrata (the first accoglienza, at the entrata in the comunità) comes before the ones entered later
+     * by data_entrata, then by the data_creazione of the famiglia (the one without it first) and by its id.
      *
      * @return BelongsToMany<Famiglia, $this, FamigliaPersona, 'pivot'>
      */
@@ -173,6 +174,7 @@ class Persona extends Model
         $famiglie->getQuery()
             ->orderByRaw("famiglie_persone.stato = '1'")
             ->orderByRaw("CASE famiglie_persone.posizione_famiglia WHEN 'FIGLIO NATO' THEN 0 WHEN 'CAPO FAMIGLIA' THEN 2 WHEN 'MOGLIE' THEN 2 ELSE 1 END")
+            ->orderBy('famiglie_persone.data_entrata')
             ->orderBy('famiglie.data_creazione')
             ->orderBy('famiglie.id');
 

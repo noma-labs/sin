@@ -22,14 +22,17 @@ final class FamilyMemberController
             'persona_id' => ['required'],
             'posizione' => ['required'],
             'stato' => ['required', 'in:0,1'],
+            'data_entrata' => ['nullable', 'date'],
         ], [
             'persona_id.required' => 'La persona è obbligatoria.',
             'stato.required' => 'Lo stato della persona è obbligatoria.',
             'posizione.required' => 'La posizione nella famiglia è obbligatoria.',
+            'data_entrata.date' => 'La data di ingresso nella famiglia non è valida.',
         ]);
         $famiglia = Famiglia::findorfail($id);
         $persona = Persona::findorfail($request->persona_id);
         $stato = $request->string('stato')->toString();
+        $dataEntrata = $request->date('data_entrata')?->toDateString();
 
         try {
             switch ($request->posizione) {
@@ -43,10 +46,10 @@ final class FamilyMemberController
                     $famiglia->assegnaFiglioNato($persona, stato: $stato);
                     break;
                 case 'FIGLIO ACCOLTO':
-                    $famiglia->assegnaFiglioAccolto($persona, stato: $stato);
+                    $famiglia->assegnaFiglioAccolto($persona, stato: $stato, dataEntrata: $dataEntrata);
                     break;
                 case 'AGGREGATO':
-                    $famiglia->assegnaAggregato($persona, stato: $stato);
+                    $famiglia->assegnaAggregato($persona, stato: $stato, dataEntrata: $dataEntrata);
                     break;
                 default:
                     return redirect(route('anagrafe.families.show',
@@ -67,10 +70,12 @@ final class FamilyMemberController
             'persona_id' => ['required'],
             'posizione' => ['required'],
             'stato' => ['required'],
+            'data_entrata' => ['nullable', 'date'],
         ], [
             'persona_id.required' => 'La persona è obbligatoria.',
             'stato.required' => 'Lo stato della persona è obbligatoria.',
             'posizione.required' => 'La posizione nella famiglia è obbligatoria.',
+            'data_entrata.date' => 'La data di ingresso nella famiglia non è valida.',
         ]);
         $famiglia = Famiglia::findorfail($id);
         try {
@@ -78,6 +83,7 @@ final class FamilyMemberController
                 'stato' => $request->stato,
                 'posizione_famiglia' => $request->posizione,
                 'note' => $request->note,
+                'data_entrata' => $request->date('data_entrata')?->toDateString(),
             ]);
 
             return redirect(route('anagrafe.families.show',

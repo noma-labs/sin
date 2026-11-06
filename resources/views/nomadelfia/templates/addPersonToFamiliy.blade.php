@@ -20,6 +20,18 @@
         <option value="FIGLIO ACCOLTO">Figlio accolto</option>
         <option value="AGGREGATO">Aggregato</option>
       </select>
+      <label class="form-label mt-3" for="data-entrata-famiglia">
+        Data di ingresso nella famiglia
+      </label>
+      <input
+        class="form-control"
+        type="date"
+        name="data_entrata"
+        id="data-entrata-famiglia"
+      />
+      <div class="form-text">
+        Solo se la persona è già nella comunità e cambia famiglia.
+      </div>
     </form>
   </x-slot:body>
   <x-slot:footer>
