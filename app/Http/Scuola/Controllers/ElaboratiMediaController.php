@@ -55,14 +55,14 @@ final class ElaboratiMediaController
 
     public function destroy(int $id): RedirectResponse
     {
-        $elaborato = Elaborato::findOrFail($id);
+        $elaborato = Elaborato::query()->findOrFail($id);
 
         if (empty($elaborato->file_path)) {
-            return back()->withError('Elaborato non ha un file da eliminare.');
+            return back()->with('error', 'Elaborato non ha un file da eliminare.');
         }
 
         if (! Storage::disk('media_originals')->delete($elaborato->file_path)) {
-            return back()->withError('Impossibile eliminare il file dal disco.');
+            return back()->with('error', 'Impossibile eliminare il file dal disco.');
         }
 
         $elaborato->update([
@@ -72,6 +72,6 @@ final class ElaboratiMediaController
             'file_hash' => null,
         ]);
 
-        return to_route('scuola.elaborati.show', $elaborato->id)->withSuccess('File eliminato correttamente.');
+        return to_route('scuola.elaborati.show', $elaborato->id)->with('success', 'File eliminato correttamente.');
     }
 }

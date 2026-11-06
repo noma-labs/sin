@@ -172,12 +172,9 @@
                   >
                     @csrf
                     @method("DELETE")
-                    <p>
-                      Vuoi davvero eliminare il file di
-                      <strong>{{ $elaborato->titolo }}</strong>
-                      ? Il file verrà rimosso dal disco e non potrà essere
-                      recuperato.
-                    </p>
+                    <p>Vuoi davvero eliminare il file di
+                    <strong>{{ $elaborato->titolo }}</strong>
+                    ? Il file verrà rimosso dal disco e non potrà essere recuperato.</p>
                   </form>
                 </x-slot:body>
                 <x-slot:footer>

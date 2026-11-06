@@ -275,7 +275,7 @@ Route::prefix('scuola')->middleware('auth')->group(function () {
     Route::get('elaborati', [ElaboratiController::class, 'create'])->name('scuola.elaborati.create');
     Route::post('elaborati', [ElaboratiController::class, 'store'])->name('scuola.elaborati.store');
     Route::post('elaborati/{id}/upload', [ElaboratiMediaController::class, 'store'])->name('scuola.elaborati.media.store');
-    Route::delete('elaborati/{id}/upload', [ElaboratiMediaController::class, 'destroy'])->name('scuola.elaborati.media.destroy');
+    Route::delete('elaborati/{id}/file', [ElaboratiMediaController::class, 'destroy'])->name('scuola.elaborati.media.destroy');
     Route::get('elaborati/{id}', [ElaboratiController::class, 'show'])->name('scuola.elaborati.show');
     Route::get('elaborati/{id}/edit', [ElaboratiController::class, 'edit'])->name('scuola.elaborati.edit');
     Route::put('elaborati/{id}', [ElaboratiController::class, 'update'])->name('scuola.elaborati.update');
