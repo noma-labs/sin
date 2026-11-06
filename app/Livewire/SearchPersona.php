@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire;
 
 use App\Anagrafe\Persona\Models\Persona;
+use App\View\Components\PersonaNome;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\Date;
@@ -56,7 +57,7 @@ final class SearchPersona extends Autocomplete
     private function toOption(Persona $persona): Option
     {
         $year = empty($persona->data_nascita) ? null : Date::parse($persona->data_nascita)->year;
-        $label = ($year ? "($year) " : '')."$persona->nome  $persona->cognome ($persona->nominativo)";
+        $label = ($year ? "($year) " : '').PersonaNome::testo($persona);
 
         if (! empty($persona->data_entrata)) {
             $label .= ' '.$persona->data_entrata;

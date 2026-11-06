@@ -101,7 +101,8 @@
     <ul>
       @foreach ($students as $student)
         <li>
-          {{ $student->nominativo }} {{ $student->ciclo }} {{ $student->nome }}
+          <x-persona-nome :persona="$student" />
+          {{ $student->ciclo }} {{ $student->classe_nome }}
         </li>
         <input type="hidden" name="students[]" value="{{ $student->id }}" />
       @endforeach

@@ -52,3 +52,34 @@ it('update the tipo of a classe', function (): void {
     $c = $c->refresh();
     expect($c->tipo->id)->toEqual($tipo->id);
 });
+
+it('shows alunni and coordinatori by nome and cognome with the nominativo when it differs', function (): void {
+    $classe = Anno::createAnno(2061)->aggiungiClasse(ClasseTipo::first());
+    $alunno = Studente::factory()->minorenne()->maschio()->create(['nome' => 'Giovanni', 'cognome' => 'Rossetti', 'nominativo' => 'Gianni R.']);
+    $classe->aggiungiAlunno($alunno, Carbon::now());
+    $coordinatore = Studente::factory()->maggiorenne()->maschio()->create(['nome' => 'Marco', 'cognome' => 'Bianchetti', 'nominativo' => 'Marchino']);
+    $classe->aggiungiCoordinatore($coordinatore, Carbon::now());
+
+    login();
+
+    $this->get(action([ClassiController::class, 'show'], ['id' => $classe->id]))
+        ->assertSuccessful()
+        ->assertSeeTextInOrder(['Giovanni Rossetti', '(Gianni R.)'])
+        ->assertSeeTextInOrder(['Marco Bianchetti', '(Marchino)']);
+});
+
+it('shows only nome and cognome of an alunno when the nominativo repeats them', function (string $nominativo, int $anno): void {
+    $classe = Anno::createAnno($anno)->aggiungiClasse(ClasseTipo::first());
+    $alunno = Studente::factory()->minorenne()->maschio()->create(['nome' => 'Giovanni', 'cognome' => 'Rossi', 'nominativo' => $nominativo, 'data_nascita' => fake()->unique()->date()]);
+    $classe->aggiungiAlunno($alunno, Carbon::now());
+
+    login();
+
+    $this->get(action([ClassiController::class, 'show'], ['id' => $classe->id]))
+        ->assertSuccessful()
+        ->assertSeeText('Giovanni Rossi')
+        ->assertDontSeeText("($nominativo)");
+})->with([
+    'nome cognome' => ['Giovanni Rossi', 2062],
+    'cognome nome' => ['Rossi Giovanni', 2063],
+]);

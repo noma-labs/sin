@@ -7,6 +7,7 @@ namespace App\Scuola\Controllers;
 use App\Anagrafe\Persona\Models\Persona;
 use App\Scuola\Models\AddStudentAction;
 use App\Scuola\Models\Classe;
+use App\View\Components\PersonaNome;
 use Illuminate\Http\Request;
 
 final class ClassiController
@@ -56,6 +57,6 @@ final class ClassiController
         $alunno = Persona::findOrFail($alunno_id);
         $classe->rimuoviAlunno($alunno);
 
-        return back()->withSuccess("Alunno $alunno->nominativo  eliminato da {$classe->tipo->nome} con successo.");
+        return back()->withSuccess('Alunno '.PersonaNome::testo($alunno)." eliminato da {$classe->tipo->nome} con successo.");
     }
 }

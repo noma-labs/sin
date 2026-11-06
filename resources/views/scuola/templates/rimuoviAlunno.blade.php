@@ -12,7 +12,7 @@
     >
       @csrf
       <div class="row">
-        <p>Voi davvero eliminare l'alunno {{ $alunno->nominativo }} dalla {{ $classe->tipo->nome }} ?</p>
+        <p>Voi davvero eliminare l'alunno <x-persona-nome :persona="$alunno" /> dalla {{ $classe->tipo->nome }} ?</p>
       </div>
     </form>
   </x-slot:body>

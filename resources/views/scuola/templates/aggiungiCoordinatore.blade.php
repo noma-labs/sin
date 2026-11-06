@@ -20,12 +20,7 @@
             <option value="" selected>---scegli coordinatore--</option>
             @foreach ($coordPossibili as $p)
               <option value="{{ $p->id }}">
-                @if ($p->nominativo != $p->nome)
-                  {{ $p->nome . " " . $p->cognome . " (" . $p->nominativo . ")" }}
-                @else
-                  {{ $p->nome . " " . $p->cognome }}
-                @endif
-                {{ "(" . Carbon::createFromFormat("Y-m-d", $p->data_nascita)->year . ") " }}
+                {{ "(" . Carbon::createFromFormat("Y-m-d", $p->data_nascita)->year . ") " . \App\View\Components\PersonaNome::testo($p) }}
               </option>
             @endforeach
           </select>

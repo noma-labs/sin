@@ -23,7 +23,7 @@
           >
             @foreach ($alunniPossibili as $alunno)
               <option value="{{ $alunno->id }}">
-                {{ "(" . Carbon::createFromFormat("Y-m-d", $alunno->data_nascita)->year . ") " . $alunno->nome . " " . $alunno->cognome . " (" . $alunno->nominativo . ")" . " - " . $alunno->famigliaEnrico }}
+                {{ "(" . Carbon::createFromFormat("Y-m-d", $alunno->data_nascita)->year . ") " . \App\View\Components\PersonaNome::testo($alunno) . " - " . $alunno->famigliaEnrico }}
               </option>
             @endforeach
           </select>
