@@ -7,7 +7,9 @@ namespace App\Scuola\Controllers;
 use App\Scuola\DataTransferObjects\AnnoScolastico;
 use App\Scuola\Models\Elaborato;
 use App\Scuola\Traits\StoresElaboratoFile;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 final class ElaboratiMediaController
 {
@@ -49,5 +51,27 @@ final class ElaboratiMediaController
 
         return back()->withSuccess('Caricato correttameente');
 
+    }
+
+    public function destroy(int $id): RedirectResponse
+    {
+        $elaborato = Elaborato::query()->findOrFail($id);
+
+        if (empty($elaborato->file_path)) {
+            return back()->with('error', 'Elaborato non ha un file da eliminare.');
+        }
+
+        if (! Storage::disk('media_originals')->delete($elaborato->file_path)) {
+            return back()->with('error', 'Impossibile eliminare il file dal disco.');
+        }
+
+        $elaborato->update([
+            'file_path' => null,
+            'file_mime_type' => null,
+            'file_size' => null,
+            'file_hash' => null,
+        ]);
+
+        return to_route('scuola.elaborati.show', $elaborato->id)->with('success', 'File eliminato correttamente.');
     }
 }
