@@ -7,8 +7,10 @@ namespace Tests\Livewire;
 use App\Livewire\FilterAlunno;
 use App\Scuola\Controllers\ElaboratiStudentsController;
 use App\Scuola\Models\Anno;
+use App\Scuola\Models\ClasseTipo;
 use App\Scuola\Models\Elaborato;
 use App\Scuola\Models\Studente;
+use Carbon\Carbon;
 use Livewire\Livewire;
 
 it('asks to choose an anno when the scolastico has no anno', function (?string $scolastico): void {
@@ -82,4 +84,17 @@ it('sets the submitted students on an elaborato', function (): void {
     ])->assertRedirectToRoute('scuola.elaborati.show', $elaborato->id);
 
     expect($elaborato->studenti()->pluck('id')->all())->toBe([$studente->id]);
+});
+
+it('lists the students by nome and cognome with nominativo, ciclo and classe', function (): void {
+    $anno = Anno::createAnno(2092);
+    $tipo = ClasseTipo::first();
+    $anno->aggiungiClasse($tipo)->aggiungiAlunno(
+        Studente::factory()->minorenne()->maschio()->create(['nome' => 'Giovanni', 'cognome' => 'Verdini', 'nominativo' => 'Gianni V.']),
+        Carbon::now(),
+    );
+
+    Livewire::test(FilterAlunno::class, ['scolastico' => '2092/2093'])
+        ->assertOk()
+        ->assertSeeTextInOrder(['Giovanni Verdini', '(Gianni V.)', $tipo->ciclo, $tipo->nome]);
 });

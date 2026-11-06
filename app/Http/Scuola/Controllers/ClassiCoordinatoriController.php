@@ -7,6 +7,7 @@ namespace App\Scuola\Controllers;
 use App\Anagrafe\Persona\Models\Persona;
 use App\Scuola\Models\Classe;
 use App\Scuola\Requests\AddCoordinatoreRequest;
+use App\View\Components\PersonaNome;
 use Illuminate\Http\Request;
 
 final class ClassiCoordinatoriController
@@ -19,7 +20,7 @@ final class ClassiCoordinatoriController
 
         $classe->aggiungiCoordinatore($coord, $request->data_inizio, $request->coord_tipo);
 
-        return back()->withSuccess("Coordiantore $coord->nominativo  aggiunto a {$classe->tipo->nome} con successo.");
+        return back()->withSuccess('Coordinatore '.PersonaNome::testo($coord)." aggiunto a {$classe->tipo->nome} con successo.");
     }
 
     public function delete(Request $request, $id, $coord_id)
@@ -28,6 +29,6 @@ final class ClassiCoordinatoriController
         $coord = Persona::findOrFail($coord_id);
         $classe->rimuoviCoordinatore($coord);
 
-        return back()->withSuccess("Coordinatore $coord->nominativo  eliminato da {$classe->tipo->nome} con successo.");
+        return back()->withSuccess('Coordinatore '.PersonaNome::testo($coord)." eliminato da {$classe->tipo->nome} con successo.");
     }
 }

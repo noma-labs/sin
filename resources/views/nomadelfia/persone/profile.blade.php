@@ -62,7 +62,7 @@
             @endif
           </div>
           <div class="profile-muted mb-1">
-            @if (! in_array(mb_strtolower(trim($persona->nominativo)), [mb_strtolower("$persona->nome $persona->cognome"), mb_strtolower("$persona->cognome $persona->nome")], true))
+            @if (\App\View\Components\PersonaNome::nominativoDiverso($persona))
               Conosciuto come
               <strong>{{ $persona->nominativo }}</strong>
               &middot;

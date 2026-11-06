@@ -6,6 +6,7 @@ namespace App\Scuola\Controllers;
 
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\Studente;
+use App\View\Components\PersonaNome;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpWord\IOFactory;
@@ -68,7 +69,7 @@ final class ScuolaController
         $firstPage->addText(\Illuminate\Support\Facades\Date::now()->toDatestring(), ['bold' => true, 'italic' => false, 'size' => 10],
             ['align' => TextAlignment::CENTER]);
         $firstPage->addTextBreak(2);
-        $r = is_null($anno->responsabile) ? 'non asseganto' : $anno->responsabile->nominativo;
+        $r = is_null($anno->responsabile) ? 'non asseganto' : PersonaNome::testo($anno->responsabile);
         $firstPage->addText('Responsabile: '.$r, ['bold' => true, 'italic' => false, 'size' => 10],
             ['align' => TextAlignment::CENTER]);
 
@@ -82,7 +83,7 @@ final class ScuolaController
             $pre = $anno->prescuola();
             $classeSect->addTitle('Prescuola ', 1); //  . $pre->alunni('data_nascita', 'DESC')->count(), 1);
             foreach ($pre->alunni('data_nascita', 'DESC')->get() as $alunno) {
-                $classeSect->addText($alunno->nominativo);
+                $classeSect->addText(PersonaNome::testo($alunno));
             }
 
             $classeSect = $phpWord->addSection($colStyle4Next);
@@ -93,7 +94,7 @@ final class ScuolaController
                 $classeSect->addTextBreak(1);
                 $classeSect->addTitle($el->tipo->nome.'  '.count($alunni), 2);
                 foreach ($alunni as $alunno) {
-                    $classeSect->addText($alunno->nominativo);
+                    $classeSect->addText(PersonaNome::testo($alunno));
                 }
             }
 
@@ -105,7 +106,7 @@ final class ScuolaController
                 $classeSect->addTextBreak(1);
                 $classeSect->addTitle($el->tipo->nome.'  '.count($alunni), 2);
                 foreach ($alunni as $alunno) {
-                    $classeSect->addText($alunno->nominativo);
+                    $classeSect->addText(PersonaNome::testo($alunno));
                 }
             }
 
@@ -117,7 +118,7 @@ final class ScuolaController
                 $classeSect->addTextBreak(1);
                 $classeSect->addTitle($el->tipo->nome.'  '.count($alunni), 2);
                 foreach ($alunni as $alunno) {
-                    $classeSect->addText($alunno->nominativo);
+                    $classeSect->addText(PersonaNome::testo($alunno));
                 }
             }
         }
@@ -134,7 +135,7 @@ final class ScuolaController
                 $prescuola->addTextBreak(1);
                 $prescuola->addTitle($classe, 2);
                 foreach ($coords as $cord) {
-                    $prescuola->addText($cord->nominativo);
+                    $prescuola->addText(PersonaNome::testo($cord));
                 }
             }
 
@@ -145,7 +146,7 @@ final class ScuolaController
                 $elementari->addTextBreak(1);
                 $elementari->addTitle($classe, 2);
                 foreach ($coords as $cord) {
-                    $elementari->addText($cord->nominativo);
+                    $elementari->addText(PersonaNome::testo($cord));
                 }
             }
 
@@ -156,7 +157,7 @@ final class ScuolaController
                 $medie->addTextBreak(1);
                 $medie->addTitle($classe, 2);
                 foreach ($coords as $cord) {
-                    $medie->addText($cord->nominativo);
+                    $medie->addText(PersonaNome::testo($cord));
                 }
             }
 
@@ -167,7 +168,7 @@ final class ScuolaController
                 $superiore->addTextBreak(1);
                 $superiore->addTitle($classe, 2);
                 foreach ($coords as $cord) {
-                    $superiore->addText($cord->nominativo);
+                    $superiore->addText(PersonaNome::testo($cord));
                 }
             }
 

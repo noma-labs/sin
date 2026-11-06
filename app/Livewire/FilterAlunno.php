@@ -52,7 +52,7 @@ final class FilterAlunno extends Component
         $this->options = $options;
 
         $this->students = Studente::InAnnoScolastico($this->selectedAnnoScolastico->id)
-            ->select('persone.id', 'nominativo', 'db_scuola.tipo.ciclo', 'db_scuola.tipo.nome')
+            ->select('persone.id', 'persone.nome', 'persone.cognome', 'persone.nominativo', 'db_scuola.tipo.ciclo', 'db_scuola.tipo.nome as classe_nome')
             ->get();
     }
 
@@ -61,7 +61,7 @@ final class FilterAlunno extends Component
         if ($this->selectedAnnoScolastico) {
             $this->students = Studente::InAnnoScolastico($this->selectedAnnoScolastico->id)
                 ->whereIn('db_scuola.tipo.ciclo', $this->selectedCicloOption)
-                ->select('persone.id', 'nominativo', 'db_scuola.tipo.ciclo', 'db_scuola.tipo.nome')
+                ->select('persone.id', 'persone.nome', 'persone.cognome', 'persone.nominativo', 'db_scuola.tipo.ciclo', 'db_scuola.tipo.nome as classe_nome')
                 ->get();
         }
     }
@@ -72,7 +72,7 @@ final class FilterAlunno extends Component
         if ($this->selectedAnnoScolastico) {
             $query = Studente::InAnnoScolastico($this->selectedAnnoScolastico->id)
                 ->whereIn('db_scuola.tipo.id', $this->selectedClassiOption)
-                ->select('persone.id', 'nominativo', 'db_scuola.tipo.ciclo', 'db_scuola.tipo.nome');
+                ->select('persone.id', 'persone.nome', 'persone.cognome', 'persone.nominativo', 'db_scuola.tipo.ciclo', 'db_scuola.tipo.nome as classe_nome');
             if ($this->selectedCicloOption) {
                 $query->whereIn('db_scuola.tipo.ciclo', $this->selectedCicloOption);
             }
@@ -86,7 +86,7 @@ final class FilterAlunno extends Component
             $this->selectedClassiOption = [];
             $this->selectedCicloOption = [];
             $this->students = Studente::InAnnoScolastico($this->selectedAnnoScolastico->id)
-                ->select('persone.id', 'nominativo', 'db_scuola.tipo.ciclo', 'db_scuola.tipo.nome')
+                ->select('persone.id', 'persone.nome', 'persone.cognome', 'persone.nominativo', 'db_scuola.tipo.ciclo', 'db_scuola.tipo.nome as classe_nome')
                 ->get();
         }
     }

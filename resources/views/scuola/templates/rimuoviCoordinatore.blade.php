@@ -12,7 +12,7 @@
     >
       @csrf
       <div class="row">
-        <p>Voi davvero eliminare {{ $coord->nominativo }} dalla {{ $classe->tipo->nome }} ?</p>
+        <p>Voi davvero eliminare <x-persona-nome :persona="$coord" /> dalla {{ $classe->tipo->nome }} ?</p>
       </div>
     </form>
   </x-slot:body>

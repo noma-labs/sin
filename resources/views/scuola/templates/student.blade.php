@@ -1,3 +1,3 @@
 <a href="{{ route("scuola.student.show", ["id" => $persona->id]) }}">
-  {{ $persona->nominativo }}
+  <x-persona-nome :persona="$persona" />
 </a>

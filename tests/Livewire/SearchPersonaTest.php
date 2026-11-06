@@ -67,7 +67,7 @@ it('shows the selected persone with the same label as the search', function (): 
     $persona = Persona::factory()->create(['nominativo' => 'etichetta', 'nome' => 'Mario', 'cognome' => 'Rossi', 'data_nascita' => '1975-03-02']);
 
     Livewire::test(SearchPersona::class, ['persone_id' => $persona->id])
-        ->assertSee('(1975) Mario  Rossi (Etichetta)');
+        ->assertSee('(1975) Mario Rossi (Etichetta)');
 });
 
 it('selects and deselects multiple persone', function (): void {

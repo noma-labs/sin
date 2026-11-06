@@ -6,6 +6,7 @@ namespace App\Scuola\DataTransferObjects;
 
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\Studente;
+use App\View\Components\PersonaNome;
 
 final class ExportAnnoScolastico
 {
@@ -24,7 +25,7 @@ final class ExportAnnoScolastico
     public function __construct(Anno $anno)
     {
         $resp = $anno->responsabile()->first();
-        $this->responsabile = is_null($resp) ? 'non asseganto' : $resp->nominativo;
+        $this->responsabile = is_null($resp) ? 'non asseganto' : PersonaNome::testo($resp);
         $this->totaleAlunni = Studente::InAnnoScolastico($anno)->count();
         $this->prescuola = $anno->prescuola()->alunni('data_nascita', 'DESC')->get();
         $this->elementari = $anno->prescuola()->alunni('data_nascita', 'DESC')->get();
