@@ -8893,6 +8893,12 @@ parameters:
 			path: app/Http/Scuola/DataTransferObjects/AnnoScolasticoData.php
 
 		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nominativo\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Scuola/DataTransferObjects/ExportAnnoScolastico.php
+
+		-
 			message: '#^Call to an undefined static method App\\Scuola\\Models\\Studente\:\:InAnnoScolastico\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
