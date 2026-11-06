@@ -273,7 +273,7 @@ final class Anno extends Model
 
     public function coordinatoriPerClassi(string $ciclo)
     {
-        $expression = DB::raw('SELECT tipo.nome as classe, p.id as persona_id, p.nome, p.cognome, p.nominativo
+        $expression = DB::raw('SELECT tipo.nome as classe, p.id as persona_id,  p.nominativo
                         FROM `coordinatori_classi`
                         INNER JOIN classi On classi.id = coordinatori_classi.classe_id
                         INNER JOIN tipo ON classi.tipo_id = tipo.id
