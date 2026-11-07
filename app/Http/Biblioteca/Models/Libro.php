@@ -25,6 +25,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $tobe_printed
  * @property int $ID_EDITORE
  * @property int $ID_AUTORE
+ * @property string|null $autore
+ * @property string|null $editore
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Autore> $autori
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Editore> $editori
  */
 final class Libro extends Model
 {
@@ -82,6 +86,22 @@ final class Libro extends Model
         return $this->hasMany(Prestito::class, 'libro_id');
     }
 
+    /**
+     * The legacy `autore` text of the book when it differs from the names of the linked autori.
+     */
+    public function autoreSuggestion(): ?string
+    {
+        return $this->legacyValueDifferentFrom($this->autore, $this->autori->map(fn (Autore $autore): string => $autore->autore)->all());
+    }
+
+    /**
+     * The legacy `editore` text of the book when it differs from the names of the linked editori.
+     */
+    public function editoreSuggestion(): ?string
+    {
+        return $this->legacyValueDifferentFrom($this->editore, $this->editori->map(fn (Editore $editore): string => $editore->editore)->all());
+    }
+
     public function inPrestito(): bool
     {
         $prestiti = $this->prestiti()->where('in_prestito', 1)->get();
@@ -120,5 +140,25 @@ final class Libro extends Model
     protected function casts(): array
     {
         return ['deleted_at' => 'datetime'];
+    }
+
+    /**
+     * Compares ignoring case, spaces and punctuation, so "ROSSI, MARIO" matches "Rossi Mario".
+     *
+     * @param  array<int, string>  $linkedNames
+     */
+    private function legacyValueDifferentFrom(?string $legacyValue, array $linkedNames): ?string
+    {
+        if ($legacyValue === null || mb_trim($legacyValue) === '') {
+            return null;
+        }
+
+        $normalize = fn (string $value): string => (string) preg_replace('/[^\p{L}\p{N}]+/u', '', mb_strtoupper($value));
+
+        if ($normalize($legacyValue) === $normalize(implode('', $linkedNames))) {
+            return null;
+        }
+
+        return $legacyValue;
     }
 }
