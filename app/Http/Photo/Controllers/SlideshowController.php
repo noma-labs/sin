@@ -14,6 +14,7 @@ final class SlideshowController
     {
         $filterYear = $request->string('year');
         $filterPersonName = $request->string('name');
+        $filterPersonaId = $request->integer('persona_id');
         $favorite = $request->boolean('favorite');
         $every = $request->input('every', 10000);
 
@@ -26,6 +27,9 @@ final class SlideshowController
         }
         if (! $filterPersonName->isEmpty()) {
             $q->where('subjects', 'like', '%'.$filterPersonName->toString().'%');
+        }
+        if ($filterPersonaId !== 0) {
+            $q->whereIn('id', Photo::idsWherePersonaAppears($filterPersonaId));
         }
         if ($favorite) {
             $q->where('favorite', true);

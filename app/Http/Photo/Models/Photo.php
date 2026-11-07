@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Query\Builder as QueryBuilder;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class Photo
@@ -56,6 +58,17 @@ final class Photo extends Model
     protected $primaryKey = 'id';
 
     protected $guarded = [];
+
+    /**
+     * The ids of the photos where the person appears (linked in photos_people), to be used as a whereIn subquery.
+     */
+    public static function idsWherePersonaAppears(int $personaId): QueryBuilder
+    {
+        return DB::connection('db_foto')
+            ->table('photos_people')
+            ->select('photo_id')
+            ->where('persona_id', $personaId);
+    }
 
     /**
      * The people associated with the photo.
