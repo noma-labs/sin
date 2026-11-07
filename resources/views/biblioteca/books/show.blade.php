@@ -50,6 +50,18 @@
             name_input="xIdAutore"
             :multiple="true"
           />
+          @if ($autoreSuggestion = $libro->autoreSuggestion())
+            <input
+              type="text"
+              class="form-control form-control-sm mt-1"
+              value="{{ $autoreSuggestion }}"
+              aria-describedby="autoreSuggestionHelp"
+              disabled
+            />
+            <div id="autoreSuggestionHelp" class="form-text">
+              Autore originale del libro
+            </div>
+          @endif
         </div>
         <div class="col-md-6">
           <label class="form-label" for="autore">Editori</label>
@@ -58,6 +70,18 @@
             name_input="xIdEditore"
             :tmultiple="true"
           />
+          @if ($editoreSuggestion = $libro->editoreSuggestion())
+            <input
+              type="text"
+              class="form-control form-control-sm mt-1"
+              value="{{ $editoreSuggestion }}"
+              aria-describedby="editoreSuggestionHelp"
+              disabled
+            />
+            <div id="editoreSuggestionHelp" class="form-text">
+              Editore originale del libro
+            </div>
+          @endif
         </div>
         <div class="col-md-12">
           <label class="form-label" for="autore"> Classificazione </label>

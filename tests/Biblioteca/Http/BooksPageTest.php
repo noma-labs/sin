@@ -109,6 +109,21 @@ it('shows a book detail page', function (): void {
 
 });
 
+it('shows the legacy autore and editore of a book when they differ from the linked ones', function (): void {
+    $book = Libro::factory()
+        ->has(Autore::factory()->state(['autore' => 'ROSSI MARIO']), 'autori')
+        ->has(Editore::factory()->state(['editore' => 'MONDADORI']), 'editori')
+        ->create(['autore' => 'M. ROSSI E ALTRI', 'editore' => 'mondadori']);
+
+    login();
+
+    $this->get(action([BooksController::class, 'show'], $book->id))
+        ->assertSuccessful()
+        ->assertSee('M. ROSSI E ALTRI')
+        ->assertSee('Autore originale del libro')
+        ->assertDontSee('Editore originale del libro');
+});
+
 it('updates a book when the admin is logged in', function (): void {
 
     $book = Libro::factory()
