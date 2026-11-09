@@ -490,8 +490,12 @@
               data-categoria="{{ $evento->categoria }}"
             >
               <div class="profile-event-when">
-                <b>{{ $evento->data->year }}</b>
-                <small>{{ $evento->eta }}</small>
+                @if ($evento->dataRegistrata)
+                  <b>{{ $evento->data->year }}</b>
+                  <small>{{ $evento->eta }}</small>
+                @else
+                  <b>&mdash;</b>
+                @endif
               </div>
               <div class="profile-event-rail"></div>
               <div class="profile-event-card">
@@ -503,12 +507,18 @@
                     >
                       {{ $evento->titolo }}
                     </a>
+                  @elseif ($evento->famiglia)
+                    <a
+                      href="{{ route("anagrafe.families.show", $evento->famiglia->id) }}"
+                    >
+                      {{ $evento->titolo }}
+                    </a>
                   @else
                     {{ $evento->titolo }}
                   @endif
                 </div>
                 <div class="text-body-secondary small">
-                  {{ $evento->data->translatedFormat("j M Y") }}
+                  {{ $evento->dataRegistrata ? $evento->data->translatedFormat("j M Y") : "Data non registrata" }}
                   @if ($evento->dettaglio)
                     &middot; {{ $evento->dettaglio }}
                   @endif
@@ -585,35 +595,6 @@
           @foreach ($genitori as $genitore)
             @include("nomadelfia.persone.partials.profile-person-card", ["componente" => $genitore, "ruolo" => $genitore->isMaschio() ? "Padre" : "Madre", "indentato" => false])
           @endforeach
-        @endif
-
-        @if ($percorsoFamiliare->count() > 1)
-          <div class="text-body-secondary small mt-3 mb-2">
-            Percorso familiare
-          </div>
-          <ol class="profile-percorso">
-            @foreach ($percorsoFamiliare as $tappa)
-              <li
-                class="profile-tappa profile-tappa-{{ $tappa["tipo"] }} @if ($tappa["nelNucleo"]) profile-tappa-attuale @endif"
-              >
-                <span class="profile-tappa-ruolo">{{ $tappa["ruolo"] }}</span>
-                <a
-                  class="fw-semibold"
-                  href="{{ route("anagrafe.families.show", $tappa["famiglia"]->id) }}"
-                >
-                  {{ $tappa["famiglia"]->nome_famiglia }}
-                </a>
-                <div class="small text-body-secondary">
-                  @if ($tappa["dal"])
-                    {{ ($tappa["tipo"] === "nato" ? "Dalla nascita " : "Dal ") . $tappa["dal"]->format("d/m/Y") }}
-                  @else
-                    Data di ingresso non registrata
-                  @endif
-                  &middot; {{ $tappa["nelNucleo"] ? "nel nucleo" : "non più nel nucleo" }}
-                </div>
-              </li>
-            @endforeach
-          </ol>
         @endif
 
         @can("popolazione.persona.inserisci")

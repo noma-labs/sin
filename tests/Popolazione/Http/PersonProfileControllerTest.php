@@ -258,27 +258,30 @@ it('shows the parents of a figlio as the family of origin', function (): void {
         ->assertSeeInOrder(["Famiglia d'origine", 'Padre Da Mostrare', 'Padre'], false);
 });
 
-it('shows the percorso familiare from the famiglia attuale back to the one of birth with the role in each one', function (): void {
+it('shows the percorso familiare in the timeline from the famiglia attuale back to the one of birth', function (): void {
     login();
     $persona = Persona::factory()->nato(Carbon::parse('1980-04-10'))->femmina()->create();
-    Famiglia::factory()->create(['nome_famiglia' => 'Propria', 'data_creazione' => '2005-09-01'])
-        ->assegnaMoglie($persona);
-    Famiglia::factory()->create(['nome_famiglia' => 'Che Accoglie', 'data_creazione' => '1960-01-01'])
-        ->assegnaFiglioAccolto($persona, stato: '0');
+    $propria = Famiglia::factory()->create(['nome_famiglia' => 'Propria', 'data_creazione' => '2005-09-01']);
+    $propria->assegnaMoglie($persona);
+    $propria->assegnaCapoFamiglia(Persona::factory()->maggiorenne()->maschio()->create(['nominativo' => 'Marito Sposato']));
+    $accoglie = Famiglia::factory()->create(['nome_famiglia' => 'Che Accoglie', 'data_creazione' => '1960-01-01']);
+    $accoglie->assegnaFiglioAccolto($persona, stato: '0', dataEntrata: '1990-06-01');
     Famiglia::factory()->create(['nome_famiglia' => 'Di Nascita', 'data_creazione' => '1975-01-01'])
         ->assegnaFiglioNato($persona, stato: '0');
 
     $this->get(route('nomadelfia.person.profile', $persona->id))
         ->assertSuccessful()
+        ->assertDontSee('Percorso familiare')
         ->assertSeeInOrder([
-            'Percorso familiare',
-            'Moglie', 'Propria', 'Dal 01/09/2005', 'nel nucleo',
-            'Figlia accolta', 'Che Accoglie', 'Data di ingresso non registrata', 'non più nel nucleo',
-            'Figlia nata', 'Di Nascita', 'Dalla nascita 10/04/1980', 'non più nel nucleo',
-        ]);
+            'Percorso in Nomadelfia',
+            'Sposa Marito Sposato', 'Nasce la famiglia Propria',
+            'Accolta nella famiglia Che Accoglie', '1 giu 1990',
+            'Nascita', 'Nella famiglia Di Nascita',
+        ])
+        ->assertSee(route('anagrafe.families.show', $accoglie->id));
 });
 
-it('shows the percorso familiare of a person married twice from the most recent famiglia', function (): void {
+it('shows the famiglie of a person married twice in the timeline from the most recent', function (): void {
     login();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     Famiglia::factory()->create(['nome_famiglia' => 'Prime Nozze', 'data_creazione' => '1980-01-01'])
@@ -288,10 +291,29 @@ it('shows the percorso familiare of a person married twice from the most recent 
 
     $this->get(route('nomadelfia.person.profile', $persona->id))
         ->assertSuccessful()
-        ->assertSeeInOrder(['Percorso familiare', 'Seconde Nozze', 'Dal 01/01/1995', 'Prime Nozze', 'Dal 01/01/1980']);
+        ->assertSeeInOrder(['Nasce la famiglia Seconde Nozze', '1 gen 1995', 'Nasce la famiglia Prime Nozze', '1 gen 1980']);
 });
 
-it('shows the famiglie of a figlio accolto moved inside the comunità in the order of the data di entrata', function (): void {
+it('keeps a famiglia without a known date in the timeline after the previous famiglia of the percorso familiare', function (): void {
+    login();
+    $persona = Persona::factory()->nato(Carbon::parse('1980-04-10'))->femmina()->create();
+    Famiglia::factory()->create(['nome_famiglia' => 'Propria Senza Data', 'data_creazione' => null])
+        ->assegnaMoglie($persona);
+    Famiglia::factory()->create(['nome_famiglia' => 'Accoglie Senza Data', 'data_creazione' => '1960-01-01'])
+        ->assegnaFiglioAccolto($persona, stato: '0');
+    Famiglia::factory()->create(['nome_famiglia' => 'Nascita Senza Data', 'data_creazione' => '1975-01-01'])
+        ->assegnaFiglioNato($persona, stato: '0');
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder([
+            'Moglie nella famiglia Propria Senza Data', 'Data non registrata',
+            'Accolta nella famiglia Accoglie Senza Data', 'Data non registrata',
+            'Nascita', 'Nella famiglia Nascita Senza Data',
+        ]);
+});
+
+it('shows the famiglie of a figlio accolto moved inside the comunità in the timeline at the data di entrata', function (): void {
     login();
     $persona = Persona::factory()->nato(Carbon::parse('2004-03-02'))->femmina()->create();
     $terza = Famiglia::factory()->create(['nome_famiglia' => 'Terza Accoglienza', 'data_creazione' => '1970-01-01']);
@@ -308,10 +330,10 @@ it('shows the famiglie of a figlio accolto moved inside the comunità in the ord
     $this->get(route('nomadelfia.person.profile', $persona->id))
         ->assertSuccessful()
         ->assertSeeInOrder([
-            'Percorso familiare',
-            'Terza Accoglienza', 'Dal 01/03/2018', 'nel nucleo',
-            'Seconda Accoglienza', 'Dal 01/09/2014', 'non più nel nucleo',
-            'Prima Accoglienza', 'Dal 01/07/2010', 'non più nel nucleo',
+            'Accolta nella famiglia Terza Accoglienza', '1 mar 2018',
+            'Accolta nella famiglia Seconda Accoglienza', '1 set 2014',
+            'Accolta nella famiglia Prima Accoglienza', '1 lug 2010',
+            'Nascita',
         ]);
 });
 
@@ -333,16 +355,6 @@ it('shows the figlio accolto from another famiglia in the timeline at the data d
     $this->get(route('nomadelfia.person.profile', $marito->id))
         ->assertSuccessful()
         ->assertSeeInOrder(['Accoglie la figlia Figlia Spostata', 'Nasce la famiglia']);
-});
-
-it('does not show the percorso familiare of a person with a single famiglia', function (): void {
-    login();
-    $persona = Persona::factory()->maggiorenne()->maschio()->create();
-    Famiglia::factory()->create()->assegnaCapoFamiglia($persona);
-
-    $this->get(route('nomadelfia.person.profile', $persona->id))
-        ->assertSuccessful()
-        ->assertDontSee('Percorso familiare');
 });
 
 it('shows the last famiglia of a person outside every nucleo with the coniuge', function (): void {
