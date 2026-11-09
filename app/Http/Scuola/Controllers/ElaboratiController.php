@@ -11,10 +11,12 @@ use App\Scuola\DataTransferObjects\AnnoScolastico;
 use App\Scuola\DataTransferObjects\Dimensione;
 use App\Scuola\Exceptions\BadDimensionException;
 use App\Scuola\Models\Elaborato;
+use App\Scuola\Models\TipoElaborato;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 final class ElaboratiController
 {
@@ -67,6 +69,7 @@ final class ElaboratiController
                 'Spirale',
                 'Termica',
             ],
+            'tipi' => TipoElaborato::cases(),
         ]);
     }
 
@@ -76,6 +79,7 @@ final class ElaboratiController
             'collocazione' => ['required', 'regex:/^SP[A-Z]\d{3}$/', 'unique:db_biblioteca.libro,collocazione', 'unique:db_scuola.elaborati,collocazione'],
             'titolo' => ['required'],
             'anno_scolastico' => ['required'],
+            'tipo' => ['nullable', Rule::enum(TipoElaborato::class)],
             'dimensione' => function (string $attribute, mixed $value, Closure $fail): void {
                 try {
                     if (! $value) {
@@ -93,6 +97,7 @@ final class ElaboratiController
             'collocazione.unique' => 'La collocazione inserita esiste già.',
             'anno_scolastico.required' => 'Anno scolastico è obbligatorio.',
             'titolo.required' => 'Il titolo è obbligatorio.',
+            'tipo.enum' => 'Il tipo di elaborato non è valido.',
         ]);
         $titolo = $request->input('titolo');
         $collocazione = $request->input('collocazione');
@@ -120,6 +125,7 @@ final class ElaboratiController
             $elaborato = Elaborato::query()->create(
                 attributes: [
                     'titolo' => $titolo,
+                    'tipo' => $request->enum('tipo', TipoElaborato::class),
                     'collocazione' => $collocazione,
                     'libro_id' => $libro->id,
                     'anno_scolastico' => $as,
@@ -147,7 +153,7 @@ final class ElaboratiController
 
     public function show($id)
     {
-        $elaborato = Elaborato::with('studenti', 'coordinatori')
+        $elaborato = Elaborato::with(['studenti', 'coordinatori', ...Elaborato::argomentiOrdinati()])
             ->leftjoin('archivio_biblioteca.libro', 'elaborati.libro_id', '=', 'libro.id')
             ->select('elaborati.*', 'libro.autore')
             ->where('elaborati.id', $id)
@@ -173,6 +179,7 @@ final class ElaboratiController
                 'Spirale',
                 'Termica',
             ],
+            'tipi' => TipoElaborato::cases(),
         ]);
     }
 
@@ -181,6 +188,7 @@ final class ElaboratiController
         $request->validate([
             'titolo' => ['required'],
             'anno_scolastico' => ['required'],
+            'tipo' => ['nullable', Rule::enum(TipoElaborato::class)],
             'dimensione' => function (string $attribute, mixed $value, Closure $fail): void {
                 try {
                     if (! $value) {
@@ -195,6 +203,7 @@ final class ElaboratiController
         ], [
             'anno_scolastico.required' => 'Anno scolastico è obbligatorio.',
             'titolo.required' => 'Il titolo è obbligatorio.',
+            'tipo.enum' => 'Il tipo di elaborato non è valido.',
         ]);
         $elaborato = Elaborato::findOrFail($id);
 
@@ -202,6 +211,7 @@ final class ElaboratiController
             $dim = $request->input('dimensione') ? Dimensione::fromString($request->input('dimensione'))->toString() : null;
 
             $elaborato->titolo = $request->input('titolo');
+            $elaborato->tipo = $request->enum('tipo', TipoElaborato::class);
             $elaborato->anno_scolastico = str(AnnoScolastico::fromString($request->input('anno_scolastico')));
             $elaborato->note = $request->input('note');
             $elaborato->dimensione = $dim;

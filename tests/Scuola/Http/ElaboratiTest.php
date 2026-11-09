@@ -8,8 +8,10 @@ use App\Biblioteca\Models\Libro;
 use App\Scuola\Controllers\CoverImageController;
 use App\Scuola\Controllers\ElaboratiController;
 use App\Scuola\Controllers\ElaboratiMediaController;
+use App\Scuola\Models\ArgomentoElaborato;
 use App\Scuola\Models\Elaborato;
 use App\Scuola\Models\Studente;
+use App\Scuola\Models\TipoElaborato;
 use Faker\Factory as Faker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -41,8 +43,13 @@ it('shows the details of an elaborato', function (): void {
         'collocazione' => 'SPA001',
         'anno_scolastico' => '2015/2016',
         'classi' => '1 media,2 media',
+        'tipo' => TipoElaborato::CompitoInClasse,
         'rilegatura' => 'Spirale',
     ]);
+    ArgomentoElaborato::factory()->for($elaborato)->create(['argomento' => 'Il Risorgimento', 'materia' => 'Storia']);
+    ArgomentoElaborato::factory()->for($elaborato)->create(['argomento' => 'La fotosintesi', 'materia' => 'Scienze']);
+    ArgomentoElaborato::factory()->for($elaborato)->create(['argomento' => 'Le piante', 'materia' => 'Scienze']);
+    ArgomentoElaborato::factory()->for($elaborato)->create(['argomento' => 'Gita a Roma', 'materia' => null]);
 
     login();
 
@@ -52,6 +59,9 @@ it('shows the details of an elaborato', function (): void {
         ->assertSee('SPA001')
         ->assertSee('2015/2016')
         ->assertSee('1 media, 2 media')
+        ->assertSee('Compito in classe')
+        ->assertSee('Scienze, Storia')
+        ->assertSeeInOrder(['Gita a Roma', 'La fotosintesi', 'Le piante', 'Il Risorgimento'])
         ->assertSee('Spirale');
 });
 
@@ -121,13 +131,29 @@ it('can update an elaborato', function (): void {
     $this->put(action([ElaboratiController::class, 'update'], $elaborato->id), [
         'titolo' => 'Updated Title',
         'anno_scolastico' => '2015/2016',
+        'tipo' => 'tema',
     ])->assertRedirect();
 
     $this->assertDatabaseHas('elaborati', [
         'id' => $elaborato->id,
         'titolo' => 'Updated Title',
         'anno_scolastico' => '2015/2016',
+        'tipo' => 'tema',
     ], 'db_scuola');
+});
+
+it('clears the tipo of an elaborato', function (): void {
+    $elaborato = Elaborato::factory()->create(['tipo' => TipoElaborato::Tema]);
+
+    login();
+
+    $this->put(action([ElaboratiController::class, 'update'], $elaborato->id), [
+        'titolo' => 'Updated Title',
+        'anno_scolastico' => '2015/2016',
+        'tipo' => '',
+    ])->assertRedirect();
+
+    expect($elaborato->refresh()->tipo)->toBeNull();
 });
 
 it('can download a pdf file', function (): void {
@@ -229,6 +255,7 @@ it('can store an elaborato also as a libro', function (): void {
         'studenti_ids' => [$s->id],
         'coordinatori_ids' => [],
         'dimensione' => 'A4',
+        'tipo' => 'poesia',
     ]);
 
     $elaborato = Elaborato::query()->where('collocazione', $collocazione)->firstOrFail();
@@ -246,6 +273,7 @@ it('can store an elaborato also as a libro', function (): void {
         'collocazione' => $collocazione,
         'libro_id' => $libro->id,
         'file_path' => null,
+        'tipo' => 'poesia',
     ], 'db_scuola');
     expect($elaborato->studenti()->pluck('id')->all())->toBe([$s->id]);
 });
@@ -263,7 +291,23 @@ it('can store an elaborato without studenti', function (): void {
 
     $elaborato = Elaborato::query()->where('collocazione', $collocazione)->firstOrFail();
     $response->assertRedirectToRoute('scuola.elaborati.show', $elaborato->id);
-    expect($elaborato->studenti()->count())->toBe(0);
+    expect($elaborato->studenti()->count())->toBe(0)
+        ->and($elaborato->tipo)->toBeNull();
+});
+
+it('rejects an elaborato with an unknown tipo', function (): void {
+    login();
+
+    $collocazione = freeElaboratoCollocazione();
+
+    $this->post(action([ElaboratiController::class, 'store']), [
+        'collocazione' => $collocazione,
+        'titolo' => 'Test Title',
+        'anno_scolastico' => '2015/2016',
+        'tipo' => 'romanzo',
+    ])->assertSessionHasErrors(['tipo' => 'Il tipo di elaborato non è valido.']);
+
+    expect(Elaborato::query()->where('collocazione', $collocazione)->exists())->toBeFalse();
 });
 
 it('rejects an elaborato with a collocazione already used by a libro', function (): void {
