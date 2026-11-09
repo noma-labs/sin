@@ -146,6 +146,18 @@ it('shows the coniugi and the figli in and out of the nucleo of a famiglia', fun
         ]);
 });
 
+it('shows the componenti of a famiglia by nome and cognome with the nominativo only when it differs', function (): void {
+    login();
+    $famiglia = Famiglia::factory()->create(['tipo' => TipoFamiglia::Coniugi]);
+    $famiglia->assegnaCapoFamiglia(Persona::factory()->maggiorenne()->maschio()->create(['nome' => 'Pietro', 'cognome' => 'Gallo', 'nominativo' => 'Pierino']));
+    $famiglia->assegnaMoglie(Persona::factory()->maggiorenne()->femmina()->create(['nome' => 'Anna', 'cognome' => 'Rossi', 'nominativo' => 'Rossi Anna']));
+
+    $this->get(action([FamilyController::class, 'show'], $famiglia->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Pietro Gallo', '(Pierino)', 'Marito', 'Anna Rossi', 'Moglie'])
+        ->assertDontSee('Rossi Anna');
+});
+
 it('shows the mamma of a famiglia of a mamma without offering a moglie', function (): void {
     login();
     $famiglia = Famiglia::factory()->create(['tipo' => TipoFamiglia::MammaDiVocazione, 'data_creazione' => null]);

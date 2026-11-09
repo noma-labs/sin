@@ -24,7 +24,7 @@
             value="{{ $componente->id }}"
             hidden
           />
-          {{ $componente->nominativo }}
+          <x-persona-nome :persona="$componente" />
         </div>
       </div>
       <div class="row">

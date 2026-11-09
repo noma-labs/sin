@@ -45,7 +45,7 @@
           Le seguenti persone saranno spostate nel gruppo familiare selezionato:
           <ul>
             @foreach ($componenti as $componente)
-              <li>{{ $componente->nominativo }}</li>
+              <li><x-persona-nome :persona="$componente" /></li>
             @endforeach
           </ul>
         </div>

@@ -14,7 +14,7 @@
   </span>
   <span class="flex-grow-1" style="min-width: 0">
     <span class="d-block fw-semibold text-truncate">
-      {{ $componente->nominativo }}
+      <x-persona-nome :persona="$componente" />
     </span>
     <span class="d-block small text-body-secondary">
       {{ $nascitaComponente->year }}

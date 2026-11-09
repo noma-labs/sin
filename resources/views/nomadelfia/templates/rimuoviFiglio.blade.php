@@ -11,7 +11,7 @@
     >
       @csrf
       @method("DELETE")
-      <p class="mb-2">Rimuovere {{ $figlio->nominativo }} dalla famiglia {{ $famiglia->nome_famiglia }}?</p>
+      <p class="mb-2">Rimuovere {{ \App\View\Components\PersonaNome::testo($figlio) }} dalla famiglia {{ $famiglia->nome_famiglia }}?</p>
       <p class="text-body-secondary small mb-0">La famiglia non lo elencherà più, neanche tra i figli non più nel nucleo. Per un figlio che ha lasciato la famiglia usa invece Modifica e toglilo dal nucleo.</p>
     </form>
   </x-slot:body>
