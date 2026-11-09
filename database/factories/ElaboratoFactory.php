@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Scuola\Models\Elaborato;
+use App\Scuola\Models\TipoElaborato;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 final class ElaboratoFactory extends Factory
@@ -19,6 +20,7 @@ final class ElaboratoFactory extends Factory
             'collocazione' => $this->faker->regexify('[A-Z]{3}[0-9]{3}'),
             'anno_scolastico' => $year.'/'.$year + 1,
             'titolo' => $this->faker->sentence,
+            'tipo' => $this->faker->randomElement(TipoElaborato::cases()),
             'classi' => $this->faker->words(3, true),
             'file_path' => $this->faker->filePath(),
             'file_mime_type' => 'application/pdf',

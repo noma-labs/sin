@@ -36,6 +36,8 @@
                   "Collocazione" => $elaborato->collocazione,
                   "Anno scolastico" => $elaborato->anno_scolastico,
                   "Classi" => str_replace(",", ", ", (string) $elaborato->classi),
+                  "Tipo" => $elaborato->tipo?->nome(),
+                  "Materie" => $elaborato->materie()->join(", "),
                   "Dimensione" => $elaborato->dimensione,
                   "Rilegatura" => $elaborato->rilegatura,
                   "Autore" => $elaborato->autore,
@@ -86,6 +88,39 @@
           @empty
             <li class="list-group-item text-body-secondary">
               Nessuno studente.
+            </li>
+          @endforelse
+        </ul>
+      </div>
+
+      <div class="card">
+        <div
+          class="card-header d-flex justify-content-between align-items-center"
+        >
+          <span>Argomenti ({{ $elaborato->argomenti->count() }})</span>
+          <a
+            class="btn btn-primary btn-sm"
+            href="{{ route("scuola.elaborati.argomenti.create", $elaborato->id) }}"
+            role="button"
+          >
+            Gestisci
+          </a>
+        </div>
+        <ul class="list-group list-group-flush">
+          @forelse ($elaborato->argomenti as $argomento)
+            <li
+              class="list-group-item d-flex justify-content-between align-items-center gap-2"
+            >
+              <span>{{ $argomento->argomento }}</span>
+              @if (filled($argomento->materia))
+                <span class="badge text-bg-secondary">
+                  {{ $argomento->materia }}
+                </span>
+              @endif
+            </li>
+          @empty
+            <li class="list-group-item text-body-secondary">
+              Nessun argomento.
             </li>
           @endforelse
         </ul>

@@ -75,6 +75,22 @@
         </div>
         <div class="row mb-3">
           <div class="col-md-6">
+            <label for="tipo" class="form-label">Tipo</label>
+            <select id="tipo" name="tipo" class="form-select">
+              <option value="">—</option>
+              @foreach ($tipi as $tipo)
+                <option
+                  value="{{ $tipo->value }}"
+                  @selected(old("tipo") === $tipo->value)
+                >
+                  {{ $tipo->nome() }}
+                </option>
+              @endforeach
+            </select>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-6">
             <label for="rilegatura" class="form-label"> Rilegatura </label>
             <select id="rilegatura" name="rilegatura" class="form-select">
               @foreach ($rilegature as $option)

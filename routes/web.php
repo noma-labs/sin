@@ -96,6 +96,7 @@ use App\Scuola\Controllers\ClassiElaboratiController;
 use App\Scuola\Controllers\ClassiNoteController;
 use App\Scuola\Controllers\ClassiTipoController;
 use App\Scuola\Controllers\CoverImageController;
+use App\Scuola\Controllers\ElaboratiArgomentiController;
 use App\Scuola\Controllers\ElaboratiController;
 use App\Scuola\Controllers\ElaboratiMediaController;
 use App\Scuola\Controllers\ElaboratiStudentsController;
@@ -283,6 +284,9 @@ Route::prefix('scuola')->middleware('auth')->group(function () {
     Route::get('elaborati/{id}/preview', [ElaboratiController::class, 'preview'])->name('scuola.elaborati.preview');
     Route::get('elaborati/{id}/students', [ElaboratiStudentsController::class, 'create'])->name('scuola.elaborati.students.create');
     Route::post('elaborati/{id}/students', [ElaboratiStudentsController::class, 'store'])->name('scuola.elaborati.students.store');
+    Route::get('elaborati/{id}/argomenti', [ElaboratiArgomentiController::class, 'create'])->name('scuola.elaborati.argomenti.create');
+    Route::post('elaborati/{id}/argomenti', [ElaboratiArgomentiController::class, 'store'])->name('scuola.elaborati.argomenti.store');
+    Route::delete('elaborati/{id}/argomenti/{argomentoId}', [ElaboratiArgomentiController::class, 'destroy'])->name('scuola.elaborati.argomenti.destroy');
 
     Route::get('elaborati/{id}/cover', [CoverImageController::class, 'create'])->name('scuola.elaborati.cover.create');
     Route::post('elaborati/{id}/cover', [CoverImageController::class, 'store'])->name('scuola.elaborati.cover.store');
