@@ -4,19 +4,23 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\Persona\Actions;
 
+use App\Anagrafe\Famiglia\Models\Famiglia;
+use App\Anagrafe\Famiglia\Models\FamigliaPersona;
 use App\Anagrafe\Famiglia\Models\TipoFamiglia;
 use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\Persona\DataTransferObjects\TimelineEvent;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
+use Closure;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Str;
 
 /**
  * Builds the sequence of the most important events of a person inside Nomadelfia:
- * birth, entrate/uscite from the community, changes of posizione, stati (e.g. ordination), marriage and vedovanza, birth and accoglienza of the children, death.
+ * birth, entrate/uscite from the community, changes of posizione, stati (e.g. ordination), the famiglie the person
+ * lived in (percorso familiare), marriage and vedovanza, birth and accoglienza of the children, death.
  */
 final class BuildPersonTimelineAction
 {
@@ -28,11 +32,22 @@ final class BuildPersonTimelineAction
         $nascita = Date::parse($persona->data_nascita);
         $decesso = $persona->data_decesso ? Date::parse($persona->data_decesso) : null;
 
-        $evento = fn (Carbon $data, string $categoria, string $etichetta, string $titolo, ?string $dettaglio = null, ?Persona $altraPersona = null, bool $importante = false): TimelineEvent => new TimelineEvent(
-            $data, (int) $nascita->diffInYears($data), $categoria, $etichetta, $titolo, $dettaglio, $altraPersona, $importante
+        $evento = fn (Carbon $data, string $categoria, string $etichetta, string $titolo, ?string $dettaglio = null, ?Persona $altraPersona = null, bool $importante = false, ?Famiglia $famiglia = null, bool $dataRegistrata = true): TimelineEvent => new TimelineEvent(
+            $data, (int) $nascita->diffInYears($data), $categoria, $etichetta, $titolo, $dettaglio, $altraPersona, $importante, $famiglia, $dataRegistrata
         );
 
-        $eventi = collect([$evento($nascita, TimelineEvent::CATEGORIA_ANAGRAFE, 'Nascita', $persona->provincia_nascita ?: 'Luogo non indicato')]);
+        /** @var Collection<int, Famiglia&object{pivot: FamigliaPersona}> $percorsoFamiliare */
+        $percorsoFamiliare = $persona->percorsoFamiliare()->get();
+        $famigliaNascita = $percorsoFamiliare->first(fn ($famiglia): bool => $famiglia->pivot->posizione_famiglia === 'FIGLIO NATO');
+
+        $eventi = collect([$evento(
+            $nascita,
+            TimelineEvent::CATEGORIA_ANAGRAFE,
+            'Nascita',
+            $persona->provincia_nascita ?: 'Luogo non indicato',
+            $famigliaNascita ? 'Nella famiglia '.$famigliaNascita->nome_famiglia : null,
+        )]);
+        $eventi = $eventi->merge($this->eventiPercorsoFamiliare($persona, $percorsoFamiliare, $evento));
 
         $posizioni = $persona->posizioni()->orderByPivot('data_inizio')->toBase()->get(['posizioni.nome', 'posizioni.abbreviato', 'persone_posizioni.data_inizio']);
         $dateEntrata = collect();
@@ -181,5 +196,72 @@ final class BuildPersonTimelineAction
         return $eventi
             ->sort(fn (TimelineEvent $a, TimelineEvent $b): int => [$b->data->getTimestamp(), $primaNascita($a)] <=> [$a->data->getTimestamp(), $primaNascita($b)])
             ->values();
+    }
+
+    /**
+     * The entrata of the persona in the famiglie of the percorso familiare not already told by another event: the
+     * ones as figlio accolto or aggregato, at the data_entrata recorded in the famiglia or, for the first famiglia of
+     * the persona, at the first entrata in the comunità, and the ones as capofamiglia or moglie without data_creazione.
+     * The birth in the famiglia of a figlio nato is in the event of the birth, the famiglia with a data_creazione of a
+     * capofamiglia or moglie in the event of the marriage or of the nascita of the famiglia.
+     * A famiglia without a known date keeps its place in the percorso familiare: right after the previous famiglia.
+     *
+     * @param  Collection<int, Famiglia&object{pivot: FamigliaPersona}>  $percorsoFamiliare  ordered from the first to the last famiglia
+     * @param  Closure(Carbon, string, string, string, ?string=, ?Persona=, bool=, ?Famiglia=, bool=): TimelineEvent  $evento
+     * @return Collection<int, TimelineEvent>
+     */
+    private function eventiPercorsoFamiliare(Persona $persona, Collection $percorsoFamiliare, Closure $evento): Collection
+    {
+        $maschio = $persona->isMaschio();
+        $primaFamiglia = $percorsoFamiliare->first();
+        $dataPrecedente = Date::parse($persona->data_nascita);
+        $eventi = collect();
+
+        foreach ($percorsoFamiliare as $famiglia) {
+            $posizione = $famiglia->pivot->posizione_famiglia;
+            $isConiuge = in_array($posizione, ['CAPO FAMIGLIA', 'MOGLIE'], true);
+            $data = match (true) {
+                $posizione === 'FIGLIO NATO' => Date::parse($persona->data_nascita),
+                $isConiuge => $famiglia->data_creazione ? Date::parse($famiglia->data_creazione) : null,
+                $famiglia->pivot->data_entrata !== null => Date::parse($famiglia->pivot->data_entrata),
+                $famiglia->is($primaFamiglia) => $this->primaEntrata($persona),
+                default => null,
+            };
+
+            if ($data instanceof Carbon && ($posizione === 'FIGLIO NATO' || $isConiuge)) {
+                $dataPrecedente = $data;
+
+                continue;
+            }
+
+            $dataRegistrata = $data instanceof Carbon;
+            $dataPrecedente = $data ?? $dataPrecedente->copy()->addSecond();
+            $eventi->push($evento(
+                $dataPrecedente,
+                TimelineEvent::CATEGORIA_FAMIGLIA,
+                'Famiglia',
+                match ($posizione) {
+                    'FIGLIO ACCOLTO' => ($maschio ? 'Accolto' : 'Accolta').' nella famiglia ',
+                    'AGGREGATO' => ($maschio ? 'Aggregato' : 'Aggregata').' alla famiglia ',
+                    'CAPO FAMIGLIA' => 'Capofamiglia della famiglia ',
+                    'MOGLIE' => 'Moglie nella famiglia ',
+                    default => 'Nella famiglia ',
+                }.$famiglia->nome_famiglia,
+                null,
+                null,
+                false,
+                $famiglia,
+                $dataRegistrata,
+            ));
+        }
+
+        return $eventi;
+    }
+
+    private function primaEntrata(Persona $persona): ?Carbon
+    {
+        $entrata = PopolazioneNomadelfia::query()->where('persona_id', $persona->id)->min('data_entrata');
+
+        return is_string($entrata) ? Date::parse($entrata) : null;
     }
 }
