@@ -59,6 +59,18 @@ it('does not repeat the nominativo when it is the nome and cognome of the person
         ->assertDontSee('Conosciuto come');
 });
 
+it('shows the coniuge in the famiglia by nome and cognome with the nominativo only when it differs', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    $famiglia = Famiglia::factory()->create(['tipo' => TipoFamiglia::Coniugi]);
+    $famiglia->assegnaCapoFamiglia($persona);
+    $famiglia->assegnaMoglie(Persona::factory()->maggiorenne()->femmina()->create(['nome' => 'Maria', 'cognome' => 'Neri', 'nominativo' => 'Mariuccia']));
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Coniuge e figli', 'Maria Neri', '(Mariuccia)', 'Moglie']);
+});
+
 it('shows the biografia in the header with the form to edit only the biografia', function (): void {
     login();
     $persona = Persona::factory()->maggiorenne()->maschio()->create(['biografia' => 'Arrivato a Nomadelfia da bambino']);

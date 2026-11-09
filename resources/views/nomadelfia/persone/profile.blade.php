@@ -620,7 +620,7 @@
           action="{{ route("nomadelfia.leave.store", $persona->id) }}"
         >
           @csrf
-          <p>Inserire la data di uscita di {{ $persona->nominativo }}</p>
+          <p>Inserire la data di uscita di {{ \App\View\Components\PersonaNome::testo($persona) }}</p>
           <input class="form-control" type="date" name="data_uscita" />
         </form>
       </x-slot:body>
@@ -651,7 +651,7 @@
           action="{{ route("nomadelfia.death.store", $persona->id) }}"
         >
           @csrf
-          <p>Inserire la data di decesso di {{ $persona->nominativo }}</p>
+          <p>Inserire la data di decesso di {{ \App\View\Components\PersonaNome::testo($persona) }}</p>
           <input class="form-control" type="date" name="data_decesso" />
         </form>
       </x-slot:body>
