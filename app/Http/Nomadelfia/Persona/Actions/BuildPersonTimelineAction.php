@@ -10,6 +10,7 @@ use App\Anagrafe\Famiglia\Models\TipoFamiglia;
 use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\Persona\DataTransferObjects\TimelineEvent;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
+use App\View\Components\PersonaNome;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use Closure;
@@ -105,7 +106,7 @@ final class BuildPersonTimelineAction
                         $creazione,
                         TimelineEvent::CATEGORIA_FAMIGLIA,
                         'Famiglia',
-                        'Sposa '.$coniuge->nominativo,
+                        'Sposa '.PersonaNome::testo($coniuge),
                         'Nasce la famiglia '.$famiglia->nome_famiglia,
                         $coniuge,
                         importante: true,
@@ -118,7 +119,7 @@ final class BuildPersonTimelineAction
                             TimelineEvent::CATEGORIA_FAMIGLIA,
                             'Famiglia',
                             $persona->isMaschio() ? 'Rimane vedovo' : 'Rimane vedova',
-                            'Muore '.$coniuge->nominativo,
+                            'Muore '.PersonaNome::testo($coniuge),
                             $coniuge,
                         ));
                     }
@@ -134,7 +135,7 @@ final class BuildPersonTimelineAction
                         Date::parse($figlio->data_nascita),
                         TimelineEvent::CATEGORIA_FAMIGLIA,
                         'Famiglia',
-                        ($figlio->isMaschio() ? 'Nasce il figlio ' : 'Nasce la figlia ').$figlio->nominativo,
+                        ($figlio->isMaschio() ? 'Nasce il figlio ' : 'Nasce la figlia ').PersonaNome::testo($figlio),
                         altraPersona: $figlio,
                     ));
 
@@ -149,7 +150,7 @@ final class BuildPersonTimelineAction
                         Date::parse($dataAccoglienza),
                         TimelineEvent::CATEGORIA_FAMIGLIA,
                         'Famiglia',
-                        ($figlio->pivot->posizione_famiglia === 'AGGREGATO' ? 'Aggrega ' : ($figlio->isMaschio() ? 'Accoglie il figlio ' : 'Accoglie la figlia ')).$figlio->nominativo,
+                        ($figlio->pivot->posizione_famiglia === 'AGGREGATO' ? 'Aggrega ' : ($figlio->isMaschio() ? 'Accoglie il figlio ' : 'Accoglie la figlia ')).PersonaNome::testo($figlio),
                         ($figlio->isMaschio() ? 'Nato il ' : 'Nata il ').Date::parse($figlio->data_nascita)->format('d/m/Y'),
                         $figlio,
                     ));

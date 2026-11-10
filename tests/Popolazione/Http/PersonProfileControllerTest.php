@@ -210,11 +210,11 @@ it('shows the changes of posizione with the previous one', function (): void {
         ->assertSeeInOrder(['Diventa Postulante', 'Prima: Ospite', 'Entra in Nomadelfia come Ospite']);
 });
 
-it('shows the marriage and the children born in the timeline and in the family', function (): void {
+it('shows the marriage and the children born in the timeline by nome and cognome with the nominativo when it differs', function (): void {
     login();
     $marito = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();
-    $moglie = Persona::factory()->nato(Carbon::parse('1972-02-01'))->femmina()->create(['nominativo' => 'Moglie Sposata']);
-    $figlio = Persona::factory()->nato(Carbon::parse('2000-08-20'))->maschio()->create(['nominativo' => 'Figlio Nato']);
+    $moglie = Persona::factory()->nato(Carbon::parse('1972-02-01'))->femmina()->create(['nome' => 'Maria', 'cognome' => 'Sposata', 'nominativo' => 'Moglie Sposata']);
+    $figlio = Persona::factory()->nato(Carbon::parse('2000-08-20'))->maschio()->create(['nome' => 'Figlio', 'cognome' => 'Nato', 'nominativo' => 'Figlio Nato']);
     $famiglia = Famiglia::factory()->create(['data_creazione' => '1998-06-12']);
     $famiglia->assegnaCapoFamiglia($marito);
     $famiglia->assegnaMoglie($moglie);
@@ -222,8 +222,8 @@ it('shows the marriage and the children born in the timeline and in the family',
 
     $this->get(route('nomadelfia.person.profile', $marito->id))
         ->assertSuccessful()
-        ->assertSeeInOrder(['Nasce il figlio Figlio Nato', 'Sposa Moglie Sposata', 'Nascita'])
-        ->assertSeeInOrder(['Coniuge e figli', 'Moglie Sposata', 'Figlio Nato'])
+        ->assertSeeInOrder(['Nasce il figlio Figlio Nato', 'Sposa Maria Sposata (Moglie Sposata)', 'Nascita'])
+        ->assertSeeInOrder(['Coniuge e figli', 'Maria Sposata', 'Moglie Sposata', 'Figlio Nato'])
         ->assertSee(route('nomadelfia.person.profile', $figlio->id));
 });
 
@@ -246,7 +246,7 @@ it('shows the children no longer in the nucleo apart from the ones still in it',
 it('shows the figlio accolto in the timeline at the date of the entrata', function (): void {
     login();
     $marito = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();
-    $accolto = Persona::factory()->nato(Carbon::parse('2004-03-02'))->femmina()->create(['nominativo' => 'Figlia Accolta']);
+    $accolto = Persona::factory()->nato(Carbon::parse('2004-03-02'))->femmina()->create(['nome' => 'Figlia', 'cognome' => 'Accolta', 'nominativo' => 'Figlia Accolta']);
     $famiglia = Famiglia::factory()->create(['data_creazione' => '1998-06-12']);
     app(EntrataMaggiorenneConFamigliaAction::class)->execute($marito, Carbon::parse('1995-09-15'), GruppoFamiliare::all()->random());
     $famiglia->assegnaCapoFamiglia($marito);
@@ -275,7 +275,7 @@ it('shows the percorso familiare in the timeline from the famiglia attuale back 
     $persona = Persona::factory()->nato(Carbon::parse('1980-04-10'))->femmina()->create();
     $propria = Famiglia::factory()->create(['nome_famiglia' => 'Propria', 'data_creazione' => '2005-09-01']);
     $propria->assegnaMoglie($persona);
-    $propria->assegnaCapoFamiglia(Persona::factory()->maggiorenne()->maschio()->create(['nominativo' => 'Marito Sposato']));
+    $propria->assegnaCapoFamiglia(Persona::factory()->maggiorenne()->maschio()->create(['nome' => 'Marito', 'cognome' => 'Sposato', 'nominativo' => 'Marito Sposato']));
     $accoglie = Famiglia::factory()->create(['nome_famiglia' => 'Che Accoglie', 'data_creazione' => '1960-01-01']);
     $accoglie->assegnaFiglioAccolto($persona, stato: '0', dataEntrata: '1990-06-01');
     Famiglia::factory()->create(['nome_famiglia' => 'Di Nascita', 'data_creazione' => '1975-01-01'])
@@ -352,7 +352,7 @@ it('shows the famiglie of a figlio accolto moved inside the comunità in the tim
 it('shows the figlio accolto from another famiglia in the timeline at the data di entrata in the famiglia', function (): void {
     login();
     $marito = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();
-    $accolto = Persona::factory()->nato(Carbon::parse('2004-03-02'))->femmina()->create(['nominativo' => 'Figlia Spostata']);
+    $accolto = Persona::factory()->nato(Carbon::parse('2004-03-02'))->femmina()->create(['nome' => 'Figlia', 'cognome' => 'Spostata', 'nominativo' => 'Figlia Spostata']);
     $famiglia = Famiglia::factory()->create(['data_creazione' => '2012-06-12']);
     $famiglia->assegnaCapoFamiglia($marito);
     $famiglia->assegnaMoglie(Persona::factory()->maggiorenne()->femmina()->create());
@@ -412,7 +412,7 @@ it('shows a married person as sposato without a date when the famiglia has no da
 it('shows a person whose coniuge died as vedova from the death of the coniuge', function (): void {
     login();
     $moglie = Persona::factory()->nato(Carbon::parse('1972-02-01'))->femmina()->create();
-    $marito = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create(['nominativo' => 'Marito Defunto', 'data_decesso' => '2015-11-03']);
+    $marito = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create(['nome' => 'Marito', 'cognome' => 'Defunto', 'nominativo' => 'Marito Defunto', 'data_decesso' => '2015-11-03']);
     $famiglia = Famiglia::factory()->create(['data_creazione' => '1998-06-12']);
     $famiglia->assegnaCapoFamiglia($marito);
     $famiglia->assegnaMoglie($moglie);
@@ -427,7 +427,7 @@ it('shows a person whose coniuge died as vedova from the death of the coniuge', 
 it('shows a vedova heading the famiglia as vedova of the husband capofamiglia outside the nucleo', function (): void {
     login();
     $vedova = Persona::factory()->nato(Carbon::parse('1945-02-01'))->femmina()->create();
-    $marito = Persona::factory()->nato(Carbon::parse('1940-05-01'))->maschio()->create(['nominativo' => 'Marito Capofamiglia', 'data_decesso' => '2015-11-03']);
+    $marito = Persona::factory()->nato(Carbon::parse('1940-05-01'))->maschio()->create(['nome' => 'Marito', 'cognome' => 'Capofamiglia', 'nominativo' => 'Marito Capofamiglia', 'data_decesso' => '2015-11-03']);
     $famiglia = Famiglia::factory()->create(['data_creazione' => '1968-06-12']);
     $famiglia->assegnaCapoFamiglia($vedova);
     $famiglia->assegnaCapoFamiglia($marito, stato: '0');
