@@ -1,12 +1,13 @@
 <x-modal
+  :modal-id="$modalId ?? null"
   modal-title="Aggiungi come figlio a una famiglia"
-  button-title="Aggiungi come figlio"
-  button-style="btn-secondary my-2"
+  :button-title="$buttonTitle ?? 'Aggiungi come figlio'"
+  :button-style="$buttonStyle ?? 'btn-secondary my-2'"
 >
   <x-slot:body>
     <form
       method="POST"
-      id="formAddPersonToFamily"
+      id="formAddPersonToFamily{{ $persona->id }}"
       action="{{ route("anagrafe.person.add-family", $persona->id) }}"
     >
       @csrf
@@ -20,14 +21,17 @@
         <option value="FIGLIO ACCOLTO">Figlio accolto</option>
         <option value="AGGREGATO">Aggregato</option>
       </select>
-      <label class="form-label mt-3" for="data-entrata-famiglia">
+      <label
+        class="form-label mt-3"
+        for="data-entrata-famiglia-{{ $persona->id }}"
+      >
         Data di ingresso nella famiglia
       </label>
       <input
         class="form-control"
         type="date"
         name="data_entrata"
-        id="data-entrata-famiglia"
+        id="data-entrata-famiglia-{{ $persona->id }}"
       />
       <div class="form-text">
         Solo se la persona è già nella comunità e cambia famiglia.
@@ -35,6 +39,11 @@
     </form>
   </x-slot:body>
   <x-slot:footer>
-    <button class="btn btn-success" form="formAddPersonToFamily">Salva</button>
+    <button
+      class="btn btn-success"
+      form="formAddPersonToFamily{{ $persona->id }}"
+    >
+      Salva
+    </button>
   </x-slot:footer>
 </x-modal>

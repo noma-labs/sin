@@ -5,6 +5,7 @@
     class="btn {{ $buttonStyle ?? "btn-success" }} dropdown-toggle"
     type="button"
     data-bs-toggle="dropdown"
+    data-bs-popper-config='{"strategy":"fixed"}'
     aria-expanded="false"
   >
     Nuova famiglia

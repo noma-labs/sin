@@ -16,6 +16,7 @@ use App\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 it('shows the profile of a person present in Nomadelfia', function (): void {
     login();
@@ -157,12 +158,219 @@ it('does not show a former wife as the spouse of a capofamiglia', function (): v
     $marito = Persona::factory()->maggiorenne()->maschio()->create();
     $famiglia = Famiglia::factory()->create();
     $famiglia->assegnaCapoFamiglia($marito);
-    $famiglia->assegnaMoglie(Persona::factory()->maggiorenne()->femmina()->create());
+    $famiglia->assegnaMoglie(Persona::factory()->maggiorenne()->femmina()->create(['nome' => 'Moglie', 'cognome' => 'Uscita']));
     $famiglia->uscitaDalNucleoFamiliare($famiglia->componenti()->wherePivot('posizione_famiglia', 'MOGLIE')->firstOrFail());
 
-    $this->get(route('nomadelfia.person.profile', $marito->id))
+    $response = $this->get(route('nomadelfia.person.profile', $marito->id));
+
+    $response->assertSuccessful();
+    expect(Str::after((string) $response->getContent(), 'Coniuge e figli'))->not->toContain('Moglie Uscita');
+});
+
+it('shows the genitori first, then the coniuge and the figli', function (): void {
+    login();
+    $persona = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();
+    $origine = Famiglia::factory()->coniugi()->create();
+    $origine->assegnaCapoFamiglia(Persona::factory()->nato(Carbon::parse('1940-01-01'))->maschio()->create(['nome' => 'Padre', 'cognome' => 'Elencato']));
+    $origine->assegnaFiglioNato($persona, stato: '0');
+    $propria = Famiglia::factory()->coniugi()->create(['data_creazione' => '1995-06-01']);
+    $propria->assegnaCapoFamiglia($persona);
+    $propria->assegnaMoglie(Persona::factory()->nato(Carbon::parse('1972-01-01'))->femmina()->create(['nome' => 'Moglie', 'cognome' => 'Elencata']));
+    $propria->assegnaFiglioNato(Persona::factory()->nato(Carbon::parse('2000-01-01'))->maschio()->create(['nome' => 'Figlio', 'cognome' => 'Elencato']));
+
+    $response = $this->get(route('nomadelfia.person.profile', $persona->id));
+
+    $response->assertSuccessful();
+    expect(Str::after((string) $response->getContent(), 'Parentele'))
+        ->toMatch('/Genitori.*Padre Elencato.*Coniuge e figli.*Moglie Elencata.*Figlio Elencato/s');
+});
+
+it('marks the page as the profile of a persona', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->femmina()->create(['nome' => 'Maria', 'cognome' => 'Bianchi']);
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
         ->assertSuccessful()
-        ->assertDontSee('Coniuge e figli');
+        ->assertSeeInOrder(['Persona', 'Maria Bianchi']);
+});
+
+it('shows the genitori of the last famiglia d\'origine of a figlio accolto, with all of them to choose', function (): void {
+    login();
+    $figlio = Persona::factory()->minorenne()->maschio()->create();
+    $nascita = Famiglia::factory()->coniugi()->create(['nome_famiglia' => 'Origine Naturale Del Figlio']);
+    $nascita->assegnaCapoFamiglia(Persona::factory()->maggiorenne()->maschio()->create(['nome' => 'Padre', 'cognome' => 'Naturale']));
+    $nascita->assegnaFiglioNato($figlio, stato: '0');
+    $vocazione = Famiglia::factory()->create(['nome_famiglia' => 'Origine Vocazione Del Figlio', 'tipo' => TipoFamiglia::MammaDiVocazione]);
+    $vocazione->assegnaCapoFamiglia(Persona::factory()->maggiorenne()->femmina()->create(['nome' => 'Mamma', 'cognome' => 'Vocazione']));
+    $vocazione->assegnaFiglioAccolto($figlio, dataEntrata: '2020-09-01');
+
+    $response = $this->get(route('nomadelfia.person.profile', $figlio->id));
+
+    $response->assertSuccessful();
+    expect(Str::after((string) $response->getContent(), 'Parentele'))
+        ->toContain('Origine Naturale Del Figlio · nato')
+        ->toContain('Origine Vocazione Del Figlio · accolto 2020')
+        ->toContain('Mamma Vocazione')
+        ->not->toContain('Padre Naturale');
+});
+
+it('shows the genitori of the famiglia d\'origine chosen in the parentele, where the fratelli are added', function (): void {
+    login();
+    $figlio = Persona::factory()->minorenne()->maschio()->create();
+    $nascita = Famiglia::factory()->coniugi()->create(['nome_famiglia' => 'Origine Naturale Scelta']);
+    $nascita->assegnaCapoFamiglia(Persona::factory()->maggiorenne()->maschio()->create(['nome' => 'Padre', 'cognome' => 'Scelto']));
+    $nascita->assegnaFiglioNato($figlio, stato: '0');
+    $vocazione = Famiglia::factory()->create(['nome_famiglia' => 'Origine Vocazione Non Scelta', 'tipo' => TipoFamiglia::MammaDiVocazione]);
+    $vocazione->assegnaCapoFamiglia(Persona::factory()->maggiorenne()->femmina()->create(['nome' => 'Mamma', 'cognome' => 'Nonscelta']));
+    $vocazione->assegnaFiglioAccolto($figlio, dataEntrata: '2020-09-01');
+
+    $response = $this->get(route('nomadelfia.person.profile', ['id' => $figlio->id, 'origine' => $nascita->id]));
+
+    $response->assertSuccessful()
+        ->assertSeeInOrder(['Genitori', route('anagrafe.families.show', $nascita->id), 'Famiglia Origine Naturale Scelta'])
+        ->assertSee(route('anagrafe.family.member.store', ['id' => $nascita->id]))
+        ->assertSee(route('anagrafe.person.families', ['id' => $figlio->id, 'origine' => $nascita->id]));
+    expect(Str::after((string) $response->getContent(), 'Parentele'))
+        ->toContain('Padre Scelto')
+        ->not->toContain('Mamma Nonscelta');
+});
+
+it('shows the famiglia attuale of a nomadelfa mamma who married, with the earlier famiglia to choose', function (): void {
+    login();
+    $mamma = Persona::factory()->cinquantenne()->femmina()->create();
+    $nomadelfaMamma = Famiglia::factory()->create(['nome_famiglia' => 'Unione Nomadelfa Mamma', 'tipo' => TipoFamiglia::NomadelfaMamma, 'data_creazione' => '1985-03-01']);
+    $nomadelfaMamma->assegnaCapoFamiglia($mamma, stato: '0');
+    $nomadelfaMamma->assegnaFiglioAccolto(Persona::factory()->maggiorenne()->maschio()->create(['nome' => 'Figlio', 'cognome' => 'Accoltoprima']), stato: '0');
+    $matrimonio = Famiglia::factory()->coniugi()->create(['nome_famiglia' => 'Unione Matrimonio', 'data_creazione' => '1995-06-10']);
+    $matrimonio->assegnaCapoFamiglia(Persona::factory()->cinquantenne()->maschio()->create(['nome' => 'Marito', 'cognome' => 'Sposato']));
+    $matrimonio->assegnaMoglie($mamma);
+
+    $response = $this->get(route('nomadelfia.person.profile', $mamma->id));
+
+    $response->assertSuccessful();
+    expect(Str::after((string) $response->getContent(), 'Coniuge e figli'))
+        ->toContain('Nomadelfa mamma · dal 1985')
+        ->toContain('Coniugi · ⚭ 1995')
+        ->toContain('Marito Sposato')
+        ->not->toContain('Figlio Accoltoprima');
+});
+
+it('shows the coniuge and the figli of the unione chosen in the parentele, where the figli are added', function (): void {
+    login();
+    $mamma = Persona::factory()->cinquantenne()->femmina()->create();
+    $nomadelfaMamma = Famiglia::factory()->create(['nome_famiglia' => 'Unione Scelta Mamma', 'tipo' => TipoFamiglia::NomadelfaMamma, 'data_creazione' => '1985-03-01']);
+    $nomadelfaMamma->assegnaCapoFamiglia($mamma, stato: '0');
+    $nomadelfaMamma->assegnaFiglioAccolto(Persona::factory()->maggiorenne()->maschio()->create(['nome' => 'Figlio', 'cognome' => 'Dellamamma']), stato: '0');
+    $matrimonio = Famiglia::factory()->coniugi()->create(['nome_famiglia' => 'Unione Non Scelta', 'data_creazione' => '1995-06-10']);
+    $matrimonio->assegnaCapoFamiglia(Persona::factory()->cinquantenne()->maschio()->create(['nome' => 'Marito', 'cognome' => 'Nonscelto']));
+    $matrimonio->assegnaMoglie($mamma);
+
+    $response = $this->get(route('nomadelfia.person.profile', ['id' => $mamma->id, 'unione' => $nomadelfaMamma->id]));
+
+    $response->assertSuccessful()
+        ->assertSeeInOrder(['Coniuge e figli', route('anagrafe.families.show', $nomadelfaMamma->id)])
+        ->assertSee('data-bs-target="#modal-aggiungi-figlio"', false)
+        ->assertSee(route('anagrafe.family.member.store', ['id' => $nomadelfaMamma->id]));
+    expect(Str::after((string) $response->getContent(), 'Coniuge e figli'))
+        ->toContain('Figlio Dellamamma')
+        ->not->toContain('Marito Nonscelto');
+});
+
+it('offers to add the genitori to a person outside every nucleo without famiglia d\'origine', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Parentele', 'Genitori', 'Aggiungi padre', 'Aggiungi madre']);
+});
+
+it('shows the genitori not registered of a person in a nucleo without famiglia d\'origine', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    Famiglia::factory()->coniugi()->create()->assegnaCapoFamiglia($persona);
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Padre non registrato', 'Madre non registrata'])
+        ->assertDontSee('Aggiungi padre');
+});
+
+it('offers to add the missing genitore to the famiglia d\'origine of coniugi', function (): void {
+    login();
+    $figlio = Persona::factory()->minorenne()->maschio()->create();
+    $origine = Famiglia::factory()->coniugi()->create();
+    $origine->assegnaCapoFamiglia(Persona::factory()->maggiorenne()->maschio()->create(['nome' => 'Padre', 'cognome' => 'Presente']));
+    $origine->assegnaFiglioNato($figlio);
+
+    $this->get(route('nomadelfia.person.profile', $figlio->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Genitori', 'Padre Presente', 'Aggiungi madre'])
+        ->assertDontSee('Aggiungi padre');
+});
+
+it('does not ask for a padre for the figlio of a mamma di vocazione', function (): void {
+    login();
+    $figlio = Persona::factory()->minorenne()->maschio()->create();
+    $origine = Famiglia::factory()->create(['tipo' => TipoFamiglia::MammaDiVocazione]);
+    $origine->assegnaCapoFamiglia(Persona::factory()->maggiorenne()->femmina()->create());
+    $origine->assegnaFiglioAccolto($figlio);
+
+    $this->get(route('nomadelfia.person.profile', $figlio->id))
+        ->assertSuccessful()
+        ->assertDontSee('Aggiungi padre')
+        ->assertDontSee('Padre non registrato');
+});
+
+it('offers to add the coniuge, the figli and the fratelli to the famiglie of the persona', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    $origine = Famiglia::factory()->coniugi()->create();
+    $origine->assegnaFiglioNato($persona, stato: '0');
+    Famiglia::factory()->coniugi()->create()->assegnaCapoFamiglia($persona);
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSee('data-bs-target="#modal-aggiungi-coniuge"', false)
+        ->assertSee('data-bs-target="#modal-aggiungi-figlio"', false)
+        ->assertSee('data-bs-target="#modal-aggiungi-figlia"', false)
+        ->assertSee('data-bs-target="#modal-aggiungi-fratello"', false)
+        ->assertSee('data-bs-target="#modal-aggiungi-sorella"', false)
+        ->assertSeeInOrder(['Aggiungi la moglie', 'Aggiungi un figlio', 'Figlio nato', 'Aggiungi una figlia', 'Figlia accolta', 'Aggiungi un fratello', 'Aggiungi una sorella']);
+});
+
+it('offers a famiglia of coniugi and tells why figli and fratelli cannot be added to a persona without famiglie', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->femmina()->create();
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSee(route('anagrafe.families.create', ['persona' => $persona->id, 'tipo' => TipoFamiglia::Coniugi->value]))
+        ->assertSeeInOrder(['Figlio', 'serve una famiglia', 'Fratello', 'servono i genitori'])
+        ->assertDontSee('data-bs-target="#modal-aggiungi-figlio"', false);
+});
+
+it('does not offer a second coniuge to a persona with the coniuge in the famiglia', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    $famiglia = Famiglia::factory()->coniugi()->create();
+    $famiglia->assegnaCapoFamiglia($persona);
+    $famiglia->assegnaMoglie(Persona::factory()->maggiorenne()->femmina()->create());
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Coniuge', 'già presente'])
+        ->assertDontSee('data-bs-target="#modal-aggiungi-coniuge"', false);
+});
+
+it('offers to add a parente to the famiglia of a capofamiglia', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    Famiglia::factory()->coniugi()->create()->assegnaCapoFamiglia($persona);
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Coniuge e figli', 'Aggiungi parente']);
 });
 
 it('does not show a family of origin for a single', function (): void {
@@ -227,7 +435,7 @@ it('shows the marriage and the children born in the timeline by nome and cognome
         ->assertSee(route('nomadelfia.person.profile', $figlio->id));
 });
 
-it('shows the children no longer in the nucleo apart from the ones still in it', function (): void {
+it('shows the children in the nucleo and the ones gone out in one list in order of birth', function (): void {
     login();
     $marito = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();
     $nelNucleo = Persona::factory()->nato(Carbon::parse('2005-08-20'))->maschio()->create(['nominativo' => 'Figlio Nel Nucleo']);
@@ -240,7 +448,8 @@ it('shows the children no longer in the nucleo apart from the ones still in it',
 
     $this->get(route('nomadelfia.person.profile', $marito->id))
         ->assertSuccessful()
-        ->assertSeeInOrder(['Coniuge e figli', 'Figlio Nel Nucleo', 'Figli non più nel nucleo', 'Figlio Uscito']);
+        ->assertSeeInOrder(['Coniuge e figli', 'Figlio Uscito', 'Figlio Nel Nucleo'])
+        ->assertDontSee('Figli non più nel nucleo');
 });
 
 it('shows the figlio accolto in the timeline at the date of the entrata', function (): void {
@@ -267,7 +476,8 @@ it('shows the parents of a figlio as the family of origin', function (): void {
 
     $this->get(route('nomadelfia.person.profile', $figlio->id))
         ->assertSuccessful()
-        ->assertSeeInOrder(["Famiglia d'origine", 'Padre Da Mostrare', 'Padre'], false);
+        ->assertSeeInOrder(['Genitori', 'Padre Da Mostrare', 'Padre'])
+        ->assertDontSee("Famiglia d'origine", false);
 });
 
 it('shows the percorso familiare in the timeline from the famiglia attuale back to the one of birth', function (): void {
@@ -379,7 +589,7 @@ it('shows the last famiglia of a person outside every nucleo with the coniuge', 
 
     $this->get(route('nomadelfia.person.profile', $marito->id))
         ->assertSuccessful()
-        ->assertSeeInOrder(['Famiglia Del Defunto', 'Capo famiglia', 'non più nel nucleo', 'Coniuge e figli', 'Vedova Da Mostrare'])
+        ->assertSeeInOrder(['Coniuge e figli', 'Famiglia Del Defunto', 'Vedova Da Mostrare'])
         ->assertDontSee('Nessuna famiglia');
 });
 

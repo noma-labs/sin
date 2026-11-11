@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Nomadelfia\Persona\Controllers;
 
 use App\Anagrafe\Famiglia\Models\Famiglia;
-use App\Anagrafe\Famiglia\Models\FamigliaPersona;
 use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\Persona\Actions\BuildPersonTimelineAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date;
@@ -23,26 +23,35 @@ use Illuminate\Support\Facades\DB;
 #[Middleware('auth')]
 final class PersonProfileController
 {
+    /**
+     * The parentele show one famiglia d'origine and one unione, both chosen in the query: the famiglia d'origine among
+     * the famiglie of the persona as figlio (e.g. the famiglia of the birth and the one of the mamma di vocazione), the
+     * last one by default as in the albero; the unione among the famiglie formed by the persona (e.g. a nomadelfa mamma
+     * who married afterwards), the famiglia attuale by default.
+     */
     #[Middleware('can:popolazione.persona.visualizza')]
-    public function show(string $id, BuildPersonTimelineAction $buildTimeline): View
+    public function show(Request $request, string $id, BuildPersonTimelineAction $buildTimeline): View
     {
         $persona = Persona::query()->findOrFail($id);
         $famiglia = $persona->ultimaFamiglia();
         $nelNucleo = $famiglia?->pivot->stato === '1';
         $posizioneFamiglia = $famiglia?->pivot->posizione_famiglia;
-        $inCoppia = in_array($posizioneFamiglia, ['CAPO FAMIGLIA', 'MOGLIE'], true);
 
-        $coniuge = $inCoppia
-            ? ($nelNucleo ? $famiglia->componentiAttuali() : $famiglia->componenti())->wherePivot('posizione_famiglia', $posizioneFamiglia === 'CAPO FAMIGLIA' ? 'MOGLIE' : 'CAPO FAMIGLIA')->first()
+        $unioni = $persona->famiglieFormate;
+        $unione = $unioni->first(fn ($candidata): bool => $candidata->id === $request->integer('unione'))
+            ?? $unioni->first(fn ($candidata): bool => $candidata->id === $famiglia?->id)
+            ?? $unioni->last();
+        $posizioneUnione = $unione?->pivot->posizione_famiglia;
+        $unioneNelNucleo = $unione?->pivot->stato === '1';
+
+        $coniuge = $unione
+            ? ($unioneNelNucleo ? $unione->componentiAttuali() : $unione->componenti())->wherePivot('posizione_famiglia', $posizioneUnione === 'CAPO FAMIGLIA' ? 'MOGLIE' : 'CAPO FAMIGLIA')->first()
             : null;
-        $figliNelNucleo = $inCoppia ? $famiglia->figliAttuali()->get() : collect();
-        $figliFuoriNucleo = $inCoppia ? $famiglia->figli()->wherePivot('stato', '0')->get() : collect();
+        $figliNelNucleo = $unione ? $unione->figliAttuali()->get() : collect();
+        $figliFuoriNucleo = $unione ? $unione->figli()->wherePivot('stato', '0')->get() : collect();
 
-        /** @var Collection<int, Famiglia&object{pivot: FamigliaPersona}> $percorsoFamiliare */
-        $percorsoFamiliare = $persona->percorsoFamiliare()->get();
-        $famigliaOrigine = $percorsoFamiliare->first(
-            fn ($famiglia): bool => in_array($famiglia->pivot->posizione_famiglia, ['FIGLIO NATO', 'FIGLIO ACCOLTO', 'AGGREGATO'], true)
-        );
+        $origini = $persona->famiglieComeFiglio()->get();
+        $famigliaOrigine = $origini->first(fn ($origine): bool => $origine->id === $request->integer('origine')) ?? $origini->last();
         $genitori = $famigliaOrigine
             ? $famigliaOrigine->componenti()->wherePivotIn('posizione_famiglia', ['CAPO FAMIGLIA', 'MOGLIE'])->get()
             : collect();
@@ -66,9 +75,13 @@ final class PersonProfileController
             'famiglia' => $famiglia,
             'nelNucleo' => $nelNucleo,
             'posizioneFamiglia' => $posizioneFamiglia,
+            'unioni' => $unioni,
+            'unione' => $unione,
+            'posizioneUnione' => $posizioneUnione,
             'coniuge' => $coniuge,
             'figliNelNucleo' => $figliNelNucleo,
             'figliFuoriNucleo' => $figliFuoriNucleo,
+            'origini' => $origini,
             'famigliaOrigine' => $famigliaOrigine,
             'genitori' => $genitori,
             'famigliaEnrico' => $famigliaEnrico,

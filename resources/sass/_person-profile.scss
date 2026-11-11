@@ -21,6 +21,60 @@
     border-radius: var(--bs-border-radius-lg) !important;
   }
 
+  // What the page is about, above the name: Persona or Famiglia
+  .profile-occhiello {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #5a6a8c;
+  }
+
+  // The page of a famiglia in the colours of the famiglia, so it is not mistaken for the profile of a persona
+  .profile-band.profile-band-famiglia {
+    background: #fdf6e8;
+    border-color: #ecd3a0;
+    color: #4a3400;
+
+    .profile-name {
+      color: #6b4500;
+    }
+
+    .profile-muted {
+      color: #7a5b1e;
+    }
+
+    .profile-occhiello {
+      color: #8a5a00;
+    }
+
+    .profile-chip {
+      border-color: #ecd3a0;
+    }
+  }
+
+  .profile-icona-famiglia {
+    margin-right: 0.15rem;
+    color: var(--profile-famiglia);
+    vertical-align: -2px;
+  }
+
+  // The capofamiglia and the moglie on the page of the famiglia, joined by the anello
+  .famiglia-coppia {
+    --albero-anello: 2.75rem;
+    --albero-spazio: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+
+    > .famiglia-coppia-membro {
+      flex: 1 1 15rem;
+      min-width: 0;
+
+      .profile-person {
+        margin-bottom: 0;
+      }
+    }
+  }
   .profile-avatar {
     width: 96px;
     height: 96px;
@@ -33,6 +87,12 @@
     font-size: 2.5rem;
     font-weight: 600;
     flex: none;
+  }
+
+  .profile-avatar.profile-avatar-famiglia {
+    border-color: #ecd3a0;
+    border-radius: 50%;
+    color: #8a5a00;
   }
 
   .profile-name {
@@ -358,6 +418,11 @@
     }
   }
 
+  // The figli indented under the coniuge
+  .profile-figli {
+    margin: 0 0 0.4rem 1.5rem;
+  }
+
   .profile-person-indentato {
     margin-left: 1.25rem;
   }
@@ -366,6 +431,73 @@
     background: var(--bs-tertiary-bg);
     border-style: dashed;
     opacity: 0.75;
+  }
+
+  // A missing parente to add (Aggiungi padre, Aggiungi parente), or one not registered
+  .profile-person-aggiungi {
+    width: 100%;
+    background: transparent;
+    border: 1px dashed #adb5bd;
+    color: var(--bs-secondary-color);
+    font: inherit;
+    font-weight: 600;
+    text-align: left;
+
+    &:hover,
+    &:focus-visible {
+      border-color: $nomadelfia-azzurro;
+      color: $nomadelfia-blu;
+    }
+  }
+
+  .profile-person-vuoto {
+    font-weight: 400;
+
+    &:hover {
+      border-color: #adb5bd;
+      color: var(--bs-secondary-color);
+    }
+  }
+
+  .profile-person-piu {
+    background: var(--bs-secondary-bg);
+    color: var(--bs-body-color);
+    font-size: 1.25rem;
+    font-weight: 400;
+  }
+
+  // The title of a group of parenti with the link to their famiglia on the right
+  .profile-parentele-intestazione {
+    margin: 1rem 0 0.5rem;
+
+    .profile-parentele-titolo {
+      margin: 0;
+    }
+  }
+
+  // The famiglie d'origine of a persona figlio in more famiglie: the chosen one gives the genitori shown
+  .profile-origini {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-bottom: 0.6rem;
+
+    a {
+      text-decoration: none;
+    }
+
+    a[aria-current="true"] {
+      background: #dde7f8;
+      border-color: $nomadelfia-blu;
+      box-shadow: inset 0 0 0 1px $nomadelfia-blu;
+      font-weight: 600;
+    }
+  }
+
+  .profile-parentele-titolo {
+    margin: 1rem 0 0.5rem;
+    font-size: 1rem;
+    font-weight: 400;
   }
 
   .profile-person-avatar {
@@ -387,6 +519,431 @@
   .profile-person-f {
     background: #f8dcc8;
     color: #9a4b16;
+  }
+
+  // Albero familiare: couples of cards, the nonni above each genitore, the fratelli below the genitori
+  .albero-familiare {
+    --albero-linea: var(--bs-border-color);
+    --albero-salto: 1.5rem;
+    --albero-scheda: 8.5rem;
+    --albero-anello: 2.75rem;
+    --albero-spazio: 0.35rem;
+    overflow-x: auto;
+    padding: 0.5rem 0 1rem;
+
+    .profile-person {
+      margin-bottom: 0;
+    }
+  }
+
+  // The albero scrolls when wider than the page, centered when narrower
+  .albero-tela {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: max-content;
+    min-width: 100%;
+  }
+
+  .albero-scheda {
+    position: relative;
+    width: var(--albero-scheda);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.6rem 0.5rem;
+    background: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color);
+    border-radius: 0.5rem;
+    color: var(--bs-body-color);
+    text-align: center;
+    text-decoration: none;
+
+    &:hover {
+      border-color: $nomadelfia-azzurro;
+      color: var(--bs-body-color);
+    }
+  }
+
+  .albero-scheda-avatar {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  .albero-scheda-nome {
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+  }
+
+  .albero-scheda-anni {
+    font-size: 0.8rem;
+    color: var(--bs-secondary-color);
+  }
+
+  .albero-scheda-io {
+    background: $nomadelfia-blu;
+    border-color: $nomadelfia-blu;
+    color: $white;
+
+    .albero-scheda-anni {
+      color: #dbe4f5;
+    }
+
+    &:hover {
+      color: $white;
+    }
+  }
+
+  .albero-scheda-badge {
+    padding: 0.05rem 0.45rem;
+    border-radius: 999px;
+    background: $nomadelfia-giallo;
+    color: #3d2a00;
+    font-size: 0.7rem;
+    font-weight: 700;
+  }
+
+  // A famiglia without coniuge (a mamma di vocazione) drawn as an unione of the persona
+  .albero-scheda-famiglia {
+    border-left: 4px solid var(--profile-famiglia);
+  }
+
+  .albero-scheda-casa {
+    background: #fbefd6;
+    color: #8a5a00;
+  }
+
+  // The number of an unione of a persona with more unioni, on the card and on its figli
+  .albero-numero {
+    display: inline-grid;
+    place-items: center;
+    width: 1.3rem;
+    height: 1.3rem;
+    border-radius: 50%;
+    background: #8a5a00;
+    color: $white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0;
+  }
+
+  // Keeps a persona with an odd number of unioni in the middle of the row: as wide as an anello and a scheda
+  .albero-spaziatore {
+    flex: none;
+    width: calc(
+      var(--albero-scheda) + var(--albero-anello) + var(--albero-spazio)
+    );
+  }
+
+  .albero-percorso {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+
+    a {
+      text-decoration: none;
+    }
+
+    a[aria-current="true"] {
+      background: #dde7f8;
+      border-color: $nomadelfia-blu;
+      box-shadow: inset 0 0 0 1px $nomadelfia-blu;
+      font-weight: 600;
+    }
+  }
+
+  .albero-famiglia-vicina {
+    display: block;
+    margin: 0.15rem 0 0 1rem;
+    font-size: 0.8rem;
+    color: var(--bs-secondary-color);
+  }
+
+  // The schede of a persona with her coniugi, or of two genitori, joined by an anello
+  .albero-coppia {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--albero-spazio);
+  }
+
+  // The coniugi of a famiglia inside one box in the colour of the famiglia
+  .albero-sposi {
+    padding: 0.5rem;
+    background: #fdf6e8;
+    border: 1px solid #ecd3a0;
+    border-radius: 0.75rem;
+  }
+
+  // The bond between two coniugi (or a persona and the famiglia she heads): the sign, the number and the year
+  .albero-anello {
+    flex: none;
+    width: var(--albero-anello);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+    color: #6b4500;
+    font-size: 0.7rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .albero-anello-segno {
+    width: 1.9rem;
+    height: 1.9rem;
+    display: grid;
+    place-items: center;
+    background: var(--bs-body-bg);
+    border: 2px solid var(--profile-famiglia);
+    border-radius: 50%;
+    color: #8a5a00;
+    font-size: 1.05rem;
+    line-height: 1;
+  }
+
+  .albero-segnaposto {
+    width: calc(
+      2 * var(--albero-scheda) + var(--albero-anello) + 2 * var(--albero-spazio)
+    );
+    min-height: 6rem;
+    display: grid;
+    place-items: center;
+    padding: 0.5rem;
+    border: 1px dashed var(--bs-secondary-color);
+    border-radius: 0.5rem;
+    color: var(--bs-secondary-color);
+    font-size: 0.875rem;
+    text-align: center;
+  }
+
+  .albero-etichetta {
+    padding: 0.2rem 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--bs-secondary-color);
+  }
+
+  .albero-filo {
+    display: block;
+    height: 0.75rem;
+    border-left: 2px solid var(--albero-linea);
+  }
+
+  // The two genitori side by side, each one under his own genitori
+  .albero-antenati {
+    display: flex;
+    justify-content: center;
+  }
+
+  // The centre of a genitore in the box of the genitori, from the middle of the albero
+  .albero-lato {
+    --albero-centro: calc(
+      var(--albero-anello) / 2 + var(--albero-spazio) + var(--albero-scheda) / 2
+    );
+    width: calc(
+      2 * var(--albero-scheda) + var(--albero-anello) + 2 *
+        var(--albero-spazio) + 2.5rem
+    );
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  // The line from the nonni down to the genitore: down, across, down
+  .albero-gomito {
+    align-self: stretch;
+
+    span {
+      display: block;
+      width: calc(50% - var(--albero-centro));
+      height: 0.75rem;
+    }
+  }
+
+  .albero-lato-sx {
+    .albero-gomito span {
+      margin-left: 50%;
+    }
+
+    .albero-gomito span:first-child {
+      border-left: 2px solid var(--albero-linea);
+      border-bottom: 2px solid var(--albero-linea);
+      border-bottom-left-radius: 0.4rem;
+    }
+
+    .albero-gomito span:last-child {
+      margin-top: -2px;
+      border-right: 2px solid var(--albero-linea);
+    }
+  }
+
+  .albero-lato-dx {
+    .albero-gomito span {
+      margin-left: var(--albero-centro);
+    }
+
+    .albero-gomito span:first-child {
+      border-right: 2px solid var(--albero-linea);
+      border-bottom: 2px solid var(--albero-linea);
+      border-bottom-right-radius: 0.4rem;
+    }
+
+    .albero-gomito span:last-child {
+      margin-top: -2px;
+      border-left: 2px solid var(--albero-linea);
+    }
+  }
+
+  .albero-lato-solo .albero-gomito span {
+    width: 0;
+    margin-left: 50%;
+    border-left: 2px solid var(--albero-linea);
+  }
+
+  // The figli of the famiglia d'origine side by side: the connectors are the borders of the list items
+  .albero-rami {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: var(--albero-salto) 0 0;
+    list-style: none;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      height: var(--albero-salto);
+      margin-left: -1px;
+      border-left: 2px solid var(--albero-linea);
+    }
+
+    > li {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: var(--albero-salto) 0.75rem 0;
+
+      // The line to the fratelli on each side, with the drop to the node on the right half
+      &::before,
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 50%;
+        width: 50%;
+        height: var(--albero-salto);
+        border-top: 2px solid var(--albero-linea);
+      }
+
+      &::after {
+        right: auto;
+        left: 50%;
+        border-left: 2px solid var(--albero-linea);
+      }
+
+      &:only-child {
+        padding-top: 0;
+
+        &::before,
+        &::after {
+          display: none;
+        }
+      }
+
+      &:first-child::before,
+      &:last-child::after {
+        border: 0;
+      }
+
+      &:last-child::before {
+        border-right: 2px solid var(--albero-linea);
+        border-top-right-radius: 0.4rem;
+      }
+
+      &:first-child::after {
+        border-top-left-radius: 0.4rem;
+      }
+    }
+  }
+
+  // The figli of a famiglia formed by a persona, closed to keep a famiglia with many figli readable
+  .albero-figli {
+    position: relative;
+    width: 18rem;
+    margin-top: var(--albero-salto);
+    background: var(--bs-tertiary-bg);
+    border: 1px solid var(--bs-border-color);
+    border-radius: 0.5rem;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: calc(-1 * var(--albero-salto) - 1px);
+      left: 50%;
+      height: var(--albero-salto);
+      margin-left: -1px;
+      border-left: 2px solid var(--profile-famiglia);
+    }
+
+    summary {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+
+      small {
+        display: block;
+        font-weight: 400;
+        color: var(--bs-secondary-color);
+      }
+    }
+
+    &[open] summary {
+      border-bottom: 1px solid var(--bs-border-color);
+    }
+  }
+
+  .albero-figli-elenco {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    max-height: 28rem;
+    overflow-y: auto;
+    padding: 0.5rem;
+  }
+
+  .albero-figli-azioni {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-top: 1px solid var(--bs-border-color);
+    font-size: 0.85rem;
+  }
+
+  .albero-famiglia-formata {
+    display: block;
+    margin: 0.2rem 0 0 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #6b4500;
   }
 
   // Ricorrenze
