@@ -9,6 +9,9 @@ use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\Persona\Controllers\JoinCommunityController;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
+use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Carbon\Carbon;
 
@@ -160,4 +163,67 @@ it('entrata_maggiorenne_sposato', function (): void {
     $this->assertEquals($persona->gruppofamiliareAttuale()->id, $gruppo->id);
     $this->assertEquals($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo, $data_entrata->toDateString());
     $this->assertNull($persona->famigliaAttuale());
+});
+
+it('corrects the data di entrata of a period in the storico', function (): void {
+    login();
+    $persona = Persona::factory()->nato(Carbon::parse('1960-01-01'))->maschio()->create();
+    PopolazioneNomadelfia::query()->insert(['persona_id' => $persona->id, 'data_entrata' => '1990-01-01', 'data_uscita' => '1995-12-31']);
+
+    $this->put(route('nomadelfia.join.update', ['id' => $persona->id, 'entrata' => '1990-01-01']), ['data_entrata' => '1991-06-15'])
+        ->assertRedirect()
+        ->assertSessionHasNoErrors();
+
+    expect(PopolazioneNomadelfia::query()->where('persona_id', $persona->id)->get(['data_entrata', 'data_uscita'])->toArray())
+        ->toBe([['data_entrata' => '1991-06-15', 'data_uscita' => '1995-12-31']]);
+});
+
+it('rejects a data di entrata that is not a valid correction of the period', function (string $dataEntrata, string $errore): void {
+    login();
+    $persona = Persona::factory()->nato(Carbon::parse('1960-01-01'))->maschio()->create();
+    PopolazioneNomadelfia::query()->insert([
+        ['persona_id' => $persona->id, 'data_entrata' => '1980-01-01', 'data_uscita' => '1985-12-31'],
+        ['persona_id' => $persona->id, 'data_entrata' => '1990-01-01', 'data_uscita' => '1995-12-31'],
+    ]);
+
+    $this->put(route('nomadelfia.join.update', ['id' => $persona->id, 'entrata' => '1990-01-01']), ['data_entrata' => $dataEntrata])
+        ->assertSessionHasErrors(['data_entrata' => $errore]);
+
+    expect(PopolazioneNomadelfia::query()->where('persona_id', $persona->id)->where('data_entrata', '1990-01-01')->exists())->toBeTrue();
+})->with([
+    'empty' => ['', 'La data di entrata è obbligatoria.'],
+    'after the data di uscita' => ['1996-01-01', 'La data di entrata non può essere futura o successiva alla data di uscita.'],
+    'before the nascita' => ['1959-12-31', 'La data di entrata non può essere precedente alla data di nascita.'],
+    'overlapping another period' => ['1985-06-01', 'Il periodo si sovrappone a quello dal 1980-01-01 al 1985-12-31.'],
+]);
+
+it('moves the posizione and the gruppo familiare that started with the entrata to the corrected data di entrata', function (): void {
+    login();
+    $persona = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();
+    $gruppo = GruppoFamiliare::all()->random();
+    app(EntrataMaggiorenneSingleAction::class)->execute($persona, Carbon::parse('2000-01-01'), $gruppo);
+    app(UscitaPersonaAction::class)->execute($persona, Carbon::parse('2005-01-01'));
+    app(EntrataMaggiorenneSingleAction::class)->execute($persona, Carbon::parse('2010-03-01'), $gruppo);
+
+    $this->put(route('nomadelfia.join.update', ['id' => $persona->id, 'entrata' => '2010-03-01']), ['data_entrata' => '2010-02-01'])
+        ->assertSessionHasNoErrors();
+
+    $this->assertDatabaseHas('popolazione', ['persona_id' => $persona->id, 'data_entrata' => '2010-02-01', 'data_uscita' => null], 'db_nomadelfia');
+    $this->assertDatabaseHas('persone_posizioni', ['persona_id' => $persona->id, 'data_inizio' => '2010-02-01', 'stato' => '1'], 'db_nomadelfia');
+    $this->assertDatabaseHas('gruppi_persone', ['persona_id' => $persona->id, 'data_entrata_gruppo' => '2010-02-01', 'stato' => '1'], 'db_nomadelfia');
+    $this->assertDatabaseHas('persone_posizioni', ['persona_id' => $persona->id, 'data_inizio' => '2000-01-01', 'data_fine' => '2005-01-01'], 'db_nomadelfia');
+    $this->assertDatabaseHas('gruppi_persone', ['persona_id' => $persona->id, 'data_entrata_gruppo' => '2000-01-01', 'data_uscita_gruppo' => '2005-01-01'], 'db_nomadelfia');
+    $this->assertDatabaseMissing('persone_posizioni', ['persona_id' => $persona->id, 'data_inizio' => '2010-03-01'], 'db_nomadelfia');
+});
+
+it('rejects a data di entrata after the end of a posizione that started with the entrata', function (): void {
+    login();
+    $persona = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();
+    app(EntrataMaggiorenneSingleAction::class)->execute($persona, Carbon::parse('2010-03-01'), GruppoFamiliare::all()->random());
+    $persona->assegnaPosizione(Posizione::perNome('postulante'), Carbon::parse('2011-01-01'));
+
+    $this->put(route('nomadelfia.join.update', ['id' => $persona->id, 'entrata' => '2010-03-01']), ['data_entrata' => '2011-06-01'])
+        ->assertSessionHasErrors(['data_entrata' => 'La data di entrata non può essere successiva alla fine di Posizione: Ospite (2011-01-01).']);
+
+    $this->assertDatabaseHas('popolazione', ['persona_id' => $persona->id, 'data_entrata' => '2010-03-01'], 'db_nomadelfia');
 });

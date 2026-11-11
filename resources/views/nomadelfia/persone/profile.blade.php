@@ -216,16 +216,8 @@
                 </li>
               @endif
 
-              <li><hr class="dropdown-divider" /></li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="{{ route("nomadelfia.join-leave-history.index", $persona->id) }}"
-                >
-                  Storico entrate e uscite
-                </a>
-              </li>
               @can("scuola.visualizza")
+                <li><hr class="dropdown-divider" /></li>
                 <li>
                   <a
                     class="dropdown-item"
@@ -446,7 +438,15 @@
       </div>
 
       <section class="col-xl-5 col-md-6" aria-labelledby="titolo-percorso">
-        <h2 id="titolo-percorso" class="h5 mb-3">Percorso in Nomadelfia</h2>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h2 id="titolo-percorso" class="h5 mb-0">Percorso in Nomadelfia</h2>
+          <a
+            class="btn btn-sm btn-outline-secondary"
+            href="{{ route("nomadelfia.join-leave-history.index", $persona->id) }}"
+          >
+            Storico entrate e uscite
+          </a>
+        </div>
         <div
           class="d-flex flex-wrap gap-2 mb-3"
           role="group"

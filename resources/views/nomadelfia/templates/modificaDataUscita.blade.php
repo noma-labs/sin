@@ -1,36 +1,35 @@
 <x-modal
   modal-title="Modifica data uscita"
-  button-title="Modifica Uscita"
-  button-style="btn-warning my-1"
+  button-title="Modifica data"
+  button-style="btn-outline-secondary btn-sm"
 >
   <x-slot:body>
     <form
       class="form"
       method="POST"
-      id="formModificaDataUscita{{ $data_uscita }}"
+      id="formModificaDataUscita{{ $persona->id }}-{{ $data_uscita }}"
       action="{{ route("nomadelfia.leave.update", ["id" => $persona->id, "uscita" => $data_uscita]) }}"
     >
       @csrf
-      <div class="row">
-        <label class="col-sm-6 form-label">Nuova Data Uscita</label>
-        <div class="col-sm-6">
-          <label class="form-check-label">
-            <input
-              type="date"
-              name="data_uscita"
-              value="{{ $data_uscita }}"
-              class="form-control"
-            />
-          </label>
-        </div>
-      </div>
+      <label class="form-label" for="data_uscita-{{ $data_uscita }}">
+        Nuova data uscita
+      </label>
+      <input
+        type="date"
+        id="data_uscita-{{ $data_uscita }}"
+        name="data_uscita"
+        value="{{ $data_uscita }}"
+        class="form-control"
+        required
+      />
+      @include("nomadelfia.templates.dateCollegate", ["collegate" => $collegate, "nessuna" => "Nessuna posizione, gruppo familiare, azienda, incarico o classe finisce in questa data: cambia solo la data di uscita."])
     </form>
   </x-slot:body>
 
   <x-slot:footer>
     <button
       class="btn btn-success"
-      form="formModificaDataUscita{{ $data_uscita }}"
+      form="formModificaDataUscita{{ $persona->id }}-{{ $data_uscita }}"
     >
       Salva
     </button>
