@@ -195,7 +195,7 @@ trait PersonaInNomadelfia
 
     /**
      * The stato civile of the person, derived instead of stored:
-     * separato (stato SEP), vedovo (the coniuge is deceased), sposato (capofamiglia or moglie of a famiglia of tipo coniugi,
+     * separato (stato SEP), vedovo (the coniuge died before the person), sposato (capofamiglia or moglie of a famiglia of tipo coniugi,
      * from the creation of the famiglia, unknown when the famiglia has no date), otherwise celibe or nubile.
      *
      * The vedovanza is stored in two ways on purpose. It is derived from the coniuge in the famiglia,
@@ -215,8 +215,9 @@ trait PersonaInNomadelfia
 
         $famiglia = $this->famigliaDaCapofamigliaOMoglie();
         $coniuge = $famiglia ? $this->coniugeNellaFamiglia($famiglia) : null;
-        if ($coniuge?->data_decesso) {
-            return ['nome' => $maschio ? 'Vedovo' : 'Vedova', 'dal' => \Illuminate\Support\Facades\Date::parse($coniuge->data_decesso)];
+        $decessoConiuge = $coniuge?->data_decesso ? \Illuminate\Support\Facades\Date::parse($coniuge->data_decesso) : null;
+        if ($decessoConiuge && (! $this->data_decesso || $decessoConiuge->lessThan(\Illuminate\Support\Facades\Date::parse($this->data_decesso)))) {
+            return ['nome' => $maschio ? 'Vedovo' : 'Vedova', 'dal' => $decessoConiuge];
         }
         $sposato = $famiglia?->tipo === TipoFamiglia::Coniugi;
         if ($sposato && $coniuge) {
