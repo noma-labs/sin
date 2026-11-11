@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Anagrafe\Famiglia\Controllers;
 
+use App\Anagrafe\Famiglia\Actions\BuildAlberoFamiliareAction;
 use App\Anagrafe\Famiglia\Models\Famiglia;
 use App\Anagrafe\Persona\Models\Persona;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
@@ -14,14 +16,23 @@ use Illuminate\Validation\Rule;
 #[Middleware('auth')]
 final class PersonaFamigliaController
 {
+    /**
+     * The albero familiare of the persona from the famiglia d'origine chosen in the query (the last one by default),
+     * with the famiglie attuali to resolve when they are more than one.
+     */
     #[Middleware('can:popolazione.persona.visualizza')]
-    public function index($id)
+    public function index(Request $request, string $id, BuildAlberoFamiliareAction $buildAlbero): View
     {
-        $persona = Persona::findOrFail($id);
+        $persona = Persona::query()->findOrFail($id);
         $attuali = $persona->famiglieAttuali()->withPivot('posizione_famiglia')->get();
-        $storico = $persona->famiglieStorico;
+        $storico = $persona->famiglieStorico()->get();
 
-        return view('anagrafe.persone.famiglia.show', compact('persona', 'attuali', 'storico'));
+        return view('anagrafe.persone.famiglia.show', [
+            'persona' => $persona,
+            'attuali' => $attuali,
+            'storico' => $storico,
+            'albero' => $buildAlbero->execute($persona, $request->integer('origine') ?: null),
+        ]);
     }
 
     /**

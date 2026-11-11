@@ -15,6 +15,10 @@ use Illuminate\Routing\Attributes\Controllers\Middleware;
 #[Middleware('auth')]
 final class FamilyMemberController
 {
+    /**
+     * Adds a componente to the famiglia. With torna_indietro the response goes back to the page of the form (the profile
+     * of a persona adding a parente), otherwise to the page of the famiglia.
+     */
     #[Middleware('can:popolazione.persona.modifica')]
     public function store(Request $request, $id)
     {
@@ -33,6 +37,7 @@ final class FamilyMemberController
         $persona = Persona::findorfail($request->persona_id);
         $stato = $request->string('stato')->toString();
         $dataEntrata = $request->date('data_entrata')?->toDateString();
+        $ritorno = fn (): RedirectResponse => $request->boolean('torna_indietro') ? back() : to_route('anagrafe.families.show', ['id' => $id]);
 
         try {
             switch ($request->posizione) {
@@ -52,15 +57,13 @@ final class FamilyMemberController
                     $famiglia->assegnaAggregato($persona, stato: $stato, dataEntrata: $dataEntrata);
                     break;
                 default:
-                    return redirect(route('anagrafe.families.show',
-                        ['id' => $id]))->withErrors("Posizione `{$request->posizione}` non riconosciuta");
+                    return $ritorno()->withErrors("Posizione `{$request->posizione}` non riconosciuta");
             }
         } catch (AnagrafeException $e) {
-            return redirect(route('anagrafe.families.show', ['id' => $id]))->withErrors(['persona_id' => $e->getMessage()]);
+            return $ritorno()->withErrors(['persona_id' => $e->getMessage()]);
         }
 
-        return redirect(route('anagrafe.families.show',
-            ['id' => $id]))->withSuccess("$persona->nominativo aggiunto alla famiglia $famiglia->nome_famiglia con successo");
+        return $ritorno()->with('success', "$persona->nominativo aggiunto alla famiglia $famiglia->nome_famiglia con successo");
     }
 
     #[Middleware('can:popolazione.persona.modifica')]

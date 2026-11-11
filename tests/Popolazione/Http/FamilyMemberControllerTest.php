@@ -26,6 +26,27 @@ it('adds the deceased husband as capofamiglia outside the nucleo of the famiglia
         ->and($famiglia->capofamiglia()->id)->toBe($vedova->id);
 });
 
+it('goes back to the profile that added the parente to the famiglia', function (): void {
+    login();
+    $capofamiglia = Persona::factory()->maggiorenne()->maschio()->create();
+    $famiglia = Famiglia::factory()->coniugi()->create();
+    $famiglia->assegnaCapoFamiglia($capofamiglia);
+    $figlia = Persona::factory()->minorenne()->femmina()->create();
+
+    $this->from(route('nomadelfia.person.profile', $capofamiglia->id))
+        ->post(route('anagrafe.family.member.store', $famiglia->id), [
+            'persona_id' => $figlia->id,
+            'posizione' => 'FIGLIO ACCOLTO',
+            'stato' => '1',
+            'data_entrata' => '2020-09-01',
+            'torna_indietro' => '1',
+        ])->assertRedirect(route('nomadelfia.person.profile', $capofamiglia->id))
+        ->assertSessionHasNoErrors();
+
+    expect($famiglia->componenti()->where('persone.id', $figlia->id)->first()->pivot->toArray())
+        ->toMatchArray(['posizione_famiglia' => 'FIGLIO ACCOLTO', 'stato' => '1', 'data_entrata' => '2020-09-01']);
+});
+
 it('records the data di entrata of a figlio accolto in the famiglia', function (): void {
     login();
     $figlio = Persona::factory()->minorenne()->femmina()->create();

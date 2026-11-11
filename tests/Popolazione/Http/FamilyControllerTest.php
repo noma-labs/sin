@@ -126,6 +126,19 @@ it('shows a family whose members are not part of the popolazione', function (): 
         ->assertSee('Famiglia Da Mostrare');
 });
 
+it('marks the page as the page of a famiglia, with the coniugi joined in the nucleo', function (): void {
+    login();
+    $famiglia = Famiglia::factory()->create(['nome_famiglia' => 'Riconoscibile Giuseppe', 'tipo' => TipoFamiglia::Coniugi, 'data_creazione' => '1963-06-01']);
+    $famiglia->assegnaCapoFamiglia(Persona::factory()->maggiorenne()->maschio()->create(['nome' => 'Giuseppe', 'cognome' => 'Bianchi']));
+    $famiglia->assegnaMoglie(Persona::factory()->maggiorenne()->femmina()->create(['nome' => 'Anna', 'cognome' => 'Ferri']));
+
+    $this->get(action([FamilyController::class, 'show'], $famiglia->id))
+        ->assertSuccessful()
+        ->assertSee('<title>Famiglia Riconoscibile Giuseppe</title>', false)
+        ->assertSeeInOrder(['Famiglie', 'Famiglia', 'Famiglia Riconoscibile Giuseppe'])
+        ->assertSeeInOrder(['Giuseppe Bianchi', 'sposati', '1963', 'Anna Ferri']);
+});
+
 it('shows the coniugi and the figli in and out of the nucleo of a famiglia', function (): void {
     login();
     $famiglia = Famiglia::factory()->create(['tipo' => TipoFamiglia::Coniugi, 'data_creazione' => '2010-05-01']);

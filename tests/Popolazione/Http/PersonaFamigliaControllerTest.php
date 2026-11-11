@@ -7,13 +7,131 @@ namespace Tests\Http\Nomadelfia;
 use App\Admin\Models\User;
 use App\Anagrafe\Famiglia\Controllers\PersonaFamigliaController;
 use App\Anagrafe\Famiglia\Models\Famiglia;
+use App\Anagrafe\Famiglia\Models\TipoFamiglia;
 use App\Anagrafe\Persona\Models\Persona;
+use Closure;
 
 it('can render the famiglia index page of a person', function (): void {
     login();
     $persona = Persona::factory()->minorenne()->maschio()->create();
     $this->get(action([PersonaFamigliaController::class, 'index'], $persona->id))
         ->assertSuccessful();
+});
+
+it('shows the albero familiare from the genitori to the figli of the famiglia formed by the persona', function (): void {
+    login();
+    $origine = Famiglia::factory()->coniugi()->create();
+    $padre = Persona::factory()->diEta(80)->maschio()->create(['nome' => 'Giuseppe']);
+    $origine->assegnaCapoFamiglia($padre);
+    $persona = Persona::factory()->cinquantenne()->femmina()->create(['nome' => 'Maria']);
+    $origine->assegnaFiglioNato($persona, stato: '0');
+    $propria = Famiglia::factory()->create(['nome_famiglia' => 'Famiglia Propria', 'tipo' => TipoFamiglia::MammaDiVocazione]);
+    $propria->assegnaCapoFamiglia($persona);
+    $sposato = Persona::factory()->maggiorenne()->maschio()->create(['nome' => 'Luca']);
+    $propria->assegnaFiglioAccolto($sposato, stato: '0');
+    Famiglia::factory()->coniugi()->create(['nome_famiglia' => 'Famiglia Del Figlio'])->assegnaCapoFamiglia($sposato);
+
+    $response = $this->get(route('anagrafe.person.families', $persona->id));
+
+    $response->assertOk()
+        ->assertSeeInOrder(['Genitori non registrati', 'nonni di Maria', 'Giuseppe', 'genitori di Maria', 'Maria', '1 figlio di Maria', 'Famiglia Propria', 'Luca', 'Famiglia Del Figlio']);
+});
+
+it('shows the percorso of the famiglie d\'origine and draws the albero from the chosen one', function (): void {
+    login();
+    $persona = Persona::factory()->minorenne()->maschio()->create();
+    $nascita = Famiglia::factory()->coniugi()->create(['nome_famiglia' => 'Famiglia Nascita']);
+    $nascita->assegnaCapoFamiglia(Persona::factory()->cinquantenne()->maschio()->create(['nome' => 'Padrenaturale']));
+    $nascita->assegnaFiglioNato($persona, stato: '0');
+    $accoglienza = Famiglia::factory()->create(['nome_famiglia' => 'Famiglia Accoglienza', 'tipo' => TipoFamiglia::MammaDiVocazione]);
+    $accoglienza->assegnaCapoFamiglia(Persona::factory()->cinquantenne()->femmina()->create(['nome' => 'Mammadivocazione']));
+    $accoglienza->assegnaFiglioAccolto($persona, dataEntrata: '2020-09-01');
+
+    $response = $this->get(route('anagrafe.person.families', ['id' => $persona->id, 'origine' => $nascita->id]));
+
+    $response->assertOk()
+        ->assertSeeInOrder(['Famiglia Nascita · nato', 'Famiglia Accoglienza · accolto 2020', '2 famiglie d&#039;origine'], false)
+        ->assertSee('Padrenaturale')
+        ->assertDontSee('Mammadivocazione');
+});
+
+it('numbers the unioni of a persona with more famiglie and keeps the persona between them', function (): void {
+    login();
+    $persona = Persona::factory()->diEta(80)->maschio()->create(['nome' => 'Giovanni', 'cognome' => 'Bianchi']);
+    $prima = Famiglia::factory()->coniugi()->create(['nome_famiglia' => 'Prima Famiglia', 'data_creazione' => '1970-06-01']);
+    $prima->assegnaCapoFamiglia($persona, stato: '0');
+    $prima->assegnaMoglie(Persona::factory()->diEta(78)->femmina()->create(['nome' => 'Anna', 'cognome' => 'Rossi']), stato: '0');
+    $seconda = Famiglia::factory()->coniugi()->create(['nome_famiglia' => 'Seconda Famiglia', 'data_creazione' => '1996-06-01']);
+    $seconda->assegnaCapoFamiglia($persona);
+    $seconda->assegnaMoglie(Persona::factory()->diEta(70)->femmina()->create(['nome' => 'Carla', 'cognome' => 'Verdi']));
+
+    $response = $this->get(route('anagrafe.person.families', $persona->id));
+
+    $response->assertOk()
+        ->assertSeeInOrder(['Carla', '1996', 'Giovanni', '1970', 'Anna', '0 figli di Giovanni e Anna', '0 figli di Giovanni e Carla']);
+});
+
+it('shows where a figlio accolto in more famiglie was before and goes after', function (): void {
+    login();
+    $mamma = Persona::factory()->cinquantenne()->femmina()->create();
+    $propria = Famiglia::factory()->create(['tipo' => TipoFamiglia::MammaDiVocazione]);
+    $propria->assegnaCapoFamiglia($mamma);
+    $figlio = Persona::factory()->minorenne()->maschio()->create();
+    Famiglia::factory()->coniugi()->create(['nome_famiglia' => 'Famiglia Precedente'])->assegnaFiglioNato($figlio, stato: '0');
+    $propria->assegnaFiglioAccolto($figlio, stato: '0', dataEntrata: '2016-01-01');
+    Famiglia::factory()->coniugi()->create(['nome_famiglia' => 'Famiglia Successiva'])->assegnaFiglioAccolto($figlio, dataEntrata: '2022-01-01');
+
+    $response = $this->get(route('anagrafe.person.families', $mamma->id));
+
+    $response->assertOk()
+        ->assertSeeInOrder(['prima:', 'Famiglia Precedente', 'poi:', 'Famiglia Successiva', '(accolto 2022)']);
+});
+
+it('leaves the changes of the famiglie to the profile and to the famiglia, not to the albero', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->femmina()->create();
+    $origine = Famiglia::factory()->coniugi()->create();
+    $origine->assegnaFiglioNato($persona, stato: '0');
+    $propria = Famiglia::factory()->create(['tipo' => TipoFamiglia::MammaDiVocazione]);
+    $propria->assegnaCapoFamiglia($persona);
+    $propria->assegnaFiglioAccolto(Persona::factory()->maggiorenne()->maschio()->create(), stato: '0');
+
+    $response = $this->get(route('anagrafe.person.families', $persona->id));
+
+    $response->assertOk()
+        ->assertDontSee('Nuova famiglia')
+        ->assertDontSee('Aggiungi figlio')
+        ->assertDontSee('Aggiungi fratello')
+        ->assertDontSee('Aggiungi genitori')
+        ->assertDontSee('Tutte le famiglie');
+});
+
+it('does not offer a nuova famiglia in the albero to a persona who cannot form one', function (Closure $persona): void {
+    login();
+    $origine = Famiglia::factory()->coniugi()->create();
+    $figlia = $persona();
+    $origine->assegnaFiglioNato($figlia);
+
+    $response = $this->get(route('anagrafe.person.families', $figlia->id));
+
+    $response->assertOk()
+        ->assertDontSee('Nuova famiglia');
+})->with([
+    'minorenne' => [fn (): Persona => Persona::factory()->minorenne()->femmina()->create()],
+    'deceduta' => [fn (): Persona => Persona::factory()->maggiorenne()->femmina()->create(['data_decesso' => '2020-01-01'])],
+]);
+
+it('does not offer a nuova famiglia in the albero to a persona who already formed one', function (): void {
+    login();
+    $origine = Famiglia::factory()->coniugi()->create();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    $origine->assegnaFiglioNato($persona, stato: '0');
+    Famiglia::factory()->coniugi()->create()->assegnaCapoFamiglia($persona);
+
+    $response = $this->get(route('anagrafe.person.families', $persona->id));
+
+    $response->assertOk()
+        ->assertDontSee('Nuova famiglia');
 });
 
 it('adds a person to a family as figlio', function (): void {

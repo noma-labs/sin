@@ -1,5 +1,7 @@
 @extends("nomadelfia.index")
 
+@section("title", "Famiglia " . $famiglia->nome_famiglia)
+
 @section("content")
   @use("App\Anagrafe\Famiglia\Models\TipoFamiglia")
 
@@ -14,9 +16,22 @@
   @endphp
 
   <div class="person-profile">
-    <header class="profile-band profile-band-solo rounded-3 mb-4">
+    <nav aria-label="Percorso di navigazione">
+      <ol class="breadcrumb small mb-2">
+        <li class="breadcrumb-item">
+          <a href="{{ route("anagrafe.families") }}">Famiglie</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+          {{ $famiglia->nome_famiglia }}
+        </li>
+      </ol>
+    </nav>
+
+    <header
+      class="profile-band profile-band-solo profile-band-famiglia rounded-3 mb-4"
+    >
       <div class="d-flex flex-wrap gap-3 align-items-start">
-        <div class="profile-avatar" aria-hidden="true">
+        <div class="profile-avatar profile-avatar-famiglia" aria-hidden="true">
           <svg
             width="44"
             height="44"
@@ -33,7 +48,10 @@
           </svg>
         </div>
         <div class="flex-grow-1" style="min-width: 0">
-          <h1 class="profile-name mb-0">{{ $famiglia->nome_famiglia }}</h1>
+          <div class="profile-occhiello">Famiglia</div>
+          <h1 class="profile-name mb-0">
+            Famiglia {{ $famiglia->nome_famiglia }}
+          </h1>
           <div class="profile-muted mb-1">
             {{ $famiglia->tipo?->nome() ?? "Tipo non indicato" }}
           </div>
@@ -110,8 +128,46 @@
 
     <div class="row g-4">
       <div class="col-lg-8 d-flex flex-column gap-4">
+        <section aria-labelledby="titolo-genitori">
+          <h2 id="titolo-genitori" class="h5 mb-3">
+            {{ $isConiugi ? "Coniugi" : "Capofamiglia" }}
+            <span class="badge rounded-pill text-bg-light">
+              {{ $genitori->count() }}
+            </span>
+          </h2>
+          @if ($genitori->isEmpty())
+            <p class="text-body-secondary">Nessun capofamiglia</p>
+          @else
+            <div class="albero-coppia albero-sposi famiglia-coppia">
+              @php
+                $annoFamiglia = $famiglia->data_creazione ? Carbon::parse($famiglia->data_creazione)->year : null;
+              @endphp
+
+              @if (! $isConiugi)
+                @include("anagrafe.persone.famiglia.partials.albero-anello", ["numero" => null, "anno" => $annoFamiglia, "casa" => true])
+              @endif
+
+              @foreach ($genitori as $componente)
+                @if (! $loop->first)
+                  @include("anagrafe.persone.famiglia.partials.albero-anello", ["numero" => null, "anno" => $annoFamiglia, "casa" => false])
+                @endif
+
+                <div
+                  class="famiglia-coppia-membro d-flex align-items-start gap-2"
+                >
+                  <div class="flex-grow-1" style="min-width: 0">
+                    @include("nomadelfia.persone.partials.profile-person-card", ["componente" => $componente, "ruolo" => $ruoloGenitore($componente), "indentato" => false, "fuoriNucleo" => $componente->pivot->stato !== "1"])
+                  </div>
+                  @can("popolazione.persona.modifica")
+                    @include("nomadelfia.templates.aggiornaComponente", ["componente" => $componente, "famiglia" => $famiglia])
+                  @endcan
+                </div>
+              @endforeach
+            </div>
+          @endif
+        </section>
+
         @foreach ([
-            ["id" => "genitori", "titolo" => $isConiugi ? "Coniugi" : "Capofamiglia", "persone" => $genitori, "ruolo" => $ruoloGenitore, "vuoto" => "Nessun capofamiglia"],
             ["id" => "figli", "titolo" => "Figli nel nucleo", "persone" => $figliNelNucleo, "ruolo" => $ruoloFiglio, "vuoto" => "Nessun figlio nel nucleo"],
             ["id" => "figli-fuori", "titolo" => "Figli non più nel nucleo", "persone" => $figliFuoriNucleo, "ruolo" => $ruoloFiglio, "vuoto" => null],
           ]

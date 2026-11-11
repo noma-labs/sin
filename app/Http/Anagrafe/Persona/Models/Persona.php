@@ -35,6 +35,8 @@ use Illuminate\Support\Str;
  * @property string $biografia
  * @property string $origine
  * @property int|null $id_alfa_enrico
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Famiglia&object{pivot: FamigliaPersona}> $famiglieFormate
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Famiglia&object{pivot: FamigliaPersona}> $famiglieComeFiglio
  */
 class Persona extends Model
 {
@@ -226,6 +228,31 @@ class Persona extends Model
     public function famiglieAttuali(): BelongsToMany
     {
         return $this->famiglie()->wherePivot('stato', '1');
+    }
+
+    /**
+     * The famiglie formed by the persona, as capofamiglia or moglie, from the first one.
+     *
+     * @return BelongsToMany<Famiglia, $this, FamigliaPersona, 'pivot'>
+     */
+    public function famiglieFormate(): BelongsToMany
+    {
+        $famiglie = $this->famiglie()
+            ->withPivot('posizione_famiglia')
+            ->wherePivotIn('posizione_famiglia', ['CAPO FAMIGLIA', 'MOGLIE']);
+        $famiglie->getQuery()->orderBy('famiglie.data_creazione')->orderBy('famiglie.id');
+
+        return $famiglie;
+    }
+
+    /**
+     * The famiglie of the persona as figlio nato, figlio accolto or aggregato, in the order of the percorso familiare.
+     *
+     * @return BelongsToMany<Famiglia, $this, FamigliaPersona, 'pivot'>
+     */
+    public function famiglieComeFiglio(): BelongsToMany
+    {
+        return $this->percorsoFamiliare()->wherePivotIn('posizione_famiglia', ['FIGLIO NATO', 'FIGLIO ACCOLTO', 'AGGREGATO']);
     }
 
     public function famiglieStorico(): BelongsToMany

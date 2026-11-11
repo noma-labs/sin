@@ -16,6 +16,7 @@
           {{ mb_substr($persona->nome, 0, 1) }}{{ mb_substr($persona->cognome, 0, 1) }}
         </div>
         <div class="flex-grow-1" style="min-width: 0">
+          <div class="profile-occhiello">Persona</div>
           <h1 class="profile-name mb-0">
             {{ $persona->nome }} {{ $persona->cognome }}
           </h1>
@@ -529,15 +530,56 @@
         </ol>
       </section>
 
-      <section class="col-xl-3 col-md-6" aria-labelledby="titolo-famiglia">
+      <section
+        class="col-xl-3 col-md-6"
+        id="parentele"
+        aria-labelledby="titolo-famiglia"
+      >
+        @php
+          $padre = $genitori->first(fn ($genitore) => $genitore->isMaschio());
+          $madre = $genitori->first(fn ($genitore) => ! $genitore->isMaschio());
+          // a famiglia d'origine without coniuge (a mamma di vocazione) has only one genitore
+          $origineSenzaConiuge = $famigliaOrigine && in_array($famigliaOrigine->tipo, App\Anagrafe\Famiglia\Models\TipoFamiglia::senzaConiuge(), true);
+          $puoAggiungereComeFiglio = ! $nelNucleo && auth()->user()?->can("popolazione.persona.inserisci");
+          $modalGenitori = $famigliaOrigine
+              ? (auth()->user()?->can("popolazione.persona.modifica") ? "modal-aggiungi-genitore" : null)
+              : ($puoAggiungereComeFiglio ? "modal-aggiungi-come-figlio" : null);
+          $genitoriMancanti = $origineSenzaConiuge
+              ? []
+              : array_filter(["padre" => $padre === null, "madre" => $madre === null]);
+
+          $puoModificare = (bool) auth()->user()?->can("popolazione.persona.modifica");
+          $famigliaPropria = $unione;
+          $famigliaPropriaConConiuge = $famigliaPropria && ! in_array($famigliaPropria->tipo, App\Anagrafe\Famiglia\Models\TipoFamiglia::senzaConiuge(), true);
+          $modalConiuge = $famigliaPropriaConConiuge && ! $coniuge && $puoModificare ? "modal-aggiungi-coniuge" : null;
+          $puoAggiungereFigli = $famigliaPropria && $puoModificare;
+          $puoAggiungereFratelli = $famigliaOrigine && $puoModificare;
+          $posizioniFiglio = fn (bool $femmina): array => [
+              "FIGLIO NATO" => [$femmina ? "Figlia nata" : "Figlio nato", "Nasce nella famiglia"],
+              "FIGLIO ACCOLTO" => [$femmina ? "Figlia accolta" : "Figlio accolto", $femmina ? "Accolta dalla famiglia" : "Accolto dalla famiglia"],
+              "AGGREGATO" => [$femmina ? "Aggregata" : "Aggregato", $femmina ? "Vive con la famiglia senza esserne figlia" : "Vive con la famiglia senza esserne figlio"],
+          ];
+          $notaFiglio = $famigliaPropria ? null : "serve una famiglia";
+          $notaFratello = $famigliaOrigine ? null : "servono i genitori";
+          $azioniParentele = [
+              [
+                  "etichetta" => "Coniuge",
+                  "modal" => $modalConiuge,
+                  "href" => ! $famigliaPropriaConConiuge && auth()->user()?->can("popolazione.persona.inserisci") ? route("anagrafe.families.create", ["persona" => $persona->id, "tipo" => App\Anagrafe\Famiglia\Models\TipoFamiglia::Coniugi->value]) : null,
+                  "nota" => $coniuge ? "già presente" : null,
+              ],
+              ["etichetta" => "Figlio", "modal" => $puoAggiungereFigli ? "modal-aggiungi-figlio" : null, "href" => null, "nota" => $notaFiglio],
+              ["etichetta" => "Figlia", "modal" => $puoAggiungereFigli ? "modal-aggiungi-figlia" : null, "href" => null, "nota" => $notaFiglio],
+              ["etichetta" => "Fratello", "modal" => $puoAggiungereFratelli ? "modal-aggiungi-fratello" : null, "href" => null, "nota" => $notaFratello],
+              ["etichetta" => "Sorella", "modal" => $puoAggiungereFratelli ? "modal-aggiungi-sorella" : null, "href" => null, "nota" => $notaFratello],
+          ];
+        @endphp
+
         <div class="d-flex justify-content-between align-items-center mb-3">
-          <h2 id="titolo-famiglia" class="h5 mb-0">Famiglia</h2>
-          <a
-            class="btn btn-sm btn-outline-secondary"
-            href="{{ route("anagrafe.person.families", $persona->id) }}"
-          >
-            Storico famiglie
-          </a>
+          <h2 id="titolo-famiglia" class="h5 mb-0">Parentele</h2>
+          @if ($puoModificare || auth()->user()?->can("popolazione.persona.inserisci"))
+            @include("nomadelfia.persone.partials.parentele-aggiungi", ["stileBottone" => "btn btn-sm profile-btn rounded-pill", "titoloBottone" => "Aggiungi"])
+          @endif
         </div>
 
         @if ($famigliaEnrico)
@@ -547,65 +589,179 @@
           </div>
         @endif
 
-        @if ($famiglia)
-          <div class="fw-semibold">
-            <a href="{{ route("anagrafe.families.show", $famiglia->id) }}">
-              Famiglia {{ $famiglia->nome_famiglia }}
-            </a>
-          </div>
-          <div class="text-body-secondary small mb-3">
-            {{ Illuminate\Support\Str::ucfirst(mb_strtolower($posizioneFamiglia)) }}
-            @if (! $nelNucleo)
-              &middot; non più nel nucleo
-            @endif
-          </div>
-        @else
-          <p class="text-body-secondary">Nessuna famiglia</p>
+        <div
+          class="profile-parentele-intestazione d-flex flex-wrap justify-content-between align-items-baseline gap-2"
+        >
+          <h3 class="profile-parentele-titolo">Genitori</h3>
+          @if ($famigliaOrigine)
+            <span class="small">
+              @include("nomadelfia.persone.partials.parentele-link-famiglia", ["famiglia" => $famigliaOrigine])
+            </span>
+          @endif
+        </div>
+        @if ($origini->count() > 1)
+          <nav
+            class="profile-origini"
+            aria-label="Famiglie d'origine di {{ $persona->nome }}"
+          >
+            @foreach ($origini as $origine)
+              <a
+                class="profile-filter"
+                href="{{ route("nomadelfia.person.profile", ["id" => $persona->id, "origine" => $origine->id, "unione" => request()->integer("unione") ?: null]) }}#parentele"
+                @if ($origine->id === $famigliaOrigine?->id) aria-current="true" @endif
+              >
+                {{ $origine->nome_famiglia . " · " . \App\Anagrafe\Famiglia\DataTransferObjects\AlberoFamiliare::etichettaTappa($persona, $origine->pivot->posizione_famiglia, $origine->pivot->data_entrata) }}
+              </a>
+            @endforeach
+          </nav>
         @endif
 
-        @if ($coniuge || $figliNelNucleo->isNotEmpty())
-          <div class="text-body-secondary small mb-2">Coniuge e figli</div>
+        @foreach (["padre" => $padre, "madre" => $madre] as $ruolo => $genitore)
+          @if ($genitore)
+            @include("nomadelfia.persone.partials.profile-person-card", ["componente" => $genitore, "ruolo" => Illuminate\Support\Str::ucfirst($ruolo), "indentato" => false])
+          @elseif (isset($genitoriMancanti[$ruolo]))
+            @if ($modalGenitori)
+              <button
+                type="button"
+                class="profile-person profile-person-aggiungi"
+                data-bs-toggle="modal"
+                data-bs-target="#{{ $modalGenitori }}"
+              >
+                <span
+                  class="profile-person-avatar profile-person-piu"
+                  aria-hidden="true"
+                >
+                  +
+                </span>
+                Aggiungi {{ $ruolo }}
+              </button>
+            @else
+              <div
+                class="profile-person profile-person-aggiungi profile-person-vuoto"
+              >
+                <span
+                  class="profile-person-avatar profile-person-piu"
+                  aria-hidden="true"
+                >
+                  ?
+                </span>
+                {{ Illuminate\Support\Str::ucfirst($ruolo) }} non {{ $ruolo === "padre" ? "registrato" : "registrata" }}
+              </div>
+            @endif
+          @endif
+        @endforeach
+
+        @if ($unione || $coniuge || $figliNelNucleo->isNotEmpty() || $figliFuoriNucleo->isNotEmpty())
+          <div
+            class="profile-parentele-intestazione d-flex flex-wrap justify-content-between align-items-baseline gap-2"
+          >
+            <h3 class="profile-parentele-titolo">Coniuge e figli</h3>
+            @if ($unione)
+              <span class="small">
+                @include("nomadelfia.persone.partials.parentele-link-famiglia", ["famiglia" => $unione])
+              </span>
+            @endif
+          </div>
+          @if ($unioni->count() > 1)
+            <nav
+              class="profile-origini"
+              aria-label="Famiglie formate da {{ $persona->nome }}"
+            >
+              @foreach ($unioni as $candidata)
+                <a
+                  class="profile-filter"
+                  href="{{ route("nomadelfia.person.profile", ["id" => $persona->id, "origine" => request()->integer("origine") ?: null, "unione" => $candidata->id]) }}#parentele"
+                  @if ($candidata->id === $unione?->id) aria-current="true" @endif
+                >
+                  {{ ($candidata->tipo?->nome() ?? "Famiglia") . ($candidata->data_creazione ? ($candidata->tipo === App\Anagrafe\Famiglia\Models\TipoFamiglia::Coniugi ? " · ⚭ " : " · dal ") . Carbon::parse($candidata->data_creazione)->year : "") }}
+                </a>
+              @endforeach
+            </nav>
+          @endif
           @if ($coniuge)
             @include("nomadelfia.persone.partials.profile-person-card", ["componente" => $coniuge, "ruolo" => $coniuge->isMaschio() ? "Marito" : "Moglie", "indentato" => false])
           @endif
 
-          @foreach ($figliNelNucleo as $figlio)
-            @include("nomadelfia.persone.partials.profile-person-card", ["componente" => $figlio, "ruolo" => Illuminate\Support\Str::ucfirst(mb_strtolower($figlio->pivot->posizione_famiglia)), "indentato" => true])
+          @php
+            $figli = $figliNelNucleo->concat($figliFuoriNucleo)->sortBy("data_nascita");
+          @endphp
+
+          @if ($figli->isNotEmpty())
+            <div class="profile-figli">
+              @foreach ($figli as $figlio)
+                @include("nomadelfia.persone.partials.profile-person-card", ["componente" => $figlio, "ruolo" => Illuminate\Support\Str::ucfirst(mb_strtolower($figlio->pivot->posizione_famiglia)), "indentato" => false, "fuoriNucleo" => $figlio->pivot->stato === "0"])
+              @endforeach
+            </div>
+          @endif
+
+          @if ($puoModificare)
+            @include("nomadelfia.persone.partials.parentele-aggiungi", ["stileBottone" => "profile-person profile-person-aggiungi", "titoloBottone" => "Aggiungi parente", "conIcona" => true])
+          @endif
+        @elseif ($famiglia && $famiglia->id !== $famigliaOrigine?->id)
+          <h3 class="profile-parentele-titolo">Famiglia</h3>
+          @include("nomadelfia.persone.partials.parentele-famiglia")
+        @elseif (! $famiglia)
+          <p class="text-body-secondary small mt-3 mb-0">Nessuna famiglia</p>
+        @endif
+
+        <a
+          class="d-inline-block mt-3 small"
+          href="{{ route("anagrafe.person.families", ["id" => $persona->id, "origine" => $famigliaOrigine?->id]) }}"
+        >
+          Albero familiare
+        </a>
+
+        @if ($modalGenitori === "modal-aggiungi-genitore" && $genitoriMancanti !== [])
+          @include("nomadelfia.templates.aggiungiComponente", ["famiglia" => $famigliaOrigine, "modalId" => "modal-aggiungi-genitore", "buttonTitle" => "", "selezionata" => isset($genitoriMancanti["padre"]) ? "CAPO FAMIGLIA" : "MOGLIE"])
+        @endif
+
+        @if ($modalConiuge)
+          @php
+            $aggiungeMoglie = $posizioneUnione === "CAPO FAMIGLIA";
+          @endphp
+
+          @include("nomadelfia.persone.partials.modal-aggiungi-parente", [
+              "modalId" => $modalConiuge,
+              "famiglia" => $famigliaPropria,
+              "titolo" => $aggiungeMoglie ? "Aggiungi la moglie" : "Aggiungi il marito",
+              "descrizione" => ($aggiungeMoglie ? "Diventa la moglie di " : "Diventa il marito di ") . $persona->nome . " nella famiglia " . $famigliaPropria->nome_famiglia . ".",
+              "etichettaPersona" => $aggiungeMoglie ? "Moglie" : "Marito",
+              "posizione" => $aggiungeMoglie ? "MOGLIE" : "CAPO FAMIGLIA",
+              "conferma" => $aggiungeMoglie ? "Aggiungi la moglie" : "Aggiungi il marito",
+          ])
+        @endif
+
+        @if ($puoAggiungereFigli)
+          @foreach (["figlio" => false, "figlia" => true] as $parente => $femmina)
+            @include("nomadelfia.persone.partials.modal-aggiungi-parente", [
+                "modalId" => "modal-aggiungi-" . $parente,
+                "famiglia" => $famigliaPropria,
+                "titolo" => $femmina ? "Aggiungi una figlia" : "Aggiungi un figlio",
+                "descrizione" => ($femmina ? "Entra come figlia" : "Entra come figlio") . " nella famiglia " . $famigliaPropria->nome_famiglia . ".",
+                "etichettaPersona" => Illuminate\Support\Str::ucfirst($parente),
+                "posizioni" => $posizioniFiglio($femmina),
+                "conferma" => $femmina ? "Aggiungi la figlia" : "Aggiungi il figlio",
+            ])
           @endforeach
         @endif
 
-        @if ($figliFuoriNucleo->isNotEmpty())
-          <div class="text-body-secondary small mt-3 mb-2">
-            Figli non più nel nucleo
-          </div>
-          @foreach ($figliFuoriNucleo as $figlio)
-            @include("nomadelfia.persone.partials.profile-person-card", ["componente" => $figlio, "ruolo" => Illuminate\Support\Str::ucfirst(mb_strtolower($figlio->pivot->posizione_famiglia)), "indentato" => true, "fuoriNucleo" => true])
+        @if ($puoAggiungereFratelli)
+          @foreach (["fratello" => false, "sorella" => true] as $parente => $femmina)
+            @include("nomadelfia.persone.partials.modal-aggiungi-parente", [
+                "modalId" => "modal-aggiungi-" . $parente,
+                "famiglia" => $famigliaOrigine,
+                "titolo" => $femmina ? "Aggiungi una sorella" : "Aggiungi un fratello",
+                "descrizione" => ($femmina ? "Entra come figlia" : "Entra come figlio") . " nella famiglia d'origine " . $famigliaOrigine->nome_famiglia . ", accanto a " . $persona->nome . ".",
+                "etichettaPersona" => Illuminate\Support\Str::ucfirst($parente),
+                "posizioni" => $posizioniFiglio($femmina),
+                "conferma" => $femmina ? "Aggiungi la sorella" : "Aggiungi il fratello",
+            ])
           @endforeach
         @endif
 
-        @if ($genitori->isNotEmpty())
-          <div class="text-body-secondary small mt-3 mb-2">
-            Famiglia d'origine
-            <a
-              href="{{ route("anagrafe.families.show", $famigliaOrigine->id) }}"
-            >
-              {{ $famigliaOrigine->nome_famiglia }}
-            </a>
-          </div>
-          @foreach ($genitori as $genitore)
-            @include("nomadelfia.persone.partials.profile-person-card", ["componente" => $genitore, "ruolo" => $genitore->isMaschio() ? "Padre" : "Madre", "indentato" => false])
-          @endforeach
+        @if ($puoAggiungereComeFiglio)
+          @include("nomadelfia.templates.addPersonToFamiliy", ["persona" => $persona, "modalId" => "modal-aggiungi-come-figlio", "buttonTitle" => ""])
         @endif
-
-        @can("popolazione.persona.inserisci")
-          <div class="d-flex flex-wrap gap-2 mt-3">
-            @include("nomadelfia.templates.nuovaFamiglia", ["persona" => $persona, "buttonStyle" => "btn-sm btn-success"])
-
-            @if (! $nelNucleo)
-              @include("nomadelfia.templates.addPersonToFamiliy", ["persona" => $persona])
-            @endif
-          </div>
-        @endcan
       </section>
     </div>
   </div>
