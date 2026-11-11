@@ -49,6 +49,26 @@ it('prefers the coniuge in the famiglia to the stato vedovo: a vedova who remarr
     expect($moglie->statoCivile()['nome'])->toBe('Sposata');
 });
 
+it('derives vedova when the coniuge died before her', function (): void {
+    $moglie = Persona::factory()->maggiorenne()->femmina()->create(['data_decesso' => '2021-08-14']);
+    $famiglia = Famiglia::factory()->coniugi()->create(['data_creazione' => '1960-05-12']);
+    $famiglia->assegnaCapoFamiglia(Persona::factory()->maggiorenne()->maschio()->create(['data_decesso' => '2018-12-16']));
+    $famiglia->assegnaMoglie($moglie);
+
+    expect($moglie->statoCivile()['nome'])->toBe('Vedova')
+        ->and($moglie->statoCivile()['dal']?->toDateString())->toBe('2018-12-16');
+});
+
+it('keeps sposato a person who died before the coniuge: only the coniuge left is vedovo', function (): void {
+    $marito = Persona::factory()->maggiorenne()->maschio()->create(['data_decesso' => '2018-12-16']);
+    $famiglia = Famiglia::factory()->coniugi()->create(['data_creazione' => '1960-05-12']);
+    $famiglia->assegnaCapoFamiglia($marito);
+    $famiglia->assegnaMoglie(Persona::factory()->maggiorenne()->femmina()->create(['data_decesso' => '2021-08-14']));
+
+    expect($marito->statoCivile()['nome'])->toBe('Sposato')
+        ->and($marito->statoCivile()['dal']?->toDateString())->toBe('1960-05-12');
+});
+
 it('derives sposato from the famiglia of tipo coniugi when the coniuge is not in the anagrafe', function (): void {
     $sposato = Persona::factory()->maggiorenne()->maschio()->create();
     $famiglia = Famiglia::factory()->coniugi()->create(['data_creazione' => '1998-06-12']);
