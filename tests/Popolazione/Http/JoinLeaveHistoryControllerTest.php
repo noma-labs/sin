@@ -1,0 +1,121 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Http\Nomadelfia;
+
+use App\Admin\Models\User;
+use App\Anagrafe\Persona\Models\Persona;
+use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
+use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
+use Carbon\Carbon;
+
+it('records a past period in Nomadelfia of a person who is not in the popolazione', function (): void {
+    login();
+    $persona = Persona::factory()->nato(Carbon::parse('1930-04-10'))->maschio()->create(['data_decesso' => '2001-02-03']);
+
+    $this->post(route('nomadelfia.join-leave-history.store', $persona->id), [
+        'data_entrata' => '1955-06-01',
+        'data_uscita' => '1972-09-30',
+    ])
+        ->assertRedirect(route('nomadelfia.join-leave-history.index', $persona->id))
+        ->assertSessionHasNoErrors();
+
+    $this->assertDatabaseHas('popolazione', ['persona_id' => $persona->id, 'data_entrata' => '1955-06-01', 'data_uscita' => '1972-09-30'], 'db_nomadelfia');
+    expect($persona->isPersonaInterna())->toBeFalse();
+    $this->get(route('nomadelfia.join-leave-history.index', $persona->id))
+        ->assertSeeInOrder(['1955-06-01', '1972-09-30']);
+});
+
+it('records a past period of a person who lives in Nomadelfia without changing the current presence', function (): void {
+    login();
+    $persona = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();
+    app(EntrataMaggiorenneSingleAction::class)->execute($persona, Carbon::parse('2010-03-01'), GruppoFamiliare::all()->random());
+
+    $this->post(route('nomadelfia.join-leave-history.store', $persona->id), [
+        'data_entrata' => '1990-01-15',
+        'data_uscita' => '1995-07-20',
+    ])->assertSessionHasNoErrors();
+
+    expect(PopolazioneNomadelfia::query()->where('persona_id', $persona->id)->orderBy('data_entrata')->get(['data_entrata', 'data_uscita'])->toArray())
+        ->toBe([
+            ['data_entrata' => '1990-01-15', 'data_uscita' => '1995-07-20'],
+            ['data_entrata' => '2010-03-01', 'data_uscita' => null],
+        ]);
+});
+
+it('rejects a past period overlapping another period of the person', function (string $dataEntrata, string $dataUscita, string $errore): void {
+    login();
+    $persona = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();
+    PopolazioneNomadelfia::query()->insert(['persona_id' => $persona->id, 'data_entrata' => '1990-01-01', 'data_uscita' => '1995-12-31']);
+    app(EntrataMaggiorenneSingleAction::class)->execute($persona, Carbon::parse('2010-03-01'), GruppoFamiliare::all()->random());
+
+    $this->post(route('nomadelfia.join-leave-history.store', $persona->id), [
+        'data_entrata' => $dataEntrata,
+        'data_uscita' => $dataUscita,
+    ])->assertSessionHasErrors(['data_uscita' => $errore]);
+
+    expect(PopolazioneNomadelfia::query()->where('persona_id', $persona->id)->count())->toBe(2);
+})->with([
+    'ends inside a period of the storico' => ['1988-01-01', '1991-01-01', 'Il periodo si sovrappone a quello dal 1990-01-01 al 1995-12-31.'],
+    'contains a period of the storico' => ['1989-01-01', '1997-01-01', 'Il periodo si sovrappone a quello dal 1990-01-01 al 1995-12-31.'],
+    'ends after the current entrata' => ['2005-01-01', '2012-01-01', 'Il periodo si sovrappone alla presenza attuale in Nomadelfia, iniziata il 2010-03-01.'],
+]);
+
+it('rejects a past period with the data di uscita before the data di entrata', function (): void {
+    login();
+    $persona = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();
+
+    $this->post(route('nomadelfia.join-leave-history.store', $persona->id), [
+        'data_entrata' => '1995-01-01',
+        'data_uscita' => '1990-01-01',
+    ])->assertSessionHasErrors(['data_uscita' => 'La data di uscita non può essere precedente alla data di entrata.']);
+});
+
+it('rejects a past period starting before the birth of the person', function (): void {
+    login();
+    $persona = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();
+
+    $this->post(route('nomadelfia.join-leave-history.store', $persona->id), [
+        'data_entrata' => '1960-01-01',
+        'data_uscita' => '1990-01-01',
+    ])->assertSessionHasErrors(['data_entrata' => 'La data di entrata non può essere precedente alla data di nascita.']);
+});
+
+it('rejects a past period ending in the future or after the death of the person', function (?string $dataDecesso, string $dataUscita): void {
+    login();
+    $persona = Persona::factory()->nato(Carbon::parse('1930-04-10'))->maschio()->create(['data_decesso' => $dataDecesso]);
+
+    $this->post(route('nomadelfia.join-leave-history.store', $persona->id), [
+        'data_entrata' => '1960-01-01',
+        'data_uscita' => $dataUscita,
+    ])->assertSessionHasErrors(['data_uscita' => 'La data di uscita non può essere futura o successiva alla data di decesso.']);
+})->with([
+    'in the future' => [null, Carbon::now()->addDay()->toDateString()],
+    'after the death' => ['2001-02-03', '2001-02-04'],
+]);
+
+it('requires the data di entrata and the data di uscita of a past period', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+
+    $this->post(route('nomadelfia.join-leave-history.store', $persona->id), [])
+        ->assertSessionHasErrors([
+            'data_entrata' => 'La data di entrata è obbligatoria.',
+            'data_uscita' => 'La data di uscita è obbligatoria.',
+        ]);
+});
+
+it('forbids recording a past period to a user without the permission to insert in the popolazione', function (): void {
+    $user = User::query()->create(['username' => 'senza-permessi', 'email' => 'senza-permessi@email.it', 'password' => 'secret', 'persona_id' => 0]);
+    login($user);
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+
+    $this->post(route('nomadelfia.join-leave-history.store', $persona->id), [
+        'data_entrata' => '1990-01-01',
+        'data_uscita' => '1995-01-01',
+    ])->assertForbidden();
+
+    expect(PopolazioneNomadelfia::query()->where('persona_id', $persona->id)->exists())->toBeFalse();
+});

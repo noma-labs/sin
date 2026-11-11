@@ -32,7 +32,68 @@
       @endif
 
       <div class="card my-3">
-        <div class="card-header">Storico Entrate/Uscite</div>
+        <div
+          class="card-header d-flex justify-content-between align-items-center"
+        >
+          Storico Entrate/Uscite
+          @can("popolazione.persona.inserisci")
+            <x-modal
+              modal-title="Aggiungi periodo storico"
+              button-title="Aggiungi periodo storico"
+              button-style="btn-primary btn-sm"
+            >
+              <x-slot:body>
+                <form
+                  class="form"
+                  method="POST"
+                  id="formPeriodoStorico{{ $persona->id }}"
+                  action="{{ route("nomadelfia.join-leave-history.store", $persona->id) }}"
+                >
+                  @csrf
+                  <p>Registra un periodo passato in cui {{ $persona->nominativo }} ha vissuto in Nomadelfia.</p>
+                  <div class="mb-3">
+                    <label class="form-label" for="storico_data_entrata">
+                      Data entrata
+                    </label>
+                    <input
+                      type="date"
+                      id="storico_data_entrata"
+                      name="data_entrata"
+                      value="{{ old("data_entrata") }}"
+                      class="form-control"
+                      required
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label" for="storico_data_uscita">
+                      Data uscita
+                    </label>
+                    <input
+                      type="date"
+                      id="storico_data_uscita"
+                      name="data_uscita"
+                      value="{{ old("data_uscita") }}"
+                      class="form-control"
+                      required
+                    />
+                  </div>
+                  <small class="form-text text-muted">
+                    Posizioni, gruppi familiari e famiglie della persona non
+                    vengono modificati.
+                  </small>
+                </form>
+              </x-slot:body>
+              <x-slot:footer>
+                <button
+                  class="btn btn-success"
+                  form="formPeriodoStorico{{ $persona->id }}"
+                >
+                  Salva
+                </button>
+              </x-slot:footer>
+            </x-modal>
+          @endcan
+        </div>
         <div class="card-body">
           <div class="card-body">
             <div class="row">
