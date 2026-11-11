@@ -1,9 +1,9 @@
-{{-- What moves with an entrata or an uscita when its date is corrected, shown before saving the correction. --}}
+{{-- What moves with an entrata or an uscita when its date is corrected (or is reopened when the uscita is removed), shown before saving. --}}
 <div class="mt-3 small">
   @if ($collegate->isEmpty())
     <p class="text-body-secondary mb-0">{{ $nessuna }}</p>
   @else
-    <p class="mb-1">Verranno spostate alla nuova data anche:</p>
+    <p class="mb-1">{{ $titolo ?? "Verranno spostate alla nuova data anche:" }}</p>
     <ul class="list-unstyled mb-0">
       @foreach ($collegate as $collegata)
         <li class="border rounded px-2 py-1 mb-1">

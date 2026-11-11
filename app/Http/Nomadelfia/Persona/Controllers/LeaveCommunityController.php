@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Nomadelfia\Persona\Controllers;
 
 use App\Anagrafe\Persona\Models\Persona;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\EliminaDataUscitaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\ModificaDataUscitaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\DataCollegata;
@@ -76,5 +77,25 @@ final class LeaveCommunityController
         $modificaDataUscita->execute($persona, $uscita, Date::parse($validated['data_uscita']));
 
         return back()->with('success', "Data uscita di $persona->nominativo modificata con successo.");
+    }
+
+    /**
+     * Removes the data di uscita of the last period: the person is in the popolazione attuale again,
+     * with the posizione and the gruppo familiare that the uscita concluded.
+     */
+    #[Middleware('can:popolazione.persona.modifica')]
+    public function destroy(int $idPersona, string $uscita, EliminaDataUscitaAction $eliminaDataUscita): RedirectResponse
+    {
+        $persona = Persona::query()->findOrFail($idPersona);
+        $periodo = PopolazioneNomadelfia::query()->where('persona_id', $persona->id)->where('data_uscita', $uscita)->firstOrFail();
+
+        $motivoRifiuto = $eliminaDataUscita->motivoRifiuto($persona, $periodo);
+        if ($motivoRifiuto !== null) {
+            return back()->with('error', $motivoRifiuto);
+        }
+
+        $eliminaDataUscita->execute($persona, $periodo);
+
+        return back()->with('success', "Data di uscita di $persona->nominativo eliminata: risulta presente in Nomadelfia.");
     }
 }

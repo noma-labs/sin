@@ -52,6 +52,9 @@
                 <div class="mb-3">
                   <label class="form-label" for="storico_data_uscita">
                     Data uscita
+                    @unless ($persona->isDeceduta())
+                      <span class="text-body-secondary">(facoltativa)</span>
+                    @endunless
                   </label>
                   <input
                     type="date"
@@ -59,8 +62,20 @@
                     name="data_uscita"
                     value="{{ old("data_uscita") }}"
                     class="form-control"
-                    required
+                    aria-describedby="storico_data_uscita_nota"
+                    @required($persona->isDeceduta())
                   />
+                  @unless ($persona->isDeceduta())
+                    <div
+                      id="storico_data_uscita_nota"
+                      class="form-text text-warning-emphasis"
+                    >
+                      Se la data di uscita non è nota, lasciala vuota. Una
+                      persona senza data di uscita è considerata nella
+                      popolazione attuale: è possibile solo se il periodo
+                      inserito è successivo all'ultima data di uscita.
+                    </div>
+                  @endunless
                 </div>
                 <small class="form-text text-muted">
                   Posizioni, gruppi familiari e famiglie della persona non
@@ -150,6 +165,9 @@
                   @can("popolazione.persona.modifica")
                     <div class="d-flex flex-wrap gap-2 mt-2">
                       @include("nomadelfia.templates.modificaDataUscita", ["persona" => $persona, "data_uscita" => $periodo->data_uscita, "collegate" => $collegate[$periodo->data_entrata]["uscita"]])
+                      @if ($loop->first && $riaperte !== null)
+                        @include("nomadelfia.templates.eliminaDataUscita", ["persona" => $persona, "periodo" => $periodo, "riaperte" => $riaperte])
+                      @endif
                       @include("nomadelfia.templates.eliminaPeriodoPopolazione", ["persona" => $persona, "periodo" => $periodo])
                     </div>
                   @endcan
