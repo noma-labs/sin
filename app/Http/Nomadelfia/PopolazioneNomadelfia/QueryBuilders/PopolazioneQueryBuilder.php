@@ -22,6 +22,18 @@ final class PopolazioneQueryBuilder extends Builder
 
     }
 
+    /**
+     * The periods of the persona overlapping the period from $dataEntrata to $dataUscita, the extremes included.
+     * A null $dataUscita is a period still open. The period with the $escludiEntrata data di entrata is left out (the one being edited).
+     */
+    public function overlapping(int $personaId, Carbon $dataEntrata, ?Carbon $dataUscita, ?string $escludiEntrata = null): self
+    {
+        return $this->where('persona_id', $personaId)
+            ->when($dataUscita, fn (Builder $query) => $query->where('data_entrata', '<=', $dataUscita?->toDateString()))
+            ->where(fn (Builder $query) => $query->whereNull('data_uscita')->orWhere('data_uscita', '>=', $dataEntrata->toDateString()))
+            ->when($escludiEntrata, fn (Builder $query) => $query->where('data_entrata', '!=', $escludiEntrata));
+    }
+
     public function presente()
     {
         return $this

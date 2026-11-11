@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
 use App\Anagrafe\Persona\Models\Persona;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\ModificaDataEntrataAction;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\ModificaDataUscitaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Closure;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
@@ -15,15 +18,22 @@ use Illuminate\Support\Facades\Date;
 #[Middleware('auth')]
 final class JoinLeaveHistoryController
 {
+    /**
+     * The timeline of the entrate and uscite of the person, from the most recent period, with what moves with each date
+     * when it is corrected (shown before saving the correction).
+     */
     #[Middleware('can:popolazione.persona.visualizza')]
-    public function index($id)
+    public function index(int $id, ModificaDataEntrataAction $modificaDataEntrata, ModificaDataUscitaAction $modificaDataUscita): View
     {
-        $persona = Persona::findOrFail($id);
+        $persona = Persona::query()->findOrFail($id);
 
-        $attuale = PopolazioneNomadelfia::where('persona_id', $id)->whereNull('data_uscita')->first();
-        $storico = PopolazioneNomadelfia::where('persona_id', $id)->whereNotNull('data_uscita')->orderby('data_entrata')->get();
+        $periodi = PopolazioneNomadelfia::query()->where('persona_id', $id)->get()->sortByDesc('data_entrata')->values();
+        $collegate = $periodi->mapWithKeys(fn (PopolazioneNomadelfia $periodo): array => [$periodo->data_entrata => [
+            'entrata' => $modificaDataEntrata->collegate($persona, $periodo->data_entrata),
+            'uscita' => $periodo->data_uscita === null ? collect() : $modificaDataUscita->collegate($persona, $periodo->data_uscita),
+        ]]);
 
-        return view('nomadelfia.persone.popolazione.show', compact('persona', 'attuale', 'storico'));
+        return view('nomadelfia.persone.popolazione.show', ['persona' => $persona, 'periodi' => $periodi, 'collegate' => $collegate]);
     }
 
     /**
@@ -61,22 +71,41 @@ final class JoinLeaveHistoryController
     }
 
     /**
+     * Deletes from the storico a closed period recorded with wrong dates. The current presence in Nomadelfia cannot be deleted:
+     * the person has to leave the community instead.
+     */
+    #[Middleware('can:popolazione.persona.modifica')]
+    public function destroy(int $id, string $entrata): RedirectResponse
+    {
+        $persona = Persona::query()->findOrFail($id);
+
+        $periodo = PopolazioneNomadelfia::query()
+            ->where('persona_id', $persona->id)
+            ->where('data_entrata', $entrata)
+            ->whereNotNull('data_uscita')
+            ->firstOrFail();
+
+        PopolazioneNomadelfia::query()
+            ->where('persona_id', $persona->id)
+            ->where('data_entrata', $periodo->data_entrata)
+            ->delete();
+
+        return to_route('nomadelfia.join-leave-history.index', $persona->id)
+            ->with('success', "Periodo dal $periodo->data_entrata al $periodo->data_uscita di $persona->nominativo eliminato correttamente.");
+    }
+
+    /**
      * Validates that the new period does not overlap a period already in the storico, nor the current presence in Nomadelfia.
      */
     private function doesNotOverlapOtherPeriods(Persona $persona, string $dataEntrata): Closure
     {
         return function (string $attribute, string $value, Closure $fail) use ($persona, $dataEntrata): void {
             $periodo = PopolazioneNomadelfia::query()
-                ->where('persona_id', $persona->id)
-                ->where('data_entrata', '<=', Date::parse($value)->toDateString())
-                ->where(fn ($query) => $query->whereNull('data_uscita')->orWhere('data_uscita', '>=', Date::parse($dataEntrata)->toDateString()))
-                ->orderBy('data_entrata')
+                ->overlapping($persona->id, Date::parse($dataEntrata), Date::parse($value))
                 ->first();
 
             if ($periodo !== null) {
-                $fail($periodo->data_uscita === null
-                    ? "Il periodo si sovrappone alla presenza attuale in Nomadelfia, iniziata il $periodo->data_entrata."
-                    : "Il periodo si sovrappone a quello dal $periodo->data_entrata al $periodo->data_uscita.");
+                $fail($periodo->messaggioSovrapposizione());
             }
         };
     }

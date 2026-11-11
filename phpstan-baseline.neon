@@ -4657,12 +4657,6 @@ parameters:
 			path: app/Http/Nomadelfia/Persona/Controllers/JoinCommunityController.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$data_entrata\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Nomadelfia/Persona/Controllers/JoinCommunityController.php
-
-		-
 			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withErrore\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -4671,7 +4665,7 @@ parameters:
 		-
 			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withSuccess\(\)\.$#'
 			identifier: method.notFound
-			count: 2
+			count: 1
 			path: app/Http/Nomadelfia/Persona/Controllers/JoinCommunityController.php
 
 		-
@@ -4683,7 +4677,7 @@ parameters:
 		-
 			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
-			count: 3
+			count: 2
 			path: app/Http/Nomadelfia/Persona/Controllers/JoinCommunityController.php
 
 		-
@@ -4717,24 +4711,6 @@ parameters:
 			path: app/Http/Nomadelfia/Persona/Controllers/JoinCommunityController.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\JoinCommunityController\:\:update\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/Persona/Controllers/JoinCommunityController.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\JoinCommunityController\:\:update\(\) has parameter \$entrata with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Nomadelfia/Persona/Controllers/JoinCommunityController.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\JoinCommunityController\:\:update\(\) has parameter \$id with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Nomadelfia/Persona/Controllers/JoinCommunityController.php
-
-		-
 			message: '#^Parameter \#1 \$time of static method Illuminate\\Support\\Facades\\Date\:\:parse\(\) expects Carbon\\Month\|Carbon\\WeekDay\|DateTimeInterface\|float\|int\|string\|null, mixed given\.$#'
 			identifier: argument.type
 			count: 1
@@ -4743,7 +4719,7 @@ parameters:
 		-
 			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$data_uscita\.$#'
 			identifier: property.notFound
-			count: 2
+			count: 1
 			path: app/Http/Nomadelfia/Persona/Controllers/LeaveCommunityController.php
 
 		-
@@ -4755,13 +4731,13 @@ parameters:
 		-
 			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withSuccess\(\)\.$#'
 			identifier: method.notFound
-			count: 2
+			count: 1
 			path: app/Http/Nomadelfia/Persona/Controllers/LeaveCommunityController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
-			count: 2
+			count: 1
 			path: app/Http/Nomadelfia/Persona/Controllers/LeaveCommunityController.php
 
 		-
@@ -4772,24 +4748,6 @@ parameters:
 
 		-
 			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\LeaveCommunityController\:\:store\(\) has parameter \$id with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Nomadelfia/Persona/Controllers/LeaveCommunityController.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\LeaveCommunityController\:\:update\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/Persona/Controllers/LeaveCommunityController.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\LeaveCommunityController\:\:update\(\) has parameter \$idPersona with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Nomadelfia/Persona/Controllers/LeaveCommunityController.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\LeaveCommunityController\:\:update\(\) has parameter \$uscita with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Nomadelfia/Persona/Controllers/LeaveCommunityController.php
@@ -5201,30 +5159,6 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/CaricheController.php
-
-		-
-			message: '#^Call to an undefined static method App\\Anagrafe\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/JoinLeaveHistoryController.php
-
-		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\PopolazioneNomadelfia\:\:where\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 2
-			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/JoinLeaveHistoryController.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Controllers\\JoinLeaveHistoryController\:\:index\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/JoinLeaveHistoryController.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Controllers\\JoinLeaveHistoryController\:\:index\(\) has parameter \$id with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/JoinLeaveHistoryController.php
 
 		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\<App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\PopolazioneAttuale\>\:\:overage\(\)\.$#'

@@ -14,8 +14,10 @@ use stdClass;
 /**
  * @property int $persona_id
  * @property string $data_entrata
- * @property string $data_uscita
- *                               Deprecated: use the PopolazioneAttuale model instead.
+ * @property string|null $data_uscita
+ *
+ * @method static PopolazioneQueryBuilder query()
+ *                                                Deprecated: use the PopolazioneAttuale model instead.
  */
 final class PopolazioneNomadelfia extends Model
 {
@@ -343,6 +345,16 @@ final class PopolazioneNomadelfia extends Model
         return DB::connection('db_nomadelfia')->select(
             $expression->getValue(DB::connection()->getQueryGrammar())
         );
+    }
+
+    /**
+     * The validation message for a new or edited period that overlaps this one.
+     */
+    public function messaggioSovrapposizione(): string
+    {
+        return $this->data_uscita === null
+            ? "Il periodo si sovrappone alla presenza attuale in Nomadelfia, iniziata il $this->data_entrata."
+            : "Il periodo si sovrappone a quello dal $this->data_entrata al $this->data_uscita.";
     }
 
     public function newEloquentBuilder($query): PopolazioneQueryBuilder

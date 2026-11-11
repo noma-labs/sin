@@ -174,6 +174,7 @@ Route::prefix('nomadelfia')->group(function () {
     Route::post('people/{id}/leave/{uscita}', [LeaveCommunityController::class, 'update'])->name('nomadelfia.leave.update');
     Route::get('people/{id}/join-leave-history', [JoinLeaveHistoryController::class, 'index'])->name('nomadelfia.join-leave-history.index');
     Route::post('people/{id}/join-leave-history', [JoinLeaveHistoryController::class, 'store'])->name('nomadelfia.join-leave-history.store');
+    Route::delete('people/{id}/join-leave-history/{entrata}', [JoinLeaveHistoryController::class, 'destroy'])->name('nomadelfia.join-leave-history.destroy');
 
     Route::post('people/{id}/death', [DeathController::class, 'store'])->name('nomadelfia.death.store');
     Route::get('people/{id}/folder-number', [FolderNumberController::class, 'create'])->name('nomadelfia.folder-number.create');
