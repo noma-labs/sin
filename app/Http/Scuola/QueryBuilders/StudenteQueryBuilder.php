@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace App\Scuola\QueryBuilders;
 
 use App\Scuola\Models\Anno;
+use App\Scuola\Models\Studente;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @extends Builder<Studente>
+ */
 final class StudenteQueryBuilder extends Builder
 {
     public function InAnnoScolastico($anno)
