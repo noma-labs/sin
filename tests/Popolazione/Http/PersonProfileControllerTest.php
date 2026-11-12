@@ -727,7 +727,8 @@ it('links each page of a person only once from the profile', function (): void {
 it('shows next to the name that the numero elenco is missing', function (): void {
     login();
     $senzaNumero = Persona::factory()->maggiorenne()->maschio()->create(['numero_elenco' => null]);
-    $conNumero = Persona::factory()->maggiorenne()->maschio()->create(['numero_elenco' => 'B1']);
+    $numeroElenco = 'Z'.fake()->unique()->numberBetween(10000, 99999);
+    $conNumero = Persona::factory()->maggiorenne()->maschio()->numeroElenco($numeroElenco)->create();
 
     $this->get(route('nomadelfia.person.profile', $senzaNumero->id))
         ->assertSuccessful()
@@ -735,7 +736,7 @@ it('shows next to the name that the numero elenco is missing', function (): void
 
     $this->get(route('nomadelfia.person.profile', $conNumero->id))
         ->assertSuccessful()
-        ->assertSee('N° elenco B1')
+        ->assertSee('N° elenco '.$numeroElenco)
         ->assertDontSee('N° elenco mancante');
 });
 
