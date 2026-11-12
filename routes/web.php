@@ -44,6 +44,7 @@ use App\Nomadelfia\GruppoFamiliare\Controllers\GruppofamiliareController;
 use App\Nomadelfia\GruppoFamiliare\Controllers\MovePersonGruppoFamiliareController;
 use App\Nomadelfia\GruppoFamiliare\Controllers\PersonGruppoFamiliareController;
 use App\Nomadelfia\Incarico\Controllers\IncarichiController;
+use App\Nomadelfia\Incarico\Controllers\PersonaIncarichiController;
 use App\Nomadelfia\Persona\Controllers\DeathController;
 use App\Nomadelfia\Persona\Controllers\FolderNumberController;
 use App\Nomadelfia\Persona\Controllers\JoinCommunityController;
@@ -173,7 +174,6 @@ Route::prefix('nomadelfia')->group(function () {
     Route::post('people/{id}/leave', [LeaveCommunityController::class, 'store'])->name('nomadelfia.leave.store');
     Route::post('people/{id}/leave/{uscita}', [LeaveCommunityController::class, 'update'])->name('nomadelfia.leave.update');
     Route::delete('people/{id}/leave/{uscita}', [LeaveCommunityController::class, 'destroy'])->name('nomadelfia.leave.destroy');
-    Route::get('people/{id}/join-leave-history', [JoinLeaveHistoryController::class, 'index'])->name('nomadelfia.join-leave-history.index');
     Route::post('people/{id}/join-leave-history', [JoinLeaveHistoryController::class, 'store'])->name('nomadelfia.join-leave-history.store');
     Route::delete('people/{id}/join-leave-history/{entrata}', [JoinLeaveHistoryController::class, 'destroy'])->name('nomadelfia.join-leave-history.destroy');
 
@@ -201,6 +201,7 @@ Route::prefix('nomadelfia')->group(function () {
     Route::get('people/{idPersona}/aziende', [PersonaAziendeController::class, 'index'])->name('nomadelfia.persone.aziende');
     Route::post('people/{idPersona}/aziende', [PersonaAziendeController::class, 'store'])->name('nomadelfia.persone.aziende.assegna');
     Route::post('people/{idPersona}/aziende/{id}/modifica', [PersonaAziendeController::class, 'update'])->name('nomadelfia.persone.aziende.modifica');
+    Route::post('people/{idPersona}/incarichi', [PersonaIncarichiController::class, 'store'])->name('nomadelfia.persone.incarichi.assegna');
     Route::get('aziende', [AziendeController::class, 'view'])->name('nomadelfia.aziende');
     Route::get('aziende/edit/{id}', [AziendeController::class, 'edit'])->name('nomadelfia.aziende.edit');
     Route::post('aziende/{id}/persona', [AziendeLavoratoreController::class, 'store'])->name('nomadelfia.azienda.lavoratore.assegna');

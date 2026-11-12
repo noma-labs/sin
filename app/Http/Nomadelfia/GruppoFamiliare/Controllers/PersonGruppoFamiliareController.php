@@ -68,8 +68,7 @@ final class PersonGruppoFamiliareController
         $action = new AssegnaGruppoFamiliareAction;
         $action->execute($persona, GruppoFamiliare::findOrFail($request->gruppo_id), \Illuminate\Support\Facades\Date::parse($request->data_entrata));
 
-        return redirect()
-            ->action([self::class, 'index'], $persona->id)
+        return ($request->boolean('torna_indietro') ? back() : redirect()->action([self::class, 'index'], $persona->id))
             ->withSuccess("$persona->nominativo assegnato al gruppo familiare con successo");
     }
 

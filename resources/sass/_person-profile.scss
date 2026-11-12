@@ -172,6 +172,17 @@
     font-weight: 600;
   }
 
+  a.profile-chip {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+      border-color: $nomadelfia-blu;
+      color: $nomadelfia-blu;
+    }
+  }
+
   .profile-btn {
     background: $white;
     color: $nomadelfia-blu;

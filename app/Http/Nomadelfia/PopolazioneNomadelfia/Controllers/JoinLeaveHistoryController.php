@@ -5,44 +5,19 @@ declare(strict_types=1);
 namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
 use App\Anagrafe\Persona\Models\Persona;
-use App\Nomadelfia\PopolazioneNomadelfia\Actions\EliminaDataUscitaAction;
-use App\Nomadelfia\PopolazioneNomadelfia\Actions\ModificaDataEntrataAction;
-use App\Nomadelfia\PopolazioneNomadelfia\Actions\ModificaDataUscitaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Closure;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Illuminate\Support\Facades\Date;
 
+/**
+ * The periods of the person in Nomadelfia recorded or deleted from the percorso of the profile.
+ */
 #[Middleware('auth')]
 final class JoinLeaveHistoryController
 {
-    /**
-     * The timeline of the entrate and uscite of the person, from the most recent period, with what moves with each date
-     * when it is corrected and what is reopened when the last data di uscita is removed (shown before saving).
-     * $riaperte is null when the last data di uscita cannot be removed.
-     */
-    #[Middleware('can:popolazione.persona.visualizza')]
-    public function index(int $id, ModificaDataEntrataAction $modificaDataEntrata, ModificaDataUscitaAction $modificaDataUscita, EliminaDataUscitaAction $eliminaDataUscita): View
-    {
-        $persona = Persona::query()->findOrFail($id);
-
-        $periodi = PopolazioneNomadelfia::query()->where('persona_id', $id)->get()->sortByDesc('data_entrata')->values();
-        $collegate = $periodi->mapWithKeys(fn (PopolazioneNomadelfia $periodo): array => [$periodo->data_entrata => [
-            'entrata' => $modificaDataEntrata->collegate($persona, $periodo->data_entrata),
-            'uscita' => $periodo->data_uscita === null ? collect() : $modificaDataUscita->collegate($persona, $periodo->data_uscita),
-        ]]);
-
-        $ultimoPeriodo = $periodi->first();
-        $riaperte = $ultimoPeriodo !== null && $ultimoPeriodo->data_uscita !== null && $eliminaDataUscita->motivoRifiuto($persona, $ultimoPeriodo) === null
-            ? $eliminaDataUscita->riaperte($persona, $ultimoPeriodo)
-            : null;
-
-        return view('nomadelfia.persone.popolazione.show', ['persona' => $persona, 'periodi' => $periodi, 'collegate' => $collegate, 'riaperte' => $riaperte]);
-    }
-
     /**
      * Records in the storico a period in which the person lived in Nomadelfia. The data di uscita can be left empty when it is unknown:
      * the period stays open and the person is in the popolazione attuale, which is possible only when the period starts after the last uscita.
@@ -83,7 +58,7 @@ final class JoinLeaveHistoryController
             'data_uscita' => $uscitaNota ? Date::parse($validated['data_uscita'])->toDateString() : null,
         ]);
 
-        return to_route('nomadelfia.join-leave-history.index', $persona->id)
+        return to_route('nomadelfia.person.profile', $persona->id)
             ->with('success', $uscitaNota
                 ? "Periodo storico di $persona->nominativo inserito correttamente."
                 : "Periodo di $persona->nominativo inserito senza data di uscita: risulta presente in Nomadelfia.");
@@ -109,7 +84,7 @@ final class JoinLeaveHistoryController
             ->where('data_entrata', $periodo->data_entrata)
             ->delete();
 
-        return to_route('nomadelfia.join-leave-history.index', $persona->id)
+        return to_route('nomadelfia.person.profile', $persona->id)
             ->with('success', "Periodo dal $periodo->data_entrata al $periodo->data_uscita di $persona->nominativo eliminato correttamente.");
     }
 

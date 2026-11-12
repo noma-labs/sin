@@ -39,8 +39,7 @@ final class MovePersonGruppoFamiliareController
             \Illuminate\Support\Facades\Date::parse($new_datain),
         );
 
-        return redirect()
-            ->action([PersonGruppoFamiliareController::class, 'index'], $persona->id)
+        return ($request->boolean('torna_indietro') ? back() : redirect()->action([PersonGruppoFamiliareController::class, 'index'], $persona->id))
             ->withSuccess("$persona->nominativo assegnato al gruppo familiare con successo");
     }
 }

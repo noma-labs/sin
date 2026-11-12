@@ -33,8 +33,8 @@ final class BuildPersonTimelineAction
         $nascita = Date::parse($persona->data_nascita);
         $decesso = $persona->data_decesso ? Date::parse($persona->data_decesso) : null;
 
-        $evento = fn (Carbon $data, string $categoria, string $etichetta, string $titolo, ?string $dettaglio = null, ?Persona $altraPersona = null, bool $importante = false, ?Famiglia $famiglia = null, bool $dataRegistrata = true): TimelineEvent => new TimelineEvent(
-            $data, (int) $nascita->diffInYears($data), $categoria, $etichetta, $titolo, $dettaglio, $altraPersona, $importante, $famiglia, $dataRegistrata
+        $evento = fn (Carbon $data, string $categoria, string $etichetta, string $titolo, ?string $dettaglio = null, ?Persona $altraPersona = null, bool $importante = false, ?Famiglia $famiglia = null, bool $dataRegistrata = true, ?PopolazioneNomadelfia $periodo = null, ?string $confinePeriodo = null): TimelineEvent => new TimelineEvent(
+            $data, (int) $nascita->diffInYears($data), $categoria, $etichetta, $titolo, $dettaglio, $altraPersona, $importante, $famiglia, $dataRegistrata, $periodo, $confinePeriodo
         );
 
         /** @var Collection<int, Famiglia&object{pivot: FamigliaPersona}> $percorsoFamiliare */
@@ -51,27 +51,42 @@ final class BuildPersonTimelineAction
         $eventi = $eventi->merge($this->eventiPercorsoFamiliare($persona, $percorsoFamiliare, $evento));
 
         $posizioni = $persona->posizioni()->orderByPivot('data_inizio')->toBase()->get(['posizioni.nome', 'posizioni.abbreviato', 'persone_posizioni.data_inizio']);
+        $gruppi = $persona->gruppifamiliari()
+            ->wherePivotNotNull('data_entrata_gruppo')
+            ->orderByPivot('data_entrata_gruppo')
+            ->toBase()
+            ->get(['gruppi_familiari.nome', 'gruppi_persone.data_entrata_gruppo']);
         $dateEntrata = collect();
         $ultimaUscita = null;
+        $periodoChiusoDalDecesso = null;
 
-        foreach (PopolazioneNomadelfia::query()->where('persona_id', $persona->id)->orderBy('data_entrata')->get() as $periodo) {
+        foreach (PopolazioneNomadelfia::query()->where('persona_id', $persona->id)->get()->sortBy('data_entrata') as $periodo) {
             $entrata = Date::parse($periodo->data_entrata);
             $dateEntrata->push($entrata);
             $posizione = $posizioni->first(fn ($p): bool => Date::parse($p->data_inizio)->isSameDay($entrata));
+            $gruppo = $gruppi->first(fn ($g): bool => Date::parse($g->data_entrata_gruppo)->isSameDay($entrata));
+            $dettaglio = collect([
+                $ultimaUscita ? 'Dopo '.$ultimaUscita->diffForHumans($entrata, CarbonInterface::DIFF_ABSOLUTE, false, 2).' fuori dalla comunità' : null,
+                $gruppo ? 'Nel gruppo familiare '.$gruppo->nome : null,
+            ])->filter()->implode(' · ');
 
             $eventi->push($evento(
                 $entrata,
                 TimelineEvent::CATEGORIA_COMUNITA,
                 'Comunità',
                 ($ultimaUscita ? 'Rientra' : 'Entra').' in Nomadelfia'.($posizione ? ' come '.$posizione->nome : ''),
-                $ultimaUscita ? 'Dopo '.$ultimaUscita->diffForHumans($entrata, CarbonInterface::DIFF_ABSOLUTE, false, 2).' fuori dalla comunità' : null,
+                $dettaglio !== '' ? $dettaglio : null,
                 importante: true,
+                periodo: $periodo,
+                confinePeriodo: TimelineEvent::PERIODO_ENTRATA,
             ));
 
             if ($periodo->data_uscita) {
                 $ultimaUscita = Date::parse($periodo->data_uscita);
-                if (! $decesso?->isSameDay($ultimaUscita)) {
-                    $eventi->push($evento($ultimaUscita, TimelineEvent::CATEGORIA_COMUNITA, 'Comunità', 'Esce da Nomadelfia', importante: true));
+                if ($decesso?->isSameDay($ultimaUscita)) {
+                    $periodoChiusoDalDecesso = $periodo;
+                } else {
+                    $eventi->push($evento($ultimaUscita, TimelineEvent::CATEGORIA_COMUNITA, 'Comunità', 'Esce da Nomadelfia', importante: true, periodo: $periodo, confinePeriodo: TimelineEvent::PERIODO_USCITA));
                 }
             }
         }
@@ -90,6 +105,22 @@ final class BuildPersonTimelineAction
                 ));
             }
             $posizionePrecedente = $posizione->nome;
+        }
+
+        // the entrata in a gruppo familiare on the day of the entrata in the comunità is told by the entrata itself
+        $gruppoPrecedente = null;
+        foreach ($gruppi as $gruppo) {
+            $entrataGruppo = Date::parse($gruppo->data_entrata_gruppo);
+            if ($dateEntrata->doesntContain(fn (Carbon $data): bool => $data->isSameDay($entrataGruppo))) {
+                $eventi->push($evento(
+                    $entrataGruppo,
+                    TimelineEvent::CATEGORIA_COMUNITA,
+                    'Gruppo familiare',
+                    'Entra nel gruppo familiare '.$gruppo->nome,
+                    $gruppoPrecedente ? 'Prima: '.$gruppoPrecedente : null,
+                ));
+            }
+            $gruppoPrecedente = $gruppo->nome;
         }
 
         $famiglieSenzaConiuge = collect();
@@ -189,7 +220,15 @@ final class BuildPersonTimelineAction
         }
 
         if ($decesso) {
-            $eventi->push($evento($decesso, TimelineEvent::CATEGORIA_ANAGRAFE, 'Decesso', 'Decesso', importante: true));
+            $eventi->push($evento(
+                $decesso,
+                TimelineEvent::CATEGORIA_ANAGRAFE,
+                'Decesso',
+                'Decesso',
+                importante: true,
+                periodo: $periodoChiusoDalDecesso,
+                confinePeriodo: $periodoChiusoDalDecesso ? TimelineEvent::PERIODO_USCITA : null,
+            ));
         }
 
         $primaNascita = fn (TimelineEvent $e): int => $e->etichetta === 'Nascita' ? 1 : 0;

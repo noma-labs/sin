@@ -34,10 +34,14 @@ final class PersonPositionController
             // 'data_fine.required'=>"La data fine della posizione è obbligatoria.",
         ]);
         $persona = Persona::findOrFail($id);
-        $persona->assegnaPosizione($request->posizione_id, \Illuminate\Support\Facades\Date::parse($request->data_inizio), \Illuminate\Support\Facades\Date::parse($request->data_fine));
+        // without the data di fine, the posizione attuale ends when the new one starts
+        $persona->assegnaPosizione(
+            $request->posizione_id,
+            \Illuminate\Support\Facades\Date::parse($request->data_inizio),
+            $request->filled('data_fine') ? \Illuminate\Support\Facades\Date::parse($request->data_fine) : null,
+        );
 
-        return redirect()
-            ->action([self::class, 'index'], $persona->id)
+        return ($request->boolean('torna_indietro') ? back() : redirect()->action([self::class, 'index'], $persona->id))
             ->withSuccess("Nuova posizione assegnata a $persona->nominativo  con successo.");
     }
 
