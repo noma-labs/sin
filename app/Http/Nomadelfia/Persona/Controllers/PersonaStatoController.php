@@ -7,6 +7,7 @@ namespace App\Nomadelfia\Persona\Controllers;
 use App\Anagrafe\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Illuminate\Validation\Rule;
@@ -40,15 +41,15 @@ final class PersonaStatoController
             'data_inizio.required' => 'La data iniziale dello stato è obbligatoria.',
         ]);
         $persona = Persona::findOrFail($idPersona);
+        // with torna_indietro the response goes back to the page of the form (the profile)
+        $ritorno = fn (): RedirectResponse => $request->boolean('torna_indietro') ? back() : redirect()->action([self::class, 'index'], $persona->id);
         try {
             $persona->assegnaStato($request->stato_id, $request->data_inizio);
         } catch (Exception $e) {
-            return redirect()->action([self::class, 'index'], $persona->id)->withErrors(['stato_id' => $e->getMessage()]);
+            return $ritorno()->withErrors(['stato_id' => $e->getMessage()]);
         }
 
-        return redirect()
-            ->action([self::class, 'index'], $persona->id)
-            ->withSuccess("Stato assegnato a $persona->nominativo con successo");
+        return $ritorno()->with('success', "Stato assegnato a $persona->nominativo con successo");
     }
 
     #[Middleware('can:popolazione.persona.modifica')]

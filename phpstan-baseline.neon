@@ -4923,7 +4923,7 @@ parameters:
 		-
 			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withSuccess\(\)\.$#'
 			identifier: method.notFound
-			count: 2
+			count: 1
 			path: app/Http/Nomadelfia/Persona/Controllers/PersonaStatoController.php
 
 		-
