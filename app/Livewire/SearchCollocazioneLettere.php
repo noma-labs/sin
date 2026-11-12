@@ -43,4 +43,9 @@ final class SearchCollocazioneLettere extends Autocomplete
 
         return $selected;
     }
+
+    protected function selectedEvent(): string
+    {
+        return SearchCollocazioneNumeri::LETTERE_SELECTED;
+    }
 }
