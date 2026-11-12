@@ -9,7 +9,7 @@
   >
     Aggiungi
   </button>
-  <ul class="dropdown-menu">
+  <ul class="dropdown-menu dropdown-menu-end">
     @can("popolazione.persona.inserisci")
       <li><h6 class="dropdown-header">Posizione</h6></li>
       @foreach ($posizioniComunita as $posizione)
