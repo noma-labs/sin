@@ -11,10 +11,12 @@ use App\Scuola\DataTransferObjects\AnnoScolastico;
 use App\Scuola\DataTransferObjects\Dimensione;
 use App\Scuola\Exceptions\BadDimensionException;
 use App\Scuola\Models\Elaborato;
+use App\Scuola\Models\Studente;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 final class ElaboratiController
 {
@@ -102,14 +104,15 @@ final class ElaboratiController
 
         $classi = $request->filled('classi') ? implode(',', $request->input('classi')) : '';
         $dimensione = $request->input('dimensione') ? Dimensione::fromString($request->input('dimensione'))->toString() : null;
+        $noteLibro = $this->noteLibro($request->string('note')->toString(), $alunni);
 
-        $elaborato = DB::connection('db_biblioteca')->transaction(fn (): Elaborato => DB::connection('db_scuola')->transaction(function () use ($request, $titolo, $collocazione, $as, $alunni, $coords, $classi, $dimensione): Elaborato {
+        $elaborato = DB::connection('db_biblioteca')->transaction(fn (): Elaborato => DB::connection('db_scuola')->transaction(function () use ($request, $titolo, $collocazione, $as, $alunni, $coords, $classi, $dimensione, $noteLibro): Elaborato {
             $libro = Libro::query()->create([
                 'titolo' => $titolo,
                 'collocazione' => $collocazione,
                 'classificazione_id' => null,
                 'dimensione' => $dimensione,
-                'note' => $request->input('note', null),
+                'note' => $noteLibro,
                 'tobe_printed' => 1,
             ]);
             $autore = Autore::query()->firstOrCreate(['autore' => self::DEFAULT_AUTORE, 'tipaut' => 'S']);
@@ -248,5 +251,29 @@ final class ElaboratiController
         $fileName = basename((string) $filePath); // Get the base name in case you want to customize the download file name
 
         return Storage::disk('media_originals')->download($filePath, $fileName);
+    }
+
+    /**
+     * Note of the libro of an elaborato: the note of the elaborato followed by the nome and cognome of its studenti.
+     *
+     * @param  array<int, int|string>  $studentiIds
+     */
+    private function noteLibro(string $note, array $studentiIds): ?string
+    {
+        $studenti = Studente::query()
+            ->findMany($studentiIds)
+            ->sortBy([['cognome', 'asc'], ['nome', 'asc']])
+            ->map(fn (Studente $studente): string => $studente->nome.' '.$studente->cognome);
+
+        $righe = [];
+        if ($note !== '') {
+            $righe[] = $note;
+        }
+        if ($studenti->isNotEmpty()) {
+            $righe[] = 'Studenti: '.$studenti->implode(', ');
+        }
+
+        // The note column of the libro is a varchar(255).
+        return $righe === [] ? null : Str::limit(implode("\n", $righe), 255, '');
     }
 }

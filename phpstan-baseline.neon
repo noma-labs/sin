@@ -9739,12 +9739,6 @@ parameters:
 			path: app/Http/Scuola/QueryBuilders/StudenteQueryBuilder.php
 
 		-
-			message: '#^Class App\\Scuola\\QueryBuilders\\StudenteQueryBuilder extends generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
-			identifier: missingType.generics
-			count: 1
-			path: app/Http/Scuola/QueryBuilders/StudenteQueryBuilder.php
-
-		-
 			message: '#^Method App\\Scuola\\QueryBuilders\\StudenteQueryBuilder\:\:InAnnoScolastico\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1

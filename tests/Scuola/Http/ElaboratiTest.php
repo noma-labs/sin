@@ -237,6 +237,7 @@ it('can store an elaborato also as a libro', function (): void {
     $libro = Libro::query()->where('collocazione', $collocazione)->firstOrFail();
     expect($libro->titolo)->toBe('TEST TITLE')
         ->and($libro->classificazione_id)->toBeNull()
+        ->and($libro->note)->toBe("Studenti: {$s->nome} {$s->cognome}")
         ->and($libro->autori()->pluck('autore')->all())->toBe(['SCUOLA NOMADELFIA'])
         ->and($libro->editori()->pluck('editore')->all())->toBe(['SCUOLA NOMADELFIA']);
 
@@ -248,6 +249,25 @@ it('can store an elaborato also as a libro', function (): void {
         'file_path' => null,
     ], 'db_scuola');
     expect($elaborato->studenti()->pluck('id')->all())->toBe([$s->id]);
+});
+
+it('writes the note and the nome and cognome of the studenti of an elaborato in the note of its libro', function (): void {
+    login();
+
+    $rossi = Studente::factory()->minorenne()->maschio()->create(['nome' => 'Mario', 'cognome' => 'Rossi']);
+    $bianchi = Studente::factory()->minorenne()->femmina()->create(['nome' => 'Anna', 'cognome' => 'Bianchi']);
+    $collocazione = freeElaboratoCollocazione();
+
+    $this->post(action([ElaboratiController::class, 'store']), [
+        'collocazione' => $collocazione,
+        'titolo' => 'Test Title',
+        'anno_scolastico' => '2015/2016',
+        'note' => 'Lavoro di gruppo',
+        'studenti_ids' => [$rossi->id, $bianchi->id],
+    ])->assertRedirect();
+
+    $libro = Libro::query()->where('collocazione', $collocazione)->firstOrFail();
+    expect($libro->note)->toBe("Lavoro di gruppo\nStudenti: Anna Bianchi, Mario Rossi");
 });
 
 it('can store an elaborato without studenti', function (): void {
@@ -263,7 +283,8 @@ it('can store an elaborato without studenti', function (): void {
 
     $elaborato = Elaborato::query()->where('collocazione', $collocazione)->firstOrFail();
     $response->assertRedirectToRoute('scuola.elaborati.show', $elaborato->id);
-    expect($elaborato->studenti()->count())->toBe(0);
+    expect($elaborato->studenti()->count())->toBe(0)
+        ->and(Libro::query()->where('collocazione', $collocazione)->value('note'))->toBeNull();
 });
 
 it('rejects an elaborato with a collocazione already used by a libro', function (): void {
