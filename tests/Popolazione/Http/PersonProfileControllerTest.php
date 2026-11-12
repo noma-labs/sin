@@ -724,6 +724,22 @@ it('links each page of a person only once from the profile', function (): void {
     }
 });
 
+it('shows next to the name that the numero elenco is missing', function (): void {
+    login();
+    $senzaNumero = Persona::factory()->maggiorenne()->maschio()->create(['numero_elenco' => null]);
+    $numeroElenco = 'Z'.fake()->unique()->numberBetween(10000, 99999);
+    $conNumero = Persona::factory()->maggiorenne()->maschio()->numeroElenco($numeroElenco)->create();
+
+    $this->get(route('nomadelfia.person.profile', $senzaNumero->id))
+        ->assertSuccessful()
+        ->assertSee('N° elenco mancante');
+
+    $this->get(route('nomadelfia.person.profile', $conNumero->id))
+        ->assertSuccessful()
+        ->assertSee('N° elenco '.$numeroElenco)
+        ->assertDontSee('N° elenco mancante');
+});
+
 it('forbids the profile to a user without the permission to see the popolazione', function (): void {
     $user = User::query()->create(['username' => 'senza-permessi', 'email' => 'senza-permessi@email.it', 'password' => 'secret', 'persona_id' => 0]);
     login($user);
