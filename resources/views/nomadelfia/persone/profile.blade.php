@@ -45,7 +45,16 @@
             @endif
 
             @if ($posizioneAttuale)
-              <span class="profile-chip">{{ $posizioneAttuale->nome }}</span>
+              <span
+                class="profile-chip"
+                title="Posizione dal {{ Carbon::parse($posizioneAttuale->pivot->data_inizio)->translatedFormat("j M Y") }}"
+              >
+                {{ $posizioneAttuale->nome }}
+              </span>
+            @elseif ($isPresente)
+              <span class="profile-chip profile-chip-mancante">
+                Posizione mancante
+              </span>
             @endif
 
             <span class="profile-chip">{{ $statoCivile["nome"] }}</span>
@@ -61,10 +70,43 @@
             @endif
 
             @if ($gruppoAttuale)
-              <span class="profile-chip">
+              <span
+                class="profile-chip"
+                @if ($gruppoAttuale->pivot->data_entrata_gruppo)
+                  title="Nel gruppo dal {{ Carbon::parse($gruppoAttuale->pivot->data_entrata_gruppo)->translatedFormat("j M Y") }}"
+                @endif
+              >
                 Gruppo {{ $gruppoAttuale->nome }}
               </span>
+            @elseif ($isPresente)
+              <span class="profile-chip profile-chip-mancante">
+                Gruppo mancante
+              </span>
             @endif
+
+            @foreach ($aziende as $azienda)
+              <a
+                class="profile-chip"
+                href="{{ route("nomadelfia.aziende.edit", $azienda->id) }}"
+                @if ($azienda->pivot->data_inizio_azienda)
+                  title="Nell'azienda dal {{ Carbon::parse($azienda->pivot->data_inizio_azienda)->translatedFormat("j M Y") }}"
+                @endif
+              >
+                {{ $azienda->nome_azienda }} &middot; {{ mb_strtolower($azienda->pivot->mansione) }}
+              </a>
+            @endforeach
+
+            @foreach ($incarichi as $incarico)
+              <a
+                class="profile-chip"
+                href="{{ route("nomadelfia.incarichi.edit", $incarico->id) }}"
+                @if ($incarico->pivot->data_inizio)
+                  title="Incarico dal {{ Carbon::parse($incarico->pivot->data_inizio)->translatedFormat("j M Y") }}"
+                @endif
+              >
+                {{ $incarico->nome }}
+              </a>
+            @endforeach
           </div>
           <div class="profile-muted mb-1">
             @if (\App\View\Components\PersonaNome::nominativoDiverso($persona))
@@ -270,6 +312,31 @@
                   Nominativo
                 </a>
               </li>
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="{{ route("nomadelfia.person.position.index", $persona->id) }}"
+                >
+                  Posizione
+                </a>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="{{ route("nomadelfia.person.gruppo", $persona->id) }}"
+                >
+                  Gruppo familiare
+                </a>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="{{ route("nomadelfia.persone.aziende", ["idPersona" => $persona->id]) }}"
+                >
+                  Aziende
+                </a>
+              </li>
             </ul>
           </div>
         </div>
@@ -311,24 +378,6 @@
           <h2 id="titolo-situazione" class="h5 mb-3">Situazione attuale</h2>
           <dl class="profile-kv card mb-0">
             <div class="profile-kv-row">
-              <dt>Posizione</dt>
-              <dd>
-                @if ($posizioneAttuale)
-                  {{ $posizioneAttuale->nome }}
-                  <small>
-                    dal {{ Carbon::parse($posizioneAttuale->pivot->data_inizio)->translatedFormat("j M Y") }}
-                  </small>
-                @else
-                  <span class="text-danger">Nessuna posizione</span>
-                @endif
-              </dd>
-              <a
-                href="{{ route("nomadelfia.person.position.index", $persona->id) }}"
-              >
-                Modifica
-              </a>
-            </div>
-            <div class="profile-kv-row">
               <dt>Stato familiare</dt>
               <dd>
                 {{ $statoCivile["nome"] }}
@@ -358,90 +407,16 @@
                 Modifica
               </a>
             </div>
-            <div class="profile-kv-row">
-              <dt>Gruppo familiare</dt>
-              <dd>
-                @if ($gruppoAttuale)
-                  <a
-                    href="{{ route("nomadelfia.gruppifamiliari.show", $gruppoAttuale->id) }}"
-                  >
-                    {{ $gruppoAttuale->nome }}
-                  </a>
-                  @if ($gruppoAttuale->pivot->data_entrata_gruppo)
-                    <small>
-                      dal {{ Carbon::parse($gruppoAttuale->pivot->data_entrata_gruppo)->translatedFormat("j M Y") }}
-                    </small>
-                  @endif
-                @else
-                  <span class="text-danger">Nessun gruppo</span>
-                @endif
-              </dd>
-              <a href="{{ route("nomadelfia.person.gruppo", $persona->id) }}">
-                Modifica
-              </a>
-            </div>
-            <div class="profile-kv-row">
-              <dt>Aziende</dt>
-              <dd>
-                @forelse ($aziende as $azienda)
-                  <div>
-                    <a
-                      href="{{ route("nomadelfia.aziende.edit", $azienda->id) }}"
-                    >
-                      {{ $azienda->nome_azienda }}
-                    </a>
-                    &middot; {{ mb_strtolower($azienda->pivot->mansione) }}
-                    @if ($azienda->pivot->data_inizio_azienda)
-                      <small>
-                        dal {{ Carbon::parse($azienda->pivot->data_inizio_azienda)->translatedFormat("j M Y") }}
-                      </small>
-                    @endif
-                  </div>
-                @empty
-                  <span class="text-danger">Nessuna azienda</span>
-                @endforelse
-              </dd>
-              <a
-                href="{{ route("nomadelfia.persone.aziende", ["idPersona" => $persona->id]) }}"
-              >
-                Modifica
-              </a>
-            </div>
-            <div class="profile-kv-row">
-              <dt>Incarichi</dt>
-              <dd>
-                @forelse ($incarichi as $incarico)
-                  <div>
-                    <a
-                      href="{{ route("nomadelfia.incarichi.edit", $incarico->id) }}"
-                    >
-                      {{ $incarico->nome }}
-                    </a>
-                    @if ($incarico->pivot->data_inizio)
-                      <small>
-                        dal {{ Carbon::parse($incarico->pivot->data_inizio)->translatedFormat("j M Y") }}
-                      </small>
-                    @endif
-                  </div>
-                @empty
-                  <span class="text-body-secondary">Nessun incarico</span>
-                @endforelse
-              </dd>
-              <span></span>
-            </div>
           </dl>
         </section>
       </div>
 
       <section class="col-xl-5 col-md-6" aria-labelledby="titolo-percorso">
-        <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
           <h2 id="titolo-percorso" class="h5 mb-0">Percorso in Nomadelfia</h2>
-          <a
-            class="btn btn-sm btn-outline-secondary"
-            href="{{ route("nomadelfia.join-leave-history.index", $persona->id) }}"
-          >
-            Storico entrate e uscite
-          </a>
+          @if (auth()->user()?->can("popolazione.persona.inserisci") || $puoModificare)
+            @include("nomadelfia.persone.partials.comunita-aggiungi")
+          @endif
         </div>
         <div
           class="d-flex flex-wrap gap-2 mb-3"
@@ -519,6 +494,9 @@
                     &middot; {{ $evento->dettaglio }}
                   @endif
                 </div>
+                @if ($evento->periodo && $puoModificare)
+                  @include("nomadelfia.persone.partials.percorso-periodo-azioni", ["periodo" => $evento->periodo, "uscita" => $evento->confinePeriodo === App\Nomadelfia\Persona\DataTransferObjects\TimelineEvent::PERIODO_USCITA])
+                @endif
               </div>
             </li>
           @endforeach
@@ -759,6 +737,8 @@
         @endif
       </section>
     </div>
+
+    @include("nomadelfia.persone.partials.comunita-modali")
   </div>
 
   @if ($isPresente)

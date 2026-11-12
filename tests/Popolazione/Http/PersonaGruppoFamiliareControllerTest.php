@@ -85,3 +85,38 @@ it('can move a persona from another gruppo familiare', function (): void {
     )
         ->assertRedirect(route('nomadelfia.person.gruppo', $persona->id));
 });
+
+it('puts a persona in a gruppo familiare from the profile and goes back to it', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    $gruppo = GruppoFamiliare::first();
+
+    $this->from(route('nomadelfia.person.profile', $persona->id))
+        ->post(route('nomadelfia.person.gruppo.store', $persona->id), [
+            'gruppo_id' => $gruppo->id,
+            'data_entrata' => '2024-02-01',
+            'torna_indietro' => '1',
+        ])
+        ->assertRedirect(route('nomadelfia.person.profile', $persona->id));
+
+    expect($persona->gruppofamiliareAttuale()->id)->toBe($gruppo->id);
+});
+
+it('moves a persona to another gruppo familiare from the profile and goes back to it', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    [$gruppo, $nuovo] = GruppoFamiliare::query()->take(2)->get()->all();
+    app(EntrataMaggiorenneSingleAction::class)->execute($persona, Carbon::parse('2020-01-10'), $gruppo);
+
+    $this->from(route('nomadelfia.person.profile', $persona->id))
+        ->post(route('nomadelfia.persone.gruppo.sposta', ['id' => $persona->id, 'idGruppo' => $gruppo->id]), [
+            'new_gruppo_id' => $nuovo->id,
+            'new_data_entrata' => '2024-02-01',
+            'current_data_entrata' => '2020-01-10',
+            'torna_indietro' => '1',
+        ])
+        ->assertRedirect(route('nomadelfia.person.profile', $persona->id));
+
+    expect($persona->gruppofamiliareAttuale()->id)->toBe($nuovo->id)
+        ->and($persona->gruppofamiliariStorico()->sole()->pivot->data_uscita_gruppo)->toBe('2024-02-01');
+});

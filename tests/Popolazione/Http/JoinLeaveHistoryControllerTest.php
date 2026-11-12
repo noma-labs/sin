@@ -6,94 +6,10 @@ namespace Tests\Http\Nomadelfia;
 
 use App\Admin\Models\User;
 use App\Anagrafe\Persona\Models\Persona;
-use App\Nomadelfia\Azienda\Models\Azienda;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use App\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaAziendaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
-use App\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Carbon\Carbon;
-
-it('shows the entrate and uscite of the person in a timeline from the most recent', function (): void {
-    login();
-    $persona = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();
-    PopolazioneNomadelfia::query()->insert(['persona_id' => $persona->id, 'data_entrata' => '1990-01-15', 'data_uscita' => '1995-07-20']);
-    app(EntrataMaggiorenneSingleAction::class)->execute($persona, Carbon::parse('2010-03-01'), GruppoFamiliare::all()->random());
-
-    $this->get(route('nomadelfia.join-leave-history.index', $persona->id))
-        ->assertSuccessful()
-        ->assertSeeInOrder([
-            'Presente in Nomadelfia',
-            'Rientra in Nomadelfia', '2010', '14 anni 7 mesi',
-            'Esce da Nomadelfia', '1995', '5 anni 6 mesi',
-            'Entra in Nomadelfia', '1990',
-            'Nascita', '1970',
-        ])
-        ->assertSee(route('nomadelfia.join.update', ['id' => $persona->id, 'entrata' => '2010-03-01']))
-        ->assertSee(route('nomadelfia.join.update', ['id' => $persona->id, 'entrata' => '1990-01-15']))
-        ->assertSee(route('nomadelfia.leave.update', ['id' => $persona->id, 'uscita' => '1995-07-20']))
-        ->assertSee(route('nomadelfia.join-leave-history.destroy', ['id' => $persona->id, 'entrata' => '1990-01-15']))
-        ->assertDontSee(route('nomadelfia.join-leave-history.destroy', ['id' => $persona->id, 'entrata' => '2010-03-01']));
-});
-
-it('shows before saving a correction the posizioni, gruppi and aziende that move with the date', function (): void {
-    login();
-    $persona = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();
-    $gruppo = GruppoFamiliare::all()->random();
-    app(EntrataMaggiorenneSingleAction::class)->execute($persona, Carbon::parse('2000-01-01'), $gruppo);
-    $azienda = Azienda::factory()->create();
-    app(AssegnaAziendaAction::class)->execute($persona, $azienda, Carbon::parse('2001-02-01'), 'LAVORATORE');
-    app(UscitaPersonaAction::class)->execute($persona, Carbon::parse('2005-01-01'));
-
-    $this->get(route('nomadelfia.join-leave-history.index', $persona->id))
-        ->assertSuccessful()
-        ->assertSeeInOrder([
-            'Modifica data uscita', 'Verranno spostate alla nuova data anche',
-            'Posizione', 'Ospite', 'dal 1 gen 2000', 'al 1 gen 2005',
-            'Gruppo familiare', $gruppo->nome, 'dal 1 gen 2000', 'al 1 gen 2005',
-            'Azienda', $azienda->nome_azienda, 'dal 1 feb 2001', 'al 1 gen 2005',
-            'Modifica data entrata', 'Verranno spostate alla nuova data anche',
-            'Posizione', 'Ospite', 'dal 1 gen 2000',
-            'Gruppo familiare', $gruppo->nome,
-        ]);
-});
-
-it('says that only the date changes when nothing started or ended with it', function (): void {
-    login();
-    $persona = Persona::factory()->nato(Carbon::parse('1930-04-10'))->maschio()->create();
-    PopolazioneNomadelfia::query()->insert(['persona_id' => $persona->id, 'data_entrata' => '1955-06-01', 'data_uscita' => '1972-09-30']);
-
-    $this->get(route('nomadelfia.join-leave-history.index', $persona->id))
-        ->assertSuccessful()
-        ->assertSee('cambia solo la data di uscita.')
-        ->assertSee('cambia solo la data di entrata.')
-        ->assertDontSee('Verranno spostate alla nuova data anche');
-});
-
-it('offers to remove only the last data di uscita, showing the posizione and the gruppo that are reopened', function (): void {
-    login();
-    $persona = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();
-    PopolazioneNomadelfia::query()->insert(['persona_id' => $persona->id, 'data_entrata' => '1990-01-01', 'data_uscita' => '1995-12-31']);
-    $gruppo = GruppoFamiliare::all()->random();
-    app(EntrataMaggiorenneSingleAction::class)->execute($persona, Carbon::parse('2000-01-01'), $gruppo);
-    app(UscitaPersonaAction::class)->execute($persona, Carbon::parse('2005-01-01'));
-
-    $this->get(route('nomadelfia.join-leave-history.index', $persona->id))
-        ->assertSuccessful()
-        ->assertSee("formEliminaDataUscita{$persona->id}-2005-01-01")
-        ->assertDontSee("formEliminaDataUscita{$persona->id}-1995-12-31")
-        ->assertSeeInOrder(['risulterà presente in Nomadelfia', 'Verranno riaperte anche', 'Posizione', 'Ospite', 'Gruppo familiare', $gruppo->nome]);
-});
-
-it('does not offer to remove the data di uscita of a deceased person', function (): void {
-    login();
-    $persona = Persona::factory()->nato(Carbon::parse('1930-04-10'))->maschio()->create(['data_decesso' => '2001-02-03']);
-    PopolazioneNomadelfia::query()->insert(['persona_id' => $persona->id, 'data_entrata' => '1960-01-01', 'data_uscita' => '2001-02-03']);
-
-    $this->get(route('nomadelfia.join-leave-history.index', $persona->id))
-        ->assertSuccessful()
-        ->assertDontSee('Elimina data uscita');
-});
 
 it('records a past period in Nomadelfia of a person who is not in the popolazione', function (): void {
     login();
@@ -103,12 +19,12 @@ it('records a past period in Nomadelfia of a person who is not in the popolazion
         'data_entrata' => '1955-06-01',
         'data_uscita' => '1972-09-30',
     ])
-        ->assertRedirect(route('nomadelfia.join-leave-history.index', $persona->id))
+        ->assertRedirect(route('nomadelfia.person.profile', $persona->id))
         ->assertSessionHasNoErrors();
 
     $this->assertDatabaseHas('popolazione', ['persona_id' => $persona->id, 'data_entrata' => '1955-06-01', 'data_uscita' => '1972-09-30'], 'db_nomadelfia');
     expect($persona->isPersonaInterna())->toBeFalse();
-    $this->get(route('nomadelfia.join-leave-history.index', $persona->id))
+    $this->get(route('nomadelfia.person.profile', $persona->id))
         ->assertSeeInOrder(['Esce da Nomadelfia', '1972', 'Entra in Nomadelfia', '1955']);
 });
 
@@ -195,7 +111,7 @@ it('records a period without data di uscita after the last uscita, putting the p
     PopolazioneNomadelfia::query()->insert(['persona_id' => $persona->id, 'data_entrata' => '1960-01-01', 'data_uscita' => '1970-12-31']);
 
     $this->post(route('nomadelfia.join-leave-history.store', $persona->id), ['data_entrata' => '1980-03-01', 'data_uscita' => ''])
-        ->assertRedirect(route('nomadelfia.join-leave-history.index', $persona->id))
+        ->assertRedirect(route('nomadelfia.person.profile', $persona->id))
         ->assertSessionHas('success', "Periodo di {$persona->nominativo} inserito senza data di uscita: risulta presente in Nomadelfia.");
 
     $this->assertDatabaseHas('popolazione', ['persona_id' => $persona->id, 'data_entrata' => '1980-03-01', 'data_uscita' => null], 'db_nomadelfia');
@@ -260,7 +176,7 @@ it('deletes a period of the storico recorded with wrong dates', function (): voi
     ]);
 
     $this->delete(route('nomadelfia.join-leave-history.destroy', ['id' => $persona->id, 'entrata' => '1990-01-15']))
-        ->assertRedirect(route('nomadelfia.join-leave-history.index', $persona->id));
+        ->assertRedirect(route('nomadelfia.person.profile', $persona->id));
 
     expect(PopolazioneNomadelfia::query()->where('persona_id', $persona->id)->pluck('data_entrata')->all())->toBe(['2000-01-01']);
 });

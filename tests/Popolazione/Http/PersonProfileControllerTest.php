@@ -8,11 +8,17 @@ use App\Admin\Models\User;
 use App\Anagrafe\Famiglia\Models\Famiglia;
 use App\Anagrafe\Famiglia\Models\TipoFamiglia;
 use App\Anagrafe\Persona\Models\Persona;
+use App\Nomadelfia\Azienda\Models\Azienda;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use App\Nomadelfia\Incarico\Models\Incarico;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaAziendaAction;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaIncaricoAction;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\ChangeGruppoFamiliareAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
+use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 use Carbon\Carbon;
@@ -108,14 +114,6 @@ it('links the people of a gruppo familiare to their profile', function (): void 
     $this->get(route('nomadelfia.gruppifamiliari.show', $gruppo->id))
         ->assertSuccessful()
         ->assertSee(route('nomadelfia.person.profile', $persona->id));
-});
-
-it('renders the popolazione history of a person', function (): void {
-    login();
-    $persona = Persona::factory()->minorenne()->maschio()->create();
-
-    $this->get(route('nomadelfia.join-leave-history.index', $persona->id))
-        ->assertSuccessful();
 });
 
 it('offers a nuova famiglia but not to be added as figlio to a person in the nucleo of a famiglia', function (string $posizione): void {
@@ -418,6 +416,23 @@ it('shows the changes of posizione with the previous one', function (): void {
         ->assertSeeInOrder(['Diventa Postulante', 'Prima: Ospite', 'Entra in Nomadelfia come Ospite']);
 });
 
+it('shows the entrata in a gruppo familiare with the previous one, and in the entrata in the comunità when it is the same day', function (): void {
+    login();
+    $persona = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();
+    [$primo, $secondo] = GruppoFamiliare::query()->take(2)->get()->all();
+    app(EntrataMaggiorenneSingleAction::class)->execute($persona, Carbon::parse('1995-09-15'), $primo);
+    app(ChangeGruppoFamiliareAction::class)->execute($persona, $primo, Carbon::parse('1995-09-15'), Carbon::parse('2001-03-10'), $secondo, Carbon::parse('2001-03-10'));
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder([
+            'Gruppo familiare', "Entra nel gruppo familiare {$secondo->nome}", '10 mar 2001', "Prima: {$primo->nome}",
+            'Entra in Nomadelfia come Ospite', '15 set 1995', "Nel gruppo familiare {$primo->nome}",
+            'Nascita',
+        ])
+        ->assertDontSee("Entra nel gruppo familiare {$primo->nome}");
+});
+
 it('shows the marriage and the children born in the timeline by nome and cognome with the nominativo when it differs', function (): void {
     login();
     $marito = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();
@@ -710,7 +725,6 @@ it('links each page of a person only once from the profile', function (): void {
         ->getContent();
 
     $paginePersona = [
-        route('nomadelfia.join-leave-history.index', $persona->id),
         route('anagrafe.person.families', $persona->id),
         route('nomadelfia.persone.aziende', ['idPersona' => $persona->id]),
         route('nomadelfia.person.position.index', $persona->id),
@@ -720,7 +734,7 @@ it('links each page of a person only once from the profile', function (): void {
         route('scuola.student.show', $persona->id),
     ];
     foreach ($paginePersona as $url) {
-        expect(mb_substr_count((string) $pagina, '"'.$url.'"'))->toBe(1, "$url is linked more than once");
+        expect(mb_substr_count((string) $pagina, 'href="'.$url.'"'))->toBe(1, "$url is linked more than once");
     }
 });
 
@@ -738,6 +752,160 @@ it('shows next to the name that the numero elenco is missing', function (): void
         ->assertSuccessful()
         ->assertSee('N° elenco '.$numeroElenco)
         ->assertDontSee('N° elenco mancante');
+});
+
+it('offers next to the percorso the Aggiungi menu with the posizioni other than the attuale, the move to another gruppo, an azienda, an incarico and a periodo storico', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    $gruppo = GruppoFamiliare::first();
+    app(EntrataMaggiorenneSingleAction::class)->execute($persona, Carbon::parse('2020-01-10'), $gruppo);
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Percorso in Nomadelfia', 'Aggiungi', 'Posizione', 'Effettivo', 'Postulante', 'Ospite', 'attuale', 'Da Definire', 'Gruppo familiare', 'Sposta in un altro gruppo', 'Lavoro', 'Azienda', 'Incarico', 'Entrate e uscite', 'Periodo storico', 'Comunità', 'Famiglia'])
+        ->assertSee(['#modal-posizione-effe', '#modal-posizione-post', '#modal-posizione-dade'])
+        ->assertDontSee('modal-posizione-ospp')
+        ->assertDontSee('modal-posizione-figl')
+        ->assertSee(route('nomadelfia.persone.gruppo.sposta', ['id' => $persona->id, 'idGruppo' => $gruppo->id]))
+        ->assertSee(route('nomadelfia.persone.aziende.assegna', ['idPersona' => $persona->id]))
+        ->assertSee(route('nomadelfia.persone.incarichi.assegna', $persona->id))
+        ->assertSee(route('nomadelfia.join-leave-history.store', $persona->id));
+});
+
+it('offers to put in a gruppo a persona without gruppo familiare', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSee('Aggiungi a un gruppo')
+        ->assertDontSee('Sposta in un altro gruppo')
+        ->assertSee(route('nomadelfia.person.gruppo.store', $persona->id));
+});
+
+it('does not show the Aggiungi menu nor the corrections of the entrate and uscite to a user who cannot insert or modify a person', function (): void {
+    $user = User::query()->create(['username' => 'solo-visualizza', 'email' => 'solo-visualizza@email.it', 'password' => 'secret', 'persona_id' => 0]);
+    $user->givePermissionTo('popolazione.persona.visualizza');
+    login($user);
+    $persona = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();
+    PopolazioneNomadelfia::query()->insert(['persona_id' => $persona->id, 'data_entrata' => '1990-01-15', 'data_uscita' => '1995-07-20']);
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertDontSee('modal-gruppo-familiare')
+        ->assertDontSee('modal-azienda')
+        ->assertDontSee('modal-incarico')
+        ->assertDontSee('modal-periodo-storico')
+        ->assertDontSee(route('nomadelfia.join.update', ['id' => $persona->id, 'entrata' => '1990-01-15']))
+        ->assertDontSee(route('nomadelfia.leave.update', ['id' => $persona->id, 'uscita' => '1995-07-20']));
+});
+
+it('shows the aziende and the incarichi in the header linking to their pages', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    $azienda = Azienda::factory()->create(['nome_azienda' => 'Falegnameria']);
+    app(AssegnaAziendaAction::class)->execute($persona, $azienda, Carbon::parse('2021-04-01'), Azienda::MANSIONE_LAVORATORE);
+    $incarico = Incarico::factory()->create(['nome' => 'Cucina']);
+    app(AssegnaIncaricoAction::class)->execute($persona, $incarico, Carbon::parse('2022-05-01'));
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder([route('nomadelfia.aziende.edit', $azienda->id), "Nell'azienda dal 1 apr 2021", 'Falegnameria', 'lavoratore', 'Sesso'], false)
+        ->assertSeeInOrder([route('nomadelfia.incarichi.edit', $incarico->id), 'Incarico dal 1 mag 2022', 'Cucina', 'Sesso'], false);
+});
+
+it('shows the posizione and the gruppo as mancanti for a persona presente without them', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    app(EntrataMaggiorenneSingleAction::class)->execute($persona, Carbon::parse('2020-01-10'), GruppoFamiliare::first());
+    $persona->posizioni()->detach();
+    $persona->gruppifamiliari()->detach();
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Posizione mancante', 'Gruppo mancante', 'Sesso']);
+});
+
+it('lets correct from the percorso the entrate and the uscite, deleting only the closed periods', function (): void {
+    login();
+    $persona = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();
+    PopolazioneNomadelfia::query()->insert(['persona_id' => $persona->id, 'data_entrata' => '1990-01-15', 'data_uscita' => '1995-07-20']);
+    app(EntrataMaggiorenneSingleAction::class)->execute($persona, Carbon::parse('2010-03-01'), GruppoFamiliare::all()->random());
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder([
+            'Rientra in Nomadelfia', 'Dopo 14 anni 7 mesi fuori dalla comunità',
+            route('nomadelfia.join.update', ['id' => $persona->id, 'entrata' => '2010-03-01']),
+            'Esce da Nomadelfia',
+            route('nomadelfia.leave.update', ['id' => $persona->id, 'uscita' => '1995-07-20']),
+            route('nomadelfia.join-leave-history.destroy', ['id' => $persona->id, 'entrata' => '1990-01-15']),
+            'Entra in Nomadelfia',
+            route('nomadelfia.join.update', ['id' => $persona->id, 'entrata' => '1990-01-15']),
+            'Nascita',
+        ])
+        ->assertDontSee(route('nomadelfia.join-leave-history.destroy', ['id' => $persona->id, 'entrata' => '2010-03-01']));
+});
+
+it('shows before saving a correction the posizioni, gruppi and aziende that move with the date', function (): void {
+    login();
+    $persona = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();
+    $gruppo = GruppoFamiliare::all()->random();
+    app(EntrataMaggiorenneSingleAction::class)->execute($persona, Carbon::parse('2000-01-01'), $gruppo);
+    $azienda = Azienda::factory()->create();
+    app(AssegnaAziendaAction::class)->execute($persona, $azienda, Carbon::parse('2001-02-01'), 'LAVORATORE');
+    app(UscitaPersonaAction::class)->execute($persona, Carbon::parse('2005-01-01'));
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder([
+            'Modifica data uscita', 'Verranno spostate alla nuova data anche',
+            'Posizione', 'Ospite', 'dal 1 gen 2000', 'al 1 gen 2005',
+            'Gruppo familiare', $gruppo->nome, 'dal 1 gen 2000', 'al 1 gen 2005',
+            'Azienda', $azienda->nome_azienda, 'dal 1 feb 2001', 'al 1 gen 2005',
+            'Modifica data entrata', 'Verranno spostate alla nuova data anche',
+            'Posizione', 'Ospite', 'dal 1 gen 2000',
+            'Gruppo familiare', $gruppo->nome,
+        ]);
+});
+
+it('says that only the date changes when nothing started or ended with it', function (): void {
+    login();
+    $persona = Persona::factory()->nato(Carbon::parse('1930-04-10'))->maschio()->create();
+    PopolazioneNomadelfia::query()->insert(['persona_id' => $persona->id, 'data_entrata' => '1955-06-01', 'data_uscita' => '1972-09-30']);
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSee('cambia solo la data di uscita.')
+        ->assertSee('cambia solo la data di entrata.')
+        ->assertDontSee('Verranno spostate alla nuova data anche');
+});
+
+it('offers to remove only the last data di uscita, showing the posizione and the gruppo that are reopened', function (): void {
+    login();
+    $persona = Persona::factory()->nato(Carbon::parse('1970-05-01'))->maschio()->create();
+    PopolazioneNomadelfia::query()->insert(['persona_id' => $persona->id, 'data_entrata' => '1990-01-01', 'data_uscita' => '1995-12-31']);
+    $gruppo = GruppoFamiliare::all()->random();
+    app(EntrataMaggiorenneSingleAction::class)->execute($persona, Carbon::parse('2000-01-01'), $gruppo);
+    app(UscitaPersonaAction::class)->execute($persona, Carbon::parse('2005-01-01'));
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSee("formEliminaDataUscita{$persona->id}-2005-01-01")
+        ->assertDontSee("formEliminaDataUscita{$persona->id}-1995-12-31")
+        ->assertSeeInOrder(['risulterà presente in Nomadelfia', 'Verranno riaperte anche', 'Posizione', 'Ospite', 'Gruppo familiare', $gruppo->nome]);
+});
+
+it('lets correct on the decesso the data di uscita of a deceased person, without removing it', function (): void {
+    login();
+    $persona = Persona::factory()->nato(Carbon::parse('1930-04-10'))->maschio()->create(['data_decesso' => '2001-02-03']);
+    PopolazioneNomadelfia::query()->insert(['persona_id' => $persona->id, 'data_entrata' => '1960-01-01', 'data_uscita' => '2001-02-03']);
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Decesso', route('nomadelfia.leave.update', ['id' => $persona->id, 'uscita' => '2001-02-03']), 'Entra in Nomadelfia'])
+        ->assertDontSee('Esce da Nomadelfia')
+        ->assertDontSee('Elimina data uscita');
 });
 
 it('forbids the profile to a user without the permission to see the popolazione', function (): void {

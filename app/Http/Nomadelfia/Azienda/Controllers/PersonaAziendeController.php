@@ -37,18 +37,15 @@ final class PersonaAziendeController
         $persona = Persona::findOrFail($idPersona);
         $azienda = Azienda::findOrFail($request->azienda_id);
         $action = new AssegnaAziendaAction;
-        if (strcasecmp($request->mansione, 'lavoratore') === 0) {
-            $action->execute($persona, $azienda, \Illuminate\Support\Facades\Date::parse($request->data_inizio), Azienda::MANSIONE_LAVORATORE);
+        $mansione = match (true) {
+            strcasecmp($request->mansione, 'lavoratore') === 0 => Azienda::MANSIONE_LAVORATORE,
+            strcasecmp($request->mansione, 'responsabile azienda') === 0 => Azienda::MANSIONE_RESPONSABILE,
+            default => null,
+        };
+        if ($mansione !== null) {
+            $action->execute($persona, $azienda, \Illuminate\Support\Facades\Date::parse($request->data_inizio), $mansione);
 
-            return redirect()
-                ->action([self::class, 'index'], ['idPersona' => $persona->id])
-                ->withSuccess("$persona->nominativo assegnato all'azienda $azienda->nome_azienda come $request->mansione con successo");
-        }
-        if (strcasecmp($request->mansione, 'responsabile azienda') === 0) {
-            $action->execute($persona, $azienda, \Illuminate\Support\Facades\Date::parse($request->data_inizio), Azienda::MANSIONE_RESPONSABILE);
-
-            return redirect()
-                ->action([self::class, 'index'], ['idPersona' => $persona->id])
+            return ($request->boolean('torna_indietro') ? back() : redirect()->action([self::class, 'index'], ['idPersona' => $persona->id]))
                 ->withSuccess("$persona->nominativo assegnato all'azienda $azienda->nome_azienda come $request->mansione con successo");
         }
 
