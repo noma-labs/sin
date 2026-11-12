@@ -47,6 +47,40 @@ it('refuses a stato the person already has active', function (): void {
     expect($persona->stati()->count())->toBe(1);
 });
 
+it('gives a stato from the profile and goes back to it', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->femmina()->create();
+
+    $this->from(route('nomadelfia.person.profile', $persona->id))
+        ->post(route('nomadelfia.persone.stato.assegna', $persona->id), [
+            'stato_id' => Stato::perNome('vedovo')->id,
+            'data_inizio' => '2015-11-03',
+            'torna_indietro' => '1',
+        ])
+        ->assertRedirect(route('nomadelfia.person.profile', $persona->id))
+        ->assertSessionHasNoErrors();
+
+    expect($persona->statiAttivi()->sole()->pivot->toArray())
+        ->toMatchArray(['stato_id' => Stato::perNome('vedovo')->id, 'data_inizio' => '2015-11-03']);
+});
+
+it('goes back to the profile with the error when the stato is already active', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create(['nominativo' => 'Don Prete']);
+    $persona->assegnaStato(Stato::perNome('sacerdote'), '1980-03-12');
+
+    $this->from(route('nomadelfia.person.profile', $persona->id))
+        ->post(route('nomadelfia.persone.stato.assegna', $persona->id), [
+            'stato_id' => Stato::perNome('sacerdote')->id,
+            'data_inizio' => '1990-01-01',
+            'torna_indietro' => '1',
+        ])
+        ->assertRedirect(route('nomadelfia.person.profile', $persona->id))
+        ->assertSessionHasErrors(['stato_id' => 'La persona Don Prete ha già lo stato SACERDOTE.']);
+
+    expect($persona->stati()->count())->toBe(1);
+});
+
 it('refuses a stato that does not exist', function (): void {
     login();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();

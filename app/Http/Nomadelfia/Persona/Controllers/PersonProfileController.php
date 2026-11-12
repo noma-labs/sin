@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 
 /**
- * The profile page of a person: summary on top, timeline of the important events, current situation and family.
+ * The profile page of a person: summary on top with the current situation, timeline of the important events and family.
  * The entrate and uscite in the timeline can be corrected, showing before saving what moves with each date and what
  * is reopened when the last data di uscita is removed.
  */
@@ -101,6 +101,12 @@ final class PersonProfileController
             'posizioneAttuale' => $persona->posizioneAttuale(),
             'statoCivile' => $persona->statoCivile(),
             'statiAttivi' => $persona->statiAttivi()->get()->reject(fn (Stato $stato): bool => $stato->isStatoCivile())->values(),
+            'statiFamiliari' => Stato::query()
+                ->whereIn('stato', Stato::$mapNamesToDB)
+                ->unless($persona->isMaschio(), fn ($query) => $query->where('stato', '!=', Stato::$mapNamesToDB['sacerdote']))
+                ->orderBy('nome')
+                ->get(),
+            'statiFamiliariAttivi' => $persona->statiAttivi()->pluck('stati.id'),
             'famigliaSenzaConiuge' => $persona->famigliaSenzaConiuge(),
             'gruppoAttuale' => $persona->gruppofamiliareAttuale(),
             'aziende' => $aziende,

@@ -1,6 +1,6 @@
 @use("App\Anagrafe\Famiglia\Models\TipoFamiglia")
 
-{{-- The menu to add a parente of the persona in the profile: coniuge, figli and fratelli, a nuova famiglia, or the persona as figlio of a famiglia --}}
+{{-- The menu to add a parente of the persona in the profile: coniuge, figli and fratelli, a nuova famiglia, the persona as figlio of a famiglia, or a stato familiare that does not come from the famiglia --}}
 <div class="dropdown">
   <button
     class="{{ $stileBottone }} dropdown-toggle"
@@ -76,6 +76,28 @@
           </button>
         </li>
       @endif
+
+      <li><hr class="dropdown-divider" /></li>
+      <li><h6 class="dropdown-header">Stato familiare</h6></li>
+      @foreach ($statiFamiliari as $stato)
+        <li>
+          @if ($statiFamiliariAttivi->contains($stato->id))
+            <span class="dropdown-item disabled" aria-disabled="true">
+              {{ $etichettaStato($stato) }}
+              <small>&middot; attuale</small>
+            </span>
+          @else
+            <button
+              type="button"
+              class="dropdown-item"
+              data-bs-toggle="modal"
+              data-bs-target="#modal-stato-{{ mb_strtolower($stato->stato) }}"
+            >
+              {{ $etichettaStato($stato) }}
+            </button>
+          @endif
+        </li>
+      @endforeach
     @endcan
   </ul>
 </div>

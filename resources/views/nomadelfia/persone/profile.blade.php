@@ -57,14 +57,29 @@
               </span>
             @endif
 
-            <span class="profile-chip">{{ $statoCivile["nome"] }}</span>
+            <span
+              class="profile-chip"
+              @if ($statoCivile["dal"])
+                title="Stato familiare dal {{ $statoCivile["dal"]->translatedFormat("j M Y") }}"
+              @endif
+            >
+              {{ $statoCivile["nome"] }}
+            </span>
             @foreach ($statiAttivi as $stato)
-              <span class="profile-chip">
+              <span
+                class="profile-chip"
+                title="Stato familiare dal {{ Carbon::parse($stato->pivot->data_inizio)->translatedFormat("j M Y") }}"
+              >
                 {{ Illuminate\Support\Str::ucfirst(mb_strtolower($stato->nome)) }}
               </span>
             @endforeach
             @if ($famigliaSenzaConiuge)
-              <span class="profile-chip">
+              <span
+                class="profile-chip"
+                @if ($famigliaSenzaConiuge->data_creazione)
+                  title="Stato familiare dal {{ Carbon::parse($famigliaSenzaConiuge->data_creazione)->translatedFormat("j M Y") }}"
+                @endif
+              >
                 {{ $famigliaSenzaConiuge->tipo->nome() }}
               </span>
             @endif
@@ -337,6 +352,14 @@
                   Aziende
                 </a>
               </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="{{ route("nomadelfia.persone.stato", $persona->id) }}"
+                >
+                  Stato familiare
+                </a>
+              </li>
             </ul>
           </div>
         </div>
@@ -373,45 +396,7 @@
     </header>
 
     <div class="row g-4">
-      <div class="col-xl-4 col-md-6 d-flex flex-column gap-4">
-        <section aria-labelledby="titolo-situazione">
-          <h2 id="titolo-situazione" class="h5 mb-3">Situazione attuale</h2>
-          <dl class="profile-kv card mb-0">
-            <div class="profile-kv-row">
-              <dt>Stato familiare</dt>
-              <dd>
-                {{ $statoCivile["nome"] }}
-                @if ($statoCivile["dal"])
-                  <small>
-                    dal {{ $statoCivile["dal"]->translatedFormat("j M Y") }}
-                  </small>
-                @endif
-                @foreach ($statiAttivi as $stato)
-                  <br />
-                  {{ Illuminate\Support\Str::ucfirst(mb_strtolower($stato->nome)) }}
-                  <small>
-                    dal {{ Carbon::parse($stato->pivot->data_inizio)->translatedFormat("j M Y") }}
-                  </small>
-                @endforeach
-                @if ($famigliaSenzaConiuge)
-                  <br />
-                  {{ $famigliaSenzaConiuge->tipo->nome() }}
-                  @if ($famigliaSenzaConiuge->data_creazione)
-                    <small>
-                      dal {{ Carbon::parse($famigliaSenzaConiuge->data_creazione)->translatedFormat("j M Y") }}
-                    </small>
-                  @endif
-                @endif
-              </dd>
-              <a href="{{ route("nomadelfia.persone.stato", $persona->id) }}">
-                Modifica
-              </a>
-            </div>
-          </dl>
-        </section>
-      </div>
-
-      <section class="col-xl-5 col-md-6" aria-labelledby="titolo-percorso">
+      <section class="col-xl-7 col-md-6" aria-labelledby="titolo-percorso">
         <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
           <h2 id="titolo-percorso" class="h5 mb-0">Percorso in Nomadelfia</h2>
           @if (auth()->user()?->can("popolazione.persona.inserisci") || $puoModificare)
@@ -504,7 +489,7 @@
       </section>
 
       <section
-        class="col-xl-3 col-md-6"
+        class="col-xl-5 col-md-6"
         id="parentele"
         aria-labelledby="titolo-famiglia"
       >
@@ -532,6 +517,12 @@
               "FIGLIO ACCOLTO" => [$femmina ? "Figlia accolta" : "Figlio accolto", $femmina ? "Accolta dalla famiglia" : "Accolto dalla famiglia"],
               "AGGREGATO" => [$femmina ? "Aggregata" : "Aggregato", $femmina ? "Vive con la famiglia senza esserne figlia" : "Vive con la famiglia senza esserne figlio"],
           ];
+          $etichettaStato = fn (App\Nomadelfia\PopolazioneNomadelfia\Models\Stato $stato): string => match ($stato->stato) {
+              "VED" => $persona->isMaschio() ? "Vedovo" : "Vedova",
+              "SEP" => $persona->isMaschio() ? "Separato" : "Separata",
+              "SAC" => "Sacerdote",
+              default => Illuminate\Support\Str::ucfirst(mb_strtolower($stato->nome)),
+          };
           $notaFiglio = $famigliaPropria ? null : "serve una famiglia";
           $notaFratello = $famigliaOrigine ? null : "servono i genitori";
           $azioniParentele = [
@@ -735,6 +726,10 @@
         @if ($puoAggiungereComeFiglio)
           @include("nomadelfia.templates.addPersonToFamiliy", ["persona" => $persona, "modalId" => "modal-aggiungi-come-figlio", "buttonTitle" => ""])
         @endif
+
+        @can("popolazione.persona.inserisci")
+          @include("nomadelfia.persone.partials.stato-familiare-modali")
+        @endcan
       </section>
     </div>
 

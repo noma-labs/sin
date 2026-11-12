@@ -32,7 +32,8 @@ it('shows the profile of a person present in Nomadelfia', function (): void {
     $this->get(route('nomadelfia.person.profile', $persona->id))
         ->assertSuccessful()
         ->assertSee('Presente')
-        ->assertSeeInOrder(['Situazione attuale', 'Percorso in Nomadelfia', 'Famiglia'])
+        ->assertSeeInOrder(['Percorso in Nomadelfia', 'Parentele'])
+        ->assertDontSee('Situazione attuale')
         ->assertSeeInOrder(['Entra in Nomadelfia come Ospite', 'Nascita']);
 });
 
@@ -84,7 +85,7 @@ it('shows the biografia in the header with the form to edit only the biografia',
 
     $this->get(route('nomadelfia.person.profile', $persona->id))
         ->assertSuccessful()
-        ->assertSeeInOrder(['Arrivato a Nomadelfia da bambino', 'Modifica biografia', route('anagrafe.person.biografia.update', $persona->id), 'Situazione attuale']);
+        ->assertSeeInOrder(['Arrivato a Nomadelfia da bambino', 'Modifica biografia', route('anagrafe.person.biografia.update', $persona->id), 'Percorso in Nomadelfia']);
 });
 
 it('offers to add a biografia to a person without one', function (): void {
@@ -617,7 +618,7 @@ it('shows a married person as sposato from the creation of the famiglia', functi
 
     $this->get(route('nomadelfia.person.profile', $marito->id))
         ->assertSuccessful()
-        ->assertSeeInOrder(['Stato familiare', 'Sposato', 'dal 12 giu 1998']);
+        ->assertSeeInOrder(['Stato familiare dal 12 giu 1998', 'Sposato']);
 });
 
 it('shows a married person as sposato without a date when the famiglia has no data_creazione', function (): void {
@@ -630,8 +631,8 @@ it('shows a married person as sposato without a date when the famiglia has no da
     expect($marito->statoCivile())->toBe(['nome' => 'Sposato', 'dal' => null]);
     $this->get(route('nomadelfia.person.profile', $marito->id))
         ->assertSuccessful()
-        ->assertSeeInOrder(['Stato familiare', 'Sposato'])
-        ->assertDontSee('dal '.now()->translatedFormat('j M Y'));
+        ->assertSee('Sposato')
+        ->assertDontSee('Stato familiare dal');
 });
 
 it('shows a person whose coniuge died as vedova from the death of the coniuge', function (): void {
@@ -646,7 +647,7 @@ it('shows a person whose coniuge died as vedova from the death of the coniuge', 
     $this->get(route('nomadelfia.person.profile', $moglie->id))
         ->assertSuccessful()
         ->assertSeeInOrder(['Rimane vedova', 'Muore Marito Defunto', 'Sposa Marito Defunto'])
-        ->assertSeeInOrder(['Stato familiare', 'Vedova', 'dal 3 nov 2015']);
+        ->assertSeeInOrder(['Stato familiare dal 3 nov 2015', 'Vedova']);
 });
 
 it('shows a vedova heading the famiglia as vedova of the husband capofamiglia outside the nucleo', function (): void {
@@ -660,7 +661,7 @@ it('shows a vedova heading the famiglia as vedova of the husband capofamiglia ou
     $this->get(route('nomadelfia.person.profile', $vedova->id))
         ->assertSuccessful()
         ->assertSeeInOrder(['Rimane vedova', 'Sposa Marito Capofamiglia'])
-        ->assertSeeInOrder(['Stato familiare', 'Vedova', 'dal 3 nov 2015']);
+        ->assertSeeInOrder(['Stato familiare dal 3 nov 2015', 'Vedova']);
 });
 
 it('keeps a deceased married person sposato', function (): void {
@@ -673,7 +674,7 @@ it('keeps a deceased married person sposato', function (): void {
 
     $this->get(route('nomadelfia.person.profile', $marito->id))
         ->assertSuccessful()
-        ->assertSeeInOrder(['Stato familiare', 'Sposato', 'dal 12 giu 1968']);
+        ->assertSeeInOrder(['Stato familiare dal 12 giu 1968', 'Sposato']);
 });
 
 it('shows a married person with the stato separato as separato', function (): void {
@@ -687,7 +688,7 @@ it('shows a married person with the stato separato as separato', function (): vo
     $this->get(route('nomadelfia.person.profile', $marito->id))
         ->assertSuccessful()
         ->assertSeeInOrder(['Si separa dalla moglie', 'Sposa'])
-        ->assertSeeInOrder(['Stato familiare', 'Separato', 'dal 1 apr 2010']);
+        ->assertSeeInOrder(['Stato familiare dal 1 apr 2010', 'Separato']);
 });
 
 it('shows a mamma di vocazione heading her own famiglia as nubile and not married', function (): void {
@@ -699,7 +700,7 @@ it('shows a mamma di vocazione heading her own famiglia as nubile and not marrie
     $this->get(route('nomadelfia.person.profile', $mamma->id))
         ->assertSuccessful()
         ->assertSeeInOrder(['Diventa mamma di vocazione', 'Nasce la famiglia Famiglia Della Mamma', 'Nascita'])
-        ->assertSeeInOrder(['Stato familiare', 'Nubile', 'Mamma di vocazione', 'dal 12 mar 1980'])
+        ->assertSeeInOrder(['Nubile', 'Stato familiare dal 12 mar 1980', 'Mamma di vocazione'])
         ->assertDontSee('Sposa');
 });
 
@@ -711,7 +712,30 @@ it('shows a sacerdote as celibe with the ordination in the timeline', function (
     $this->get(route('nomadelfia.person.profile', $prete->id))
         ->assertSuccessful()
         ->assertSeeInOrder(['Ordinato sacerdote', 'Nascita'])
-        ->assertSeeInOrder(['Stato familiare', 'Celibe', 'Sacerdote', 'dal 29 giu 1978']);
+        ->assertSeeInOrder(['Celibe', 'Stato familiare dal 29 giu 1978', 'Sacerdote']);
+});
+
+it('offers in the Parentele menu the stati familiari that do not come from the famiglia, except the active ones', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    $persona->assegnaStato(Stato::perNome('separato'), '2010-04-01');
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Parentele', 'Stato familiare', 'Separato', 'attuale', 'Sacerdote', 'Vedovo'])
+        ->assertSee(['#modal-stato-sac', '#modal-stato-ved'])
+        ->assertDontSee('modal-stato-sep')
+        ->assertSeeInOrder(['Stato familiare: Vedovo', route('nomadelfia.persone.stato.assegna', $persona->id), 'il coniuge non è registrato']);
+});
+
+it('does not offer sacerdote to a woman', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->femmina()->create();
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['Parentele', 'Stato familiare', 'Separata', 'Vedova'])
+        ->assertDontSee('modal-stato-sac');
 });
 
 it('links each page of a person only once from the profile', function (): void {
