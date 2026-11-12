@@ -92,7 +92,7 @@ abstract class Autocomplete extends Component
             $this->selected = [$found];
         }
 
-        $this->dispatch('option-selected', $id);
+        $this->dispatch($this->selectedEvent(), $id);
         $this->reset('options', 'searchTerm');
     }
 
@@ -124,5 +124,14 @@ abstract class Autocomplete extends Component
     final public function render()
     {
         return view('livewire.autocomplete');
+    }
+
+    /**
+     * Name of the event dispatched when an option is selected.
+     * Override it to keep the listeners of one autocomplete from reacting to the others in the same page.
+     */
+    protected function selectedEvent(): string
+    {
+        return 'option-selected';
     }
 }

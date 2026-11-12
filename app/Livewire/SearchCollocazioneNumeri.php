@@ -11,6 +11,11 @@ use Livewire\Component;
 
 final class SearchCollocazioneNumeri extends Component
 {
+    /**
+     * Event dispatched by the SearchCollocazioneLettere autocomplete when the lettere are selected.
+     */
+    public const LETTERE_SELECTED = 'collocazione-lettere-selected';
+
     public string $letters;
 
     public string $numero = '0';
@@ -46,7 +51,7 @@ final class SearchCollocazioneNumeri extends Component
         $this->allowLettereOnly = $allowLettereOnly;
     }
 
-    #[On('option-selected')]
+    #[On(self::LETTERE_SELECTED)]
     public function selectedLettere(string $option): void
     {
         $this->letters = $option;
