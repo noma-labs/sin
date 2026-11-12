@@ -1,0 +1,142 @@
+// Summary page of the elaborati (scuola.elaborati.index)
+
+.elaborati-summary {
+  .elaborati-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--bs-secondary-color);
+    margin-bottom: 0.5rem;
+  }
+
+  // The switch between the griglia and the tabella
+  .elaborati-vista {
+    background: var(--bs-tertiary-bg);
+    border-radius: 0.6rem;
+    padding: 0.2rem;
+
+    .nav-link {
+      color: var(--bs-secondary-color);
+      border-radius: 0.45rem;
+      padding: 0.4rem 0.9rem;
+    }
+
+    .nav-link.active {
+      background: var(--bs-body-bg);
+      color: var(--bs-body-color);
+      box-shadow: var(--bs-box-shadow-sm);
+    }
+  }
+
+  .elaborati-anni .list-group-item {
+    border: 0;
+    border-radius: var(--bs-border-radius);
+    padding: 0.4rem 0.75rem;
+  }
+
+  .elaborati-anni .list-group-item.active {
+    background: var(--bs-primary-bg-subtle);
+    color: var(--bs-primary-text-emphasis);
+    font-weight: 600;
+  }
+
+  .elaborati-swatch {
+    display: inline-block;
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 0.2rem;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+  }
+
+  .elaborato-card {
+    overflow: hidden;
+    transition:
+      border-color 0.15s,
+      box-shadow 0.15s;
+
+    &:hover {
+      border-color: var(--bs-primary-border-subtle);
+      box-shadow: var(--bs-box-shadow-sm);
+    }
+  }
+
+  // The cover of an elaborato: the image when uploaded, otherwise the ciclo and the collocazione
+  .elaborato-cover {
+    aspect-ratio: 4 / 3;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: var(--bs-tertiary-bg);
+    color: var(--bs-emphasis-color);
+  }
+
+  .elaborato-cover-img {
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  .elaborato-cover-ciclo {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .elaborato-cover-collocazione {
+    font-family: var(--bs-font-monospace);
+    font-size: 1.75rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .elaborati-table {
+    thead th {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--bs-secondary-color);
+      background: var(--bs-tertiary-bg);
+      white-space: nowrap;
+    }
+
+    .elaborati-anno-row th {
+      background: var(--bs-body-bg);
+      padding-top: 1.25rem;
+      font-size: 1rem;
+    }
+  }
+
+  .elaborato-ciclo {
+    font-weight: 600;
+    background: var(--bs-secondary-bg);
+    color: var(--bs-emphasis-color);
+  }
+
+  .ciclo-prescuola {
+    background: #f7d6e6;
+    color: #6b1d45;
+  }
+
+  .ciclo-elementari {
+    background: var(--bs-warning-bg-subtle);
+    color: var(--bs-warning-text-emphasis);
+  }
+
+  .ciclo-medie {
+    background: var(--bs-success-bg-subtle);
+    color: var(--bs-success-text-emphasis);
+  }
+
+  .ciclo-superiori {
+    background: var(--bs-primary-bg-subtle);
+    color: var(--bs-primary-text-emphasis);
+  }
+
+  .ciclo-tutti {
+    background: var(--bs-secondary-bg);
+    color: var(--bs-emphasis-color);
+  }
+}

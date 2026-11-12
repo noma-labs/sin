@@ -20,6 +20,56 @@ it('can show elaborati index ', function (): void {
         ->assertSuccessful();
 });
 
+it('groups the elaborati by anno scolastico, the most recent first', function (): void {
+    Elaborato::factory()->create(['titolo' => 'Erbario della Maremma', 'anno_scolastico' => '2015/2016']);
+    Elaborato::factory()->create(['titolo' => 'Atlante delle stelle', 'anno_scolastico' => '2022/2023']);
+
+    login();
+
+    $this->get(action([ElaboratiController::class, 'index']))
+        ->assertOk()
+        ->assertSeeInOrder(['Atlante delle stelle', '2015/2016', '1 elaborato', 'Erbario della Maremma']);
+});
+
+it('sorts the elaborati by collocazione', function (): void {
+    Elaborato::factory()->create(['titolo' => 'Atlante delle stelle', 'collocazione' => 'SPA002', 'anno_scolastico' => '2022/2023']);
+    Elaborato::factory()->create(['titolo' => 'Erbario della Maremma', 'collocazione' => 'SPA001', 'anno_scolastico' => '2015/2016']);
+
+    login();
+
+    $this->get(action([ElaboratiController::class, 'index'], ['order' => 'collocazione']))
+        ->assertOk()
+        ->assertSeeInOrder(['Erbario della Maremma', 'Atlante delle stelle']);
+});
+
+it('searches the elaborati', function (string $search): void {
+    Elaborato::factory()->create(['titolo' => 'Erbario della Maremma', 'collocazione' => 'SPA001']);
+    Elaborato::factory()->create(['titolo' => 'Atlante delle stelle', 'collocazione' => 'SPB002']);
+
+    login();
+
+    $this->get(action([ElaboratiController::class, 'index'], ['q' => $search]))
+        ->assertOk()
+        ->assertSee('Erbario della Maremma')
+        ->assertDontSee('Atlante delle stelle');
+})->with([
+    'by titolo' => ['erbario'],
+    'by collocazione' => ['SPA001'],
+]);
+
+it('lists the elaborati in the tabella with their classi and file', function (): void {
+    Elaborato::factory()->create(['titolo' => 'Erbario della Maremma', 'classi' => '4 elementare,5 elementare']);
+    Elaborato::factory()->create(['titolo' => 'Atlante delle stelle', 'file_path' => null]);
+
+    login();
+
+    $this->get(action([ElaboratiController::class, 'index'], ['view' => 'table']))
+        ->assertOk()
+        ->assertSee('4 elementare, 5 elementare')
+        ->assertSee('ciclo-elementari')
+        ->assertSee('Solo cartaceo');
+});
+
 it('can show an elaborato', function (): void {
     $elaborato = Elaborato::factory()->create();
 

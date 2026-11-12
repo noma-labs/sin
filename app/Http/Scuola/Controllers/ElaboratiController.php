@@ -26,29 +26,47 @@ final class ElaboratiController
 
     public function index(Request $request)
     {
-        $order = $request->query('order', 'anno_scolastico');
+        $order = $request->query('order') === 'collocazione' ? 'collocazione' : 'anno_scolastico';
         $filterYear = $request->string('year');
-        $by = $request->query('by', 'DESC');
+        $search = $request->string('q')->trim();
+        $by = $request->query('by', $order === 'collocazione' ? 'ASC' : 'DESC');
         $view = $request->input('view', 'cards');
 
         $years = Elaborato::query()
             ->selectRaw('anno_scolastico as year, count(*) as `count` ')
             ->groupByRaw('anno_scolastico')
-            ->orderByRaw('anno_scolastico')
+            ->orderByRaw('anno_scolastico DESC')
             ->get();
 
         $query = Elaborato::query()
             ->leftjoin('archivio_biblioteca.libro', 'elaborati.libro_id', '=', 'libro.id')
             ->select('elaborati.*', 'libro.autore')
-            ->orderBy($order, $by)
+            ->orderBy('elaborati.'.$order, $by)
             ->orderBy('elaborati.collocazione', 'desc');
         if (! $filterYear->isEmpty()) {
-            $query->where('anno_scolastico', $filterYear);
+            $query->where('elaborati.anno_scolastico', $filterYear);
+        }
+        if (! $search->isEmpty()) {
+            $query->where(fn ($q) => $q->where('elaborati.titolo', 'like', "%{$search}%")
+                ->orWhere('elaborati.collocazione', 'like', "%{$search}%"));
         }
         $elaborati = $query->get();
         $total = Elaborato::query()->count();
 
-        return view('scuola.elaborati.index', compact('elaborati', 'view', 'years', 'total'));
+        // Grouped by anno scolastico only when sorted by anno, so the order by collocazione is kept
+        $gruppi = $order === 'anno_scolastico'
+            ? $elaborati->groupBy('anno_scolastico')
+            : collect(['' => $elaborati]);
+
+        return view('scuola.elaborati.index', [
+            'gruppi' => $gruppi,
+            'count' => $elaborati->count(),
+            'view' => $view,
+            'years' => $years,
+            'total' => $total,
+            'order' => $order,
+            'search' => $search->toString(),
+        ]);
     }
 
     public function create()
