@@ -397,7 +397,9 @@
 
     <div class="row g-4">
       <section class="col-xl-7 col-md-6" aria-labelledby="titolo-percorso">
-        <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+        <div
+          class="d-flex justify-content-between align-items-center gap-2 mb-3"
+        >
           <h2 id="titolo-percorso" class="h5 mb-0">Percorso in Nomadelfia</h2>
           @if (auth()->user()?->can("popolazione.persona.inserisci") || $puoModificare)
             @include("nomadelfia.persone.partials.comunita-aggiungi")
