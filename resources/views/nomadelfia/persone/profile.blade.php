@@ -38,6 +38,10 @@
               <span class="profile-chip profile-chip-numero">
                 N° elenco {{ $persona->numero_elenco }}
               </span>
+            @else
+              <span class="profile-chip profile-chip-mancante">
+                N° elenco mancante
+              </span>
             @endif
 
             @if ($posizioneAttuale)
@@ -202,6 +206,16 @@
                   >
                     Entrata nella comunità
                   </button>
+                </li>
+              @endif
+              @if (! $persona->numero_elenco)
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="{{ route("nomadelfia.folder-number.create", $persona->id) }}"
+                  >
+                    Assegna numero elenco
+                  </a>
                 </li>
               @endif
               @if (! $persona->isDeceduta())
@@ -414,25 +428,6 @@
                 @endforelse
               </dd>
               <span></span>
-            </div>
-            <div class="profile-kv-row">
-              <dt>Numero elenco</dt>
-              <dd>
-                @if ($persona->numero_elenco)
-                  {{ $persona->numero_elenco }}
-                @else
-                  <span class="text-danger">Nessun numero elenco</span>
-                @endif
-              </dd>
-              @if (! $persona->numero_elenco)
-                <a
-                  href="{{ route("nomadelfia.folder-number.create", $persona->id) }}"
-                >
-                  Assegna
-                </a>
-              @else
-                <span></span>
-              @endif
             </div>
           </dl>
         </section>
