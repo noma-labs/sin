@@ -55,7 +55,7 @@
 
   // The cover of an elaborato: the image when uploaded, otherwise the ciclo and the collocazione
   .elaborato-cover {
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 3 / 2;
     padding: 1rem;
     display: flex;
     flex-direction: column;
@@ -65,8 +65,16 @@
   }
 
   .elaborato-cover-img {
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 3 / 2;
     object-fit: cover;
+  }
+
+  // A long titolo stops at two lines, so the cards of a row keep the same height
+  .elaborato-titolo {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .elaborato-cover-ciclo {

@@ -223,26 +223,12 @@
                           </span>
                         </div>
                       @endif
-                      <div class="card-body d-flex flex-column gap-1">
-                        <h3 class="h6 card-title mb-0">
+                      <div class="card-body px-3 py-2">
+                        <h3 class="h6 card-title mb-1 elaborato-titolo">
                           {{ $elaborato->titolo }}
                         </h3>
                         <p class="small text-body-secondary mb-0">
-                          {{ collect([$classi($elaborato), $elaborato->rilegatura])->filter()->implode(" · ") }}
-                        </p>
-                        <p
-                          class="small text-body mt-auto pt-2 mb-0 d-flex align-items-center gap-1"
-                        >
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true">
-                            <path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z" />
-                            <path d="M14 3v5h5" />
-                          </svg>
-                          @if ($elaborato->file_path)
-                            PDF ·
-                            {{ Illuminate\Support\Number::fileSize($elaborato->file_size) }}
-                          @else
-                            Solo cartaceo
-                          @endif
+                          {{ collect([$elaborato->cover_image_path ? $elaborato->collocazione : null, $classi($elaborato), $elaborato->anno_scolastico])->filter()->implode(" · ") }}
                         </p>
                       </div>
                     </a>
