@@ -92,6 +92,18 @@ it('searches the elaborati by the nome and cognome of their studenti', function 
     'by cognome and nome' => ['Rossi Mario'],
 ]);
 
+it('searches the elaborati in their note', function (): void {
+    Elaborato::factory()->create(['titolo' => 'Erbario della Maremma', 'note' => 'Lavoro di gruppo con le piante del podere']);
+    Elaborato::factory()->create(['titolo' => 'Atlante delle stelle', 'note' => null]);
+
+    login();
+
+    $this->get(action([ElaboratiController::class, 'index'], ['q' => 'podere']))
+        ->assertOk()
+        ->assertSee('Erbario della Maremma')
+        ->assertDontSee('Atlante delle stelle');
+});
+
 it('searches the elaborati in the note of their libro', function (): void {
     $libro = Libro::factory()->create(['note' => 'Ricerca fatta con il gruppo di agraria']);
     Elaborato::factory()->create(['titolo' => 'Erbario della Maremma', 'libro_id' => $libro->id]);
