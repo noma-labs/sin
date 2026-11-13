@@ -61,14 +61,8 @@ final class ElaboratiController
         $elaborati = $query->get();
         $total = Elaborato::query()->count();
 
-        // Grouped by anno scolastico only when sorted by anno, so the order by collocazione is kept
-        $gruppi = $order === 'anno_scolastico'
-            ? $elaborati->groupBy('anno_scolastico')
-            : collect(['' => $elaborati]);
-
         return view('scuola.elaborati.index', [
-            'gruppi' => $gruppi,
-            'count' => $elaborati->count(),
+            'elaborati' => $elaborati,
             'view' => $view,
             'years' => $years,
             'total' => $total,

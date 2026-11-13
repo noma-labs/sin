@@ -111,7 +111,7 @@
       </aside>
 
       <main class="col">
-        @if ($count === 0)
+        @if ($elaborati->isEmpty())
           <p class="text-body-secondary">Nessun elaborato trovato.</p>
         @elseif ($view === "table")
           <div class="table-responsive border rounded-3">
@@ -120,123 +120,98 @@
                 <tr>
                   <th scope="col">Collocazione</th>
                   <th scope="col">Titolo</th>
+                  <th scope="col">Anno scolastico</th>
                   <th scope="col">Classi</th>
                   <th scope="col">Rilegatura</th>
                   <th scope="col">File</th>
                 </tr>
               </thead>
               <tbody>
-                @foreach ($gruppi as $anno => $elaborati)
-                  @if ($anno !== "")
-                    <tr class="elaborati-anno-row">
-                      <th colspan="5" scope="rowgroup">
-                        {{ $anno }}
-                        <span class="small fw-normal text-body-secondary ms-2">
-                          {{ trans_choice("{1} :count elaborato|[2,*] :count elaborati", $elaborati->count()) }}
-                        </span>
-                      </th>
-                    </tr>
-                  @endif
-
-                  @foreach ($elaborati as $elaborato)
-                    <tr>
-                      <td class="font-monospace fw-semibold">
-                        {{ $elaborato->collocazione }}
-                      </td>
-                      <td>
-                        <a
-                          href="{{ route("scuola.elaborati.show", $elaborato->id) }}"
-                          class="fw-semibold link-body-emphasis link-underline-opacity-0 link-underline-opacity-100-hover"
+                @foreach ($elaborati as $elaborato)
+                  <tr>
+                    <td class="font-monospace fw-semibold">
+                      {{ $elaborato->collocazione }}
+                    </td>
+                    <td>
+                      <a
+                        href="{{ route("scuola.elaborati.show", $elaborato->id) }}"
+                        class="fw-semibold link-body-emphasis link-underline-opacity-0 link-underline-opacity-100-hover"
+                      >
+                        {{ $elaborato->titolo }}
+                      </a>
+                    </td>
+                    <td class="text-nowrap">
+                      {{ $elaborato->anno_scolastico }}
+                    </td>
+                    <td>
+                      @if ($elaborato->classi)
+                        <span
+                          class="badge rounded-pill elaborato-ciclo ciclo-{{ $elaborato->ciclo() }}"
                         >
-                          {{ $elaborato->titolo }}
+                          {{ $classi($elaborato) }}
+                        </span>
+                      @endif
+                    </td>
+                    <td class="text-body-secondary">
+                      {{ $elaborato->rilegatura }}
+                    </td>
+                    <td class="text-nowrap">
+                      @if ($elaborato->file_path)
+                        <a
+                          href="{{ route("scuola.elaborati.preview", $elaborato->id) }}"
+                        >
+                          PDF
                         </a>
-                      </td>
-                      <td>
-                        @if ($elaborato->classi)
-                          <span
-                            class="badge rounded-pill elaborato-ciclo ciclo-{{ $elaborato->ciclo() }}"
-                          >
-                            {{ $classi($elaborato) }}
-                          </span>
-                        @endif
-                      </td>
-                      <td class="text-body-secondary">
-                        {{ $elaborato->rilegatura }}
-                      </td>
-                      <td class="text-nowrap">
-                        @if ($elaborato->file_path)
-                          <a
-                            href="{{ route("scuola.elaborati.preview", $elaborato->id) }}"
-                          >
-                            PDF
-                          </a>
-                          <span class="text-body-secondary">
-                            {{ Illuminate\Support\Number::fileSize($elaborato->file_size) }}
-                          </span>
-                        @else
-                          <span class="text-body-secondary">
-                            Solo cartaceo
-                          </span>
-                        @endif
-                      </td>
-                    </tr>
-                  @endforeach
+                        <span class="text-body-secondary">
+                          {{ Illuminate\Support\Number::fileSize($elaborato->file_size) }}
+                        </span>
+                      @else
+                        <span class="text-body-secondary"> Solo cartaceo </span>
+                      @endif
+                    </td>
+                  </tr>
                 @endforeach
               </tbody>
             </table>
           </div>
         @else
-          @foreach ($gruppi as $anno => $elaborati)
-            <section class="mb-4">
-              @if ($anno !== "")
-                <div class="d-flex align-items-center gap-2 mb-3">
-                  <h2 class="h5 mb-0">{{ $anno }}</h2>
-                  <span class="small text-body-secondary">
-                    {{ trans_choice("{1} :count elaborato|[2,*] :count elaborati", $elaborati->count()) }}
-                  </span>
-                  <span class="flex-grow-1 border-top"></span>
-                </div>
-              @endif
-
-              <div class="row row-cols-2 row-cols-md-3 row-cols-xxl-4 g-3">
-                @foreach ($elaborati as $elaborato)
-                  <div class="col">
-                    <a
-                      href="{{ route("scuola.elaborati.show", $elaborato->id) }}"
-                      class="card h-100 elaborato-card text-decoration-none"
+          <div class="row row-cols-2 row-cols-md-3 row-cols-xxl-4 g-3">
+            @foreach ($elaborati as $elaborato)
+              <div class="col">
+                <a
+                  href="{{ route("scuola.elaborati.show", $elaborato->id) }}"
+                  class="card h-100 elaborato-card text-decoration-none"
+                >
+                  @if ($elaborato->cover_image_path)
+                    <img
+                      src="{{ route("scuola.elaborati.cover.show", $elaborato->id) }}"
+                      class="card-img-top elaborato-cover-img"
+                      alt=""
+                    />
+                  @else
+                    <div
+                      class="elaborato-cover ciclo-{{ $elaborato->ciclo() }}"
                     >
-                      @if ($elaborato->cover_image_path)
-                        <img
-                          src="{{ route("scuola.elaborati.cover.show", $elaborato->id) }}"
-                          class="card-img-top elaborato-cover-img"
-                          alt=""
-                        />
-                      @else
-                        <div
-                          class="elaborato-cover ciclo-{{ $elaborato->ciclo() }}"
-                        >
-                          <span class="elaborato-cover-ciclo">
-                            {{ $elaborato->cicloLabel() }}
-                          </span>
-                          <span class="elaborato-cover-collocazione">
-                            {{ $elaborato->collocazione }}
-                          </span>
-                        </div>
-                      @endif
-                      <div class="card-body px-3 py-2">
-                        <h3 class="h6 card-title mb-1 elaborato-titolo">
-                          {{ $elaborato->titolo }}
-                        </h3>
-                        <p class="small text-body-secondary mb-0">
-                          {{ collect([$elaborato->cover_image_path ? $elaborato->collocazione : null, $classi($elaborato), $elaborato->anno_scolastico])->filter()->implode(" · ") }}
-                        </p>
-                      </div>
-                    </a>
+                      <span class="elaborato-cover-ciclo">
+                        {{ $elaborato->cicloLabel() }}
+                      </span>
+                      <span class="elaborato-cover-collocazione">
+                        {{ $elaborato->collocazione }}
+                      </span>
+                    </div>
+                  @endif
+                  <div class="card-body px-3 py-2">
+                    <h3 class="h6 card-title mb-1 elaborato-titolo">
+                      {{ $elaborato->titolo }}
+                    </h3>
+                    <p class="small text-body-secondary mb-0">
+                      {{ collect([$elaborato->cover_image_path ? $elaborato->collocazione : null, $classi($elaborato), $elaborato->anno_scolastico])->filter()->implode(" · ") }}
+                    </p>
                   </div>
-                @endforeach
+                </a>
               </div>
-            </section>
-          @endforeach
+            @endforeach
+          </div>
         @endif
       </main>
     </div>

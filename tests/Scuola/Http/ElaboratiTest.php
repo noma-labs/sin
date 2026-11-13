@@ -21,7 +21,7 @@ it('can show elaborati index ', function (): void {
         ->assertSuccessful();
 });
 
-it('groups the elaborati by anno scolastico, the most recent first', function (): void {
+it('lists the elaborati of the most recent anno scolastico first', function (): void {
     Elaborato::factory()->create(['titolo' => 'Erbario della Maremma', 'anno_scolastico' => '2015/2016']);
     Elaborato::factory()->create(['titolo' => 'Atlante delle stelle', 'anno_scolastico' => '2022/2023']);
 
@@ -29,7 +29,19 @@ it('groups the elaborati by anno scolastico, the most recent first', function ()
 
     $this->get(action([ElaboratiController::class, 'index']))
         ->assertOk()
-        ->assertSeeInOrder(['Atlante delle stelle', '2015/2016', '1 elaborato', 'Erbario della Maremma']);
+        ->assertSeeInOrder(['Atlante delle stelle', 'Erbario della Maremma']);
+});
+
+it('filters the elaborati by anno scolastico', function (): void {
+    Elaborato::factory()->create(['titolo' => 'Erbario della Maremma', 'anno_scolastico' => '2015/2016']);
+    Elaborato::factory()->create(['titolo' => 'Atlante delle stelle', 'anno_scolastico' => '2022/2023']);
+
+    login();
+
+    $this->get(action([ElaboratiController::class, 'index'], ['year' => '2015/2016']))
+        ->assertOk()
+        ->assertSee('Erbario della Maremma')
+        ->assertDontSee('Atlante delle stelle');
 });
 
 it('sorts the elaborati by collocazione', function (): void {
