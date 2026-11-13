@@ -26,29 +26,51 @@ final class ElaboratiController
 
     public function index(Request $request)
     {
-        $order = $request->query('order', 'anno_scolastico');
+        $order = $request->query('order') === 'collocazione' ? 'collocazione' : 'anno_scolastico';
         $filterYear = $request->string('year');
-        $by = $request->query('by', 'DESC');
+        $search = $request->string('q')->trim();
+        $by = $request->query('by', $order === 'collocazione' ? 'ASC' : 'DESC');
         $view = $request->input('view', 'cards');
 
         $years = Elaborato::query()
             ->selectRaw('anno_scolastico as year, count(*) as `count` ')
             ->groupByRaw('anno_scolastico')
-            ->orderByRaw('anno_scolastico')
+            ->orderByRaw('anno_scolastico DESC')
             ->get();
 
         $query = Elaborato::query()
             ->leftjoin('archivio_biblioteca.libro', 'elaborati.libro_id', '=', 'libro.id')
             ->select('elaborati.*', 'libro.autore')
-            ->orderBy($order, $by)
+            ->orderBy('elaborati.'.$order, $by)
             ->orderBy('elaborati.collocazione', 'desc');
         if (! $filterYear->isEmpty()) {
-            $query->where('anno_scolastico', $filterYear);
+            $query->where('elaborati.anno_scolastico', $filterYear);
+        }
+        if (! $search->isEmpty()) {
+            $like = "%{$search}%";
+            $query->where(fn ($q) => $q->where('elaborati.titolo', 'like', $like)
+                ->orWhere('elaborati.collocazione', 'like', $like)
+                ->orWhere('elaborati.note', 'like', $like)
+                ->orWhere('libro.note', 'like', $like)
+                ->orWhereIn('elaborati.id', fn ($studenti) => $studenti
+                    ->select('db_scuola.elaborati_studenti.elaborato_id')
+                    ->from('db_scuola.elaborati_studenti')
+                    ->join('db_nomadelfia.persone', 'db_nomadelfia.persone.id', '=', 'db_scuola.elaborati_studenti.studente_id')
+                    ->where(fn ($persona) => $persona
+                        ->whereRaw("CONCAT(db_nomadelfia.persone.nome, ' ', db_nomadelfia.persone.cognome) LIKE ?", [$like])
+                        ->orWhereRaw("CONCAT(db_nomadelfia.persone.cognome, ' ', db_nomadelfia.persone.nome) LIKE ?", [$like]))));
         }
         $elaborati = $query->get();
         $total = Elaborato::query()->count();
 
-        return view('scuola.elaborati.index', compact('elaborati', 'view', 'years', 'total'));
+        return view('scuola.elaborati.index', [
+            'elaborati' => $elaborati,
+            'view' => $view,
+            'years' => $years,
+            'total' => $total,
+            'order' => $order,
+            'search' => $search->toString(),
+        ]);
     }
 
     public function create()

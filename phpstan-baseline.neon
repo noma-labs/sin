@@ -8455,12 +8455,6 @@ parameters:
 			path: app/Http/Scuola/Controllers/ElaboratiController.php
 
 		-
-			message: '#^Parameter \#1 \$column of method Illuminate\\Database\\Query\\Builder\:\:orderBy\(\) expects Closure\|Illuminate\\Contracts\\Database\\Query\\Expression\|Illuminate\\Database\\Eloquent\\Builder\<\*\>\|Illuminate\\Database\\Query\\Builder\|string, array\|string\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Http/Scuola/Controllers/ElaboratiController.php
-
-		-
 			message: '#^Parameter \#1 \$dimension of static method App\\Scuola\\DataTransferObjects\\Dimensione\:\:fromString\(\) expects string\|null, mixed given\.$#'
 			identifier: argument.type
 			count: 4

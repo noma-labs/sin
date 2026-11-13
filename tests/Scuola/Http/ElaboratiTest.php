@@ -12,12 +12,121 @@ use App\Scuola\Models\Elaborato;
 use App\Scuola\Models\Studente;
 use Faker\Factory as Faker;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 it('can show elaborati index ', function (): void {
     login();
     $this->get(action([ElaboratiController::class, 'index']))
         ->assertSuccessful();
+});
+
+it('lists the elaborati of the most recent anno scolastico first', function (): void {
+    Elaborato::factory()->create(['titolo' => 'Erbario della Maremma', 'anno_scolastico' => '2015/2016']);
+    Elaborato::factory()->create(['titolo' => 'Atlante delle stelle', 'anno_scolastico' => '2022/2023']);
+
+    login();
+
+    $this->get(action([ElaboratiController::class, 'index']))
+        ->assertOk()
+        ->assertSeeInOrder(['Atlante delle stelle', 'Erbario della Maremma']);
+});
+
+it('filters the elaborati by anno scolastico', function (): void {
+    Elaborato::factory()->create(['titolo' => 'Erbario della Maremma', 'anno_scolastico' => '2015/2016']);
+    Elaborato::factory()->create(['titolo' => 'Atlante delle stelle', 'anno_scolastico' => '2022/2023']);
+
+    login();
+
+    $this->get(action([ElaboratiController::class, 'index'], ['year' => '2015/2016']))
+        ->assertOk()
+        ->assertSee('Erbario della Maremma')
+        ->assertDontSee('Atlante delle stelle');
+});
+
+it('sorts the elaborati by collocazione', function (): void {
+    Elaborato::factory()->create(['titolo' => 'Atlante delle stelle', 'collocazione' => 'SPA002', 'anno_scolastico' => '2022/2023']);
+    Elaborato::factory()->create(['titolo' => 'Erbario della Maremma', 'collocazione' => 'SPA001', 'anno_scolastico' => '2015/2016']);
+
+    login();
+
+    $this->get(action([ElaboratiController::class, 'index'], ['order' => 'collocazione']))
+        ->assertOk()
+        ->assertSeeInOrder(['Erbario della Maremma', 'Atlante delle stelle']);
+});
+
+it('searches the elaborati', function (string $search): void {
+    Elaborato::factory()->create(['titolo' => 'Erbario della Maremma', 'collocazione' => 'SPA001']);
+    Elaborato::factory()->create(['titolo' => 'Atlante delle stelle', 'collocazione' => 'SPB002']);
+
+    login();
+
+    $this->get(action([ElaboratiController::class, 'index'], ['q' => $search]))
+        ->assertOk()
+        ->assertSee('Erbario della Maremma')
+        ->assertDontSee('Atlante delle stelle');
+})->with([
+    'by titolo' => ['erbario'],
+    'by collocazione' => ['SPA001'],
+]);
+
+it('searches the elaborati by the nome and cognome of their studenti', function (string $search): void {
+    $rossi = Studente::factory()->maschio()->create([
+        'nome' => 'Mario',
+        'cognome' => 'Rossi',
+        'data_nascita' => fake()->unique()->dateTimeBetween('-17 years', '-6 years')->format('Y-m-d'),
+    ]);
+    $elaborato = Elaborato::factory()->create(['titolo' => 'Erbario della Maremma']);
+    Elaborato::factory()->create(['titolo' => 'Atlante delle stelle']);
+    DB::connection('db_scuola')->table('elaborati_studenti')->insert(['elaborato_id' => $elaborato->id, 'studente_id' => $rossi->id]);
+
+    login();
+
+    $this->get(action([ElaboratiController::class, 'index'], ['q' => $search]))
+        ->assertOk()
+        ->assertSee('Erbario della Maremma')
+        ->assertDontSee('Atlante delle stelle');
+})->with([
+    'by cognome' => ['rossi'],
+    'by nome and cognome' => ['Mario Rossi'],
+    'by cognome and nome' => ['Rossi Mario'],
+]);
+
+it('searches the elaborati in their note', function (): void {
+    Elaborato::factory()->create(['titolo' => 'Erbario della Maremma', 'note' => 'Lavoro di gruppo con le piante del podere']);
+    Elaborato::factory()->create(['titolo' => 'Atlante delle stelle', 'note' => null]);
+
+    login();
+
+    $this->get(action([ElaboratiController::class, 'index'], ['q' => 'podere']))
+        ->assertOk()
+        ->assertSee('Erbario della Maremma')
+        ->assertDontSee('Atlante delle stelle');
+});
+
+it('searches the elaborati in the note of their libro', function (): void {
+    $libro = Libro::factory()->create(['note' => 'Ricerca fatta con il gruppo di agraria']);
+    Elaborato::factory()->create(['titolo' => 'Erbario della Maremma', 'libro_id' => $libro->id]);
+    Elaborato::factory()->create(['titolo' => 'Atlante delle stelle']);
+
+    login();
+
+    $this->get(action([ElaboratiController::class, 'index'], ['q' => 'agraria']))
+        ->assertOk()
+        ->assertSee('Erbario della Maremma')
+        ->assertDontSee('Atlante delle stelle');
+});
+
+it('lists the elaborati in the tabella with their classi and file', function (): void {
+    Elaborato::factory()->create(['titolo' => 'Erbario della Maremma', 'classi' => '4 elementare,5 elementare']);
+    Elaborato::factory()->create(['titolo' => 'Atlante delle stelle', 'file_path' => null]);
+
+    login();
+
+    $this->get(action([ElaboratiController::class, 'index'], ['view' => 'table']))
+        ->assertOk()
+        ->assertSee('4 elementare, 5 elementare')
+        ->assertSee('Solo cartaceo');
 });
 
 it('can show an elaborato', function (): void {
