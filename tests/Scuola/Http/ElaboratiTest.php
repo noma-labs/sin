@@ -126,7 +126,6 @@ it('lists the elaborati in the tabella with their classi and file', function ():
     $this->get(action([ElaboratiController::class, 'index'], ['view' => 'table']))
         ->assertOk()
         ->assertSee('4 elementare, 5 elementare')
-        ->assertSee('ciclo-elementari')
         ->assertSee('Solo cartaceo');
 });
 

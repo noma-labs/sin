@@ -143,15 +143,7 @@
                     <td class="text-nowrap">
                       {{ $elaborato->anno_scolastico }}
                     </td>
-                    <td>
-                      @if ($elaborato->classi)
-                        <span
-                          class="badge rounded-pill elaborato-ciclo ciclo-{{ $elaborato->ciclo() }}"
-                        >
-                          {{ $classi($elaborato) }}
-                        </span>
-                      @endif
-                    </td>
+                    <td>{{ $classi($elaborato) }}</td>
                     <td class="text-body-secondary">
                       {{ $elaborato->rilegatura }}
                     </td>
@@ -189,12 +181,7 @@
                       alt=""
                     />
                   @else
-                    <div
-                      class="elaborato-cover ciclo-{{ $elaborato->ciclo() }}"
-                    >
-                      <span class="elaborato-cover-ciclo">
-                        {{ $elaborato->cicloLabel() }}
-                      </span>
+                    <div class="elaborato-cover">
                       <span class="elaborato-cover-collocazione">
                         {{ $elaborato->collocazione }}
                       </span>
