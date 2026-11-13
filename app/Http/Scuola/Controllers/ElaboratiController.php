@@ -50,6 +50,7 @@ final class ElaboratiController
             $like = "%{$search}%";
             $query->where(fn ($q) => $q->where('elaborati.titolo', 'like', $like)
                 ->orWhere('elaborati.collocazione', 'like', $like)
+                ->orWhere('libro.note', 'like', $like)
                 ->orWhereIn('elaborati.id', fn ($studenti) => $studenti
                     ->select('db_scuola.elaborati_studenti.elaborato_id')
                     ->from('db_scuola.elaborati_studenti')

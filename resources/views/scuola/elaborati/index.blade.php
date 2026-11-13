@@ -52,7 +52,7 @@
           type="search"
           class="form-control"
           value="{{ $search }}"
-          placeholder="Cerca per titolo, collocazione o studente"
+          placeholder="Cerca per titolo, collocazione, studente o note"
         />
       </div>
       <label for="order" class="text-body-secondary small">Ordina per</label>
