@@ -90,7 +90,7 @@
     <div class="row g-4">
       <aside class="col-12 col-lg-3 col-xl-2">
         <h2 class="elaborati-label">Anno scolastico</h2>
-        <div class="list-group elaborati-anni mb-4">
+        <div class="list-group elaborati-anni">
           <a
             href="{{ $link(["year" => null]) }}"
             class="list-group-item list-group-item-action d-flex justify-content-between {{ request("year") ? "" : "active" }}"
@@ -108,30 +108,6 @@
             </a>
           @endforeach
         </div>
-
-        <h2 class="elaborati-label">Ciclo</h2>
-        <ul class="list-unstyled small d-flex flex-column gap-2 ps-2">
-          <li class="d-flex align-items-center gap-2">
-            <span class="elaborati-swatch ciclo-prescuola"></span>
-            Prescuola
-          </li>
-          <li class="d-flex align-items-center gap-2">
-            <span class="elaborati-swatch ciclo-elementari"></span>
-            Elementari
-          </li>
-          <li class="d-flex align-items-center gap-2">
-            <span class="elaborati-swatch ciclo-medie"></span>
-            Medie
-          </li>
-          <li class="d-flex align-items-center gap-2">
-            <span class="elaborati-swatch ciclo-superiori"></span>
-            Superiori
-          </li>
-          <li class="d-flex align-items-center gap-2">
-            <span class="elaborati-swatch ciclo-tutti"></span>
-            Più cicli
-          </li>
-        </ul>
       </aside>
 
       <main class="col">
