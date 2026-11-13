@@ -47,8 +47,16 @@ final class ElaboratiController
             $query->where('elaborati.anno_scolastico', $filterYear);
         }
         if (! $search->isEmpty()) {
-            $query->where(fn ($q) => $q->where('elaborati.titolo', 'like', "%{$search}%")
-                ->orWhere('elaborati.collocazione', 'like', "%{$search}%"));
+            $like = "%{$search}%";
+            $query->where(fn ($q) => $q->where('elaborati.titolo', 'like', $like)
+                ->orWhere('elaborati.collocazione', 'like', $like)
+                ->orWhereIn('elaborati.id', fn ($studenti) => $studenti
+                    ->select('db_scuola.elaborati_studenti.elaborato_id')
+                    ->from('db_scuola.elaborati_studenti')
+                    ->join('db_nomadelfia.persone', 'db_nomadelfia.persone.id', '=', 'db_scuola.elaborati_studenti.studente_id')
+                    ->where(fn ($persona) => $persona
+                        ->whereRaw("CONCAT(db_nomadelfia.persone.nome, ' ', db_nomadelfia.persone.cognome) LIKE ?", [$like])
+                        ->orWhereRaw("CONCAT(db_nomadelfia.persone.cognome, ' ', db_nomadelfia.persone.nome) LIKE ?", [$like]))));
         }
         $elaborati = $query->get();
         $total = Elaborato::query()->count();

@@ -12,6 +12,7 @@ use App\Scuola\Models\Elaborato;
 use App\Scuola\Models\Studente;
 use Faker\Factory as Faker;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 it('can show elaborati index ', function (): void {
@@ -55,6 +56,28 @@ it('searches the elaborati', function (string $search): void {
 })->with([
     'by titolo' => ['erbario'],
     'by collocazione' => ['SPA001'],
+]);
+
+it('searches the elaborati by the nome and cognome of their studenti', function (string $search): void {
+    $rossi = Studente::factory()->maschio()->create([
+        'nome' => 'Mario',
+        'cognome' => 'Rossi',
+        'data_nascita' => fake()->unique()->dateTimeBetween('-17 years', '-6 years')->format('Y-m-d'),
+    ]);
+    $elaborato = Elaborato::factory()->create(['titolo' => 'Erbario della Maremma']);
+    Elaborato::factory()->create(['titolo' => 'Atlante delle stelle']);
+    DB::connection('db_scuola')->table('elaborati_studenti')->insert(['elaborato_id' => $elaborato->id, 'studente_id' => $rossi->id]);
+
+    login();
+
+    $this->get(action([ElaboratiController::class, 'index'], ['q' => $search]))
+        ->assertOk()
+        ->assertSee('Erbario della Maremma')
+        ->assertDontSee('Atlante delle stelle');
+})->with([
+    'by cognome' => ['rossi'],
+    'by nome and cognome' => ['Mario Rossi'],
+    'by cognome and nome' => ['Rossi Mario'],
 ]);
 
 it('lists the elaborati in the tabella with their classi and file', function (): void {
