@@ -27,20 +27,18 @@
 
   <main class="stampa-foglio">
     <header class="stampa-header">
-      <div class="stampa-intestazione">
-        <img
-          src="{{ asset("images/logo-noma.png") }}"
-          alt="Nomadelfia"
-          class="stampa-logo"
-        />
-        <div class="stampa-intestazione-testo">
-          <span class="stampa-occhiello">Scuola familiare</span>
-          <h1 class="stampa-titolo">Anno scolastico {{ $anno->as }}</h1>
-        </div>
-      </div>
       <span class="stampa-data stampa-muted fst-italic">
         Stampato il {{ now()->format("d/m/Y") }}
       </span>
+      <div class="stampa-intestazione">
+        <span class="stampa-occhiello">Scuola familiare</span>
+        <h1 class="stampa-titolo">Anno scolastico {{ $anno->as }}</h1>
+      </div>
+      <img
+        src="{{ asset("images/logo-noma.png") }}"
+        alt="Nomadelfia"
+        class="stampa-logo"
+      />
     </header>
 
     <div class="stampa-colonne">

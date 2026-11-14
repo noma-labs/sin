@@ -39,31 +39,28 @@
     overflow: hidden;
   }
 
-  // The logo and the anno scolastico on one line in the middle, the date of the print on the right
+  // The date of the print on the left, the anno scolastico in the middle of the page, the logo on the right
   .stampa-header {
-    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 3mm;
   }
 
   .stampa-intestazione {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 3mm;
-  }
-
-  .stampa-intestazione-testo {
-    display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 0.6mm;
+    text-align: center;
   }
 
   .stampa-data {
-    position: absolute;
-    right: 0;
-    bottom: 0;
+    justify-self: start;
   }
 
   .stampa-logo {
+    justify-self: end;
     height: 8mm;
     width: auto;
   }
