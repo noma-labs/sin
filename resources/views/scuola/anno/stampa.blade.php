@@ -33,8 +33,10 @@
           alt="Nomadelfia"
           class="stampa-logo"
         />
-        <span class="stampa-occhiello">Scuola familiare</span>
-        <h1 class="stampa-titolo">Anno scolastico {{ $anno->as }}</h1>
+        <div class="stampa-intestazione-testo">
+          <span class="stampa-occhiello">Scuola familiare</span>
+          <h1 class="stampa-titolo">Anno scolastico {{ $anno->as }}</h1>
+        </div>
       </div>
       <span class="stampa-data stampa-muted fst-italic">
         Stampato il {{ now()->format("d/m/Y") }}

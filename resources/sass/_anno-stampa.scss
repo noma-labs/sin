@@ -35,21 +35,26 @@
     box-shadow: var(--bs-box-shadow);
     display: flex;
     flex-direction: column;
-    gap: 3mm;
+    gap: 2mm;
     overflow: hidden;
   }
 
-  // The logo and the anno scolastico in the middle, the date of the print on the right
+  // The logo and the anno scolastico on one line in the middle, the date of the print on the right
   .stampa-header {
     position: relative;
   }
 
   .stampa-intestazione {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 1mm;
-    text-align: center;
+    justify-content: center;
+    gap: 3mm;
+  }
+
+  .stampa-intestazione-testo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6mm;
   }
 
   .stampa-data {
@@ -59,13 +64,14 @@
   }
 
   .stampa-logo {
-    height: 12mm;
+    height: 8mm;
     width: auto;
   }
 
   .stampa-occhiello {
-    font-size: 8pt;
+    font-size: 7pt;
     font-weight: 700;
+    line-height: 1;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: $nomadelfia-azzurro;
