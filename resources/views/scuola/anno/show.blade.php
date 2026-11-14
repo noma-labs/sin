@@ -5,7 +5,15 @@
 @section("content")
   @include("partials.header", ["title" => "Anno scolastico " . $anno->scolastico])
   <div class="card mb-3">
-    <div class="card-header">Scuola A.S. {{ $anno->scolastico }}</div>
+    <div class="card-header d-flex justify-content-between align-items-center">
+      Scuola A.S. {{ $anno->scolastico }}
+      <a
+        class="btn btn-secondary btn-sm"
+        href="{{ route("scuola.anno.stampa", $anno->id) }}"
+      >
+        Stampa elenco
+      </a>
+    </div>
     <div class="card-body">
       <ul class="list-group list-group-flush">
         <li

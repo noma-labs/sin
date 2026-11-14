@@ -91,6 +91,7 @@ use App\Rtn\Video\VideoController as RtnVideoController;
 use App\Scuola\Controllers\AnnoScolasticoClassiController;
 use App\Scuola\Controllers\AnnoScolasticoController;
 use App\Scuola\Controllers\AnnoScolasticoNoteController;
+use App\Scuola\Controllers\AnnoScolasticoStampaController;
 use App\Scuola\Controllers\ClassiController;
 use App\Scuola\Controllers\ClassiCoordinatoriController;
 use App\Scuola\Controllers\ClassiElaboratiController;
@@ -262,6 +263,7 @@ Route::prefix('scuola')->middleware('auth')->group(function () {
     Route::get('/anno/{id}/new', [AnnoScolasticoController::class, 'showNew'])->name('scuola.anno.show.new');
     Route::post('/anno/{id}/clone', [AnnoScolasticoController::class, 'clone'])->name('scuola.anno.clone');
     Route::put('/anno/{id}/note', AnnoScolasticoNoteController::class)->name('scuola.anno.note.update');
+    Route::get('/anno/{id}/stampa', AnnoScolasticoStampaController::class)->name('scuola.anno.stampa');
     Route::post('/anno', [AnnoScolasticoController::class, 'store'])->name('scuola.anno.aggiungi');
     Route::post('anno/{id}/classe', [AnnoScolasticoClassiController::class, 'store'])->name('scuola.anno.classe.aggiungi');
 

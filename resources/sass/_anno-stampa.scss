@@ -1,0 +1,196 @@
+// Page of an anno scolastico to print with the browser (scuola.anno.stampa)
+
+.anno-stampa {
+  --stampa-prescuola: #{$nomadelfia-giallo};
+  --stampa-elementari: #ffe14d;
+  --stampa-medie: #9bd067;
+  --stampa-superiori: #a9c8f2;
+  --stampa-universita: #c9b8e8;
+  --stampa-classe: #dcdce2;
+  --stampa-muted: #555;
+
+  background: var(--bs-tertiary-bg);
+  min-height: 100vh;
+  color: #1d1d1f;
+  font-family: Arial, Helvetica, sans-serif;
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+
+  // The sheet: an A4 page on the screen, the page itself when printed
+  .stampa-foglio {
+    width: 210mm;
+    height: 297mm;
+    margin: 0 auto 2rem;
+    padding: 10mm;
+    box-sizing: border-box;
+    background: $white;
+    box-shadow: var(--bs-box-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 4mm;
+    overflow: hidden;
+  }
+
+  // The logo and the anno scolastico in the middle, the date of the print on the right
+  .stampa-header {
+    position: relative;
+  }
+
+  .stampa-intestazione {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5mm;
+    text-align: center;
+  }
+
+  .stampa-data {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+
+  .stampa-logo {
+    height: 14mm;
+    width: auto;
+  }
+
+  .stampa-occhiello {
+    font-size: 8pt;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: $nomadelfia-azzurro;
+  }
+
+  .stampa-titolo {
+    margin: 0;
+    font-size: 19pt;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .stampa-muted {
+    font-size: 8pt;
+    color: var(--stampa-muted);
+  }
+
+  // Prescuola, elementari and medie start a new column, superiori and universita follow the medie
+  .stampa-colonne {
+    flex: 1;
+    min-height: 0;
+    column-count: 4;
+    column-gap: 3mm;
+    column-fill: auto;
+  }
+
+  .stampa-ciclo {
+    border-left: 2mm solid var(--stampa-colore);
+    margin-bottom: 3mm;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+
+  .stampa-ciclo-elementari,
+  .stampa-ciclo-medie {
+    break-before: column;
+  }
+
+  .stampa-ciclo-prescuola {
+    --stampa-colore: var(--stampa-prescuola);
+  }
+
+  .stampa-ciclo-elementari {
+    --stampa-colore: var(--stampa-elementari);
+  }
+
+  .stampa-ciclo-medie {
+    --stampa-colore: var(--stampa-medie);
+  }
+
+  .stampa-ciclo-superiori {
+    --stampa-colore: var(--stampa-superiori);
+  }
+
+  .stampa-ciclo-universita {
+    --stampa-colore: var(--stampa-universita);
+  }
+
+  .stampa-ciclo-nome {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5mm 2mm;
+    background: var(--stampa-colore);
+    font-size: 10.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    break-after: avoid;
+  }
+
+  .stampa-classe {
+    padding: 2mm 0 1mm;
+    break-inside: avoid;
+  }
+
+  .stampa-classe-nome {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0 0.8mm 4.5mm;
+    padding: 0.8mm 2mm;
+    background: var(--stampa-classe);
+    font-size: 9.5pt;
+    font-weight: 700;
+  }
+
+  .stampa-alunni {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: alunno;
+
+    li {
+      display: flex;
+      gap: 1.5mm;
+      font-size: 9.5pt;
+      line-height: 1.45;
+      counter-increment: alunno;
+
+      &::before {
+        content: counter(alunno);
+        flex: none;
+        width: 3.5mm;
+        text-align: right;
+        font-size: 8pt;
+        color: var(--stampa-muted);
+      }
+    }
+  }
+
+  .stampa-footer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 2.5mm;
+    border-top: 1px solid var(--stampa-classe);
+  }
+
+  .stampa-totale {
+    margin-left: auto;
+    display: flex;
+    gap: 5mm;
+    padding: 1.5mm 3mm;
+    background: var(--stampa-prescuola);
+    font-size: 10.5pt;
+    font-weight: 700;
+  }
+
+  @media print {
+    background: none;
+    min-height: 0;
+
+    .stampa-foglio {
+      margin: 0;
+      box-shadow: none;
+    }
+  }
+}

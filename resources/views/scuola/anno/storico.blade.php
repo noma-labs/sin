@@ -27,6 +27,12 @@
                   <span class="badge bg-secondary rounded-pill">
                     {{ $anno->alunni_count }}
                   </span>
+                  <a
+                    class="btn btn-link"
+                    href="{{ route("scuola.anno.stampa", $anno->id) }}"
+                  >
+                    stampa
+                  </a>
                 </h5>
               </div>
             </div>
