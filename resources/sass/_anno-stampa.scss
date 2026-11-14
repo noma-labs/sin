@@ -123,10 +123,12 @@
     background: var(--stampa-colore);
     font-size: 9.5pt;
     font-weight: 700;
+    font-variant-numeric: tabular-nums;
     text-transform: uppercase;
     break-after: avoid;
   }
 
+  // The ciclo, the classi and the alunni start on the same line, 1.5mm from the stripe of the ciclo
   .stampa-classe {
     padding: 1mm 0 0.5mm;
     break-inside: avoid;
@@ -135,32 +137,34 @@
   .stampa-classe-nome {
     display: flex;
     justify-content: space-between;
-    margin: 0 0 0.3mm 4mm;
-    padding: 0.3mm 1.5mm;
+    margin-bottom: 0.4mm;
+    padding: 0.4mm 1.5mm;
     background: var(--stampa-classe);
     font-size: 8.5pt;
     font-weight: 700;
+    font-variant-numeric: tabular-nums;
   }
 
   .stampa-alunni {
     margin: 0;
-    padding: 0;
+    padding: 0 1.5mm;
     list-style: none;
     counter-reset: alunno;
 
     li {
       display: flex;
-      gap: 1mm;
+      align-items: baseline;
+      gap: 1.2mm;
       font-size: 8.5pt;
-      line-height: 1.25;
+      line-height: 1.3;
       counter-increment: alunno;
 
       &::before {
         content: counter(alunno);
         flex: none;
         width: 3mm;
-        text-align: right;
         font-size: 7pt;
+        font-variant-numeric: tabular-nums;
         color: var(--stampa-muted);
       }
     }
