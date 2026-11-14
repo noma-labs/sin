@@ -54,11 +54,11 @@
                 <span>{{ $classe->nome }}</span>
                 <span>{{ count($classe->alunni) }}</span>
               </div>
-              <ol class="stampa-alunni">
+              <ul class="stampa-alunni">
                 @foreach ($classe->alunni as $alunno)
                   <li>{{ $alunno->nome }} {{ $alunno->cognome }}</li>
                 @endforeach
-              </ol>
+              </ul>
             </div>
           @endforeach
         </section>
