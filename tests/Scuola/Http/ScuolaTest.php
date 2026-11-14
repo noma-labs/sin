@@ -54,3 +54,39 @@ it('can list classi in anno scolastico', function (): void {
         ->assertSee($c->alunni()->first()->nominativo);
 
 });
+
+it('prints the alunni of an anno scolastico by ciclo and classe, sorted by nome', function (): void {
+    $anno = Anno::createAnno(2031);
+    $elementare = $anno->aggiungiClasse(ClasseTipo::query()->where('nome', ClasseTipo::PRIMA_ELEMENTARE)->firstOrFail());
+    $media = $anno->aggiungiClasse(ClasseTipo::query()->where('nome', ClasseTipo::PRIMA_MEDIA)->firstOrFail());
+    $beatrice = Studente::factory()->minorenne()->femmina()->create(['nome' => 'Beatrice', 'cognome' => fake()->unique()->lastName()]);
+    $andrea = Studente::factory()->minorenne()->maschio()->create(['nome' => 'Andrea', 'cognome' => fake()->unique()->lastName()]);
+    $carlo = Studente::factory()->minorenne()->maschio()->create(['nome' => 'Carlo', 'cognome' => fake()->unique()->lastName()]);
+    $elementare->aggiungiAlunno($beatrice, Carbon::now());
+    $elementare->aggiungiAlunno($andrea, Carbon::now());
+    $media->aggiungiAlunno($carlo, Carbon::now());
+
+    login();
+
+    $this->get(route('scuola.anno.stampa', $anno->id))
+        ->assertOk()
+        ->assertSee('Anno scolastico 2031/2032')
+        ->assertSeeInOrder([
+            'elementari',
+            ClasseTipo::PRIMA_ELEMENTARE,
+            "Andrea {$andrea->cognome}",
+            "Beatrice {$beatrice->cognome}",
+            'medie',
+            ClasseTipo::PRIMA_MEDIA,
+            "Carlo {$carlo->cognome}",
+            'Totale alunni',
+            '3',
+        ]);
+});
+
+it('returns not found when printing an anno scolastico that does not exist', function (): void {
+    login();
+
+    $this->get(route('scuola.anno.stampa', 0))
+        ->assertNotFound();
+});

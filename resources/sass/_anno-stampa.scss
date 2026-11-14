@@ -1,0 +1,204 @@
+// Page of an anno scolastico to print with the browser (scuola.anno.stampa)
+
+.anno-stampa {
+  // Each ciclo has a light colour for its band and a dark one for its stripe,
+  // so the stripe is still a visible grey when printed in black and white
+  --stampa-prescuola: #{$nomadelfia-giallo};
+  --stampa-prescuola-scuro: #c77d00;
+  --stampa-elementari: #ffe14d;
+  --stampa-elementari-scuro: #b8960a;
+  --stampa-medie: #9bd067;
+  --stampa-medie-scuro: #4f8a2b;
+  --stampa-superiori: #a9c8f2;
+  --stampa-superiori-scuro: #3f6fb0;
+  --stampa-universita: #c9b8e8;
+  --stampa-universita-scuro: #6f55a8;
+  --stampa-testo: #1d1d1f;
+  --stampa-linea: #666;
+  --stampa-muted: #333;
+
+  background: var(--bs-tertiary-bg);
+  min-height: 100vh;
+  color: var(--stampa-testo);
+  font-family: Arial, Helvetica, sans-serif;
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+
+  // The sheet: an A4 page on the screen, the page itself when printed
+  .stampa-foglio {
+    width: 210mm;
+    height: 297mm;
+    margin: 0 auto 2rem;
+    padding: 10mm;
+    box-sizing: border-box;
+    background: $white;
+    box-shadow: var(--bs-box-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 2mm;
+    overflow: hidden;
+  }
+
+  // The logo on the left, the anno scolastico in the middle of the page, the date of the print on the right
+  .stampa-header {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 3mm;
+  }
+
+  .stampa-intestazione {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6mm;
+    text-align: center;
+  }
+
+  .stampa-data {
+    justify-self: end;
+  }
+
+  .stampa-logo {
+    justify-self: start;
+    height: 8mm;
+    width: auto;
+  }
+
+  .stampa-occhiello {
+    font-size: 7pt;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: $nomadelfia-azzurro;
+  }
+
+  .stampa-titolo {
+    margin: 0;
+    font-size: 10.5pt;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .stampa-muted {
+    font-size: 8pt;
+    color: var(--stampa-muted);
+  }
+
+  // Prescuola, elementari and medie start a new column, superiori and universita follow the medie
+  .stampa-colonne {
+    flex: 1;
+    min-height: 0;
+    column-count: 4;
+    column-gap: 2.5mm;
+    column-fill: auto;
+  }
+
+  .stampa-ciclo {
+    border-left: 2.5mm solid var(--stampa-colore-scuro);
+    margin-bottom: 2mm;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+
+  .stampa-ciclo-elementari,
+  .stampa-ciclo-medie {
+    break-before: column;
+  }
+
+  .stampa-ciclo-prescuola {
+    --stampa-colore: var(--stampa-prescuola);
+    --stampa-colore-scuro: var(--stampa-prescuola-scuro);
+  }
+
+  .stampa-ciclo-elementari {
+    --stampa-colore: var(--stampa-elementari);
+    --stampa-colore-scuro: var(--stampa-elementari-scuro);
+  }
+
+  .stampa-ciclo-medie {
+    --stampa-colore: var(--stampa-medie);
+    --stampa-colore-scuro: var(--stampa-medie-scuro);
+  }
+
+  .stampa-ciclo-superiori {
+    --stampa-colore: var(--stampa-superiori);
+    --stampa-colore-scuro: var(--stampa-superiori-scuro);
+  }
+
+  .stampa-ciclo-universita {
+    --stampa-colore: var(--stampa-universita);
+    --stampa-colore-scuro: var(--stampa-universita-scuro);
+  }
+
+  .stampa-ciclo-nome {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.8mm 1.5mm;
+    background: var(--stampa-colore);
+    border-bottom: 0.4mm solid var(--stampa-testo);
+    font-size: 9.5pt;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    text-transform: uppercase;
+    break-after: avoid;
+  }
+
+  // The ciclo, the classi and the alunni start on the same line, 1.5mm from the stripe of the ciclo
+  .stampa-classe {
+    padding: 1mm 0 0.5mm;
+    break-inside: avoid;
+  }
+
+  .stampa-classe-nome {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.6mm;
+    padding: 0.3mm 1.5mm;
+    border-bottom: 0.25mm solid var(--stampa-linea);
+    font-size: 8.5pt;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stampa-alunni {
+    margin: 0;
+    padding: 0 1.5mm;
+    list-style: none;
+
+    li {
+      font-size: 8.5pt;
+      line-height: 1.3;
+    }
+  }
+
+  .stampa-footer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 1.5mm;
+    border-top: 0.25mm solid var(--stampa-linea);
+  }
+
+  .stampa-totale {
+    margin-left: auto;
+    display: flex;
+    gap: 5mm;
+    padding: 0.8mm 2.5mm;
+    background: var(--stampa-prescuola);
+    border-top: 0.4mm solid var(--stampa-testo);
+    font-size: 9.5pt;
+    font-weight: 700;
+  }
+
+  @media print {
+    background: none;
+    min-height: 0;
+
+    .stampa-foglio {
+      margin: 0;
+      box-shadow: none;
+    }
+  }
+}
