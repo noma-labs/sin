@@ -27,7 +27,7 @@
     box-shadow: var(--bs-box-shadow);
     display: flex;
     flex-direction: column;
-    gap: 4mm;
+    gap: 3mm;
     overflow: hidden;
   }
 
@@ -40,7 +40,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5mm;
+    gap: 1mm;
     text-align: center;
   }
 
@@ -51,7 +51,7 @@
   }
 
   .stampa-logo {
-    height: 14mm;
+    height: 12mm;
     width: auto;
   }
 
@@ -80,13 +80,13 @@
     flex: 1;
     min-height: 0;
     column-count: 4;
-    column-gap: 3mm;
+    column-gap: 2.5mm;
     column-fill: auto;
   }
 
   .stampa-ciclo {
-    border-left: 2mm solid var(--stampa-colore);
-    margin-bottom: 3mm;
+    border-left: 1.5mm solid var(--stampa-colore);
+    margin-bottom: 2mm;
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
   }
@@ -119,26 +119,26 @@
   .stampa-ciclo-nome {
     display: flex;
     justify-content: space-between;
-    padding: 1.5mm 2mm;
+    padding: 0.8mm 1.5mm;
     background: var(--stampa-colore);
-    font-size: 10.5pt;
+    font-size: 9.5pt;
     font-weight: 700;
     text-transform: uppercase;
     break-after: avoid;
   }
 
   .stampa-classe {
-    padding: 2mm 0 1mm;
+    padding: 1mm 0 0.5mm;
     break-inside: avoid;
   }
 
   .stampa-classe-nome {
     display: flex;
     justify-content: space-between;
-    margin: 0 0 0.8mm 4.5mm;
-    padding: 0.8mm 2mm;
+    margin: 0 0 0.3mm 4mm;
+    padding: 0.3mm 1.5mm;
     background: var(--stampa-classe);
-    font-size: 9.5pt;
+    font-size: 8.5pt;
     font-weight: 700;
   }
 
@@ -150,17 +150,17 @@
 
     li {
       display: flex;
-      gap: 1.5mm;
-      font-size: 9.5pt;
-      line-height: 1.45;
+      gap: 1mm;
+      font-size: 8.5pt;
+      line-height: 1.25;
       counter-increment: alunno;
 
       &::before {
         content: counter(alunno);
         flex: none;
-        width: 3.5mm;
+        width: 3mm;
         text-align: right;
-        font-size: 8pt;
+        font-size: 7pt;
         color: var(--stampa-muted);
       }
     }
@@ -170,7 +170,7 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding-top: 2.5mm;
+    padding-top: 1.5mm;
     border-top: 1px solid var(--stampa-classe);
   }
 
@@ -178,9 +178,9 @@
     margin-left: auto;
     display: flex;
     gap: 5mm;
-    padding: 1.5mm 3mm;
+    padding: 0.8mm 2.5mm;
     background: var(--stampa-prescuola);
-    font-size: 10.5pt;
+    font-size: 9.5pt;
     font-weight: 700;
   }
 
