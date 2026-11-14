@@ -39,7 +39,7 @@
     overflow: hidden;
   }
 
-  // The date of the print on the left, the anno scolastico in the middle of the page, the logo on the right
+  // The logo on the left, the anno scolastico in the middle of the page, the date of the print on the right
   .stampa-header {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
@@ -56,11 +56,11 @@
   }
 
   .stampa-data {
-    justify-self: start;
+    justify-self: end;
   }
 
   .stampa-logo {
-    justify-self: end;
+    justify-self: start;
     height: 8mm;
     width: auto;
   }
