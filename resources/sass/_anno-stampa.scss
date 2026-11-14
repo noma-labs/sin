@@ -1,17 +1,25 @@
 // Page of an anno scolastico to print with the browser (scuola.anno.stampa)
 
 .anno-stampa {
+  // Each ciclo has a light colour for its band and a dark one for its stripe,
+  // so the stripe is still a visible grey when printed in black and white
   --stampa-prescuola: #{$nomadelfia-giallo};
+  --stampa-prescuola-scuro: #c77d00;
   --stampa-elementari: #ffe14d;
+  --stampa-elementari-scuro: #b8960a;
   --stampa-medie: #9bd067;
+  --stampa-medie-scuro: #4f8a2b;
   --stampa-superiori: #a9c8f2;
+  --stampa-superiori-scuro: #3f6fb0;
   --stampa-universita: #c9b8e8;
-  --stampa-classe: #dcdce2;
-  --stampa-muted: #555;
+  --stampa-universita-scuro: #6f55a8;
+  --stampa-testo: #1d1d1f;
+  --stampa-linea: #666;
+  --stampa-muted: #333;
 
   background: var(--bs-tertiary-bg);
   min-height: 100vh;
-  color: #1d1d1f;
+  color: var(--stampa-testo);
   font-family: Arial, Helvetica, sans-serif;
   print-color-adjust: exact;
   -webkit-print-color-adjust: exact;
@@ -85,7 +93,7 @@
   }
 
   .stampa-ciclo {
-    border-left: 1.5mm solid var(--stampa-colore);
+    border-left: 2.5mm solid var(--stampa-colore-scuro);
     margin-bottom: 2mm;
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
@@ -98,22 +106,27 @@
 
   .stampa-ciclo-prescuola {
     --stampa-colore: var(--stampa-prescuola);
+    --stampa-colore-scuro: var(--stampa-prescuola-scuro);
   }
 
   .stampa-ciclo-elementari {
     --stampa-colore: var(--stampa-elementari);
+    --stampa-colore-scuro: var(--stampa-elementari-scuro);
   }
 
   .stampa-ciclo-medie {
     --stampa-colore: var(--stampa-medie);
+    --stampa-colore-scuro: var(--stampa-medie-scuro);
   }
 
   .stampa-ciclo-superiori {
     --stampa-colore: var(--stampa-superiori);
+    --stampa-colore-scuro: var(--stampa-superiori-scuro);
   }
 
   .stampa-ciclo-universita {
     --stampa-colore: var(--stampa-universita);
+    --stampa-colore-scuro: var(--stampa-universita-scuro);
   }
 
   .stampa-ciclo-nome {
@@ -121,6 +134,7 @@
     justify-content: space-between;
     padding: 0.8mm 1.5mm;
     background: var(--stampa-colore);
+    border-bottom: 0.4mm solid var(--stampa-testo);
     font-size: 9.5pt;
     font-weight: 700;
     font-variant-numeric: tabular-nums;
@@ -137,9 +151,9 @@
   .stampa-classe-nome {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 0.4mm;
-    padding: 0.4mm 1.5mm;
-    background: var(--stampa-classe);
+    margin-bottom: 0.6mm;
+    padding: 0.3mm 1.5mm;
+    border-bottom: 0.25mm solid var(--stampa-linea);
     font-size: 8.5pt;
     font-weight: 700;
     font-variant-numeric: tabular-nums;
@@ -162,8 +176,8 @@
       &::before {
         content: counter(alunno);
         flex: none;
-        width: 3mm;
-        font-size: 7pt;
+        width: 3.5mm;
+        font-size: 7.5pt;
         font-variant-numeric: tabular-nums;
         color: var(--stampa-muted);
       }
@@ -175,7 +189,7 @@
     align-items: center;
     gap: 1rem;
     padding-top: 1.5mm;
-    border-top: 1px solid var(--stampa-classe);
+    border-top: 0.25mm solid var(--stampa-linea);
   }
 
   .stampa-totale {
@@ -184,6 +198,7 @@
     gap: 5mm;
     padding: 0.8mm 2.5mm;
     background: var(--stampa-prescuola);
+    border-top: 0.4mm solid var(--stampa-testo);
     font-size: 9.5pt;
     font-weight: 700;
   }
