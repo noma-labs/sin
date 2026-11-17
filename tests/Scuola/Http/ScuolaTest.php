@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Http\Scuola;
 
+use App\Admin\Models\User;
 use App\Scuola\Controllers\AnnoScolasticoController;
 use App\Scuola\Controllers\ScuolaController;
 use App\Scuola\Models\Anno;
@@ -53,6 +54,37 @@ it('can list classi in anno scolastico', function (): void {
         ->assertSee($c->tipo->nome)
         ->assertSee($c->alunni()->first()->nominativo);
 
+});
+
+it('links the alunni of the elenchi to the profile of the person', function (): void {
+    $anno = Anno::createAnno(2171);
+    $classe = $anno->aggiungiClasse(ClasseTipo::all()->random());
+    $alunno = Studente::factory()->minorenne()->maschio()->create();
+    $classe->aggiungiAlunno($alunno, Carbon::now());
+    $linkProfilo = 'href="'.route('nomadelfia.person.profile', $alunno->id).'"';
+
+    login();
+    $this->get(action([AnnoScolasticoController::class, 'show'], ['id' => $anno->id]))
+        ->assertSuccessful()
+        ->assertSee($linkProfilo, false);
+
+    $this->get(action([AnnoScolasticoController::class, 'showNew'], ['id' => $anno->id]))
+        ->assertSuccessful()
+        ->assertSee($linkProfilo, false);
+});
+
+it('does not link the alunni to the profile for a user who cannot see the popolazione', function (): void {
+    $anno = Anno::createAnno(2172);
+    $classe = $anno->aggiungiClasse(ClasseTipo::all()->random());
+    $alunno = Studente::factory()->minorenne()->maschio()->create();
+    $classe->aggiungiAlunno($alunno, Carbon::now());
+    $user = User::query()->create(['username' => 'solo-scuola', 'email' => 'solo-scuola@email.it', 'password' => 'secret', 'persona_id' => 0]);
+
+    login($user);
+    $this->get(action([AnnoScolasticoController::class, 'showNew'], ['id' => $anno->id]))
+        ->assertSuccessful()
+        ->assertSee($alunno->nome)
+        ->assertDontSee(route('nomadelfia.person.profile', $alunno->id), false);
 });
 
 it('prints the alunni of an anno scolastico by ciclo and classe, sorted by nome', function (): void {

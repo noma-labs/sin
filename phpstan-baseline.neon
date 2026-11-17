@@ -8659,36 +8659,6 @@ parameters:
 			path: app/Http/Scuola/Controllers/StudentClassesController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Scuola\\Models\\Classe\:\:select\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Scuola/Controllers/StudentController.php
-
-		-
-			message: '#^Call to an undefined static method App\\Scuola\\Models\\Elaborato\:\:select\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Scuola/Controllers/StudentController.php
-
-		-
-			message: '#^Call to an undefined static method App\\Scuola\\Models\\Studente\:\:select\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Scuola/Controllers/StudentController.php
-
-		-
-			message: '#^Method App\\Scuola\\Controllers\\StudentController\:\:show\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Scuola/Controllers/StudentController.php
-
-		-
-			message: '#^Method App\\Scuola\\Controllers\\StudentController\:\:show\(\) has parameter \$id with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Scuola/Controllers/StudentController.php
-
-		-
 			message: '#^Call to an undefined static method App\\Scuola\\Models\\Elaborato\:\:select\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1

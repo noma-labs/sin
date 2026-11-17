@@ -5,22 +5,16 @@
   <ul class="nav nav-pills pb-3 flex-column flex-sm-row justify-content-center">
     <a
       class="nav-link"
-      aria-current="page"
-      href="{{ route("scuola.student.show", $student->id) }}"
-    >
-      Anagrafica
-    </a>
-    <a
-      class="nav-link active"
-      href="{{ route("scuola.student.works.show", $student->id) }}"
-    >
-      Elaborati
-    </a>
-    <a
-      class="nav-link"
       href="{{ route("scuola.student.classes.show", $student->id) }}"
     >
       Classi
+    </a>
+    <a
+      class="nav-link active"
+      aria-current="page"
+      href="{{ route("scuola.student.works.show", $student->id) }}"
+    >
+      Elaborati
     </a>
   </ul>
   <table class="table">

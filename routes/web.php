@@ -103,7 +103,6 @@ use App\Scuola\Controllers\ElaboratiMediaController;
 use App\Scuola\Controllers\ElaboratiStudentsController;
 use App\Scuola\Controllers\ScuolaController;
 use App\Scuola\Controllers\StudentClassesController;
-use App\Scuola\Controllers\StudentController;
 use App\Scuola\Controllers\StudentWorksController;
 use Illuminate\Support\Facades\Route;
 
@@ -294,7 +293,6 @@ Route::prefix('scuola')->middleware('auth')->group(function () {
     Route::post('elaborati/{id}/cover', [CoverImageController::class, 'store'])->name('scuola.elaborati.cover.store');
     Route::get('elaborati/{id}/cover-show', [CoverImageController::class, 'show'])->name('scuola.elaborati.cover.show');
 
-    Route::get('students/{id}', [StudentController::class, 'show'])->name('scuola.student.show');
     Route::get('students/{id}/works', [StudentWorksController::class, 'show'])->name('scuola.student.works.show');
     Route::get('students/{id}/classes', [StudentClassesController::class, 'show'])->name('scuola.student.classes.show');
 });

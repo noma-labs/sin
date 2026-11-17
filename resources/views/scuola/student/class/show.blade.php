@@ -4,23 +4,17 @@
   @include("partials.header", ["title" => "Alunno: " . \App\View\Components\PersonaNome::testo($student)])
   <ul class="nav nav-pills pb-3 flex-column flex-sm-row justify-content-center">
     <a
-      class="nav-link"
+      class="nav-link active"
       aria-current="page"
-      href="{{ route("scuola.student.show", $student->id) }}"
+      href="{{ route("scuola.student.classes.show", $student->id) }}"
     >
-      Anagrafica
+      Classi
     </a>
     <a
       class="nav-link"
       href="{{ route("scuola.student.works.show", $student->id) }}"
     >
       Elaborati
-    </a>
-    <a
-      class="nav-link active"
-      href="{{ route("scuola.student.classes.show", $student->id) }}"
-    >
-      Classi
     </a>
   </ul>
   <table class="table">
