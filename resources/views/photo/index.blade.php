@@ -1,10 +1,23 @@
 @extends("photo.main")
 
 @section("content")
+  @if ($persona)
+    <div class="d-flex flex-wrap align-items-baseline gap-3 mt-3">
+      <h1 class="h4 mb-0">
+        Foto di {{ $persona->nome }} {{ $persona->cognome }}
+        <span class="text-body-secondary fs-6">({{ $photos_count }})</span>
+      </h1>
+      @can("popolazione.persona.visualizza")
+        <a href="{{ route("nomadelfia.person.profile", $persona->id) }}">
+          Profilo
+        </a>
+      @endcan
+    </div>
+  @endif
   <div class="d-flex flex-wrap gap-2 my-3">
     @foreach ($years as $year)
       <a
-        href="{{ route("photos.index", ["year" => $year->year, "name" => request("name"), "view" => request("view", "grid")]) }}"
+        href="{{ route("photos.index", ["year" => $year->year, "name" => request("name"), "persona" => request("persona"), "view" => request("view", "grid")]) }}"
         class="btn btn-sm btn-outline-secondary"
       >
         {{ $year->year }}

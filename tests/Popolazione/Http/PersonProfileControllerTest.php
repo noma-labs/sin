@@ -21,6 +21,7 @@ use App\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
+use App\Photo\Models\Photo;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 
@@ -939,4 +940,34 @@ it('forbids the profile to a user without the permission to see the popolazione'
 
     $this->get(route('nomadelfia.person.profile', $persona->id))
         ->assertForbidden();
+});
+
+it('links the photos of the person from the profile with their number', function (): void {
+    login();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    Photo::factory()->count(2)->create()->each(fn (Photo $photo) => $photo->persone()->attach($persona->id, ['persona_nome' => 'MARIO R']));
+
+    $response = $this->get(route('nomadelfia.person.profile', $persona->id));
+
+    $response->assertSuccessful()
+        ->assertSee('Foto (2)')
+        ->assertSee(route('photos.index', ['persona' => $persona->id]));
+});
+
+it('does not link the photos from the profile when the person has none or the user cannot see the photos', function (): void {
+    $user = User::query()->create(['username' => 'senza-foto', 'email' => 'senza-foto@email.it', 'password' => 'secret', 'persona_id' => 0]);
+    $user->givePermissionTo('popolazione.persona.visualizza');
+    $conFoto = Persona::factory()->maggiorenne()->maschio()->create();
+    Photo::factory()->create()->persone()->attach($conFoto->id, ['persona_nome' => 'MARIO R']);
+    $senzaFoto = Persona::factory()->maggiorenne()->maschio()->create();
+
+    login();
+    $this->get(route('nomadelfia.person.profile', $senzaFoto->id))
+        ->assertSuccessful()
+        ->assertDontSee(route('photos.index', ['persona' => $senzaFoto->id]));
+
+    login($user);
+    $this->get(route('nomadelfia.person.profile', $conFoto->id))
+        ->assertSuccessful()
+        ->assertDontSee(route('photos.index', ['persona' => $conFoto->id]));
 });

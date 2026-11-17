@@ -95,6 +95,8 @@ final class PersonProfileController
             ->where('id', $persona->id_alfa_enrico)
             ->first();
 
+        $numeroFoto = DB::connection('db_foto')->table('photos_people')->where('persona_id', $persona->id)->count();
+
         return view('nomadelfia.persone.profile', [
             'persona' => $persona,
             'isPresente' => $persona->isPersonaInterna(),
@@ -133,6 +135,7 @@ final class PersonProfileController
             'dateCollegate' => $dateCollegate,
             'periodoRiapribile' => $uscitaEliminabile ? $ultimoPeriodo : null,
             'riaperte' => $uscitaEliminabile ? $eliminaDataUscita->riaperte($persona, $ultimoPeriodo) : null,
+            'numeroFoto' => $numeroFoto,
         ]);
     }
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Photo\Controllers;
 
+use App\Anagrafe\Persona\Models\Persona;
 use App\Photo\Models\Photo;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -19,6 +20,7 @@ final class PhotoController
     {
         $filterYear = $request->string('year');
         $filterPersonName = $request->string('name');
+        $persona = $request->filled('persona') ? Persona::query()->findOrFail($request->integer('persona')) : null;
         $view = $request->input('view', 'grid');
 
         $q = Photo::query()->orderByRaw('ISNULL(taken_at), YEAR(taken_at), taken_at ASC');
@@ -28,6 +30,9 @@ final class PhotoController
         }
         if (! $filterPersonName->isEmpty()) {
             $q->where('subjects', 'like', '%'.$filterPersonName->toString().'%');
+        }
+        if ($persona instanceof Persona) {
+            $q->whereIn('id', Photo::idsOfPersona($persona->id));
         }
 
         $photos = $q->paginate(50);
@@ -40,12 +45,16 @@ final class PhotoController
         if (! $filterPersonName->isEmpty()) {
             $qYears->where('subjects', 'like', '%'.$filterPersonName->toString().'%');
         }
+        if ($persona instanceof Persona) {
+            $qYears->whereIn('id', Photo::idsOfPersona($persona->id));
+        }
         $years = $qYears->get();
 
         return view('photo.index', [
             'photos' => $photos,
             'photos_count' => $photos_count,
             'years' => $years,
+            'persona' => $persona,
         ]);
     }
 

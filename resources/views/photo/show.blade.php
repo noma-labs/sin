@@ -89,16 +89,29 @@
             style="max-height: 200px; overflow-y: auto"
           >
             @foreach ($people as $person)
-              <a
-                href="{{ route("photos.index", ["name" => $person->persona_nome]) }}"
-                class="btn btn-sm btn-outline-secondary"
-              >
-                {{ $person->persona_nome }}
+              <span class="btn-group btn-group-sm">
+                <a
+                  href="{{ route("photos.index", $person->id !== null ? ["persona" => $person->id] : ["name" => $person->persona_nome]) }}"
+                  class="btn btn-outline-secondary"
+                >
+                  {{ $person->persona_nome }}
+                  @if ($person->id !== null)
+                    ({{ Illuminate\Support\Str::title($person->nome) }}
+                    {{ Illuminate\Support\Str::title($person->cognome) }})
+                  @endif
+                </a>
                 @if ($person->id !== null)
-                  ({{ Illuminate\Support\Str::title($person->nome) }}
-                  {{ Illuminate\Support\Str::title($person->cognome) }})
+                  @can("popolazione.persona.visualizza")
+                    <a
+                      href="{{ route("nomadelfia.person.profile", $person->id) }}"
+                      class="btn btn-outline-secondary"
+                      title="Profilo"
+                    >
+                      Profilo
+                    </a>
+                  @endcan
                 @endif
-              </a>
+              </span>
             @endforeach
           </div>
         </div>

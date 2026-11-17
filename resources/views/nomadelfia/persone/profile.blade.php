@@ -299,6 +299,19 @@
                   </a>
                 </li>
               @endcan
+              @can("photo.view")
+                @if ($numeroFoto > 0)
+                  <li><hr class="dropdown-divider" /></li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="{{ route("photos.index", ["persona" => $persona->id]) }}"
+                    >
+                      Foto ({{ $numeroFoto }})
+                    </a>
+                  </li>
+                @endif
+              @endcan
             </ul>
           </div>
           <div class="dropdown">
