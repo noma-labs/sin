@@ -293,7 +293,7 @@
                 <li>
                   <a
                     class="dropdown-item"
-                    href="{{ route("scuola.student.show", $persona->id) }}"
+                    href="{{ route("scuola.student.classes.show", $persona->id) }}"
                   >
                     Scheda scuola
                   </a>

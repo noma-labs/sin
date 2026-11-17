@@ -755,7 +755,7 @@ it('links each page of a person only once from the profile', function (): void {
         route('nomadelfia.persone.stato', $persona->id),
         route('nomadelfia.person.gruppo', $persona->id),
         route('nomadelfia.folder-number.create', $persona->id),
-        route('scuola.student.show', $persona->id),
+        route('scuola.student.classes.show', $persona->id),
     ];
     foreach ($paginePersona as $url) {
         expect(mb_substr_count((string) $pagina, 'href="'.$url.'"'))->toBe(1, "$url is linked more than once");
