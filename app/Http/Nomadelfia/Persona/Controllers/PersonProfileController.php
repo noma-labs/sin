@@ -16,6 +16,7 @@ use App\Nomadelfia\PopolazioneNomadelfia\Actions\ModificaDataUscitaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
+use App\Photo\Models\Photo;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -95,7 +96,8 @@ final class PersonProfileController
             ->where('id', $persona->id_alfa_enrico)
             ->first();
 
-        $numeroFoto = DB::connection('db_foto')->table('photos_people')->where('persona_id', $persona->id)->count();
+        $nomeNelleFoto = $persona->nomeNelleFoto();
+        $numeroFoto = Photo::idsOfPersona($persona->id, $nomeNelleFoto)->distinct()->count('photo_id');
 
         return view('nomadelfia.persone.profile', [
             'persona' => $persona,
@@ -136,6 +138,7 @@ final class PersonProfileController
             'periodoRiapribile' => $uscitaEliminabile ? $ultimoPeriodo : null,
             'riaperte' => $uscitaEliminabile ? $eliminaDataUscita->riaperte($persona, $ultimoPeriodo) : null,
             'numeroFoto' => $numeroFoto,
+            'nomeNelleFoto' => $nomeNelleFoto,
         ]);
     }
 

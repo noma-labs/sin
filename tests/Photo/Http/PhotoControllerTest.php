@@ -96,3 +96,26 @@ it('links the people of a photo to their photos by persona and to their profile 
         ->assertSee(route('nomadelfia.person.profile', $persona->id))
         ->assertSee(route('photos.index', ['name' => 'SCONOSCIUTO']));
 });
+
+it('shows also the photos with the name of the persona in the file ALFA not yet linked to a persona', function (): void {
+    $idAlfa = fake()->unique()->numberBetween(100000, 999999);
+    $nomeNelleFoto = 'PERSONA '.$idAlfa;
+    DB::connection('db_nomadelfia')->table('alfa_enrico_15_feb_23')->insert(['id' => $idAlfa, 'FOTO' => $nomeNelleFoto]);
+    $persona = Persona::factory()->withIdEnrico($idAlfa)->create();
+    $nonCollegata = Photo::factory()->create();
+    $diUnAltro = Photo::factory()->create();
+    $nomeSimile = Photo::factory()->create();
+    DB::connection('db_foto')->table('photos_people')->insert([
+        ['photo_id' => $nonCollegata->id, 'persona_id' => null, 'persona_nome' => $nomeNelleFoto],
+        ['photo_id' => $diUnAltro->id, 'persona_id' => Persona::factory()->create()->id, 'persona_nome' => $nomeNelleFoto],
+        ['photo_id' => $nomeSimile->id, 'persona_id' => null, 'persona_nome' => $nomeNelleFoto.'0'],
+    ]);
+    login();
+
+    $response = get(route('photos.index', ['persona' => $persona->id]));
+
+    $response->assertSuccessful()
+        ->assertSee('href="'.route('photos.show', $nonCollegata->id).'"', false)
+        ->assertDontSee('href="'.route('photos.show', $diUnAltro->id).'"', false)
+        ->assertDontSee('href="'.route('photos.show', $nomeSimile->id).'"', false);
+});

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Photo\Controllers;
 
+use App\Anagrafe\Persona\Models\Persona;
 use App\Photo\Models\Photo;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ final class SlideshowController
     {
         $filterYear = $request->string('year');
         $filterPersonName = $request->string('name');
-        $filterPersona = $request->integer('persona');
+        $persona = $request->filled('persona') ? Persona::query()->findOrFail($request->integer('persona')) : null;
         $favorite = $request->boolean('favorite');
         $every = $request->input('every', 10000);
 
@@ -28,8 +29,8 @@ final class SlideshowController
         if (! $filterPersonName->isEmpty()) {
             $q->where('subjects', 'like', '%'.$filterPersonName->toString().'%');
         }
-        if ($filterPersona !== 0) {
-            $q->whereIn('id', Photo::idsOfPersona($filterPersona));
+        if ($persona instanceof Persona) {
+            $q->whereIn('id', Photo::idsOfPersona($persona->id, $persona->nomeNelleFoto()));
         }
         if ($favorite) {
             $q->where('favorite', true);

@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use App\Anagrafe\Famiglia\Models\FamigliaPersona;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 /**
@@ -81,6 +82,20 @@ class Persona extends Model
         $year = \Illuminate\Support\Facades\Date::parse($this->data_nascita)->year;
 
         return "($year) $this->nome  $this->cognome";
+    }
+
+    /**
+     * The name of the persona in the tags of the photos: the FOTO of the file ALFA di Enrico, null when missing.
+     */
+    public function nomeNelleFoto(): ?string
+    {
+        if ($this->id_alfa_enrico === null) {
+            return null;
+        }
+
+        $nome = DB::connection('db_nomadelfia')->table('alfa_enrico_15_feb_23')->where('id', $this->id_alfa_enrico)->value('FOTO');
+
+        return is_string($nome) && $nome !== '' ? $nome : null;
     }
 
     public function getInitialLetterOfCogonome()

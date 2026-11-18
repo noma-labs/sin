@@ -32,7 +32,7 @@ final class PhotoController
             $q->where('subjects', 'like', '%'.$filterPersonName->toString().'%');
         }
         if ($persona instanceof Persona) {
-            $q->whereIn('id', Photo::idsOfPersona($persona->id));
+            $q->whereIn('id', Photo::idsOfPersona($persona->id, $persona->nomeNelleFoto()));
         }
 
         $photos = $q->paginate(50);
@@ -46,7 +46,7 @@ final class PhotoController
             $qYears->where('subjects', 'like', '%'.$filterPersonName->toString().'%');
         }
         if ($persona instanceof Persona) {
-            $qYears->whereIn('id', Photo::idsOfPersona($persona->id));
+            $qYears->whereIn('id', Photo::idsOfPersona($persona->id, $persona->nomeNelleFoto()));
         }
         $years = $qYears->get();
 

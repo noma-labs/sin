@@ -60,11 +60,19 @@ final class Photo extends Model
     protected $guarded = [];
 
     /**
-     * The ids of the photos where the persona is recognised (photos_people.persona_id), without joining db_nomadelfia.
+     * The ids of the photos of the persona: the people recognised as the persona (photos_people.persona_id) and the
+     * names not yet recognised that are equal to the name of the persona in the photos (FOTO of the file ALFA).
      */
-    public static function idsOfPersona(int $personaId): QueryBuilder
+    public static function idsOfPersona(int $personaId, ?string $nomeNelleFoto): QueryBuilder
     {
-        return DB::connection('db_foto')->table('photos_people')->select('photo_id')->where('persona_id', $personaId);
+        return DB::connection('db_foto')
+            ->table('photos_people')
+            ->select('photo_id')
+            ->where(fn (QueryBuilder $query) => $query
+                ->where('persona_id', $personaId)
+                ->when($nomeNelleFoto !== null, fn (QueryBuilder $query) => $query->orWhere(fn (QueryBuilder $query) => $query
+                    ->whereNull('persona_id')
+                    ->where('persona_nome', $nomeNelleFoto))));
     }
 
     /**
