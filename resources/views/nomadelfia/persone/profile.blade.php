@@ -299,6 +299,27 @@
                   </a>
                 </li>
               @endcan
+              @can("photo.view")
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  @if ($numeroFoto > 0)
+                    <a
+                      class="dropdown-item"
+                      href="{{ route("photos.index", ["persona" => $persona->id]) }}"
+                    >
+                      Foto ({{ $numeroFoto }})
+                    </a>
+                  @elseif ($nomeNelleFoto)
+                    <span class="dropdown-item-text text-body-secondary small">
+                      Nessuna foto con il nome «{{ $nomeNelleFoto }}»
+                    </span>
+                  @else
+                    <span class="dropdown-item-text text-body-secondary small">
+                      Nessuna foto: nome FOTO mancante
+                    </span>
+                  @endif
+                </li>
+              @endcan
             </ul>
           </div>
           <div class="dropdown">

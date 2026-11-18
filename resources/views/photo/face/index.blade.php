@@ -20,7 +20,7 @@
   <div class="d-print-none d-flex flex-wrap gap-2">
     @foreach ($faces as $face)
       <a
-        href="{{ route("photos.index", ["name" => $face->name]) }}"
+        href="{{ route("photos.index", $face->id !== null ? ["persona" => $face->id] : ["name" => $face->name]) }}"
         class="btn btn-sm btn-outline-secondary mb-1"
       >
         @if ($face->id !== null)

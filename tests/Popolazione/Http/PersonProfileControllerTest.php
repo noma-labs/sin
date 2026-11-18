@@ -21,7 +21,9 @@ use App\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
+use App\Photo\Models\Photo;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 it('shows the profile of a person present in Nomadelfia', function (): void {
@@ -939,4 +941,54 @@ it('forbids the profile to a user without the permission to see the popolazione'
 
     $this->get(route('nomadelfia.person.profile', $persona->id))
         ->assertForbidden();
+});
+
+it('links the photos of the person from the profile with their number, counting also the names in the file ALFA not yet linked', function (): void {
+    login();
+    $idAlfa = fake()->unique()->numberBetween(100000, 999999);
+    $nomeNelleFoto = 'PERSONA '.$idAlfa;
+    DB::connection('db_nomadelfia')->table('alfa_enrico_15_feb_23')->insert(['id' => $idAlfa, 'FOTO' => $nomeNelleFoto]);
+    $persona = Persona::factory()->maggiorenne()->maschio()->withIdEnrico($idAlfa)->create();
+    Photo::factory()->create()->persone()->attach($persona->id, ['persona_nome' => $nomeNelleFoto]);
+    DB::connection('db_foto')->table('photos_people')->insert(['photo_id' => Photo::factory()->create()->id, 'persona_id' => null, 'persona_nome' => $nomeNelleFoto]);
+
+    $response = $this->get(route('nomadelfia.person.profile', $persona->id));
+
+    $response->assertSuccessful()
+        ->assertSee('Foto (2)')
+        ->assertSee(route('photos.index', ['persona' => $persona->id]));
+});
+
+it('shows in the profile the name FOTO of the person when no photo is linked to them', function (): void {
+    login();
+    $idAlfa = fake()->unique()->numberBetween(100000, 999999);
+    $nomeNelleFoto = 'PERSONA '.$idAlfa;
+    DB::connection('db_nomadelfia')->table('alfa_enrico_15_feb_23')->insert(['id' => $idAlfa, 'FOTO' => $nomeNelleFoto]);
+    $conNome = Persona::factory()->maggiorenne()->maschio()->withIdEnrico($idAlfa)->create();
+    $senzaNome = Persona::factory()->maggiorenne()->maschio()->create(['id_alfa_enrico' => null]);
+
+    $this->get(route('nomadelfia.person.profile', $conNome->id))
+        ->assertSuccessful()
+        ->assertSee("Nessuna foto con il nome «{$nomeNelleFoto}»")
+        ->assertDontSee(route('photos.index', ['persona' => $conNome->id]));
+
+    $this->get(route('nomadelfia.person.profile', $senzaNome->id))
+        ->assertSuccessful()
+        ->assertSee('Nessuna foto: nome FOTO mancante');
+});
+
+it('does not show the photos in the profile to a user who cannot see the photos', function (): void {
+    $user = User::query()->create(['username' => 'senza-foto', 'email' => 'senza-foto@email.it', 'password' => 'secret', 'persona_id' => 0]);
+    $user->givePermissionTo('popolazione.persona.visualizza');
+    $conFoto = Persona::factory()->maggiorenne()->maschio()->create();
+    Photo::factory()->create()->persone()->attach($conFoto->id, ['persona_nome' => 'MARIO R']);
+    $senzaFoto = Persona::factory()->maggiorenne()->maschio()->create();
+    login($user);
+
+    $this->get(route('nomadelfia.person.profile', $conFoto->id))
+        ->assertSuccessful()
+        ->assertDontSee(route('photos.index', ['persona' => $conFoto->id]));
+    $this->get(route('nomadelfia.person.profile', $senzaFoto->id))
+        ->assertSuccessful()
+        ->assertDontSee('Nessuna foto');
 });

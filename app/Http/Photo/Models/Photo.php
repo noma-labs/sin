@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Query\Builder as QueryBuilder;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class Photo
@@ -56,6 +58,22 @@ final class Photo extends Model
     protected $primaryKey = 'id';
 
     protected $guarded = [];
+
+    /**
+     * The ids of the photos of the persona: the people recognised as the persona (photos_people.persona_id) and the
+     * names not yet recognised that are equal to the name of the persona in the photos (FOTO of the file ALFA).
+     */
+    public static function idsOfPersona(int $personaId, ?string $nomeNelleFoto): QueryBuilder
+    {
+        return DB::connection('db_foto')
+            ->table('photos_people')
+            ->select('photo_id')
+            ->where(fn (QueryBuilder $query) => $query
+                ->where('persona_id', $personaId)
+                ->when($nomeNelleFoto !== null, fn (QueryBuilder $query) => $query->orWhere(fn (QueryBuilder $query) => $query
+                    ->whereNull('persona_id')
+                    ->where('persona_nome', $nomeNelleFoto))));
+    }
 
     /**
      * The people associated with the photo.
