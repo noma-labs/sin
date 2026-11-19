@@ -13,7 +13,11 @@
     <header class="profile-band profile-band-solo rounded-3 mb-4">
       <div class="d-flex flex-wrap gap-3 align-items-start">
         <div class="profile-avatar" aria-hidden="true">
-          {{ mb_substr($persona->nome, 0, 1) }}{{ mb_substr($persona->cognome, 0, 1) }}
+          @if ($persona->avatar_path)
+            <img src="{{ $persona->avatarUrl() }}" alt="" />
+          @else
+            {{ mb_substr($persona->nome, 0, 1) }}{{ mb_substr($persona->cognome, 0, 1) }}
+          @endif
         </div>
         <div class="flex-grow-1" style="min-width: 0">
           <div class="profile-occhiello">Persona</div>

@@ -51,6 +51,7 @@ use App\Nomadelfia\Persona\Controllers\JoinCommunityController;
 use App\Nomadelfia\Persona\Controllers\LeaveCommunityController;
 use App\Nomadelfia\Persona\Controllers\PersonaPosizioneConcludiController;
 use App\Nomadelfia\Persona\Controllers\PersonaStatoController;
+use App\Nomadelfia\Persona\Controllers\PersonAvatarController;
 use App\Nomadelfia\Persona\Controllers\PersonPositionController;
 use App\Nomadelfia\Persona\Controllers\PersonProfileController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\CaricheController;
@@ -164,6 +165,7 @@ Route::prefix('nomadelfia')->group(function () {
     Route::get('/', [PopolazioneSummaryController::class, 'index'])->name('nomadelfia.index');
 
     Route::get('people/{id}/profile', [PersonProfileController::class, 'show'])->name('nomadelfia.person.profile');
+    Route::get('people/{id}/avatar', [PersonAvatarController::class, 'show'])->name('nomadelfia.person.avatar');
     Route::permanentRedirect('families', '/anagrafe/families');
     Route::permanentRedirect('families/{id}', '/anagrafe/families/{id}');
     Route::permanentRedirect('search', '/anagrafe/search');

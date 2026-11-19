@@ -37,6 +37,7 @@ use Illuminate\Support\Str;
  * @property string $origine
  * @property int|null $id_alfa_enrico
  * @property string|null $avatar_path
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Famiglia&object{pivot: FamigliaPersona}> $famiglieFormate
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Famiglia&object{pivot: FamigliaPersona}> $famiglieComeFiglio
  */
@@ -97,6 +98,19 @@ class Persona extends Model
         $nome = DB::connection('db_nomadelfia')->table('alfa_enrico_15_feb_23')->where('id', $this->id_alfa_enrico)->value('FOTO');
 
         return is_string($nome) && $nome !== '' ? $nome : null;
+    }
+
+    /**
+     * The URL of the avatar, null when the persona has none. It changes with updated_at, so a replaced avatar is not
+     * shown from the cache of the browser.
+     */
+    public function avatarUrl(): ?string
+    {
+        if ($this->avatar_path === null) {
+            return null;
+        }
+
+        return route('nomadelfia.person.avatar', ['id' => $this->id, 'v' => $this->updated_at?->getTimestamp()]);
     }
 
     public function getInitialLetterOfCogonome()
