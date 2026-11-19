@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Anagrafe\Persona\Actions\ImportAvatarDecessiAction;
 use App\Anagrafe\Persona\Models\Persona;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 beforeEach(function (): void {
@@ -40,6 +41,35 @@ function jpegDecesso(int $larghezza, int $altezza, ?array $righeBlu = null, ?arr
     imagejpeg($immagine, null, 100);
 
     return (string) ob_get_clean();
+}
+
+/**
+ * A JPEG with the names of the persone in its XMP tags, as the crops of a tagged group photo.
+ *
+ * @param  list<string>  $nomi
+ */
+function jpegConTag(array $nomi): string
+{
+    $voci = implode('', array_map(fn (string $nome): string => "<rdf:li>{$nome}</rdf:li>", $nomi));
+    $xmp = '<x:xmpmeta xmlns:x="adobe:ns:meta/"><rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">'
+        .'<rdf:Description xmlns:dc="http://purl.org/dc/elements/1.1/">'
+        ."<dc:subject><rdf:Bag>{$voci}</rdf:Bag></dc:subject>"
+        .'</rdf:Description></rdf:RDF></x:xmpmeta>';
+    $segmento = "http://ns.adobe.com/xap/1.0/\0".$xmp;
+    $jpeg = jpegDecesso(10, 10);
+
+    return mb_substr($jpeg, 0, 2, '8bit')."\xFF\xE1".pack('n', mb_strlen($segmento, '8bit') + 2).$segmento.mb_substr($jpeg, 2, null, '8bit');
+}
+
+/**
+ * A deceased persona with a name FOTO in the file ALFA di Enrico, which is not reset between tests.
+ */
+function decedutaConNomeFoto(string $nome, string $nomeFoto, Carbon $dataDecesso): Persona
+{
+    $idAlfa = fake()->unique()->numberBetween(100000, 999999);
+    DB::connection('db_nomadelfia')->table('alfa_enrico_15_feb_23')->insert(['id' => $idAlfa, 'FOTO' => $nomeFoto]);
+
+    return Persona::factory()->withIdEnrico($idAlfa)->deceduta($dataDecesso)->create(['nome' => $nome]);
 }
 
 /**
@@ -114,6 +144,42 @@ it('suggests the deceased of the month with the name of each photo, leaving the 
         ->and($righe["decessi/DECESSI6  GIUGNO/{$nomeUnico}.jpg"])->toMatchArray(['persona_id' => '', 'candidati' => '', 'esito' => 'NON_TROVATO'])
         ->and($righe['decessi/DECESSI6  GIUGNO/353A3296.jpg'])->toMatchArray(['nome_file' => '', 'esito' => 'NON_TROVATO']);
     Storage::disk('media_previews')->assertDirectoryEmpty('/');
+});
+
+it('suggests the deceased with the name FOTO in the tags of a cropped group photo', function (): void {
+    $nome = nomeUnico();
+    $taggata = decedutaConNomeFoto($nome, mb_strtoupper("{$nome}  AL"), Carbon::parse('2018-12-03'));
+    Persona::factory()->deceduta(Carbon::parse('2002-12-20'))->create(['nome' => $nome]);
+    $altro = nomeUnico();
+    decedutaConNomeFoto($altro, mb_strtoupper("{$altro} DS"), Carbon::parse('2011-07-01'));
+    $nomeCamera = nomeUnico();
+    $soloNelTag = decedutaConNomeFoto($nomeCamera, mb_strtoupper("{$nomeCamera} EL"), Carbon::parse('2007-12-24'));
+    $disco = Storage::disk('media_originals');
+    $disco->put("decessi/DECESSI12 DICEMBRE/{$nome}.jpg", jpegConTag([mb_strtoupper("{$altro} DS"), mb_strtoupper("{$nome} AL"), 'NOEMI AR']));
+    $disco->put('decessi/DECESSI12 DICEMBRE/P1061947.jpg', jpegConTag([mb_strtoupper("{$nomeCamera} EL")]));
+    $file = tempnam(sys_get_temp_dir(), 'suggerimenti-');
+
+    $this->artisan('persone:import-avatar-decessi', ['--suggest' => $file])->assertSuccessful();
+
+    $righe = leggiSuggerimenti($file);
+    expect($righe["decessi/DECESSI12 DICEMBRE/{$nome}.jpg"])->toMatchArray([
+        'tag' => mb_strtoupper("{$altro} DS | {$nome} AL").' | NOEMI AR',
+        'persona_id' => (string) $taggata->id,
+        'esito' => 'OK',
+    ])
+        ->and($righe['decessi/DECESSI12 DICEMBRE/P1061947.jpg'])->toMatchArray(['persona_id' => (string) $soloNelTag->id, 'esito' => 'OK']);
+});
+
+it('leaves to review a tagged persona who died in another month', function (): void {
+    $nome = nomeUnico();
+    $taggata = decedutaConNomeFoto($nome, mb_strtoupper("{$nome} AL"), Carbon::parse('2018-03-03'));
+    Storage::disk('media_originals')->put("decessi/DECESSI12 DICEMBRE/{$nome}.jpg", jpegConTag([mb_strtoupper("{$nome} AL")]));
+    $file = tempnam(sys_get_temp_dir(), 'suggerimenti-');
+
+    $this->artisan('persone:import-avatar-decessi', ['--suggest' => $file])->assertSuccessful();
+
+    expect(leggiSuggerimenti($file)["decessi/DECESSI12 DICEMBRE/{$nome}.jpg"])->toMatchArray(['persona_id' => '', 'esito' => 'AMBIGUO'])
+        ->and(leggiSuggerimenti($file)["decessi/DECESSI12 DICEMBRE/{$nome}.jpg"]['candidati'])->toStartWith("{$taggata->id}:");
 });
 
 it('leaves to review a persona suggested for more than one photo', function (): void {
