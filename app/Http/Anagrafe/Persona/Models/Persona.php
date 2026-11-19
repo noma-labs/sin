@@ -36,6 +36,7 @@ use Illuminate\Support\Str;
  * @property string $biografia
  * @property string $origine
  * @property int|null $id_alfa_enrico
+ * @property string|null $avatar_path
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Famiglia&object{pivot: FamigliaPersona}> $famiglieFormate
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Famiglia&object{pivot: FamigliaPersona}> $famiglieComeFiglio
  */
