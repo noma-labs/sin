@@ -10,6 +10,7 @@ use App\Console\Commands\EmbeddingsTestCommand;
 use App\Console\Commands\ExifExtractCommand;
 use App\Console\Commands\ExifJsonImportCommand;
 use App\Console\Commands\FamiglieImportAlfaCommand;
+use App\Console\Commands\PersoneImportAvatarDecessiCommand;
 use App\Console\Commands\SynchPeopleOnPhotosCommand;
 use App\Console\Commands\TranscriptsChunkCommand;
 use App\Console\Commands\TranscriptsEmbeddingCommand;
@@ -35,6 +36,7 @@ final class Kernel extends ConsoleKernel
         ExifJsonImportCommand::class,
         SynchPeopleOnPhotosCommand::class,
         FamiglieImportAlfaCommand::class,
+        PersoneImportAvatarDecessiCommand::class,
         DetectPhotoIssuesCommand::class,
         TranscriptsImportDocxCommand::class,
         TranscriptsSyncCommand::class,

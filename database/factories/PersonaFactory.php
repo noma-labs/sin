@@ -78,6 +78,13 @@ final class PersonaFactory extends Factory
         });
     }
 
+    public function deceduta(Carbon $data_decesso): Factory
+    {
+        return $this->state(fn (array $attributes): array => [
+            'data_decesso' => $data_decesso->toDateString(),
+        ]);
+    }
+
     public function minorenne()
     {
         return $this->state(function (array $attributes) {
