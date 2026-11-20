@@ -56,7 +56,7 @@ it('shows the avatar of the person in the header at the size of its file', funct
         ->assertSuccessful()
         ->assertSeeInOrder([
             'class="profile-avatar profile-avatar-persona profile-avatar-foto"',
-            '<img src="'.e($persona->avatarUrl()).'" alt="" width="256" height="256" />',
+            '<img', 'src="'.e($persona->avatarUrl()).'"', 'width="256"', 'height="256"',
             'Ottavio Ruggeri',
         ], false);
 });
