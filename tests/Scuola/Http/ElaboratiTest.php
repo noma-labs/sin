@@ -92,6 +92,37 @@ it('searches the elaborati by the nome and cognome of their studenti', function 
     'by cognome and nome' => ['Rossi Mario'],
 ]);
 
+it('shows the avatar of the studenti of an elaborato, or their initials without one', function (): void {
+    $conFoto = Studente::factory()->maschio()->create([
+        'nome' => 'Elio',
+        'cognome' => 'Fumagalli',
+        'nominativo' => 'Elio Fumagalli',
+        'avatar_path' => 'persone/elio.jpg',
+        'data_nascita' => fake()->unique()->dateTimeBetween('-17 years', '-6 years')->format('Y-m-d'),
+    ]);
+    $senzaFoto = Studente::factory()->femmina()->create([
+        'nome' => 'Gaia',
+        'cognome' => 'Fumagalli',
+        'nominativo' => 'Gaia Fumagalli',
+        'data_nascita' => fake()->unique()->dateTimeBetween('-17 years', '-6 years')->format('Y-m-d'),
+    ]);
+    $elaborato = Elaborato::factory()->create();
+    DB::connection('db_scuola')->table('elaborati_studenti')->insert([
+        ['elaborato_id' => $elaborato->id, 'studente_id' => $conFoto->id],
+        ['elaborato_id' => $elaborato->id, 'studente_id' => $senzaFoto->id],
+    ]);
+
+    login();
+
+    $this->get(route('scuola.elaborati.show', $elaborato->id))
+        ->assertOk()
+        ->assertSeeInOrder([
+            'Studenti (2)',
+            'src="'.e(route('nomadelfia.person.avatar', ['id' => $conFoto->id, 'v' => $conFoto->updated_at->getTimestamp()])).'"', 'Elio Fumagalli',
+            'persona-avatar persona-avatar-sm persona-avatar-f', 'GF', 'Gaia Fumagalli',
+        ], false);
+});
+
 it('searches the elaborati in their note', function (): void {
     Elaborato::factory()->create(['titolo' => 'Erbario della Maremma', 'note' => 'Lavoro di gruppo con le piante del podere']);
     Elaborato::factory()->create(['titolo' => 'Atlante delle stelle', 'note' => null]);

@@ -13,12 +13,13 @@ final class SearchPopolazione extends Autocomplete
     public function searchBy(string $term): array
     {
 
-        $persone = PopolazioneNomadelfia::presenteByNomeCognomeNominativo($term)->orderBy('nominativo')->get();
+        // persone.updated_at again after popolazione.*, which has its own updated_at: the URL of the avatar changes with the persona
+        $persone = PopolazioneNomadelfia::presenteByNomeCognomeNominativo($term)->addSelect('persone.updated_at')->orderBy('nominativo')->get();
 
         $options = [];
         foreach ($persone as $persona) {
             $year = \Illuminate\Support\Facades\Date::createFromFormat('Y-m-d', $persona->data_nascita)->year;
-            $options[] = new Option($persona->id, "($year) ".PersonaNome::testo($persona));
+            $options[] = Option::perPersona($persona, "($year) ".PersonaNome::testo($persona));
         }
 
         return $options;
@@ -34,7 +35,7 @@ final class SearchPopolazione extends Autocomplete
         $selected = [];
         foreach ($persone as $persona) {
             $year = \Illuminate\Support\Facades\Date::createFromFormat('Y-m-d', $persona->data_nascita)->year;
-            $selected[] = new Option($persona->id, "($year) ".PersonaNome::testo($persona));
+            $selected[] = Option::perPersona($persona, "($year) ".PersonaNome::testo($persona));
         }
 
         return $selected;

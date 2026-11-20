@@ -80,7 +80,8 @@
         </div>
         <ul class="list-group list-group-flush">
           @forelse ($elaborato->studenti as $studente)
-            <li class="list-group-item">
+            <li class="list-group-item d-flex align-items-center gap-2">
+              <x-persona-avatar :persona="$studente" size="sm" />
               @include("scuola.templates.student", ["persona" => $studente])
             </li>
           @empty

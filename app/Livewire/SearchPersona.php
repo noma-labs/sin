@@ -44,7 +44,7 @@ final class SearchPersona extends Autocomplete
     private function personeWithLatestStay(): Builder
     {
         $query = Persona::query();
-        $query->select('persone.id', 'persone.nominativo', 'persone.nome', 'persone.cognome', 'persone.data_nascita', 'popolazione.data_entrata', 'popolazione.data_uscita')
+        $query->select('persone.id', 'persone.nominativo', 'persone.nome', 'persone.cognome', 'persone.data_nascita', 'persone.sesso', 'persone.avatar_path', 'persone.updated_at', 'popolazione.data_entrata', 'popolazione.data_uscita')
             ->leftJoin('popolazione', function (JoinClause $join): void {
                 $join->on('persone.id', '=', 'popolazione.persona_id')
                     ->whereRaw('popolazione.data_entrata = (SELECT MAX(p.data_entrata) FROM popolazione p WHERE p.persona_id = persone.id)');
@@ -67,6 +67,6 @@ final class SearchPersona extends Autocomplete
             $label .= ' - '.$persona->data_uscita;
         }
 
-        return new Option($persona->id, $label);
+        return Option::perPersona($persona, $label);
     }
 }

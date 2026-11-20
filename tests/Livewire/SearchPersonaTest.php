@@ -48,6 +48,16 @@ it('shows the dates of the latest stay of a persona', function (): void {
         ->assertDontSee('1980-01-01');
 });
 
+it('shows the avatar of the persone in the options and among the selected ones', function (): void {
+    $conFoto = Persona::factory()->create(['nominativo' => 'fotografato', 'avatar_path' => 'persone/foto.jpg']);
+    Persona::factory()->femmina()->create(['nominativo' => 'fotogenica', 'nome' => 'Ida', 'cognome' => 'Rota']);
+
+    Livewire::test(SearchPersona::class, ['persone_id' => $conFoto->id])
+        ->call('search', 'fotog')
+        ->assertSee('<img src="'.e($conFoto->avatarUrl()).'"', false)
+        ->assertSeeInOrder(['persona-avatar persona-avatar-xs persona-avatar-f', 'IR', 'Ida Rota'], false);
+});
+
 it('asks for at least 3 characters', function (): void {
     Livewire::test(SearchPersona::class)
         ->set('searchTerm', 'ab')
