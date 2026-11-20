@@ -156,7 +156,7 @@
                   class="famiglia-coppia-membro d-flex align-items-start gap-2"
                 >
                   <div class="flex-grow-1" style="min-width: 0">
-                    @include("nomadelfia.persone.partials.profile-person-card", ["componente" => $componente, "ruolo" => $ruoloGenitore($componente), "indentato" => false, "fuoriNucleo" => $componente->pivot->stato !== "1"])
+                    @include("nomadelfia.persone.partials.profile-person-card", ["componente" => $componente, "ruolo" => $ruoloGenitore($componente), "indentato" => false, "fuoriNucleo" => $componente->pivot->stato !== "1", "avatar" => true])
                   </div>
                   @can("popolazione.persona.modifica")
                     @include("nomadelfia.templates.aggiornaComponente", ["componente" => $componente, "famiglia" => $famiglia])
@@ -183,7 +183,7 @@
               @forelse ($gruppo["persone"] as $componente)
                 <div class="d-flex align-items-start gap-2">
                   <div class="flex-grow-1" style="min-width: 0">
-                    @include("nomadelfia.persone.partials.profile-person-card", ["componente" => $componente, "ruolo" => $gruppo["ruolo"]($componente), "indentato" => false, "fuoriNucleo" => $componente->pivot->stato !== "1"])
+                    @include("nomadelfia.persone.partials.profile-person-card", ["componente" => $componente, "ruolo" => $gruppo["ruolo"]($componente), "indentato" => false, "fuoriNucleo" => $componente->pivot->stato !== "1", "avatar" => true])
                   </div>
                   @can("popolazione.persona.modifica")
                     @include("nomadelfia.templates.aggiornaComponente", ["componente" => $componente, "famiglia" => $famiglia])

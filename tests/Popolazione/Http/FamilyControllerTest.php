@@ -171,6 +171,21 @@ it('shows the componenti of a famiglia by nome and cognome with the nominativo o
         ->assertDontSee('Rossi Anna');
 });
 
+it('shows the avatar of the componenti of a famiglia, or their initials without one', function (): void {
+    login();
+    $famiglia = Famiglia::factory()->create(['tipo' => TipoFamiglia::Coniugi]);
+    $marito = Persona::factory()->maggiorenne()->maschio()->create(['nome' => 'Ettore', 'cognome' => 'Valli', 'avatar_path' => 'persone/marito.jpg']);
+    $famiglia->assegnaCapoFamiglia($marito);
+    $famiglia->assegnaMoglie(Persona::factory()->maggiorenne()->femmina()->create(['nome' => 'Rita', 'cognome' => 'Sala']));
+
+    $this->get(action([FamilyController::class, 'show'], $famiglia->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder([
+            '<img src="'.e($marito->avatarUrl()).'"', 'Ettore Valli',
+            'persona-avatar persona-avatar-sm persona-avatar-f', 'RS', 'Rita Sala',
+        ], false);
+});
+
 it('shows the mamma of a famiglia of a mamma without offering a moglie', function (): void {
     login();
     $famiglia = Famiglia::factory()->create(['tipo' => TipoFamiglia::MammaDiVocazione, 'data_creazione' => null]);

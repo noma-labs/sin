@@ -96,6 +96,18 @@
     }
   }
 
+  // The avatar of the persona in the header of their profile: the photo at the size of its file (256 px), the initials smaller
+  .profile-avatar.profile-avatar-persona {
+    width: 128px;
+    height: 128px;
+    font-size: 3.2rem;
+  }
+
+  .profile-avatar.profile-avatar-foto {
+    width: 256px;
+    height: 256px;
+  }
+
   .profile-avatar.profile-avatar-famiglia {
     border-color: #ecd3a0;
     border-radius: 50%;
@@ -1181,6 +1193,17 @@
       width: 64px;
       height: 64px;
       font-size: 1.6rem;
+    }
+
+    .profile-avatar.profile-avatar-persona {
+      width: 88px;
+      height: 88px;
+      font-size: 2.2rem;
+    }
+
+    .profile-avatar.profile-avatar-foto {
+      width: 160px;
+      height: 160px;
     }
 
     .profile-name {
