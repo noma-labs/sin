@@ -1,6 +1,6 @@
 <div class="autocomplete">
   <div class="form-control h-auto">
-    <div>
+    <div class="autocomplete-campo">
       @foreach ($selected as $sel)
         <span class="selected-option" wire:key="selected-{{ $sel->id }}">
           @if ($sel->persona)
@@ -24,7 +24,7 @@
       @if ($multiple || count($selected) == 0)
         <input
           style="border: none; outline: none"
-          class="search"
+          class="search autocomplete-cerca"
           wire:model.live.debounce.100ms="searchTerm"
           placeholder="{{ $placeholder }}"
         />
