@@ -70,6 +70,22 @@ it('searches people by nominativo, nome, cognome or numero elenco with a single 
         ->assertDontSee($other->nominativo);
 })->with(['nominativo', 'nome', 'cognome', 'numero_elenco']);
 
+it('shows the persone found with their avatar and a link to their profile', function (): void {
+    $cognome = 'Ricercato'.Str::lower(Str::random(8));
+    $conFoto = Persona::factory()->maschio()->create(['nome' => 'Elio', 'cognome' => $cognome, 'nominativo' => 'Elietto', 'avatar_path' => 'persone/elio.jpg']);
+    $senzaFoto = Persona::factory()->femmina()->create(['nome' => 'Gaia', 'cognome' => $cognome, 'nominativo' => "Gaia {$cognome}"]);
+
+    login();
+
+    $this->get(route('anagrafe.people.search.show', ['q' => $cognome]))
+        ->assertSuccessful()
+        ->assertSee(route('nomadelfia.person.profile', ['id' => $conFoto->id]), false)
+        ->assertSee('<img src="'.e($conFoto->avatarUrl()).'"', false)
+        ->assertSee('(Elietto)')
+        ->assertSee(route('nomadelfia.person.profile', ['id' => $senzaFoto->id]), false)
+        ->assertSee('persona-avatar persona-avatar-sm persona-avatar-f', false);
+});
+
 it('shows the person search box in the popolazione navbar', function (): void {
     login();
 
