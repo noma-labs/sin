@@ -12,23 +12,73 @@
   <div class="person-profile">
     <header class="profile-band profile-band-solo rounded-3 mb-4">
       <div class="d-flex flex-wrap gap-3 align-items-start">
-        @if ($persona->avatar_path)
-          <div
-            class="profile-avatar profile-avatar-persona profile-avatar-foto"
-            aria-hidden="true"
-          >
-            <img
-              src="{{ $persona->avatarUrl() }}"
-              alt=""
-              width="256"
-              height="256"
-            />
-          </div>
-        @else
-          <div class="profile-avatar profile-avatar-persona" aria-hidden="true">
-            {{ mb_substr($persona->nome, 0, 1) }}{{ mb_substr($persona->cognome, 0, 1) }}
-          </div>
-        @endif
+        <div class="d-flex flex-column align-items-center gap-1">
+          @if ($persona->avatar_path)
+            <div
+              class="profile-avatar profile-avatar-persona profile-avatar-foto"
+              aria-hidden="true"
+            >
+              <img
+                src="{{ $persona->avatarUrl() }}"
+                alt=""
+                width="256"
+                height="256"
+              />
+            </div>
+          @else
+            <div
+              class="profile-avatar profile-avatar-persona"
+              aria-hidden="true"
+            >
+              {{ mb_substr($persona->nome, 0, 1) }}{{ mb_substr($persona->cognome, 0, 1) }}
+            </div>
+          @endif
+
+          @if ($puoModificare)
+            <x-modal
+              modal-id="modal-avatar"
+              button-style="btn-link btn-sm p-0"
+              button-title="{{ $persona->avatar_path ? 'Cambia foto' : 'Aggiungi foto' }}"
+              modal-title="Foto di {{ $persona->nome }} {{ $persona->cognome }}"
+            >
+              <x-slot:body>
+                <form
+                  method="POST"
+                  id="form-avatar"
+                  action="{{ route("nomadelfia.person.avatar.store", $persona->id) }}"
+                  enctype="multipart/form-data"
+                >
+                  @csrf
+                  <label class="form-label" for="avatar">
+                    {{ $persona->avatar_path ? "Sostituisci con una nuova foto" : "Scegli una foto" }}
+                  </label>
+                  <input
+                    id="avatar"
+                    type="file"
+                    class="form-control"
+                    name="avatar"
+                    accept="image/jpeg,image/png,image/webp"
+                    required
+                  />
+                  <div class="form-text">
+                    JPG, PNG o WEBP fino a 10 MB. La foto viene ritagliata in un
+                    quadrato sul viso: se è una foto di gruppo, ritagliala
+                    prima.
+                  </div>
+                </form>
+              </x-slot:body>
+              <x-slot:footer>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  form="form-avatar"
+                >
+                  Salva
+                </button>
+              </x-slot:footer>
+            </x-modal>
+          @endif
+        </div>
         <div class="flex-grow-1" style="min-width: 0">
           <div class="profile-occhiello">Persona</div>
           <h1 class="profile-name mb-0">
