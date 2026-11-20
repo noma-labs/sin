@@ -61,6 +61,30 @@ it('shows the avatar of the person in the header at the size of its file', funct
         ], false);
 });
 
+it('offers to add the photo of a person without one, or to change it', function (?string $avatarPath, string $pulsante): void {
+    login();
+    $persona = Persona::factory()->create(['avatar_path' => $avatarPath]);
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder([$pulsante, 'id="modal-avatar"', route('nomadelfia.person.avatar.store', $persona->id), 'name="avatar"'], false);
+})->with([
+    'without a photo' => [null, 'Aggiungi foto'],
+    'with a photo' => ['persone/avatar.jpg', 'Cambia foto'],
+]);
+
+it('does not offer to upload the photo to a user who cannot modify a person', function (): void {
+    $user = User::query()->firstOrCreate(['username' => 'solo-visualizza-foto'], ['email' => 'solo-visualizza-foto@email.it', 'password' => 'secret', 'persona_id' => 0]);
+    $user->givePermissionTo('popolazione.persona.visualizza');
+    login($user);
+    $persona = Persona::factory()->create();
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertDontSee('Aggiungi foto')
+        ->assertDontSee('modal-avatar');
+});
+
 it('shows the initials of the person in the header when they have no avatar', function (): void {
     login();
     $persona = Persona::factory()->create(['nome' => 'Lidia', 'cognome' => 'Ferri']);
@@ -68,7 +92,7 @@ it('shows the initials of the person in the header when they have no avatar', fu
     $this->get(route('nomadelfia.person.profile', $persona->id))
         ->assertSuccessful()
         ->assertSeeInOrder(['class="profile-avatar profile-avatar-persona"', 'LF', 'Lidia Ferri'], false)
-        ->assertDontSee(route('nomadelfia.person.avatar', $persona->id));
+        ->assertDontSee('src="'.route('nomadelfia.person.avatar', $persona->id), false);
 });
 
 it('shows the situation of the person in the row below the name', function (): void {

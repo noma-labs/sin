@@ -166,6 +166,7 @@ Route::prefix('nomadelfia')->group(function () {
 
     Route::get('people/{id}/profile', [PersonProfileController::class, 'show'])->name('nomadelfia.person.profile');
     Route::get('people/{id}/avatar', [PersonAvatarController::class, 'show'])->name('nomadelfia.person.avatar');
+    Route::post('people/{id}/avatar', [PersonAvatarController::class, 'store'])->name('nomadelfia.person.avatar.store');
     Route::permanentRedirect('families', '/anagrafe/families');
     Route::permanentRedirect('families/{id}', '/anagrafe/families/{id}');
     Route::permanentRedirect('search', '/anagrafe/search');
