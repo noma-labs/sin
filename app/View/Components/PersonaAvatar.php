@@ -71,6 +71,11 @@ final class PersonaAvatar extends Component
             return $persona->avatarUrl();
         }
 
-        return empty($persona->avatar_path) || empty($persona->id) ? null : route('nomadelfia.person.avatar', ['id' => $persona->id]);
+        if (empty($persona->avatar_path) || empty($persona->id)) {
+            return null;
+        }
+        $aggiornato = empty($persona->updated_at) ? false : strtotime((string) $persona->updated_at);
+
+        return route('nomadelfia.person.avatar', $aggiornato === false ? ['id' => $persona->id] : ['id' => $persona->id, 'v' => $aggiornato]);
     }
 }

@@ -4,29 +4,57 @@ declare(strict_types=1);
 
 namespace App\Livewire;
 
+use DateTimeInterface;
 use Livewire\Component;
 use Livewire\Wireable;
 
+/**
+ * @phpstan-type DatiPersona array{id: int, nome: string|null, cognome: string|null, nominativo: string|null, sesso: string|null, avatar_path: string|null, updated_at: string|null}
+ */
 final class Option implements Wireable
 {
-    public function __construct(public int|string $id, public string $value) {}
+    /**
+     * @param  DatiPersona|null  $persona  the persona of the option, shown with their avatar (x-persona-avatar)
+     */
+    public function __construct(public int|string $id, public string $value, public ?array $persona = null) {}
 
     /**
-     * @param  array{id: int|string, value: string}  $value
+     * The option of a persona, shown with their avatar: a Persona, or any row with the columns of persone it needs.
      */
-    public static function fromLivewire($value): self
+    public static function perPersona(object $persona, string $value): self
     {
-        return new self($value['id'], $value['value']);
+        $testo = static fn (mixed $valore): ?string => is_string($valore) && $valore !== '' ? $valore : null;
+        $id = is_numeric($persona->id ?? null) ? (int) $persona->id : 0;
+        $aggiornato = $persona->updated_at ?? null;
+
+        return new self($id, $value, [
+            'id' => $id,
+            'nome' => $testo($persona->nome ?? null),
+            'cognome' => $testo($persona->cognome ?? null),
+            'nominativo' => $testo($persona->nominativo ?? null),
+            'sesso' => $testo($persona->sesso ?? null),
+            'avatar_path' => $testo($persona->avatar_path ?? null),
+            'updated_at' => $aggiornato instanceof DateTimeInterface ? $aggiornato->format('Y-m-d H:i:s') : $testo($aggiornato),
+        ]);
     }
 
     /**
-     * @return array{id: int|string, value: string}
+     * @param  array{id: int|string, value: string, persona?: DatiPersona|null}  $value
+     */
+    public static function fromLivewire($value): self
+    {
+        return new self($value['id'], $value['value'], $value['persona'] ?? null);
+    }
+
+    /**
+     * @return array{id: int|string, value: string, persona: DatiPersona|null}
      */
     public function toLivewire(): array
     {
         return [
             'id' => $this->id,
             'value' => $this->value,
+            'persona' => $this->persona,
         ];
     }
 }

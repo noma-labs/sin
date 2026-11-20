@@ -1,4 +1,11 @@
+.autocomplete {
+  position: relative;
+}
+
 .selected-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
   background-color: #f0f0f0;
   border: 1px solid #ccc;
   line-height: 1.42857143;
@@ -17,24 +24,46 @@
   cursor: pointer;
 }
 
-.available-option {
-  list-style-type: none;
-  margin: 10px;
-}
-
-.available-option:hover {
-  background-color: lightblue;
-  color: white; /* Change the text color to white for better contrast */
-  border-radius: 4px;
-  padding: 0 0.25em;
-  cursor: pointer;
-}
-
+// The options float over the page below the field: a card with border and shadow, scrolling when long
 .my-dropdown-menu {
   position: absolute;
-  background: white;
+  top: calc(100% + 4px);
+  left: 0;
   z-index: 1000;
   width: 100%;
-  padding: 0px;
-  overflow-y: scroll;
+  max-height: 18rem;
+  margin: 0;
+  padding: 0.25rem;
+  overflow-y: auto;
+  list-style: none;
+  background: var(--bs-body-bg);
+  border: 1px solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius);
+  box-shadow: var(--bs-box-shadow);
+}
+
+.available-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  border: 0;
+  border-radius: var(--bs-border-radius-sm);
+  background: none;
+  color: var(--bs-body-color);
+  text-align: start;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--bs-primary-bg-subtle);
+    color: var(--bs-primary-text-emphasis);
+    outline: none;
+  }
+}
+
+.available-option-vuota {
+  padding: 0.4rem 0.6rem;
+  color: var(--bs-secondary-color);
 }
