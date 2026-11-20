@@ -548,16 +548,6 @@
     flex: none;
   }
 
-  .profile-person-m {
-    background: #d5e1f7;
-    color: $nomadelfia-blu;
-  }
-
-  .profile-person-f {
-    background: #f8dcc8;
-    color: #9a4b16;
-  }
-
   // Albero familiare: couples of cards, the nonni above each genitore, the fratelli below the genitori
   .albero-familiare {
     --albero-linea: var(--bs-border-color);
@@ -1131,12 +1121,6 @@
 
     &:hover {
       border-color: $nomadelfia-azzurro;
-    }
-
-    .profile-person-avatar {
-      width: 26px;
-      height: 26px;
-      font-size: 0.7rem;
     }
   }
 

@@ -59,6 +59,17 @@ it('lists the anniversaries of every tipo in the next 30 days ordered by day, wi
         ->assertDontSee('Nominativo Interno');
 });
 
+it('shows the avatar of the people of an anniversary', function (): void {
+    login();
+    $this->travelTo(Carbon::parse('2026-10-30'));
+    $defunto = entraInNomadelfiaPerRicorrenze(Persona::factory()->nato(Carbon::parse('1931-01-01'))->maschio()->create(['nome' => 'Fermo', 'cognome' => 'Ricordato', 'avatar_path' => 'persone/defunto.jpg']), '1960-01-15');
+    app(DecessoPersonaAction::class)->execute($defunto, Carbon::parse('2016-11-10'));
+
+    $this->get(route('nomadelfia.ricorrenze'))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['10° anniversario della morte', '<img src="'.e($defunto->refresh()->avatarUrl()).'"', 'Fermo Ricordato'], false);
+});
+
 it('does not remember the entrata in Nomadelfia', function (): void {
     login();
     $this->travelTo(Carbon::parse('2026-10-30'));

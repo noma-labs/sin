@@ -7,12 +7,7 @@
   class="albero-scheda @if ($io ?? false) albero-scheda-io @endif"
   href="{{ route("nomadelfia.person.profile", $componente->id) }}"
 >
-  <span
-    class="albero-scheda-avatar {{ $componente->isMaschio() ? "profile-person-m" : "profile-person-f" }}"
-    aria-hidden="true"
-  >
-    {{ mb_substr($componente->nome, 0, 1) }}{{ mb_substr($componente->cognome, 0, 1) }}
-  </span>
+  <x-persona-avatar :persona="$componente" size="md" />
   <span class="albero-scheda-nome">
     {{ $componente->nome }}
     <span class="d-block">{{ $componente->cognome }}</span>

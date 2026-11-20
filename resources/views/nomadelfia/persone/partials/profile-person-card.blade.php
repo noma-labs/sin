@@ -6,16 +6,7 @@
   class="profile-person @if ($indentato) profile-person-indentato @endif @if ($fuoriNucleo ?? false) profile-person-fuori-nucleo @endif"
   href="{{ route("nomadelfia.person.profile", $componente->id) }}"
 >
-  @if ($avatar ?? false)
-    <x-persona-avatar :persona="$componente" size="sm" />
-  @else
-    <span
-      class="profile-person-avatar {{ $componente->isMaschio() ? "profile-person-m" : "profile-person-f" }}"
-      aria-hidden="true"
-    >
-      {{ mb_substr($componente->nome, 0, 1) }}{{ mb_substr($componente->cognome, 0, 1) }}
-    </span>
-  @endif
+  <x-persona-avatar :persona="$componente" size="sm" />
   <span class="flex-grow-1" style="min-width: 0">
     <span class="d-block fw-semibold text-truncate">
       <x-persona-nome :persona="$componente" />
