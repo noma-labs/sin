@@ -1,11 +1,9 @@
 <div class="table-responsive">
-  <table class="table table-hover">
+  <table class="table table-hover align-middle">
     <thead>
       <tr class="table-warning">
+        <th>Persona</th>
         <th>Numero Elenco</th>
-        <th>Nominativo</th>
-        <th>Nome</th>
-        <th>Cognome</th>
         <th>Data Nascita</th>
         <th>Luogo di Nascita</th>
         <th>Famiglia</th>
@@ -15,15 +13,23 @@
     </thead>
     <tbody>
       @foreach ($persone as $persona)
-        <tr class="table-primary" hoverable>
+        <tr>
           <td>
-            <span class="badge bg-success">
-              {{ $persona->numero_elenco }}
-            </span>
+            <a
+              class="d-flex align-items-center gap-2 text-decoration-none"
+              href="{{ route("nomadelfia.person.profile", ["id" => $persona->id]) }}"
+            >
+              <x-persona-avatar :persona="$persona" size="sm" />
+              <x-persona-nome :persona="$persona" />
+            </a>
           </td>
-          <td>{{ $persona->nominativo }}</td>
-          <td>{{ $persona->nome }}</td>
-          <td>{{ $persona->cognome }}</td>
+          <td>
+            @if ($persona->numero_elenco)
+              <span class="badge bg-success">
+                {{ $persona->numero_elenco }}
+              </span>
+            @endif
+          </td>
           <td>{{ $persona->data_nascita }}</td>
           <td>{{ $persona->provincia_nascita }}</td>
           <td>
