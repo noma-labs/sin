@@ -48,13 +48,17 @@ it('shows the nome and cognome of a person in the header with the nominativo the
         ->assertSeeInOrder(['Giovanni Bianchi', 'Conosciuto come', 'Gianni B.']);
 });
 
-it('shows the avatar of the person in the header', function (): void {
+it('shows the avatar of the person in the header at the size of its file', function (): void {
     login();
     $persona = Persona::factory()->create(['nome' => 'Ottavio', 'cognome' => 'Ruggeri', 'avatar_path' => 'persone/avatar.jpg']);
 
     $this->get(route('nomadelfia.person.profile', $persona->id))
         ->assertSuccessful()
-        ->assertSeeInOrder(['class="profile-avatar"', '<img src="'.e($persona->avatarUrl()).'"', 'Ottavio Ruggeri'], false);
+        ->assertSeeInOrder([
+            'class="profile-avatar profile-avatar-persona profile-avatar-foto"',
+            '<img', 'src="'.e($persona->avatarUrl()).'"', 'width="256"', 'height="256"',
+            'Ottavio Ruggeri',
+        ], false);
 });
 
 it('shows the initials of the person in the header when they have no avatar', function (): void {
@@ -63,7 +67,7 @@ it('shows the initials of the person in the header when they have no avatar', fu
 
     $this->get(route('nomadelfia.person.profile', $persona->id))
         ->assertSuccessful()
-        ->assertSeeInOrder(['class="profile-avatar"', 'LF', 'Lidia Ferri'], false)
+        ->assertSeeInOrder(['class="profile-avatar profile-avatar-persona"', 'LF', 'Lidia Ferri'], false)
         ->assertDontSee(route('nomadelfia.person.avatar', $persona->id));
 });
 

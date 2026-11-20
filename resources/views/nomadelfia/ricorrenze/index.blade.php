@@ -167,12 +167,7 @@
                             class="profile-ricorrenza-persona"
                             href="{{ route("nomadelfia.person.profile", $persona->id) }}"
                           >
-                            <span
-                              class="profile-person-avatar {{ $persona->isMaschio() ? "profile-person-m" : "profile-person-f" }}"
-                              aria-hidden="true"
-                            >
-                              {{ mb_substr($persona->nome, 0, 1) }}{{ mb_substr($persona->cognome, 0, 1) }}
-                            </span>
+                            <x-persona-avatar :persona="$persona" size="xs" />
                             {{ $persona->nome }} {{ $persona->cognome }}
                           </a>
                         @endforeach

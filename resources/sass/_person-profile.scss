@@ -96,6 +96,18 @@
     }
   }
 
+  // The avatar of the persona in the header of their profile: the photo at the size of its file (256 px), the initials smaller
+  .profile-avatar.profile-avatar-persona {
+    width: 128px;
+    height: 128px;
+    font-size: 3.2rem;
+  }
+
+  .profile-avatar.profile-avatar-foto {
+    width: 256px;
+    height: 256px;
+  }
+
   .profile-avatar.profile-avatar-famiglia {
     border-color: #ecd3a0;
     border-radius: 50%;
@@ -534,16 +546,6 @@
     font-size: 0.8rem;
     font-weight: 700;
     flex: none;
-  }
-
-  .profile-person-m {
-    background: #d5e1f7;
-    color: $nomadelfia-blu;
-  }
-
-  .profile-person-f {
-    background: #f8dcc8;
-    color: #9a4b16;
   }
 
   // Albero familiare: couples of cards, the nonni above each genitore, the fratelli below the genitori
@@ -1120,12 +1122,6 @@
     &:hover {
       border-color: $nomadelfia-azzurro;
     }
-
-    .profile-person-avatar {
-      width: 26px;
-      height: 26px;
-      font-size: 0.7rem;
-    }
   }
 
   .profile-ricorrenza-anni {
@@ -1181,6 +1177,17 @@
       width: 64px;
       height: 64px;
       font-size: 1.6rem;
+    }
+
+    .profile-avatar.profile-avatar-persona {
+      width: 88px;
+      height: 88px;
+      font-size: 2.2rem;
+    }
+
+    .profile-avatar.profile-avatar-foto {
+      width: 160px;
+      height: 160px;
     }
 
     .profile-name {

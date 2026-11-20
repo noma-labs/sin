@@ -12,13 +12,23 @@
   <div class="person-profile">
     <header class="profile-band profile-band-solo rounded-3 mb-4">
       <div class="d-flex flex-wrap gap-3 align-items-start">
-        <div class="profile-avatar" aria-hidden="true">
-          @if ($persona->avatar_path)
-            <img src="{{ $persona->avatarUrl() }}" alt="" />
-          @else
+        @if ($persona->avatar_path)
+          <div
+            class="profile-avatar profile-avatar-persona profile-avatar-foto"
+            aria-hidden="true"
+          >
+            <img
+              src="{{ $persona->avatarUrl() }}"
+              alt=""
+              width="256"
+              height="256"
+            />
+          </div>
+        @else
+          <div class="profile-avatar profile-avatar-persona" aria-hidden="true">
             {{ mb_substr($persona->nome, 0, 1) }}{{ mb_substr($persona->cognome, 0, 1) }}
-          @endif
-        </div>
+          </div>
+        @endif
         <div class="flex-grow-1" style="min-width: 0">
           <div class="profile-occhiello">Persona</div>
           <h1 class="profile-name mb-0">
