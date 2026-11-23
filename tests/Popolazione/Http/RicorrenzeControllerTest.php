@@ -177,6 +177,47 @@ it('lists only the anniversaries of the next 7 days when the week is chosen', fu
         ->assertViewHas('giorni', fn (Collection $giorni): bool => ricorrenzeDi($giorni, $traVentiGiorni)->isNotEmpty());
 });
 
+it('lists the anniversaries of the whole month when a month is chosen', function (): void {
+    login();
+    $this->travelTo(Carbon::parse('2026-11-23'));
+    $inizioMese = entraInNomadelfiaPerRicorrenze(Persona::factory()->nato(Carbon::parse('1980-11-02'))->maschio()->create());
+    $fineMese = entraInNomadelfiaPerRicorrenze(Persona::factory()->nato(Carbon::parse('1980-11-30'))->maschio()->create());
+    $meseDopo = entraInNomadelfiaPerRicorrenze(Persona::factory()->nato(Carbon::parse('1980-12-05'))->maschio()->create());
+
+    $this->get(route('nomadelfia.ricorrenze', ['mese' => 11]))
+        ->assertSuccessful()
+        ->assertSee('nel mese di novembre 2026')
+        ->assertViewHas('giorni', fn (Collection $giorni): bool => ricorrenzeDi($giorni, $inizioMese)->sole()->data->toDateString() === '2026-11-02'
+            && ricorrenzeDi($giorni, $fineMese)->isNotEmpty()
+            && ricorrenzeDi($giorni, $meseDopo)->isEmpty());
+});
+
+it('lists the anniversaries of a month already passed in the next year', function (): void {
+    login();
+    $this->travelTo(Carbon::parse('2026-11-23'));
+    $festeggiato = entraInNomadelfiaPerRicorrenze(Persona::factory()->nato(Carbon::parse('1980-01-10'))->maschio()->create());
+
+    $this->get(route('nomadelfia.ricorrenze', ['mese' => 1]))
+        ->assertSuccessful()
+        ->assertSee('nel mese di gennaio 2027')
+        ->assertViewHas('giorni', fn (Collection $giorni): bool => ricorrenzeDi($giorni, $festeggiato)->sole()->data->toDateString() === '2027-01-10'
+            && ricorrenzeDi($giorni, $festeggiato)->sole()->anni === 47);
+});
+
+it('lists the giubilei from today when a month is chosen', function (): void {
+    login();
+    $this->travelTo(Carbon::parse('2026-11-23'));
+    $pretePassato = entraInNomadelfiaPerRicorrenze(Persona::factory()->nato(Carbon::parse('1950-01-01'))->maschio()->create());
+    $pretePassato->assegnaStato(Stato::perNome('sacerdote'), '1976-11-02');
+    $prete = entraInNomadelfiaPerRicorrenze(Persona::factory()->nato(Carbon::parse('1950-01-01'))->maschio()->create());
+    $prete->assegnaStato(Stato::perNome('sacerdote'), '1976-12-20');
+
+    $this->get(route('nomadelfia.ricorrenze', ['mese' => 11]))
+        ->assertSuccessful()
+        ->assertViewHas('giubilei', fn (Collection $giubilei): bool => ricorrenzeDi(collect([$giubilei]), $prete)->isNotEmpty()
+            && ricorrenzeDi(collect([$giubilei]), $pretePassato)->isEmpty());
+});
+
 it('lists the giubilei until the end of the year beyond the next 30 days', function (): void {
     login();
     $this->travelTo(Carbon::parse('2026-10-30'));

@@ -9,11 +9,16 @@
         <div class="flex-grow-1" style="min-width: 0">
           <h1 class="profile-name mb-0">Ricorrenze</h1>
           <div class="profile-muted">
-            Oggi, {{ $oggi->translatedFormat("l j F Y") }} &middot; {{ $totale }} {{ $totale === 1 ? "ricorrenza" : "ricorrenze" }} {{ $settimana ? "nei prossimi 7 giorni" : "nei prossimi 30 giorni" }}
+            Oggi, {{ $oggi->translatedFormat("l j F Y") }} &middot; {{ $totale }} {{ $totale === 1 ? "ricorrenza" : "ricorrenze" }}
+            @if ($mese)
+              nel mese di {{ $inizioPeriodo->translatedFormat("F Y") }}
+            @else
+              {{ $settimana ? "nei prossimi 7 giorni" : "nei prossimi 30 giorni" }}
+            @endif
           </div>
         </div>
         <div class="d-flex flex-wrap gap-2 d-print-none">
-          <div class="btn-group" role="group" aria-label="Periodo">
+          <div class="btn-group" role="group" aria-label="Ricorrenze da oggi">
             <a
               class="btn profile-btn @if ($settimana) active @endif"
               href="{{ route("nomadelfia.ricorrenze", ["periodo" => "settimana"]) }}"
@@ -22,9 +27,9 @@
               Prossimi 7 giorni
             </a>
             <a
-              class="btn profile-btn @if (! $settimana) active @endif"
+              class="btn profile-btn @if (! $settimana && ! $mese) active @endif"
               href="{{ route("nomadelfia.ricorrenze") }}"
-              @if (! $settimana) aria-current="true" @endif
+              @if (! $settimana && ! $mese) aria-current="true" @endif
             >
               Prossimi 30 giorni
             </a>
@@ -39,6 +44,21 @@
         </div>
       </div>
     </header>
+
+    <nav
+      class="d-flex flex-wrap gap-1 mb-3 d-print-none"
+      aria-label="Ricorrenze di un mese"
+    >
+      @foreach (range(1, 12) as $numeroMese)
+        <a
+          class="btn btn-sm profile-btn @if ($mese === $numeroMese) active @endif"
+          href="{{ route("nomadelfia.ricorrenze", ["mese" => $numeroMese]) }}"
+          @if ($mese === $numeroMese) aria-current="true" @endif
+        >
+          {{ ucfirst($oggi->copy()->setDate($oggi->year, $numeroMese, 1)->translatedFormat("F")) }}
+        </a>
+      @endforeach
+    </nav>
 
     <div
       class="profile-filtri-ricorrenze d-flex flex-wrap gap-2 mb-4 d-print-none"
