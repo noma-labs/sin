@@ -46,7 +46,9 @@ final class ElaboratiController
         if (! $filterYear->isEmpty()) {
             $query->where('elaborati.anno_scolastico', $filterYear);
         }
-        if (! $search->isEmpty()) {
+        if ($search->isMatch('/^SP[A-Z]\d{0,3}$/i')) {
+            $query->where('elaborati.collocazione', 'like', $search->upper().'%');
+        } elseif (! $search->isEmpty()) {
             $like = "%{$search}%";
             $query->where(fn ($q) => $q->where('elaborati.titolo', 'like', $like)
                 ->orWhere('elaborati.collocazione', 'like', $like)

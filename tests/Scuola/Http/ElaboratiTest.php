@@ -70,6 +70,23 @@ it('searches the elaborati', function (string $search): void {
     'by collocazione' => ['SPA001'],
 ]);
 
+it('searches the elaborati by the colonna of their collocazione', function (string $search): void {
+    Elaborato::factory()->create(['titolo' => 'Laboratorio di falegnameria', 'collocazione' => 'SPE001']);
+    Elaborato::factory()->create(['titolo' => 'Il caseificio', 'collocazione' => 'SPE014']);
+    Elaborato::factory()->create(['titolo' => 'Esperienze in Maremma', 'collocazione' => 'SPA003']);
+
+    login();
+
+    $this->get(action([ElaboratiController::class, 'index'], ['q' => $search]))
+        ->assertOk()
+        ->assertSee('Laboratorio di falegnameria')
+        ->assertSee('Il caseificio')
+        ->assertDontSee('Esperienze in Maremma');
+})->with([
+    'upper case' => ['SPE'],
+    'lower case' => ['spe'],
+]);
+
 it('searches the elaborati by the nome and cognome of their studenti', function (string $search): void {
     $rossi = Studente::factory()->maschio()->create([
         'nome' => 'Mario',
