@@ -124,20 +124,31 @@ Steps to deploy a new version on the production server:
 ### Local Dev with Docker
 Requirements:
 - [Docker](https://docs.docker.com/engine/install/)
-- [Taskfile](https://taskfile.dev/)
 
 Steps to run into local macine
 - clone the repo `git clone git@github.com:noma-labs/sin.git`
-- `task init` to install backend and frontend dependencies and initialize db
-- `task up` to start the local development
+- install backend and frontend dependencies and initialize db
+    ```bash
+    docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd):/var/www/html" -w /var/www/html \
+      laravelsail/php84-composer:latest composer install --ignore-platform-req=ext-gd --ignore-platform-req=ext-exif --ignore-platform-req=ext-ffi
+    ./vendor/bin/sail up -d
+    ./vendor/bin/sail npm install
+    ./vendor/bin/sail npm run production
+    cp .env.local .env
+    ./vendor/bin/sail artisan key:generate --env=local
+    ./vendor/bin/sail artisan make:database
+    ```
+- `./vendor/bin/sail up -d` to start the local development
 - open the `http://127.0.0.1:8080/`
 - insert username: `admin` password: `admin`
 
-Other commands
-- `task test` to execute tests
-- `task down` to stop the docker containers
-- `task refresh` to seed the databases with dummy data
-- `task lint` to run linters (both on php and html/blade)
-- `task analyse` to run the static analysis
+Other commands (the composer scripts run inside the Sail container; in CI they run with plain `composer <script>`)
+- `./vendor/bin/sail composer test` to execute tests (`./vendor/bin/sail composer test -- --bail` to stop at the first failure)
+- `./vendor/bin/sail down` to stop the docker containers
+- `./vendor/bin/sail composer refresh` to seed the databases with dummy data
+- `./vendor/bin/sail composer lint` to run linters (both on php and html/blade), `lint:check` to only check
+- `./vendor/bin/sail composer analyse` to run the static analysis
+- `./vendor/bin/sail composer qa` to run lint:check, analyse and test before pushing
+- `./vendor/bin/sail composer clear` to clear the config, route and view caches
 - create migration `sail php artisan make:migration create_flights_table --path="database/migrations/nomadelfia" --sql`
     - index name convention:  `<prefix>_<table_name>_<column_name>` where prefix: `idx_ : regular index`,`unq_ : UNIQUE`
