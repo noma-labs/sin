@@ -12,6 +12,8 @@ use App\Traits\SortableTrait;
 use Database\Factories\PersonaFactory;
 use App\Anagrafe\Famiglia\Models\Famiglia;
 use App\Anagrafe\Persona\QueryBuilders\PersonaQueryBuilder;
+use Closure;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -61,6 +63,33 @@ class Persona extends Model
     public function newEloquentBuilder($query): PersonaQueryBuilder
     {
         return new PersonaQueryBuilder($query);
+    }
+
+    /**
+     * Builds the condition that keeps the persone whose nominativo, nome or cognome contain every word of the term,
+     * so that "Davide Neri" and "Neri Davide" both find the persona with nome Davide and cognome Neri.
+     * With $anywhere false a word must match the start of a word of the field, otherwise any part of it.
+     *
+     * @return Closure(Builder<Persona>): void
+     */
+    public static function cercaNomeCompleto(string $term, bool $anywhere = false): Closure
+    {
+        $words = preg_split('/\s+/', mb_trim($term), -1, PREG_SPLIT_NO_EMPTY) ?: [];
+
+        return function (Builder $query) use ($words, $anywhere): void {
+            foreach ($words as $word) {
+                $word = addcslashes($word, '%_\\');
+                $patterns = $anywhere ? ["%{$word}%"] : ["{$word}%", "% {$word}%"];
+
+                $query->where(function (Builder $fields) use ($patterns): void {
+                    foreach (['persone.nominativo', 'persone.nome', 'persone.cognome'] as $column) {
+                        foreach ($patterns as $pattern) {
+                            $fields->orWhere($column, 'like', $pattern);
+                        }
+                    }
+                });
+            }
+        };
     }
     protected function nome(): \Illuminate\Database\Eloquent\Casts\Attribute
     {

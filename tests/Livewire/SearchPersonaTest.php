@@ -25,6 +25,16 @@ it('can search persone', function (): void {
         ->assertSee('Altro Cliente');
 });
 
+it('finds a persona by nome and cognome together, in any order', function (string $term): void {
+    Persona::factory()->create(['nominativo' => 'Dado', 'nome' => 'Davide', 'cognome' => 'Nerini']);
+    Persona::factory()->create(['nominativo' => 'Dade', 'nome' => 'Davide', 'cognome' => 'Rossetti']);
+
+    Livewire::test(SearchPersona::class)
+        ->call('search', $term)
+        ->assertSee('Davide Nerini')
+        ->assertDontSee('Davide Rossetti');
+})->with(['davide nerini', 'Nerini Davide', 'dav  ner']);
+
 it('can dispatch event', function (): void {
     $p = Persona::factory()->create(['nominativo' => 'a-person']);
 
