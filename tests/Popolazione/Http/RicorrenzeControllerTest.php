@@ -204,6 +204,32 @@ it('lists the anniversaries of a month already passed in the next year', functio
             && ricorrenzeDi($giorni, $festeggiato)->sole()->anni === 47);
 });
 
+it('lists only the anniversaries of the tipi chosen in the query, counting the ones of every tipo', function (): void {
+    login();
+    $this->travelTo(Carbon::parse('2026-11-23'));
+    $festeggiato = entraInNomadelfiaPerRicorrenze(Persona::factory()->nato(Carbon::parse('1980-11-25'))->maschio()->create());
+    $defunto = entraInNomadelfiaPerRicorrenze(Persona::factory()->nato(Carbon::parse('1930-01-01'))->maschio()->create(), '1960-01-15');
+    app(DecessoPersonaAction::class)->execute($defunto, Carbon::parse('2018-11-26'));
+
+    $this->get(route('nomadelfia.ricorrenze', ['mese' => 11, 'tipi' => 'decesso,sconosciuto']))
+        ->assertSuccessful()
+        ->assertViewHas('giorni', fn (Collection $giorni): bool => ricorrenzeDi($giorni, $defunto)->isNotEmpty()
+            && ricorrenzeDi($giorni, $festeggiato)->isEmpty())
+        ->assertViewHas('conteggi', fn (Collection $conteggi): bool => $conteggi->get('compleanno', 0) >= 1 && $conteggi->get('decesso', 0) >= 1);
+});
+
+it('keeps the chosen tipi in the links of the periods and adds or removes a tipo in the links of the filters', function (): void {
+    login();
+    $this->travelTo(Carbon::parse('2026-11-23'));
+
+    $this->get(route('nomadelfia.ricorrenze', ['mese' => 11, 'tipi' => 'decesso']))
+        ->assertSuccessful()
+        ->assertSee(e(route('nomadelfia.ricorrenze', ['mese' => 12, 'tipi' => 'decesso'])), false)
+        ->assertSee(e(route('nomadelfia.ricorrenze', ['periodo' => 'settimana', 'tipi' => 'decesso'])), false)
+        ->assertSee(e(route('nomadelfia.ricorrenze', ['mese' => 11, 'tipi' => 'compleanno,decesso'])), false)
+        ->assertSee('href="'.e(route('nomadelfia.ricorrenze', ['mese' => 11])).'"', false);
+});
+
 it('lists the giubilei from today when a month is chosen', function (): void {
     login();
     $this->travelTo(Carbon::parse('2026-11-23'));
