@@ -14,14 +14,8 @@ final class SearchPersona extends Autocomplete
 {
     public function searchBy(string $term): array
     {
-        $term = addcslashes($term, '%_\\');
-
         $query = $this->personeWithLatestStay();
-        $query->where(fn (Builder $query): Builder => $query
-            ->where('nominativo', 'LIKE', "$term%")
-            ->orWhere('cognome', 'LIKE', "$term%")
-            ->orWhere('nome', 'LIKE', "$term%"))
-            ->limit(50);
+        $query->where(Persona::cercaNomeCompleto($term))->limit(50);
 
         return $query->get()
             ->map(fn (Persona $persona): Option => $this->toOption($persona))

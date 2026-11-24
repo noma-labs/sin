@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Anagrafe\Persona\Controllers;
 
 use App\Anagrafe\Persona\Models\Persona;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
 
@@ -24,12 +25,9 @@ final class SearchablePersonController
         $queryLibri = Persona::sortable()->where(function ($q) use ($request, &$msgSearch, &$orderBy): void {
             if ($request->filled('q')) {
                 $term = $request->string('q')->toString();
-                $q->where(function ($sub) use ($term): void {
-                    $sub->where('nominativo', 'like', "%$term%")
-                        ->orWhere('nome', 'like', "%$term%")
-                        ->orWhere('cognome', 'like', "%$term%")
-                        ->orWhere('numero_elenco', 'like', "$term%");
-                });
+                $q->where(fn (Builder $sub): Builder => $sub
+                    ->where(Persona::cercaNomeCompleto($term, anywhere: true))
+                    ->orWhere('numero_elenco', 'like', addcslashes($term, '%_\\').'%'));
                 $msgSearch = $msgSearch.'Testo='.$term;
                 $orderBy = 'nominativo';
             }
