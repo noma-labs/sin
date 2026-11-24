@@ -18,7 +18,8 @@ use stdClass;
 /**
  * Builds the anniversaries remembered by the community in a period:
  * the matrimonio of the coniugi in Nomadelfia, the compleanno of the people present,
- * the start of a mamma di vocazione, the ordination of the sacerdoti present and the death of the people who lived in Nomadelfia.
+ * the start of a mamma di vocazione, the ordination of the sacerdoti present and the death of every person with a data_decesso,
+ * also the ones whose entrata in Nomadelfia was never registered.
  */
 final class BuildRicorrenzeAction
 {
@@ -109,11 +110,9 @@ final class BuildRicorrenzeAction
             $eventi[] = ['tipo' => TipoRicorrenza::Sacerdozio, 'origine' => (string) $sacerdote->data_inizio, 'persone' => [(int) $sacerdote->persona_id]];
         }
 
-        // the people who lived in Nomadelfia
         $defunti = $db->table('persone')
             ->whereNotNull('data_decesso')
             ->whereNull('deleted_at')
-            ->whereIn('id', $db->table('popolazione')->select('persona_id'))
             ->get(['id', 'data_decesso']);
         foreach ($defunti as $defunto) {
             $eventi[] = ['tipo' => TipoRicorrenza::Decesso, 'origine' => (string) $defunto->data_decesso, 'persone' => [(int) $defunto->id]];

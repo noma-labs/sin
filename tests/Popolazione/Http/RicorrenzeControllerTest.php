@@ -141,14 +141,14 @@ it('does not remember the matrimonio of a separated couple', function (): void {
         ->assertViewHas('giorni', fn (Collection $giorni): bool => ricorrenzeDi($giorni, $marito)->isEmpty());
 });
 
-it('does not remember the death of a person who never lived in Nomadelfia', function (): void {
+it('remembers the death of a person whose entrata in Nomadelfia was never registered', function (): void {
     login();
     $this->travelTo(Carbon::parse('2026-10-30'));
     $defunto = Persona::factory()->nato(Carbon::parse('1930-01-01'))->maschio()->create(['data_decesso' => '2018-11-20']);
 
     $this->get(route('nomadelfia.ricorrenze'))
         ->assertSuccessful()
-        ->assertViewHas('giorni', fn (Collection $giorni): bool => ricorrenzeDi($giorni, $defunto)->isEmpty());
+        ->assertViewHas('giorni', fn (Collection $giorni): bool => ricorrenzeDi($giorni, $defunto)->map(fn (Ricorrenza $ricorrenza): string => $ricorrenza->titolo())->all() === ['8° anniversario della morte']);
 });
 
 it('does not remember an event of less than one year ago', function (): void {
