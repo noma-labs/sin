@@ -372,7 +372,9 @@ it('stores a jpeg cover image as a png thumbnail', function (): void {
 
     $this->post(action([CoverImageController::class, 'store'], $elaborato->id), [
         'file' => UploadedFile::fake()->image('scansione.jpg', 600, 800),
-    ])->assertRedirectToRoute('scuola.elaborati.show', $elaborato->id);
+    ])
+        ->assertRedirectToRoute('scuola.elaborati.show', $elaborato->id)
+        ->assertSessionHas('success', 'Copertina salvata.');
 
     $elaborato->refresh();
     expect($elaborato->cover_image_path)->toBe("elaborati/{$elaborato->collocazione}.png");
@@ -392,9 +394,20 @@ it('rejects a cover that is not an image', function (): void {
 
     $this->post(action([CoverImageController::class, 'store'], $elaborato->id), [
         'file' => UploadedFile::fake()->create('copertina.pdf', 10, 'application/pdf'),
-    ])->assertSessionHasErrors('file');
+    ])->assertSessionHasErrors(['file' => "La copertina deve essere un'immagine."]);
 
     expect($elaborato->refresh()->cover_image_path)->toBeNull();
+});
+
+it('offers the upload of the cover from the page of the elaborato', function (): void {
+    $elaborato = Elaborato::factory()->create();
+
+    login();
+
+    $this->get(action([ElaboratiController::class, 'show'], $elaborato->id))
+        ->assertOk()
+        ->assertSee('Carica copertina')
+        ->assertSee(route('scuola.elaborati.cover.store', $elaborato->id), false);
 });
 
 function freeElaboratoCollocazione(): string

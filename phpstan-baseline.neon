@@ -8251,12 +8251,6 @@ parameters:
 			path: app/Http/Scuola/Controllers/CoverImageController.php
 
 		-
-			message: '#^Method App\\Scuola\\Controllers\\CoverImageController\:\:create\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Scuola/Controllers/CoverImageController.php
-
-		-
 			message: '#^Method App\\Scuola\\Controllers\\CoverImageController\:\:show\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
