@@ -13,7 +13,7 @@
       <label for="file" class="form-label">
         Scegli file per la copertina
       </label>
-      <input type="file" id="file" accept="image/png" name="file" />
+      <input type="file" id="file" accept="image/png,image/jpeg" name="file" />
     </div>
     <button type="submit" class="btn btn-primary">Carica</button>
   </form>
