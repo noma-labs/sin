@@ -25,8 +25,8 @@ final class PersoneSenzaAvatarController
 
         return view('nomadelfia.persone.senza-avatar', [
             'fatte' => $fatte,
-            'persone' => ($fatte ? $coda->fatte() : $coda->daFare())->paginate($fatte ? 48 : 50)->withQueryString(),
-            'numeroDaFare' => $coda->daFare()->count(),
+            'persone' => ($fatte ? $coda->fatte()->paginate(48) : $coda->daFare(50))->withQueryString(),
+            'numeroDaFare' => count($coda->idsDaFare()),
             'numeroFatte' => $coda->fatte()->count(),
         ]);
     }

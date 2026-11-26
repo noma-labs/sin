@@ -8,6 +8,7 @@ use App\Anagrafe\Persona\Models\Persona;
 use App\Photo\DataTransferObjects\Volto;
 use App\Photo\Models\Photo;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * The faces of a persona tagged in the photos of the archive, to choose their avatar: in the photos of the persona
@@ -21,18 +22,31 @@ final class VoltiPersonaAction
     public const LATO_CONSIGLIATO = 160;
 
     /**
+     * How long the ordered faces of a persona stay in the cache, fresh and then stale while they are read again after the
+     * response: a persona tagged in thousands of photos takes more than a second to read.
+     */
+    public const CACHE_FRESCA = 600;
+
+    public const CACHE_SCADUTA = 86400;
+
+    /**
      * The faces large enough for a sharp avatar (LATO_CONSIGLIATO) first, then the smaller ones; each group from the most
      * recent photo (taken_at), the photos without a date last. The suggested face is the first large enough, or the
-     * largest one when none is.
+     * largest one when none is. Cached (CACHE_FRESCA): a new tag can take that long to show.
      *
      * @return list<Volto>
      */
     public function execute(Persona $persona): array
     {
-        $volti = $this->voltiNelleFoto($persona, null);
-        usort($volti, fn (Volto $a, Volto $b): int => $this->ordine($b) <=> $this->ordine($a));
+        $inCache = Cache::flexible("avatar.volti.{$persona->id}", [self::CACHE_FRESCA, self::CACHE_SCADUTA], function () use ($persona): array {
+            $volti = $this->voltiNelleFoto($persona, null);
+            usort($volti, fn (Volto $a, Volto $b): int => $this->ordine($b) <=> $this->ordine($a));
 
-        return $this->segnaConsigliato($volti);
+            return $this->segnaConsigliato($volti);
+        });
+
+        // the cache gives back mixed: keep only the faces
+        return array_values(array_filter(is_array($inCache) ? $inCache : [], fn (mixed $volto): bool => $volto instanceof Volto));
     }
 
     /**
