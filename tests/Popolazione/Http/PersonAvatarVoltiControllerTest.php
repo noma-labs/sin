@@ -158,7 +158,8 @@ it('shows the faces 24 at a time', function (): void {
     foreach (range(1, 25) as $giorno) {
         $foto[] = Photo::factory()->create([
             'image_width' => 1000,
-            'taken_at' => sprintf('2010-01-%02d', $giorno),
+            // in the future, so the photos do not come before the ones of today in the photo index of the shared database
+            'taken_at' => sprintf('2099-01-%02d', $giorno),
             'region_info' => ['AppliedToDimensions' => ['W' => 1000, 'H' => 1000], 'RegionList' => [
                 ['Area' => ['X' => 0.5, 'Y' => 0.5, 'W' => 0.2, 'H' => 0.2], 'Name' => 'ANNA RO', 'Rotation' => 0, 'Type' => 'Face'],
             ]],
