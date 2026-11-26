@@ -12,6 +12,7 @@ use App\Photo\DataTransferObjects\RiquadroVolto;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Illuminate\Support\Facades\Storage;
 use RuntimeException;
@@ -33,18 +34,70 @@ final class PersonAvatarVoltiController
      */
     public const LATO_ANTEPRIMA = 160;
 
+    /**
+     * The side of the thumbnail of a photo without the tagged face, cut in a square.
+     */
+    public const LATO_ANTEPRIMA_FOTO = 240;
+
+    /**
+     * How many faces, and how many photos without a face, in a page.
+     */
+    public const PER_PAGINA = 24;
+
+    /**
+     * The faces of the persona and their photos without a face, each paginated on its own (volti, altre).
+     */
     public function index(Request $request, string $id, VoltiPersonaAction $voltiPersona, CodaAvatarAction $coda): View
     {
         $persona = Persona::query()->findOrFail($id);
         $inCoda = $request->boolean('coda');
 
+        $volti = $voltiPersona->execute($persona);
+        $pagina = LengthAwarePaginator::resolveCurrentPage('volti');
+        $voltiInPagina = new LengthAwarePaginator(
+            array_slice($volti, ($pagina - 1) * self::PER_PAGINA, self::PER_PAGINA),
+            count($volti),
+            self::PER_PAGINA,
+            $pagina,
+            ['path' => $request->url(), 'pageName' => 'volti'],
+        );
+
         return view('nomadelfia.persone.avatar-volti', [
             'persona' => $persona,
-            'volti' => $voltiPersona->execute($persona),
-            'fotoSenzaVolto' => $voltiPersona->fotoSenzaVolto($persona),
+            'volti' => $voltiInPagina->withQueryString(),
+            'fotoSenzaVolto' => $voltiPersona->fotoSenzaVolto($persona, $volti)->paginate(self::PER_PAGINA, pageName: 'altre')->withQueryString(),
             'inCoda' => $inCoda,
             'prossima' => $inCoda ? $coda->prossima($persona) : null,
         ]);
+    }
+
+    /**
+     * The thumbnail of a photo of the persona, cut in a square and kept on the media_previews disk, so the page does not
+     * load the original photos.
+     */
+    public function anteprimaFoto(string $id, string $photo, VoltiPersonaAction $voltiPersona, SalvaAvatarPersonaAction $salvaAvatar): BinaryFileResponse
+    {
+        $persona = Persona::query()->findOrFail($id);
+        $foto = $voltiPersona->foto($persona, (int) $photo);
+        if ($foto === null) {
+            abort(404);
+        }
+
+        $anteprime = Storage::disk('media_previews');
+        $anteprima = "volti/foto-{$foto->id}.jpg";
+        if (! $anteprime->exists($anteprima)) {
+            $originali = Storage::disk('photos');
+            if (! $originali->exists($foto->source_file)) {
+                abort(404);
+            }
+            try {
+                $anteprime->put($anteprima, $salvaAvatar->jpeg($originali->path($foto->source_file), self::LATO_ANTEPRIMA_FOTO));
+            } catch (RuntimeException) {
+                abort(404);
+            }
+        }
+
+        return response()->file($anteprime->path($anteprima))->setPrivate()->setMaxAge(604800);
     }
 
     /**

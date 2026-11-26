@@ -151,6 +151,45 @@ it('offers to draw the box on the photos of the persona without their tagged fac
         ->assertSee(route('nomadelfia.person.avatar.riquadro', ['id' => $persona->id, 'photo' => $foto->id]));
 });
 
+it('shows the faces 24 at a time', function (): void {
+    login();
+    $persona = Persona::factory()->create();
+    $foto = [];
+    foreach (range(1, 25) as $giorno) {
+        $foto[] = Photo::factory()->create([
+            'image_width' => 1000,
+            // in the future, so the photos do not come before the ones of today in the photo index of the shared database
+            'taken_at' => sprintf('2099-01-%02d', $giorno),
+            'region_info' => ['AppliedToDimensions' => ['W' => 1000, 'H' => 1000], 'RegionList' => [
+                ['Area' => ['X' => 0.5, 'Y' => 0.5, 'W' => 0.2, 'H' => 0.2], 'Name' => 'ANNA RO', 'Rotation' => 0, 'Type' => 'Face'],
+            ]],
+        ]);
+        DB::connection('db_foto')->table('photos_people')->insert(['photo_id' => end($foto)->id, 'persona_id' => $persona->id, 'persona_nome' => 'ANNA RO']);
+    }
+    $volto = fn (Photo $photo): string => route('nomadelfia.person.avatar.volto', ['id' => $persona->id, 'photo' => $photo->id, 'indice' => 0]);
+
+    $this->get(route('nomadelfia.person.avatar.volti', $persona->id))
+        ->assertOk()
+        ->assertSee('Volti taggati (25)')
+        ->assertSee($volto($foto[24]))
+        ->assertDontSee($volto($foto[0]));
+    $this->get(route('nomadelfia.person.avatar.volti', ['id' => $persona->id, 'volti' => 2]))
+        ->assertOk()
+        ->assertSee($volto($foto[0]))
+        ->assertDontSee($volto($foto[24]));
+});
+
+it('serves a small square thumbnail of a photo of the persona, kept for the next times', function (): void {
+    login();
+    $persona = Persona::factory()->create();
+    $foto = fotoDelVolto($persona, 'ANNA RO');
+
+    $this->get(route('nomadelfia.person.avatar.anteprima-foto', ['id' => $persona->id, 'photo' => $foto->id]))->assertOk();
+
+    expect(getimagesizefromstring(Storage::disk('media_previews')->get("volti/foto-{$foto->id}.jpg")))->toMatchArray([0 => 240, 1 => 240]);
+    $this->get(route('nomadelfia.person.avatar.anteprima-foto', ['id' => Persona::factory()->create()->id, 'photo' => $foto->id]))->assertNotFound();
+});
+
 it('starts the box around the face to adjust', function (): void {
     login();
     $persona = Persona::factory()->create();
