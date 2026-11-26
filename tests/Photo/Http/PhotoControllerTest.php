@@ -15,13 +15,15 @@ use Spatie\Permission\Models\Role;
 use function Pest\Laravel\get;
 
 it('index photos', function (): void {
-    $photo = Photo::factory()->create();
+    // the oldest date of the database: the index lists the photos from the oldest, so this one is on the first page
+    // whatever the other tests leave in the database shared by the suite
+    $photo = Photo::factory()->create(['taken_at' => '1000-01-01 00:00:00', 'file_name' => 'indice-'.fake()->uuid().'.jpg']);
 
     login();
 
     get(action([PhotoController::class, 'index']))
         ->assertSuccessful()
-        ->assertSee($photo->taken_at->format('d/m/Y'));
+        ->assertSeeInOrder([$photo->file_name, '01/01/1000']);
 });
 
 it('a photo-ope roel can see only the photo card in the home page', function (): void {
