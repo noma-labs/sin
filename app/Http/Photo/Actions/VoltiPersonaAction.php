@@ -7,7 +7,7 @@ namespace App\Photo\Actions;
 use App\Anagrafe\Persona\Models\Persona;
 use App\Photo\DataTransferObjects\Volto;
 use App\Photo\Models\Photo;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * The faces of a persona tagged in the photos of the archive, to choose their avatar: in the photos of the persona
@@ -21,22 +21,82 @@ final class VoltiPersonaAction
     public const LATO_CONSIGLIATO = 160;
 
     /**
-     * Ordered from the most recent photo (taken_at), the photos without a date last. The suggested face is the most recent
-     * at least LATO_CONSIGLIATO wide, or the largest one when none is.
+     * The faces large enough for a sharp avatar (LATO_CONSIGLIATO) first, then the smaller ones; each group from the most
+     * recent photo (taken_at), the photos without a date last. The suggested face is the first large enough, or the
+     * largest one when none is.
      *
      * @return list<Volto>
      */
     public function execute(Persona $persona): array
     {
+        $volti = $this->voltiNelleFoto($persona, null);
+        usort($volti, fn (Volto $a, Volto $b): int => $this->ordine($b) <=> $this->ordine($a));
+
+        return $this->segnaConsigliato($volti);
+    }
+
+    /**
+     * The photos of the persona where no face region carries their name, from the most recent: the box around the
+     * persona can be drawn on them by hand.
+     *
+     * @param  list<Volto>  $volti  the faces of the persona (execute)
+     * @return Builder<Photo>
+     */
+    public function fotoSenzaVolto(Persona $persona, array $volti): Builder
+    {
+        $conVolto = array_values(array_unique(array_map(fn (Volto $volto): int => $volto->photoId, $volti)));
+
+        $foto = Photo::query()->whereKey(Photo::idsOfPersona($persona->id, $persona->nomeNelleFoto())->distinct()->pluck('photo_id')->all());
+        $foto->whereKeyNot($conVolto)->orderByRaw('taken_at IS NULL')->latest('taken_at')->orderBy('id', 'desc');
+
+        return $foto;
+    }
+
+    /**
+     * The photo when it is one of the persona (Photo::idsOfPersona), null otherwise.
+     */
+    public function foto(Persona $persona, int $photoId): ?Photo
+    {
+        $diPersona = Photo::idsOfPersona($persona->id, $persona->nomeNelleFoto())->where('photo_id', $photoId)->exists();
+
+        return $diPersona ? Photo::query()->find($photoId) : null;
+    }
+
+    /**
+     * The face of the persona in that region of that photo, null when it is not one of theirs: it reads only that photo.
+     */
+    public function volto(Persona $persona, int $photoId, int $indice): ?Volto
+    {
+        foreach ($this->voltiNelleFoto($persona, $photoId) as $volto) {
+            if ($volto->indice === $indice) {
+                return $volto;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * The face regions named as the persona in their photos, or only in the photo $photoId.
+     *
+     * @return list<Volto>
+     */
+    private function voltiNelleFoto(Persona $persona, ?int $photoId): array
+    {
+        $righe = Photo::idsOfPersona($persona->id, $persona->nomeNelleFoto())
+            ->addSelect('persona_nome')
+            ->when($photoId !== null, fn ($query) => $query->where('photo_id', $photoId))
+            ->get();
         $nomiPerFoto = [];
-        foreach (Photo::idsOfPersona($persona->id, $persona->nomeNelleFoto())->addSelect('persona_nome')->get() as $riga) {
+        foreach ($righe as $riga) {
             if (is_string($riga->persona_nome ?? null)) {
                 $nomiPerFoto[(int) $riga->photo_id][] = $this->normalizza($riga->persona_nome);
             }
         }
 
         $volti = [];
-        foreach (Photo::query()->findMany(array_keys($nomiPerFoto)) as $photo) {
+        $foto = Photo::query()->findMany(array_keys($nomiPerFoto), ['id', 'source_file', 'image_width', 'region_info', 'taken_at']);
+        foreach ($foto as $photo) {
             $larghezza = $photo->image_width ?? (int) ($photo->region_info->AppliedToDimensions['W'] ?? 0);
             foreach ($photo->region_info->RegionList ?? [] as $indice => $regione) {
                 $area = $this->area($regione->Area);
@@ -47,69 +107,18 @@ final class VoltiPersonaAction
             }
         }
 
-        usort($volti, fn (Volto $a, Volto $b): int => $this->ordine($b) <=> $this->ordine($a));
-
-        return $this->segnaConsigliato($volti);
+        return $volti;
     }
 
     /**
-     * The photos of the persona where no face region carries their name, from the most recent: the box around the
-     * persona can be drawn on them by hand.
+     * The sort key of a face, the greatest first: the faces large enough for the avatar before the others, then the
+     * photos with a date before the ones without, then the most recent.
      *
-     * @return Collection<int, Photo>
-     */
-    public function fotoSenzaVolto(Persona $persona): Collection
-    {
-        $conVolto = array_map(fn (Volto $volto): int => $volto->photoId, $this->execute($persona));
-
-        $foto = Photo::query()->whereKey($this->idsFoto($persona))->whereKeyNot($conVolto);
-        $foto->orderByRaw('taken_at IS NULL')->latest('taken_at')->orderBy('id', 'desc');
-
-        return $foto->get();
-    }
-
-    /**
-     * The photo when it is one of the persona (Photo::idsOfPersona), null otherwise.
-     */
-    public function foto(Persona $persona, int $photoId): ?Photo
-    {
-        return in_array($photoId, $this->idsFoto($persona), true) ? Photo::query()->find($photoId) : null;
-    }
-
-    /**
-     * The face of the persona in that region of that photo, null when it is not one of theirs.
-     */
-    public function volto(Persona $persona, int $photoId, int $indice): ?Volto
-    {
-        foreach ($this->execute($persona) as $volto) {
-            if ($volto->photoId === $photoId && $volto->indice === $indice) {
-                return $volto;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * @return list<int> the ids of the photos of the persona
-     */
-    private function idsFoto(Persona $persona): array
-    {
-        return array_values(Photo::idsOfPersona($persona->id, $persona->nomeNelleFoto())
-            ->distinct()
-            ->pluck('photo_id')
-            ->map(fn (mixed $id): int => is_numeric($id) ? (int) $id : 0)
-            ->all());
-    }
-
-    /**
-     * The sort key of a face, the greatest first: the photos with a date before the others, then the most recent.
-     *
-     * @return array{0: int, 1: int, 2: int}
+     * @return array{0: int, 1: int, 2: int, 3: int}
      */
     private function ordine(Volto $volto): array
     {
-        return [$volto->data === null ? 0 : 1, $volto->data?->getTimestamp() ?? 0, $volto->photoId];
+        return [$volto->latoPx >= self::LATO_CONSIGLIATO ? 1 : 0, $volto->data === null ? 0 : 1, $volto->data?->getTimestamp() ?? 0, $volto->photoId];
     }
 
     /**

@@ -71,8 +71,12 @@
       </div>
     @endif
 
-    <h2 class="h5 mb-3">Volti taggati</h2>
-    @if ($volti === [])
+    <h2 class="h5 mb-1" id="volti">Volti taggati ({{ $volti->total() }})</h2>
+    @if ($volti->isNotEmpty())
+      <p class="text-body-secondary small mb-3">Prima i volti abbastanza grandi per una foto nitida, poi i più piccoli, ognuno dalla foto più recente.</p>
+    @endif
+
+    @if ($volti->isEmpty())
       <div class="alert alert-light border">
         Nessun volto taggato con il nome FOTO di questa persona.
         @if ($fotoSenzaVolto->isNotEmpty())
@@ -138,10 +142,13 @@
           </div>
         @endforeach
       </div>
+      {{ $volti->fragment("volti")->links() }}
     @endif
 
     @if ($fotoSenzaVolto->isNotEmpty())
-      <h2 class="h5 mb-1">Altre foto</h2>
+      <h2 class="h5 mb-1 mt-4" id="altre">
+        Altre foto ({{ $fotoSenzaVolto->total() }})
+      </h2>
       <p class="text-body-secondary small mb-3">Foto di {{ $persona->nome }} senza il volto taggato: clicca una foto per disegnare il riquadro.</p>
       <div class="avatar-volti">
         @foreach ($fotoSenzaVolto as $foto)
@@ -150,7 +157,9 @@
             href="{{ route("nomadelfia.person.avatar.riquadro", ["id" => $persona->id, "photo" => $foto->id] + $parametriCoda) }}"
           >
             <img
-              src="{{ route("photos.preview", $foto->id) }}"
+              src="{{ route("nomadelfia.person.avatar.anteprima-foto", ["id" => $persona->id, "photo" => $foto->id]) }}"
+              width="160"
+              height="160"
               alt="Disegna il riquadro sulla foto {{ $foto->taken_at ? "del " . $foto->taken_at->format("d/m/Y") : "senza data" }}"
               loading="lazy"
             />
@@ -160,6 +169,7 @@
           </a>
         @endforeach
       </div>
+      {{ $fotoSenzaVolto->fragment("altre")->links() }}
     @endif
   </div>
 @endsection

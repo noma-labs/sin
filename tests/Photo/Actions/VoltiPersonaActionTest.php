@@ -62,6 +62,19 @@ it('orders the faces from the most recent photo, the photos without a date last'
     expect(array_map(fn (Volto $volto): int => $volto->photoId, $volti))->toBe([$recente->id, $vecchia->id, $senzaData->id]);
 });
 
+it('orders the faces large enough for the avatar first, then the small ones, each from the most recent', function (): void {
+    $persona = Persona::factory()->create();
+    $piccolaRecente = fotoConVolti(['ANNA RO' => [0.5, 0.5, 0.1]], [$persona->id => 'ANNA RO'], '2020-01-01');
+    $grandeVecchia = fotoConVolti(['ANNA RO' => [0.5, 0.5, 0.3]], [$persona->id => 'ANNA RO'], '2001-01-01');
+    $grandeRecente = fotoConVolti(['ANNA RO' => [0.5, 0.5, 0.2]], [$persona->id => 'ANNA RO'], '2015-01-01');
+    $piccolaVecchia = fotoConVolti(['ANNA RO' => [0.5, 0.5, 0.05]], [$persona->id => 'ANNA RO'], '1990-01-01');
+
+    $volti = resolve(VoltiPersonaAction::class)->execute($persona);
+
+    expect(array_map(fn (Volto $volto): int => $volto->photoId, $volti))
+        ->toBe([$grandeRecente->id, $grandeVecchia->id, $piccolaRecente->id, $piccolaVecchia->id]);
+});
+
 it('suggests the most recent face large enough for the avatar, or the largest one', function (array $lati, int $consigliato): void {
     $persona = Persona::factory()->create();
     foreach ($lati as $anno => $lato) {
@@ -72,7 +85,7 @@ it('suggests the most recent face large enough for the avatar, or the largest on
 
     expect(array_map(fn (Volto $volto): bool => $volto->consigliato, $volti))->toBe(array_map(fn (int $posizione): bool => $posizione === $consigliato, array_keys($volti)));
 })->with([
-    'a recent face too small' => [[2020 => 100, 2010 => 200, 2000 => 300], 1],
+    'a recent face too small' => [[2020 => 100, 2010 => 200, 2000 => 300], 0],
     'all the faces too small' => [[2020 => 50, 2010 => 90, 2000 => 70], 1],
 ]);
 
@@ -82,7 +95,9 @@ it('finds the photos of the persona without their tagged face', function (): voi
     $senzaVolto = fotoConVolti(['PIETRO SA' => [0.5, 0.5, 0.2]], [$persona->id => 'ANNA RO']);
     fotoConVolti(['PIETRO SA' => [0.5, 0.5, 0.2]], [Persona::factory()->create()->id => 'PIETRO SA']);
 
-    $foto = resolve(VoltiPersonaAction::class)->fotoSenzaVolto($persona);
+    $voltiPersona = resolve(VoltiPersonaAction::class);
+
+    $foto = $voltiPersona->fotoSenzaVolto($persona, $voltiPersona->execute($persona))->get();
 
     expect($foto->modelKeys())->toBe([$senzaVolto->id]);
 });

@@ -173,6 +173,7 @@ Route::prefix('nomadelfia')->group(function () {
     Route::get('people/{id}/avatar/volti', [PersonAvatarVoltiController::class, 'index'])->name('nomadelfia.person.avatar.volti');
     Route::post('people/{id}/avatar/volti', [PersonAvatarVoltiController::class, 'store'])->name('nomadelfia.person.avatar.volti.store');
     Route::get('people/{id}/avatar/volti/{photo}/{indice}', [PersonAvatarVoltiController::class, 'show'])->whereNumber(['photo', 'indice'])->name('nomadelfia.person.avatar.volto');
+    Route::get('people/{id}/avatar/foto/{photo}/anteprima', [PersonAvatarVoltiController::class, 'anteprimaFoto'])->whereNumber('photo')->name('nomadelfia.person.avatar.anteprima-foto');
     Route::get('people/{id}/avatar/foto/{photo}', [PersonAvatarVoltiController::class, 'riquadro'])->whereNumber('photo')->name('nomadelfia.person.avatar.riquadro');
     Route::post('people/{id}/avatar/foto/{photo}', [PersonAvatarVoltiController::class, 'storeRiquadro'])->whereNumber('photo')->name('nomadelfia.person.avatar.riquadro.store');
     Route::permanentRedirect('families', '/anagrafe/families');
