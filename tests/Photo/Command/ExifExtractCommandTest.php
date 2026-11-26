@@ -16,3 +16,29 @@ it('extract exif into a json file with a folder with spaces', function (): void 
 it('extracts exif info into a json  with a file', function (): void {
     $this->artisan('exif:extract', ['path' => 'tests/Photo/Command/testfile/BlueSquare.jpg'])->assertSuccessful();
 });
+
+it('runs the exiftool binary configured with EXIFTOOL_PATH', function (): void {
+    $folder = storage_path('framework/testing/exif-binary');
+    File::ensureDirectoryExists($folder);
+    File::copy(base_path('tests/Photo/Command/testfile/BlueSquare.jpg'), $folder.'/BlueSquare.jpg');
+    config(['services.exiftool.path' => '/missing/exiftool']);
+
+    $this->artisan('exif:extract', ['path' => $folder])->assertSuccessful();
+
+    expect(File::get($folder.'/exif-binary.json'))->toBe('');
+
+    File::deleteDirectory($folder);
+});
+
+it('runs the exiftool binary given with --exiftoolpath instead of the configured one', function (): void {
+    $folder = storage_path('framework/testing/exif-binary-option');
+    File::ensureDirectoryExists($folder);
+    File::copy(base_path('tests/Photo/Command/testfile/BlueSquare.jpg'), $folder.'/BlueSquare.jpg');
+    config(['services.exiftool.path' => '/missing/exiftool']);
+
+    $this->artisan('exif:extract', ['path' => $folder, '--exiftoolpath' => 'exiftool'])->assertSuccessful();
+
+    expect(File::get($folder.'/exif-binary-option.json'))->toContain('BlueSquare.jpg');
+
+    File::deleteDirectory($folder);
+});

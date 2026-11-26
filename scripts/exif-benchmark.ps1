@@ -21,7 +21,8 @@
     Folder with a representative subset of the photos (e.g. one year, 10-30 GB).
 
 .PARAMETER ExifTool
-    Path to exiftool.exe (default: "exiftool" found in PATH). Do not use "exiftool(-k).exe".
+    Path to exiftool.exe. When omitted: EXIFTOOL_PATH, then C:\laragon\bin\exiftool\exiftool.exe,
+    then "exiftool" found in the PATH. Do not use "exiftool(-k).exe".
 
 .PARAMETER OutDir
     Folder for the outputs (default: %TEMP%\exifbench). Must NOT be inside the sample folder.
@@ -45,12 +46,12 @@
 
 .EXAMPLE
     powershell -ExecutionPolicy Bypass -File .\exif-benchmark.ps1 -Sample "D:\Foto\2017" `
-        -ExifTool "C:\exiftool\exiftool.exe" -RamMap "C:\Sysinternals\RAMMap64.exe" -Rounds 1
+        -RamMap "C:\Sysinternals\RAMMap64.exe" -Rounds 1
 #>
 [CmdletBinding()]
 param(
     [Parameter(Mandatory = $true)][string]$Sample,
-    [string]$ExifTool = 'exiftool',
+    [string]$ExifTool,
     [string]$OutDir = (Join-Path $env:TEMP 'exifbench'),
     [ValidateRange(1, 10)][int]$Rounds = 2,
     [string]$RamMap,
@@ -69,6 +70,18 @@ if ($Sample -notmatch '^[A-Za-z]:\\$') {
     $Sample = $Sample.TrimEnd('\')
 }
 
+$laragonExifTool = 'C:\laragon\bin\exiftool\exiftool.exe'
+if (-not $ExifTool) {
+    if ($env:EXIFTOOL_PATH) {
+        $ExifTool = $env:EXIFTOOL_PATH
+    }
+    elseif (Test-Path -LiteralPath $laragonExifTool) {
+        $ExifTool = $laragonExifTool
+    }
+    else {
+        $ExifTool = 'exiftool'
+    }
+}
 $exifToolCommand = Get-Command $ExifTool -ErrorAction SilentlyContinue
 if (-not $exifToolCommand) {
     throw "exiftool not found: '$ExifTool'. Pass the full path with -ExifTool."
