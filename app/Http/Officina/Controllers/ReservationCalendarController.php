@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Officina\Controllers;
 
 use App\Officina\Models\Prenotazioni;
+use App\Officina\Models\Veicolo;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date;
 
 final class ReservationCalendarController
@@ -26,6 +28,7 @@ final class ReservationCalendarController
             ->orderBy('data_partenza', 'asc')
             ->get();
 
+        /** @var Collection<int, Veicolo> $vehicles */
         $vehicles = $reservations->pluck('veicolo')->unique('id');
 
         $reservationsByVehicle = [];

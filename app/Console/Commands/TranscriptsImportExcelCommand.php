@@ -71,10 +71,6 @@ final class TranscriptsImportExcelCommand extends Command
         $skippedRows = 0;
 
         foreach ($rows as $row) {
-            if (! is_array($row)) {
-                continue;
-            }
-
             if ($headers === null) {
                 $headers = $this->normalizeHeaders($row);
 
