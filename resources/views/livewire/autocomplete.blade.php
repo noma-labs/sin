@@ -1,8 +1,12 @@
-<div>
+<div class="autocomplete">
   <div class="form-control h-auto">
-    <div>
+    <div class="autocomplete-campo">
       @foreach ($selected as $sel)
         <span class="selected-option" wire:key="selected-{{ $sel->id }}">
+          @if ($sel->persona)
+            <x-persona-avatar :persona="(object) $sel->persona" size="xs" />
+          @endif
+
           {{ $sel->value }}
           <button
             type="button"
@@ -20,7 +24,7 @@
       @if ($multiple || count($selected) == 0)
         <input
           style="border: none; outline: none"
-          class="search"
+          class="search autocomplete-cerca"
           wire:model.live.debounce.100ms="searchTerm"
           placeholder="{{ $placeholder }}"
         />
@@ -28,19 +32,25 @@
     </div>
   </div>
 
-  <ul class="my-dropdown-menu">
-    @forelse ($options as $p)
-      <li
-        class="available-option"
-        wire:key="option-{{ $p->id }}"
-        wire:click="select('{{ $p->id }}')"
-      >
-        {{ $p->value }}
-      </li>
-    @empty
-      @if ($searchTerm)
-        <li class="available-option">{{ $noResultsMessage }}</li>
-      @endif
-    @endforelse
-  </ul>
+  @if (count($options) > 0 || $searchTerm !== "")
+    <ul class="my-dropdown-menu">
+      @forelse ($options as $p)
+        <li wire:key="option-{{ $p->id }}">
+          <button
+            type="button"
+            class="available-option"
+            wire:click="select('{{ $p->id }}')"
+          >
+            @if ($p->persona)
+              <x-persona-avatar :persona="(object) $p->persona" size="xs" />
+            @endif
+
+            <span>{{ $p->value }}</span>
+          </button>
+        </li>
+      @empty
+        <li class="available-option-vuota">{{ $noResultsMessage }}</li>
+      @endforelse
+    </ul>
+  @endif
 </div>

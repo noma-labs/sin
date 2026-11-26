@@ -8,6 +8,7 @@ use App\Photo\Models\ExifData;
 use Exception;
 use Generator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
 use Symfony\Component\Process\Process;
 
 final class ExifReader
@@ -60,6 +61,15 @@ final class ExifReader
         $this->exifToolBinary = $exifToolBinary;
 
         return $this;
+    }
+
+    /**
+     * The exiftool binary set with setExifToolBinary(), otherwise the one configured
+     * with EXIFTOOL_PATH (default: "exiftool" found in the PATH).
+     */
+    public function exifToolBinary(): string
+    {
+        return $this->exifToolBinary ?: Config::string('services.exiftool.path', 'exiftool');
     }
 
     public function setTimeout(?int $timeout): self
@@ -271,7 +281,7 @@ final class ExifReader
 
     private function getFullCommand(array $command): string
     {
-        $exifTool = $this->exifToolBinary ?: 'exiftool';
+        $exifTool = $this->exifToolBinary();
         $optionsCommand = $this->getOptionsCommand($command);
 
         $targetFile = $this->wrapWithDoubleQuotes($command['file']);

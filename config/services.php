@@ -43,4 +43,8 @@ return [
         ],
     ],
 
+    'exiftool' => [
+        'path' => env('EXIFTOOL_PATH') ?: 'exiftool',
+    ],
+
 ];

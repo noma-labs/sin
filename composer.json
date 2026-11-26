@@ -79,7 +79,57 @@
     "post-autoload-dump": [
       "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
       "@php artisan package:discover"
+    ],
+    "lint": [
+      "pint",
+      "npm run format:write",
+      "rector"
+    ],
+    "lint:check": [
+      "pint --test",
+      "npm run format:check",
+      "rector --dry-run"
+    ],
+    "analyse": "phpstan analyse",
+    "analyse:baseline": "phpstan analyse --generate-baseline",
+    "test": [
+      "Composer\\Config::disableProcessTimeout",
+      "pest"
+    ],
+    "qa": [
+      "Composer\\Config::disableProcessTimeout",
+      "@lint:check",
+      "@analyse",
+      "@test"
+    ],
+    "refresh": [
+      "@php artisan migrate:fresh --path=database/migrations/admsys --database=db_auth",
+      "@php artisan migrate:fresh --path=database/migrations/nomadelfia --database=db_nomadelfia --drop-views",
+      "@php artisan migrate:fresh --path=database/migrations/scuola --database=db_scuola",
+      "@php artisan migrate:fresh --path=database/migrations/biblioteca --database=db_biblioteca --drop-views",
+      "@php artisan migrate:fresh --path=database/migrations/patente --database=db_patente --drop-views",
+      "@php artisan migrate:fresh --path=database/migrations/officina --database=db_officina",
+      "@php artisan migrate:fresh --path=database/migrations/foto --database=db_foto",
+      "@php artisan migrate:fresh --path=database/migrations/rtn --database=db_rtn",
+      "@php artisan migrate:fresh --path=database/migrations/agraria --database=db_agraria",
+      "@php artisan migrate:fresh --path=database/migrations/archive --database=archivio_nomadelfia",
+      "@php artisan db:seed"
+    ],
+    "clear": [
+      "@php artisan config:clear",
+      "@php artisan route:clear",
+      "@php artisan view:clear"
     ]
+  },
+  "scripts-descriptions": {
+    "lint": "Format and refactor the code (Pint, Prettier, Rector).",
+    "lint:check": "Check the code style without writing (Pint, Prettier, Rector).",
+    "analyse": "Run the PHPStan static analysis.",
+    "analyse:baseline": "Regenerate the PHPStan baseline.",
+    "test": "Run the Pest test suite (pass -- --bail to stop at the first failure).",
+    "qa": "Run lint:check, analyse and test.",
+    "refresh": "Recreate all the databases (in this order) and seed them with dummy data.",
+    "clear": "Clear the config, route and view caches."
   },
   "config": {
     "preferred-install": "dist",

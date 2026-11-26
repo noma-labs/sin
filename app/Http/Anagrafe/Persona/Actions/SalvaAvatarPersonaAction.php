@@ -29,6 +29,9 @@ final class SalvaAvatarPersonaAction
      */
     public function execute(Persona $persona, string $percorsoFoto): string
     {
+        // a photo of a camera or a phone (12 MP and more) takes more than 100 MB once decoded, twice when rotated
+        ini_set('memory_limit', '1024M');
+
         $contenuto = @file_get_contents($percorsoFoto);
         $foto = $contenuto === false ? false : @imagecreatefromstring($contenuto);
         if (! $foto instanceof GdImage) {

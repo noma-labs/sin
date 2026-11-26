@@ -1,0 +1,65 @@
+// The avatar of a persona (x-persona-avatar): the photo, or the initials on the color of the sesso.
+.persona-avatar {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  overflow: hidden;
+  border-radius: 50%;
+  background: $gray-300;
+  font-weight: 700;
+  line-height: 1;
+  vertical-align: middle;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.persona-avatar-xs {
+  width: 24px;
+  height: 24px;
+  font-size: 0.625rem;
+}
+
+.persona-avatar-sm {
+  width: 34px;
+  height: 34px;
+  font-size: 0.8rem;
+}
+
+.persona-avatar-md {
+  width: 3.5rem;
+  height: 3.5rem;
+  font-size: 1.1rem;
+}
+
+.persona-avatar-lg {
+  width: 96px;
+  height: 96px;
+  border-radius: 0.75rem;
+  font-size: 2.5rem;
+
+  @include media-breakpoint-down(md) {
+    width: 64px;
+    height: 64px;
+    font-size: 1.6rem;
+  }
+}
+
+.persona-avatar-m {
+  background: #d5e1f7;
+  color: $nomadelfia-blu;
+}
+
+.persona-avatar-f {
+  background: #f8dcc8;
+  color: #9a4b16;
+}
+
+.persona-avatar-n {
+  background: $gray-200;
+  color: $gray-700;
+}

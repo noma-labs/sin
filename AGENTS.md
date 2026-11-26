@@ -190,13 +190,13 @@ This project has domain-specific skills available. You MUST activate the relevan
 
 ```bash
 # Run PHPStan static analysis
-task analyse
+vendor/bin/sail composer analyse
 
 # Generate PHPStan baseline
-task analyse:baseline
+vendor/bin/sail composer analyse:baseline
 
-# Run PHPStan directly (CI)
-./vendor/bin/phpstan analyse
+# Run PHPStan without Sail (CI)
+composer analyse
 ```
 
 ### Quality Assurance
@@ -204,7 +204,7 @@ task analyse:baseline
 - before pushing into GH run the command to ensure all QA is passing
 ```bash
 # Run full QA pipeline (lint + analyse + test)
-task qa
+vendor/bin/sail composer qa
 ```
 
 === sin/structure rules ===
@@ -230,7 +230,7 @@ sail php artisan make:migration create_table_name --path="database/migrations/no
 
 - The application uses multiple databases (db_auth, db_nomadelfia, db_scuola, etc.)
 - Always run tests after making changes to ensure compatibility
-- Use `task refresh` with caution - it resets all databases
+- Use `vendor/bin/sail composer refresh` with caution - it resets all databases
 - The application includes various modules: Photo, Biblioteca, Officina, Patente, Scuola, etc.
 - Follow the existing directory structure and patterns when adding new features
 - All controllers and models should be in their respective module namespaces under `app/Http/`
