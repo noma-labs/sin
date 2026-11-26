@@ -186,7 +186,7 @@ class Persona extends Model
      */
     public function famiglie(): BelongsToMany
     {
-        return $this->belongsToMany(Famiglia::class, 'famiglie_persone', 'persona_id', 'famiglia_id')
+        return $this->belongsToMany(Famiglia::class, FamigliaPersona::class, 'persona_id', 'famiglia_id')
             ->using(FamigliaPersona::class)
             ->withPivot('stato', 'data_entrata');
     }
@@ -197,7 +197,7 @@ class Persona extends Model
             ->wherePivot('stato', '1')
             ->withPivot('posizione_famiglia')
             ->get();
-        if ($famiglia->count() === 0) {
+        if ($famiglia->isEmpty()) {
             // IF null; the person has no a family so it is a single
             return null;
         }

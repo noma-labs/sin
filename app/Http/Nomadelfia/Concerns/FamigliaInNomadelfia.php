@@ -73,7 +73,7 @@ trait FamigliaInNomadelfia
         if ($res->count() === 1) {
             return $res->first();
         }
-        if ($res->count() === 0) {
+        if ($res->isEmpty()) {
             return null;
         }
         throw FamigliaHasMultipleGroup::named($this);

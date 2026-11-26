@@ -52,18 +52,18 @@ final class StoreExifIntoDBAction
             ->whereIn('sha', $shaList)
             ->pluck('id', 'sha');
 
-        $photoPeopleAttrs = collect();
+        $photoPeopleAttrs = [];
         foreach ($shaToSubjects as $sha => $subjects) {
             $photoId = $photos[$sha] ?? null;
             if ($photoId) {
                 foreach ($subjects as $name) {
-                    $photoPeopleAttrs->push(['photo_id' => $photoId, 'persona_nome' => $name]);
+                    $photoPeopleAttrs[] = ['photo_id' => $photoId, 'persona_nome' => $name];
                 }
             }
         }
 
-        if ($photoPeopleAttrs->count() > 0) {
-            DB::connection('db_foto')->table('photos_people')->insert($photoPeopleAttrs->toArray());
+        if ($photoPeopleAttrs !== []) {
+            DB::connection('db_foto')->table('photos_people')->insert($photoPeopleAttrs);
         }
     }
 }
