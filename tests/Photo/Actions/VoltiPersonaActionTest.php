@@ -89,6 +89,19 @@ it('suggests the most recent face large enough for the avatar, or the largest on
     'all the faces too small' => [[2020 => 50, 2010 => 90, 2000 => 70], 1],
 ]);
 
+it('keeps the faces of the persona in the cache until they expire', function (): void {
+    $persona = Persona::factory()->create();
+    fotoConVolti(['ANNA RO' => [0.5, 0.5, 0.2]], [$persona->id => 'ANNA RO']);
+    $voltiPersona = resolve(VoltiPersonaAction::class);
+    $voltiPersona->execute($persona);
+
+    fotoConVolti(['ANNA RO' => [0.5, 0.5, 0.2]], [$persona->id => 'ANNA RO']);
+
+    expect($voltiPersona->execute($persona))->toHaveCount(1);
+    $this->travel(VoltiPersonaAction::CACHE_SCADUTA + 1)->seconds();
+    expect($voltiPersona->execute($persona))->toHaveCount(2);
+});
+
 it('finds the photos of the persona without their tagged face', function (): void {
     $persona = Persona::factory()->create();
     fotoConVolti(['ANNA RO' => [0.5, 0.5, 0.2]], [$persona->id => 'ANNA RO']);

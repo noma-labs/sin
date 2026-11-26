@@ -30,12 +30,23 @@ it('queues the persone without an avatar who are in the photos, the ones with mo
     taggaInFoto($conAvatar, 2);
     $senzaFoto = Persona::factory()->create();
 
-    $coda = resolve(CodaAvatarAction::class)->daFare()
-        ->whereIn('persone.id', [$poche->id, $molte->id, $conAvatar->id, $senzaFoto->id])
-        ->pluck('numero_foto', 'persone.id')
-        ->all();
+    $coda = resolve(CodaAvatarAction::class);
 
-    expect($coda)->toBe([$molte->id => 3, $poche->id => 1]);
+    expect(array_values(array_intersect($coda->idsDaFare(), [$poche->id, $molte->id, $conAvatar->id, $senzaFoto->id])))->toBe([$molte->id, $poche->id])
+        ->and($coda->numeroFotoPerPersona())->toMatchArray([$molte->id => 3, $poche->id => 1]);
+});
+
+it('keeps the counts of the photos in the cache until they expire', function (): void {
+    $persona = Persona::factory()->create();
+    taggaInFoto($persona, 1);
+    $coda = resolve(CodaAvatarAction::class);
+    $coda->numeroFotoPerPersona();
+
+    taggaInFoto($persona, 1);
+
+    expect($coda->numeroFotoPerPersona()[$persona->id])->toBe(1);
+    $this->travel(CodaAvatarAction::CACHE_SCADUTA + 1)->seconds();
+    expect($coda->numeroFotoPerPersona()[$persona->id])->toBe(2);
 });
 
 it('counts the photos where the persona is tagged only by their FOTO name', function (): void {
@@ -46,9 +57,7 @@ it('counts the photos where the persona is tagged only by their FOTO name', func
     taggaInFoto($persona, 1, $nomeNelleFoto);
     taggaInFoto($persona, 2, $nomeNelleFoto, soloNome: true);
 
-    $numeroFoto = resolve(CodaAvatarAction::class)->daFare()->where('persone.id', $persona->id)->value('numero_foto');
-
-    expect((int) $numeroFoto)->toBe(3);
+    expect(resolve(CodaAvatarAction::class)->numeroFotoPerPersona()[$persona->id])->toBe(3);
 });
 
 it('lists the persone of the photos with an avatar, the last saved first, the ones without a date last', function (): void {
