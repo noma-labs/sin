@@ -147,6 +147,33 @@ it('can create command with json output', function (): void {
     ]);
 });
 
+it('can create command with only the given tags', function (): void {
+    $command = ExifReader::file('test.png')
+        ->extractTags(['File:ImageDataHash', 'XMP-dc:Subject'])
+        ->createExifToolCommand();
+
+    expect($command)->toBe([
+        'file' => 'test.png',
+        'options' => [
+            '-File:ImageDataHash',
+            '-XMP-dc:Subject',
+        ],
+    ]);
+});
+
+it('can create command without composite tags', function (): void {
+    $command = ExifReader::file('test.png')
+        ->disableCompositeTags()
+        ->createExifToolCommand();
+
+    expect($command)->toBe([
+        'file' => 'test.png',
+        'options' => [
+            '-e',
+        ],
+    ]);
+});
+
 it('can create command with recursive', function (): void {
     $commad = ExifReader::file('test.png')
         ->recursively()

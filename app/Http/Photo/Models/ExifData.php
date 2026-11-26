@@ -10,6 +10,24 @@ use Throwable;
 
 final class ExifData
 {
+    /**
+     * The tags that exif:extract asks exiftool for: the ones fromArray() reads.
+     *
+     * @var array<int, string>
+     */
+    public const EXTRACTED_TAGS = [
+        'System:FileName',
+        'System:Directory',
+        'System:FileSize',
+        'File:MIMEType',
+        'File:ImageWidth',
+        'File:ImageHeight',
+        'File:ImageDataHash',
+        'XMP-dc:Subject',
+        'XMP-mwg-rs:RegionInfo',
+        'XMP-xmp:CreateDate',
+    ];
+
     public string $sha = '';
 
     public string $sourceFile = '';

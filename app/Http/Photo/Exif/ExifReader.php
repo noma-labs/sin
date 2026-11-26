@@ -143,6 +143,31 @@ final class ExifReader
         return $this;
     }
 
+    /**
+     * Extract only the given tags (like "File:ImageDataHash"): exiftool reads much less
+     * than with whole groups like -xmp:all.
+     *
+     * @param  array<int, string>  $tags
+     */
+    public function extractTags(array $tags): self
+    {
+        foreach ($tags as $tag) {
+            $this->additionalOptions[] = '-'.$tag;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Skip the Composite tags that exiftool calculates from the other tags.
+     */
+    public function disableCompositeTags(): self
+    {
+        $this->additionalOptions[] = '-e';
+
+        return $this;
+    }
+
     public function extractIPTCInformation(?string $subtag = null): self
     {
         $this->additionalOptions[] = $subtag ? '-iptc:'.$subtag : '-iptc:all';
@@ -287,8 +312,8 @@ final class ExifReader
         $targetFile = $this->wrapWithDoubleQuotes($command['file']);
 
         return $exifTool.' '
-            .$optionsCommand.' '
-            .($targetFile);
+            .$optionsCommand.' -- '
+            .$targetFile;
     }
 
     private function getOptionsCommand(array $command): string
