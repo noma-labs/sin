@@ -41,7 +41,9 @@ final class JoinCommunityController
         $persona = Persona::findOrFail($id);
         $data_entrata = Date::parse($request->input('data_entrata'));
 
-        switch ($request->tipologia) {
+        $tipologia = $request->string('tipologia')->toString();
+
+        switch ($tipologia) {
             case 'dalla_nascita':
                 $famiglia = Famiglia::findOrFail($request->input('famiglia_id'));
                 $action = resolve(EntrataDallaNascitaAction::class);
@@ -68,7 +70,7 @@ final class JoinCommunityController
                 $act->execute($persona, $data_entrata, $gruppoFamiliare);
                 break;
             default:
-                return back()->withErrore("Tipologia di entrata per $request->tipologia non riconosciuta.");
+                return back()->withErrore("Tipologia di entrata per $tipologia non riconosciuta.");
 
         }
 

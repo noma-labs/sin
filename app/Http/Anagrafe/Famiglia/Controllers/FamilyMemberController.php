@@ -36,11 +36,12 @@ final class FamilyMemberController
         $famiglia = Famiglia::findorfail($id);
         $persona = Persona::findorfail($request->persona_id);
         $stato = $request->string('stato')->toString();
+        $posizione = $request->string('posizione')->toString();
         $dataEntrata = $request->date('data_entrata')?->toDateString();
         $ritorno = fn (): RedirectResponse => $request->boolean('torna_indietro') ? back() : to_route('anagrafe.families.show', ['id' => $id]);
 
         try {
-            switch ($request->posizione) {
+            switch ($posizione) {
                 case 'CAPO FAMIGLIA':
                     $famiglia->assegnaCapoFamiglia($persona, stato: $stato);
                     break;
@@ -57,7 +58,7 @@ final class FamilyMemberController
                     $famiglia->assegnaAggregato($persona, stato: $stato, dataEntrata: $dataEntrata);
                     break;
                 default:
-                    return $ritorno()->withErrors("Posizione `{$request->posizione}` non riconosciuta");
+                    return $ritorno()->withErrors("Posizione `{$posizione}` non riconosciuta");
             }
         } catch (AnagrafeException $e) {
             return $ritorno()->withErrors(['persona_id' => $e->getMessage()]);
@@ -84,7 +85,7 @@ final class FamilyMemberController
         try {
             $famiglia->componenti()->updateExistingPivot($request->persona_id, [
                 'stato' => $request->stato,
-                'posizione_famiglia' => $request->posizione,
+                'posizione_famiglia' => $request->string('posizione')->toString(),
                 'note' => $request->note,
                 'data_entrata' => $request->date('data_entrata')?->toDateString(),
             ]);
