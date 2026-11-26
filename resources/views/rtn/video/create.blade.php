@@ -36,15 +36,11 @@
           </div>
         </div>
         <div class="row">
-          <label for="forDataTrasmission" class="col-md-4 form-label">
+          <label for="forCategoriaEvento" class="col-md-4 form-label">
             Categoria Evento
           </label>
           <div class="col-md-8">
-            <input
-              type="password"
-              class="form-control"
-              id="forCategoriaEvento"
-            />
+            <input type="text" class="form-control" id="forCategoriaEvento" />
           </div>
         </div>
         <div class="row">

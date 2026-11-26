@@ -15,6 +15,9 @@
               class="form-control"
               name="username"
               value="{{ old("username") }}"
+              autocomplete="username"
+              spellcheck="false"
+              autocapitalize="none"
               required
               autofocus
             />
@@ -27,6 +30,7 @@
               type="password"
               class="form-control"
               name="password"
+              autocomplete="current-password"
               required
             />
           </div>
