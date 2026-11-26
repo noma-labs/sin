@@ -68,6 +68,16 @@
                     prima.
                   </div>
                 </form>
+                @if ($numeroFoto > 0 && auth()->user()->can("photo.view"))
+                  <p class="mt-3 mb-0">
+                    oppure
+                    <a
+                      href="{{ route("nomadelfia.person.avatar.volti", $persona->id) }}"
+                    >
+                      scegli tra i volti delle foto ({{ $numeroFoto }})
+                    </a>
+                  </p>
+                @endif
               </x-slot:body>
               <x-slot:footer>
                 <button
@@ -79,6 +89,14 @@
                 </button>
               </x-slot:footer>
             </x-modal>
+            @if (! $persona->avatar_path && $numeroFoto > 0 && auth()->user()->can("photo.view"))
+              <a
+                class="small"
+                href="{{ route("nomadelfia.person.avatar.volti", $persona->id) }}"
+              >
+                Scegli dai volti
+              </a>
+            @endif
           @endif
         </div>
         <div class="flex-grow-1" style="min-width: 0">

@@ -108,6 +108,172 @@
     height: 256px;
   }
 
+  // The faces of the persona tagged in the photos, to choose their avatar
+  .avatar-volti {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+    gap: 1rem;
+  }
+
+  .avatar-volto-scheda {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .avatar-volto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.5rem;
+    background: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color);
+    border-radius: 0.75rem;
+    color: var(--bs-body-color);
+    cursor: pointer;
+
+    img {
+      width: 160px;
+      max-width: 100%;
+      height: auto;
+      aspect-ratio: 1;
+      border-radius: 0.5rem;
+      object-fit: cover;
+      background: var(--bs-secondary-bg);
+    }
+
+    &:hover,
+    &:focus-visible {
+      border-color: $nomadelfia-blu;
+      box-shadow: 0 0 0 3px rgba($nomadelfia-blu, 0.25);
+      outline: none;
+    }
+  }
+
+  .avatar-volto.avatar-volto-consigliato {
+    border: 2px solid $nomadelfia-blu;
+  }
+
+  .avatar-volto-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.875rem;
+  }
+
+  // The avatar just saved, to check it before going on to the next persona of the queue
+  .avatar-attuale {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1rem;
+    border: 1px solid var(--bs-border-color);
+    border-radius: 0.75rem;
+    background: var(--bs-tertiary-bg);
+
+    img {
+      width: 256px;
+      max-width: 100%;
+      height: auto;
+      border-radius: 0.75rem;
+    }
+
+    > div {
+      flex: 1 1 16rem;
+      min-width: 0;
+    }
+  }
+
+  // The avatars already saved, in the "Fatte" tab of the persone without a photo
+  .avatar-fatte {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+    gap: 1rem;
+  }
+
+  .avatar-fatta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.75rem 0.5rem;
+    border: 1px solid var(--bs-border-color);
+    border-radius: 0.75rem;
+    color: var(--bs-body-color);
+    text-align: center;
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+      border-color: $nomadelfia-blu;
+      box-shadow: 0 0 0 3px rgba($nomadelfia-blu, 0.25);
+      outline: none;
+    }
+  }
+
+  .avatar-fatta-nome {
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  // The box drawn on a photo around the persona, to cut their avatar
+  .avatar-riquadro {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden; // the shadow of the box must not leave the photo
+    touch-action: none;
+    cursor: crosshair;
+    user-select: none;
+
+    img {
+      display: block;
+      max-width: 100%;
+      max-height: 75vh;
+      height: auto;
+      border-radius: 0.5rem;
+    }
+  }
+
+  .avatar-riquadro-box {
+    position: absolute;
+    border: 2px solid #fff;
+    outline: 1px solid rgba(0, 0, 0, 0.6);
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.45);
+    cursor: move;
+
+    &:focus-visible {
+      border-color: $nomadelfia-blu;
+    }
+  }
+
+  .avatar-riquadro-maniglia {
+    position: absolute;
+    right: -2px;
+    bottom: -2px;
+    width: 14px;
+    height: 14px;
+    background: #fff;
+    border: 2px solid $nomadelfia-blu;
+    border-radius: 50%;
+    cursor: nwse-resize;
+  }
+
+  .avatar-riquadro-anteprima {
+    width: 128px;
+    height: 128px;
+    border-radius: 0.75rem;
+    border: 1px solid var(--bs-border-color);
+    background-color: var(--bs-secondary-bg);
+    background-repeat: no-repeat;
+  }
+
   .profile-avatar.profile-avatar-famiglia {
     border-color: #ecd3a0;
     border-radius: 50%;

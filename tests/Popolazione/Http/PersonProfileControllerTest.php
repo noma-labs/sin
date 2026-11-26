@@ -73,6 +73,29 @@ it('offers to add the photo of a person without one, or to change it', function 
     'with a photo' => ['persone/avatar.jpg', 'Cambia foto'],
 ]);
 
+it('offers to choose the photo among the faces of the photos of the person', function (): void {
+    login();
+    $persona = Persona::factory()->create();
+    DB::connection('db_foto')->table('photos_people')->insert(['photo_id' => Photo::factory()->create()->id, 'persona_id' => $persona->id, 'persona_nome' => 'VOLTO TAGGATO']);
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSeeInOrder(['id="modal-avatar"', route('nomadelfia.person.avatar.volti', $persona->id), 'scegli tra i volti delle foto (1)'], false);
+});
+
+it('does not offer the faces of the photos to a user who cannot see the photos', function (): void {
+    $user = User::query()->firstOrCreate(['username' => 'modifica-senza-foto'], ['email' => 'modifica-senza-foto@email.it', 'password' => 'secret', 'persona_id' => 0]);
+    $user->givePermissionTo(['popolazione.persona.visualizza', 'popolazione.persona.modifica']);
+    login($user);
+    $persona = Persona::factory()->create();
+    DB::connection('db_foto')->table('photos_people')->insert(['photo_id' => Photo::factory()->create()->id, 'persona_id' => $persona->id, 'persona_nome' => 'VOLTO TAGGATO']);
+
+    $this->get(route('nomadelfia.person.profile', $persona->id))
+        ->assertSuccessful()
+        ->assertSee('id="modal-avatar"', false)
+        ->assertDontSee(route('nomadelfia.person.avatar.volti', $persona->id));
+});
+
 it('does not offer to upload the photo to a user who cannot modify a person', function (): void {
     $user = User::query()->firstOrCreate(['username' => 'solo-visualizza-foto'], ['email' => 'solo-visualizza-foto@email.it', 'password' => 'secret', 'persona_id' => 0]);
     $user->givePermissionTo('popolazione.persona.visualizza');
