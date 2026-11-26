@@ -823,12 +823,6 @@ parameters:
 			path: app/Http/Anagrafe/Famiglia/Controllers/FamilyMemberController.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$posizione\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Anagrafe/Famiglia/Controllers/FamilyMemberController.php
-
-		-
 			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$stato\.$#'
 			identifier: property.notFound
 			count: 1
@@ -4631,12 +4625,6 @@ parameters:
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Nomadelfia/Persona/Controllers/FolderNumberController.php
-
-		-
-			message: '#^Access to an undefined property App\\Nomadelfia\\PopolazioneNomadelfia\\Requests\\EntrataPersonaRequest\:\:\$tipologia\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Nomadelfia/Persona/Controllers/JoinCommunityController.php
 
 		-
 			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withErrore\(\)\.$#'
