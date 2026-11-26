@@ -39,6 +39,7 @@ use Illuminate\Support\Str;
  * @property string $origine
  * @property int|null $id_alfa_enrico
  * @property string|null $avatar_path
+ * @property \Carbon\CarbonInterface|null $avatar_aggiornato_il when the avatar was saved the last time, null when saved before this was recorded
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Famiglia&object{pivot: FamigliaPersona}> $famiglieFormate
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Famiglia&object{pivot: FamigliaPersona}> $famiglieComeFiglio
@@ -59,6 +60,16 @@ class Persona extends Model
     protected $primaryKey = 'id';
 
     protected $guarded = [];
+
+    /**
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'avatar_aggiornato_il' => 'datetime',
+        ];
+    }
 
     public function newEloquentBuilder($query): PersonaQueryBuilder
     {

@@ -52,6 +52,8 @@ use App\Nomadelfia\Persona\Controllers\LeaveCommunityController;
 use App\Nomadelfia\Persona\Controllers\PersonaPosizioneConcludiController;
 use App\Nomadelfia\Persona\Controllers\PersonaStatoController;
 use App\Nomadelfia\Persona\Controllers\PersonAvatarController;
+use App\Nomadelfia\Persona\Controllers\PersonAvatarVoltiController;
+use App\Nomadelfia\Persona\Controllers\PersoneSenzaAvatarController;
 use App\Nomadelfia\Persona\Controllers\PersonPositionController;
 use App\Nomadelfia\Persona\Controllers\PersonProfileController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\CaricheController;
@@ -164,9 +166,15 @@ Route::prefix('anagrafe')->middleware('auth')->group(function () {
 Route::prefix('nomadelfia')->group(function () {
     Route::get('/', [PopolazioneSummaryController::class, 'index'])->name('nomadelfia.index');
 
+    Route::get('people/senza-avatar', [PersoneSenzaAvatarController::class, 'index'])->name('nomadelfia.person.senza-avatar');
     Route::get('people/{id}/profile', [PersonProfileController::class, 'show'])->name('nomadelfia.person.profile');
     Route::get('people/{id}/avatar', [PersonAvatarController::class, 'show'])->name('nomadelfia.person.avatar');
     Route::post('people/{id}/avatar', [PersonAvatarController::class, 'store'])->name('nomadelfia.person.avatar.store');
+    Route::get('people/{id}/avatar/volti', [PersonAvatarVoltiController::class, 'index'])->name('nomadelfia.person.avatar.volti');
+    Route::post('people/{id}/avatar/volti', [PersonAvatarVoltiController::class, 'store'])->name('nomadelfia.person.avatar.volti.store');
+    Route::get('people/{id}/avatar/volti/{photo}/{indice}', [PersonAvatarVoltiController::class, 'show'])->whereNumber(['photo', 'indice'])->name('nomadelfia.person.avatar.volto');
+    Route::get('people/{id}/avatar/foto/{photo}', [PersonAvatarVoltiController::class, 'riquadro'])->whereNumber('photo')->name('nomadelfia.person.avatar.riquadro');
+    Route::post('people/{id}/avatar/foto/{photo}', [PersonAvatarVoltiController::class, 'storeRiquadro'])->whereNumber('photo')->name('nomadelfia.person.avatar.riquadro.store');
     Route::permanentRedirect('families', '/anagrafe/families');
     Route::permanentRedirect('families/{id}', '/anagrafe/families/{id}');
     Route::permanentRedirect('search', '/anagrafe/search');

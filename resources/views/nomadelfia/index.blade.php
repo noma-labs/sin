@@ -23,6 +23,15 @@
           Inserisci persona
         </a>
       @endcan
+
+      @if (auth()->user()?->can("popolazione.persona.modifica") && auth()->user()->can("photo.view"))
+        <a
+          class="dropdown-item"
+          href="{{ route("nomadelfia.person.senza-avatar") }}"
+        >
+          Persone senza foto
+        </a>
+      @endif
     </div>
   </li>
   <li class="nav-item">
