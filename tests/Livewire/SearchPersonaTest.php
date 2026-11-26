@@ -25,6 +25,16 @@ it('can search persone', function (): void {
         ->assertSee('Altro Cliente');
 });
 
+it('finds a persona by nome and cognome together, in any order', function (string $term): void {
+    Persona::factory()->create(['nominativo' => 'Dado', 'nome' => 'Davide', 'cognome' => 'Nerini']);
+    Persona::factory()->create(['nominativo' => 'Dade', 'nome' => 'Davide', 'cognome' => 'Rossetti']);
+
+    Livewire::test(SearchPersona::class)
+        ->call('search', $term)
+        ->assertSee('Davide Nerini')
+        ->assertDontSee('Davide Rossetti');
+})->with(['davide nerini', 'Nerini Davide', 'dav  ner']);
+
 it('can dispatch event', function (): void {
     $p = Persona::factory()->create(['nominativo' => 'a-person']);
 
@@ -46,6 +56,16 @@ it('shows the dates of the latest stay of a persona', function (): void {
         ->assertSee('2000-01-01')
         ->assertDontSee('1990-01-01')
         ->assertDontSee('1980-01-01');
+});
+
+it('shows the avatar of the persone in the options and among the selected ones', function (): void {
+    $conFoto = Persona::factory()->create(['nominativo' => 'fotografato', 'avatar_path' => 'persone/foto.jpg']);
+    Persona::factory()->femmina()->create(['nominativo' => 'fotogenica', 'nome' => 'Ida', 'cognome' => 'Rota']);
+
+    Livewire::test(SearchPersona::class, ['persone_id' => $conFoto->id])
+        ->call('search', 'fotog')
+        ->assertSee('<img src="'.e($conFoto->avatarUrl()).'"', false)
+        ->assertSeeInOrder(['persona-avatar persona-avatar-xs persona-avatar-f', 'IR', 'Ida Rota'], false);
 });
 
 it('asks for at least 3 characters', function (): void {

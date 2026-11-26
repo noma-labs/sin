@@ -70,6 +70,23 @@ it('searches the elaborati', function (string $search): void {
     'by collocazione' => ['SPA001'],
 ]);
 
+it('searches the elaborati by the colonna of their collocazione', function (string $search): void {
+    Elaborato::factory()->create(['titolo' => 'Laboratorio di falegnameria', 'collocazione' => 'SPE001']);
+    Elaborato::factory()->create(['titolo' => 'Il caseificio', 'collocazione' => 'SPE014']);
+    Elaborato::factory()->create(['titolo' => 'Esperienze in Maremma', 'collocazione' => 'SPA003']);
+
+    login();
+
+    $this->get(action([ElaboratiController::class, 'index'], ['q' => $search]))
+        ->assertOk()
+        ->assertSee('Laboratorio di falegnameria')
+        ->assertSee('Il caseificio')
+        ->assertDontSee('Esperienze in Maremma');
+})->with([
+    'upper case' => ['SPE'],
+    'lower case' => ['spe'],
+]);
+
 it('searches the elaborati by the nome and cognome of their studenti', function (string $search): void {
     $rossi = Studente::factory()->maschio()->create([
         'nome' => 'Mario',
@@ -91,6 +108,37 @@ it('searches the elaborati by the nome and cognome of their studenti', function 
     'by nome and cognome' => ['Mario Rossi'],
     'by cognome and nome' => ['Rossi Mario'],
 ]);
+
+it('shows the avatar of the studenti of an elaborato, or their initials without one', function (): void {
+    $conFoto = Studente::factory()->maschio()->create([
+        'nome' => 'Elio',
+        'cognome' => 'Fumagalli',
+        'nominativo' => 'Elio Fumagalli',
+        'avatar_path' => 'persone/elio.jpg',
+        'data_nascita' => fake()->unique()->dateTimeBetween('-17 years', '-6 years')->format('Y-m-d'),
+    ]);
+    $senzaFoto = Studente::factory()->femmina()->create([
+        'nome' => 'Gaia',
+        'cognome' => 'Fumagalli',
+        'nominativo' => 'Gaia Fumagalli',
+        'data_nascita' => fake()->unique()->dateTimeBetween('-17 years', '-6 years')->format('Y-m-d'),
+    ]);
+    $elaborato = Elaborato::factory()->create();
+    DB::connection('db_scuola')->table('elaborati_studenti')->insert([
+        ['elaborato_id' => $elaborato->id, 'studente_id' => $conFoto->id],
+        ['elaborato_id' => $elaborato->id, 'studente_id' => $senzaFoto->id],
+    ]);
+
+    login();
+
+    $this->get(route('scuola.elaborati.show', $elaborato->id))
+        ->assertOk()
+        ->assertSeeInOrder([
+            'Studenti (2)',
+            'src="'.e(route('nomadelfia.person.avatar', ['id' => $conFoto->id, 'v' => $conFoto->updated_at->getTimestamp()])).'"', 'Elio Fumagalli',
+            'persona-avatar persona-avatar-sm persona-avatar-f', 'GF', 'Gaia Fumagalli',
+        ], false);
+});
 
 it('searches the elaborati in their note', function (): void {
     Elaborato::factory()->create(['titolo' => 'Erbario della Maremma', 'note' => 'Lavoro di gruppo con le piante del podere']);
@@ -313,6 +361,53 @@ it('can upload a cover image', function (): void {
     ])->assertRedirectToRoute('scuola.elaborati.show', $elaborato->id);
 
     Storage::disk('media_previews')->assertExists($elaborato->cover_image_path);
+});
+
+it('stores a jpeg cover image as a png thumbnail', function (): void {
+    login();
+
+    Storage::fake('media_previews');
+
+    $elaborato = Elaborato::factory()->create();
+
+    $this->post(action([CoverImageController::class, 'store'], $elaborato->id), [
+        'file' => UploadedFile::fake()->image('scansione.jpg', 600, 800),
+    ])
+        ->assertRedirectToRoute('scuola.elaborati.show', $elaborato->id)
+        ->assertSessionHas('success', 'Copertina salvata.');
+
+    $elaborato->refresh();
+    expect($elaborato->cover_image_path)->toBe("elaborati/{$elaborato->collocazione}.png");
+
+    $thumbnail = getimagesizefromstring(Storage::disk('media_previews')->get($elaborato->cover_image_path));
+    expect($thumbnail['mime'])->toBe('image/png')
+        ->and($thumbnail[0])->toBe(150)
+        ->and($thumbnail[1])->toBe(200);
+});
+
+it('rejects a cover that is not an image', function (): void {
+    login();
+
+    Storage::fake('media_previews');
+
+    $elaborato = Elaborato::factory()->create();
+
+    $this->post(action([CoverImageController::class, 'store'], $elaborato->id), [
+        'file' => UploadedFile::fake()->create('copertina.pdf', 10, 'application/pdf'),
+    ])->assertSessionHasErrors(['file' => "La copertina deve essere un'immagine."]);
+
+    expect($elaborato->refresh()->cover_image_path)->toBeNull();
+});
+
+it('offers the upload of the cover from the page of the elaborato', function (): void {
+    $elaborato = Elaborato::factory()->create();
+
+    login();
+
+    $this->get(action([ElaboratiController::class, 'show'], $elaborato->id))
+        ->assertOk()
+        ->assertSee('Carica copertina')
+        ->assertSee(route('scuola.elaborati.cover.store', $elaborato->id), false);
 });
 
 function freeElaboratoCollocazione(): string

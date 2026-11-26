@@ -1,5 +1,7 @@
 @extends("photo.main")
 
+@section("title", "Strisce")
+
 @section("content")
   <div class="mb-3">
     <form

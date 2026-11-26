@@ -1,5 +1,7 @@
 @extends("biblioteca.books.index")
 
+@section("title", "Prestiti")
+
 @section("content")
   @include("partials.header", ["title" => "Gestione prestiti", "subtitle" => App\Biblioteca\Models\Prestito::InPrestito()->count() . "/" . App\Biblioteca\Models\Prestito::count() . " (attivi/totali)"])
   <form method="GET" class="form" action="{{ route("books.loans.search") }}">

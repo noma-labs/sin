@@ -1,5 +1,7 @@
 @extends("nomadelfia.index")
 
+@section("title", "Nuova famiglia")
+
 @section("content")
   @use("App\Anagrafe\Famiglia\Models\TipoFamiglia")
 

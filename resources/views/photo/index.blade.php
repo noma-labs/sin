@@ -1,5 +1,7 @@
 @extends("photo.main")
 
+@section("title", $persona ? "Foto di " . $persona->nome . " " . $persona->cognome : "Foto")
+
 @section("content")
   @if ($persona)
     <div class="d-flex flex-wrap align-items-baseline gap-3 mt-3">

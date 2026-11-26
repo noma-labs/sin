@@ -1,5 +1,7 @@
 @extends("scuola.index")
 
+@section("title", $elaborato->titolo)
+
 @section("content")
   <div class="row g-3">
     <div class="col-lg-4 d-flex flex-column gap-3">
@@ -24,12 +26,48 @@
                 class="img-fluid mb-1"
                 alt="Copertina di {{ $elaborato->titolo }}"
               />
-              <a
-                href="{{ route("scuola.elaborati.cover.create", $elaborato->id) }}"
-                class="small"
+              <x-modal
+                modal-id="modal-copertina"
+                button-style="btn-link btn-sm p-0"
+                button-title="{{ $elaborato->cover_image_path ? 'Cambia copertina' : 'Carica copertina' }}"
+                modal-title="Copertina di {{ $elaborato->titolo }}"
               >
-                {{ $elaborato->cover_image_path ? "Cambia copertina" : "Carica copertina" }}
-              </a>
+                <x-slot:body>
+                  <form
+                    method="POST"
+                    id="form-copertina"
+                    action="{{ route("scuola.elaborati.cover.store", $elaborato->id) }}"
+                    enctype="multipart/form-data"
+                    class="text-start"
+                  >
+                    @csrf
+                    <label class="form-label" for="copertina">
+                      {{ $elaborato->cover_image_path ? "Sostituisci con una nuova copertina" : "Scegli la copertina" }}
+                    </label>
+                    <input
+                      id="copertina"
+                      type="file"
+                      class="form-control"
+                      name="file"
+                      accept="image/jpeg,image/png"
+                      required
+                    />
+                    <div class="form-text">
+                      JPG o PNG fino a 10 MB, anche la scansione così com'è:
+                      viene convertita in PNG automaticamente.
+                    </div>
+                  </form>
+                </x-slot:body>
+                <x-slot:footer>
+                  <button
+                    type="submit"
+                    class="btn btn-primary"
+                    form="form-copertina"
+                  >
+                    Salva
+                  </button>
+                </x-slot:footer>
+              </x-modal>
             </div>
             <dl class="flex-grow-1 mb-0">
               @foreach ([
@@ -80,7 +118,8 @@
         </div>
         <ul class="list-group list-group-flush">
           @forelse ($elaborato->studenti as $studente)
-            <li class="list-group-item">
+            <li class="list-group-item d-flex align-items-center gap-2">
+              <x-persona-avatar :persona="$studente" size="sm" />
               @include("scuola.templates.student", ["persona" => $studente])
             </li>
           @empty

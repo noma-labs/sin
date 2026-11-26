@@ -1,5 +1,7 @@
 @extends("nomadelfia.index")
 
+@section("title", "Popolazione")
+
 @section("content")
   @include("partials.header", ["title" => "Popolazione", "subtitle" => $population->count()])
   <div class="d-flex flex-wrap gap-2 mb-2">

@@ -1,5 +1,7 @@
 @extends("nomadelfia.index")
 
+@section("title", "Ricorrenze")
+
 @section("content")
   @use("App\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\TipoRicorrenza")
 
@@ -9,22 +11,27 @@
         <div class="flex-grow-1" style="min-width: 0">
           <h1 class="profile-name mb-0">Ricorrenze</h1>
           <div class="profile-muted">
-            Oggi, {{ $oggi->translatedFormat("l j F Y") }} &middot; {{ $totale }} {{ $totale === 1 ? "ricorrenza" : "ricorrenze" }} {{ $settimana ? "nei prossimi 7 giorni" : "nei prossimi 30 giorni" }}
+            Oggi, {{ $oggi->translatedFormat("l j F Y") }} &middot; {{ $totale }} {{ $totale === 1 ? "ricorrenza" : "ricorrenze" }}
+            @if ($mese)
+              nel mese di {{ $inizioPeriodo->translatedFormat("F Y") }}
+            @else
+              {{ $settimana ? "nei prossimi 7 giorni" : "nei prossimi 30 giorni" }}
+            @endif
           </div>
         </div>
         <div class="d-flex flex-wrap gap-2 d-print-none">
-          <div class="btn-group" role="group" aria-label="Periodo">
+          <div class="btn-group" role="group" aria-label="Ricorrenze da oggi">
             <a
               class="btn profile-btn @if ($settimana) active @endif"
-              href="{{ route("nomadelfia.ricorrenze", ["periodo" => "settimana"]) }}"
+              href="{{ route("nomadelfia.ricorrenze", ["periodo" => "settimana", ...$queryTipi]) }}"
               @if ($settimana) aria-current="true" @endif
             >
               Prossimi 7 giorni
             </a>
             <a
-              class="btn profile-btn @if (! $settimana) active @endif"
-              href="{{ route("nomadelfia.ricorrenze") }}"
-              @if (! $settimana) aria-current="true" @endif
+              class="btn profile-btn @if (! $settimana && ! $mese) active @endif"
+              href="{{ route("nomadelfia.ricorrenze", $queryTipi) }}"
+              @if (! $settimana && ! $mese) aria-current="true" @endif
             >
               Prossimi 30 giorni
             </a>
@@ -40,32 +47,45 @@
       </div>
     </header>
 
+    <nav
+      class="d-flex flex-wrap gap-1 mb-3 d-print-none"
+      aria-label="Ricorrenze di un mese"
+    >
+      @foreach (range(1, 12) as $numeroMese)
+        <a
+          class="btn btn-sm profile-btn @if ($mese === $numeroMese) active @endif"
+          href="{{ route("nomadelfia.ricorrenze", ["mese" => $numeroMese, ...$queryTipi]) }}"
+          @if ($mese === $numeroMese) aria-current="true" @endif
+        >
+          {{ ucfirst($oggi->copy()->setDate($oggi->year, $numeroMese, 1)->translatedFormat("F")) }}
+        </a>
+      @endforeach
+    </nav>
+
     <div
       class="profile-filtri-ricorrenze d-flex flex-wrap gap-2 mb-4 d-print-none"
       role="group"
       aria-label="Mostra solo le ricorrenze di un tipo"
     >
-      @foreach ($tipi as $tipo)
-        <button
-          class="profile-filter profile-ricorrenza-{{ $tipo->value }}"
-          type="button"
-          aria-pressed="false"
-          data-tipo="{{ $tipo->value }}"
+      @foreach ($filtri as $filtro)
+        <a
+          class="profile-filter profile-ricorrenza-{{ $filtro["tipo"]->value }} text-decoration-none"
+          href="{{ $filtro["url"] }}"
+          role="button"
+          aria-pressed="{{ $filtro["scelto"] ? "true" : "false" }}"
         >
           <i class="profile-dot-ricorrenza"></i>
-          {{ $tipo->nome() }}
-          <b>{{ $conteggi->get($tipo->value, 0) }}</b>
-        </button>
+          {{ $filtro["tipo"]->nome() }}
+          <b>{{ $conteggi->get($filtro["tipo"]->value, 0) }}</b>
+        </a>
       @endforeach
     </div>
 
     <div class="row g-4">
       <section class="col-lg-8" aria-label="Ricorrenze per giorno">
         @if ($giorni->isEmpty())
-          <p class="text-body-secondary">Nessuna ricorrenza nel periodo.</p>
+          <p class="text-body-secondary">Nessuna ricorrenza nel periodo{{ $queryTipi ? " con i filtri scelti" : "" }}.</p>
         @endif
-
-        <p class="text-body-secondary" id="ricorrenze-nascoste" hidden>Nessuna ricorrenza nel periodo con i filtri scelti.</p>
 
         <ol class="profile-timeline">
           @foreach ($giorni as $ricorrenzeDelGiorno)
@@ -90,7 +110,6 @@
                 @foreach ($ricorrenzeDelGiorno as $ricorrenza)
                   <article
                     class="profile-ricorrenza profile-ricorrenza-{{ $ricorrenza->tipo->value }}"
-                    data-tipo="{{ $ricorrenza->tipo->value }}"
                   >
                     <div class="profile-ricorrenza-icona" aria-hidden="true">
                       <svg
@@ -167,12 +186,7 @@
                             class="profile-ricorrenza-persona"
                             href="{{ route("nomadelfia.person.profile", $persona->id) }}"
                           >
-                            <span
-                              class="profile-person-avatar {{ $persona->isMaschio() ? "profile-person-m" : "profile-person-f" }}"
-                              aria-hidden="true"
-                            >
-                              {{ mb_substr($persona->nome, 0, 1) }}{{ mb_substr($persona->cognome, 0, 1) }}
-                            </span>
+                            <x-persona-avatar :persona="$persona" size="xs" />
                             {{ $persona->nome }} {{ $persona->cognome }}
                           </a>
                         @endforeach
@@ -225,37 +239,4 @@
       </aside>
     </div>
   </div>
-
-  <script>
-    // No tipo selected shows all the ricorrenze, otherwise only the ones of the selected tipi
-    document.querySelectorAll(".profile-filter").forEach(function (filtro) {
-      filtro.addEventListener("click", function () {
-        filtro.setAttribute(
-          "aria-pressed",
-          filtro.getAttribute("aria-pressed") === "true" ? "false" : "true",
-        );
-        const scelti = Array.from(
-          document.querySelectorAll('.profile-filter[aria-pressed="true"]'),
-        ).map(function (scelto) {
-          return scelto.dataset.tipo;
-        });
-        document
-          .querySelectorAll(".profile-ricorrenza[data-tipo]")
-          .forEach(function (ricorrenza) {
-            ricorrenza.hidden =
-              scelti.length > 0 && !scelti.includes(ricorrenza.dataset.tipo);
-          });
-
-        let visibili = 0;
-        document.querySelectorAll(".profile-giorno").forEach(function (giorno) {
-          const conRicorrenze =
-            giorno.querySelector(".profile-ricorrenza:not([hidden])") !== null;
-          giorno.hidden = !conRicorrenze;
-          visibili += conRicorrenze ? 1 : 0;
-        });
-        document.getElementById("ricorrenze-nascoste").hidden =
-          visibili > 0 || document.querySelector(".profile-giorno") === null;
-      });
-    });
-  </script>
 @endsection

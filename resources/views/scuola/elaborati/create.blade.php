@@ -1,5 +1,7 @@
 @extends("scuola.index")
 
+@section("title", "Aggiungi elaborato")
+
 @section("content")
   @include("partials.header", ["title" => "Aggiungi elaborato"])
   <form method="POST" action="{{ route("scuola.elaborati.store") }}">

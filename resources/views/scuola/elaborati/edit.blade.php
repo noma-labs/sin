@@ -1,5 +1,7 @@
 @extends("scuola.index")
 
+@section("title", "Modifica elaborato")
+
 @section("content")
   @include("partials.header", ["title" => "Modifica elaborato"])
   <div class="row">

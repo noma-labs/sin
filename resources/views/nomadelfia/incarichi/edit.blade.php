@@ -1,5 +1,7 @@
 @extends("nomadelfia.index")
 
+@section("title", "Modifica incarico " . $incarico->nome)
+
 @section("content")
   @include("partials.header", ["title" => "Modifica Incarico: " . $incarico->nome])
   <div>

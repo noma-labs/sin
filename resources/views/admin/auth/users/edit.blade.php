@@ -1,5 +1,5 @@
 @extends("admin.index")
-@section("title", "| Edit User")
+@section("title", "Edit User")
 
 @section("content")
   @include("partials.header", ["title" => "Modifica utente"])
@@ -46,6 +46,7 @@
           name="password"
           id="password"
           class="form-control"
+          autocomplete="new-password"
         />
       </div>
 
@@ -57,6 +58,7 @@
           name="password_confirmation"
           id="password_confirmation"
           class="form-control"
+          autocomplete="new-password"
         />
       </div>
 

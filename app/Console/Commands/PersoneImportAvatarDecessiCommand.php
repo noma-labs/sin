@@ -29,9 +29,6 @@ final class PersoneImportAvatarDecessiCommand extends Command
         if (! extension_loaded('exif')) {
             $this->warn('The PHP extension exif is missing: the photos are not rotated as the camera recorded them. Enable `extension=exif` in php.ini.');
         }
-        // a photo of the camera (up to 5760x3840) takes more than 100 MB once decoded, twice when rotated
-        ini_set('memory_limit', '1024M');
-
         $suggerimenti = $this->option('suggest');
         if (is_string($suggerimenti) && $suggerimenti !== '') {
             return $this->suggerisci($action, $suggerimenti);

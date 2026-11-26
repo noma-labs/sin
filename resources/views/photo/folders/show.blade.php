@@ -1,5 +1,7 @@
 @extends("photo.main")
 
+@section("title", "Cartella " . $path)
+
 @section("content")
   @php($segments = array_values(array_filter(explode("/", $path), fn ($s) => $s !== "")))
   <nav aria-label="Percorso" class="mb-2">
@@ -108,6 +110,9 @@
                     <img
                       src="{{ route("photos.preview", $photo->id) }}"
                       class="figure-img img-fluid rounded"
+                      loading="lazy"
+                      decoding="async"
+                      @if ($photo->image_width && $photo->image_height) width="{{ $photo->image_width }}" height="{{ $photo->image_height }}" @endif
                       alt="{{ $photo->description }}"
                     />
                     <div
@@ -155,6 +160,9 @@
                         alt="{{ $photo->description }}"
                         class="rounded"
                         style="width: 64px; height: auto"
+                        loading="lazy"
+                        decoding="async"
+                        @if ($photo->image_width && $photo->image_height) width="{{ $photo->image_width }}" height="{{ $photo->image_height }}" @endif
                       />
                     </td>
                     <td class="fw-semibold">{{ $photo->file_name ?? "—" }}</td>
@@ -208,6 +216,9 @@
                 <img
                   src="{{ route("photos.preview", $photo->id) }}"
                   class="figure-img img-fluid rounded"
+                  loading="lazy"
+                  decoding="async"
+                  @if ($photo->image_width && $photo->image_height) width="{{ $photo->image_width }}" height="{{ $photo->image_height }}" @endif
                   alt="{{ $photo->description }}"
                 />
                 <div
@@ -253,6 +264,9 @@
                     alt="{{ $photo->description }}"
                     class="rounded"
                     style="width: 64px; height: auto"
+                    loading="lazy"
+                    decoding="async"
+                    @if ($photo->image_width && $photo->image_height) width="{{ $photo->image_width }}" height="{{ $photo->image_height }}" @endif
                   />
                 </td>
                 <td class="fw-semibold">{{ $photo->file_name ?? "—" }}</td>

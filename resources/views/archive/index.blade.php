@@ -1,5 +1,7 @@
 @extends("archive.layout")
 
+@section("title", "Archivio")
+
 @section("content")
   <div class="row mb-3">
     <div class="col-md-4 offset-md-4 mt-3">

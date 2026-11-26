@@ -1,5 +1,7 @@
 @extends("admin.index")
 
+@section("title", "Attività")
+
 @section("content")
   @include("partials.header", ["title" => "Amministrazione attività"])
   <div class="row">

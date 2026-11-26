@@ -1,7 +1,7 @@
 {{-- \resources\views\roles\index.blade.php --}}
 @extends("admin.index")
 
-@section("title", "| Roles")
+@section("title", "Roles")
 
 @section("content")
   @include("partials.header", ["title" => "Gestione ruoli"])

@@ -823,12 +823,6 @@ parameters:
 			path: app/Http/Anagrafe/Famiglia/Controllers/FamilyMemberController.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$posizione\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Http/Anagrafe/Famiglia/Controllers/FamilyMemberController.php
-
-		-
 			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$stato\.$#'
 			identifier: property.notFound
 			count: 1
@@ -4633,12 +4627,6 @@ parameters:
 			path: app/Http/Nomadelfia/Persona/Controllers/FolderNumberController.php
 
 		-
-			message: '#^Access to an undefined property App\\Nomadelfia\\PopolazioneNomadelfia\\Requests\\EntrataPersonaRequest\:\:\$tipologia\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Nomadelfia/Persona/Controllers/JoinCommunityController.php
-
-		-
 			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withErrore\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -5934,11 +5922,6 @@ parameters:
 			count: 1
 			path: app/Http/Officina/Controllers/PatentiController.php
 
-		-
-			message: '#^Cannot access property \$id on TValue of mixed\.$#'
-			identifier: property.nonObject
-			count: 1
-			path: app/Http/Officina/Controllers/ReservationCalendarController.php
 
 		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\<App\\Patente\\Models\\CQC\>\:\:CQCMerci\(\)\.$#'
@@ -8251,80 +8234,8 @@ parameters:
 			path: app/Http/Scuola/Controllers/CoverImageController.php
 
 		-
-			message: '#^Cannot call method getPathname\(\) on array\<Illuminate\\Http\\UploadedFile\>\|Illuminate\\Http\\UploadedFile\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: app/Http/Scuola/Controllers/CoverImageController.php
-
-		-
-			message: '#^Method App\\Scuola\\Controllers\\CoverImageController\:\:create\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Scuola/Controllers/CoverImageController.php
-
-		-
-			message: '#^Method App\\Scuola\\Controllers\\CoverImageController\:\:scaleImage\(\) has parameter \$pathToImages with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Scuola/Controllers/CoverImageController.php
-
-		-
 			message: '#^Method App\\Scuola\\Controllers\\CoverImageController\:\:show\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: app/Http/Scuola/Controllers/CoverImageController.php
-
-		-
-			message: '#^Method App\\Scuola\\Controllers\\CoverImageController\:\:store\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Scuola/Controllers/CoverImageController.php
-
-		-
-			message: '#^Parameter \#1 \$image of function imagedestroy expects GdImage, GdImage\|false given\.$#'
-			identifier: argument.type
-			count: 2
-			path: app/Http/Scuola/Controllers/CoverImageController.php
-
-		-
-			message: '#^Parameter \#1 \$image of function imagepng expects GdImage, GdImage\|false given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Http/Scuola/Controllers/CoverImageController.php
-
-		-
-			message: '#^Parameter \#1 \$image of function imagesx expects GdImage, GdImage\|false given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Http/Scuola/Controllers/CoverImageController.php
-
-		-
-			message: '#^Parameter \#1 \$image of function imagesy expects GdImage, GdImage\|false given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Http/Scuola/Controllers/CoverImageController.php
-
-		-
-			message: '#^Parameter \#1 \$width of function imagecreatetruecolor expects int\<1, max\>, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Http/Scuola/Controllers/CoverImageController.php
-
-		-
-			message: '#^Parameter \#2 \$contents of method Illuminate\\Contracts\\Filesystem\\Filesystem\:\:put\(\) expects Illuminate\\Http\\File\|Illuminate\\Http\\UploadedFile\|Psr\\Http\\Message\\StreamInterface\|resource\|string, string\|false given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Http/Scuola/Controllers/CoverImageController.php
-
-		-
-			message: '#^Parameter \#2 \$height of function imagecreatetruecolor expects int\<1, max\>, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Http/Scuola/Controllers/CoverImageController.php
-
-		-
-			message: '#^Parameter \#2 \$src_image of function imagecopyresampled expects GdImage, GdImage\|false given\.$#'
-			identifier: argument.type
 			count: 1
 			path: app/Http/Scuola/Controllers/CoverImageController.php
 

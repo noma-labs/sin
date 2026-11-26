@@ -1,5 +1,7 @@
 @extends("patente.index")
 
+@section("title", "Ricerca patenti")
+
 @section("content")
   @include("partials.header", ["title" => "Ricerca Patenti " . "(numero patenti: " . App\Patente\Models\Patente::count() . ")"])
   <form method="GET" action="{{ route("patente.ricerca.conferma") }}">

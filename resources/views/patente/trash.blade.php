@@ -1,5 +1,7 @@
 @extends("patente.index")
 
+@section("title", "Patenti eliminate")
+
 @section("content")
   @include("partials.header", ["title" => "Patenti eliminate", "subtitle" => "(numero patenti eliminate: " . $patentiDeleted->total() . ")"])
   <div class="table-responsive">

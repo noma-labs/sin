@@ -1,5 +1,7 @@
 @extends("layouts.app")
 
+@section("title", "Accedi")
+
 @section("content")
   <div class="d-flex justify-content-center mt-5">
     <div class="card card-default">
@@ -15,6 +17,9 @@
               class="form-control"
               name="username"
               value="{{ old("username") }}"
+              autocomplete="username"
+              spellcheck="false"
+              autocapitalize="none"
               required
               autofocus
             />
@@ -27,6 +32,7 @@
               type="password"
               class="form-control"
               name="password"
+              autocomplete="current-password"
               required
             />
           </div>

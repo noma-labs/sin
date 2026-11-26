@@ -12,6 +12,8 @@ use App\Traits\SortableTrait;
 use Database\Factories\PersonaFactory;
 use App\Anagrafe\Famiglia\Models\Famiglia;
 use App\Anagrafe\Persona\QueryBuilders\PersonaQueryBuilder;
+use Closure;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -37,6 +39,7 @@ use Illuminate\Support\Str;
  * @property string $origine
  * @property int|null $id_alfa_enrico
  * @property string|null $avatar_path
+ * @property \Carbon\CarbonInterface|null $avatar_aggiornato_il when the avatar was saved the last time, null when saved before this was recorded
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Famiglia&object{pivot: FamigliaPersona}> $famiglieFormate
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Famiglia&object{pivot: FamigliaPersona}> $famiglieComeFiglio
@@ -58,9 +61,46 @@ class Persona extends Model
 
     protected $guarded = [];
 
+    /**
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'avatar_aggiornato_il' => 'datetime',
+        ];
+    }
+
     public function newEloquentBuilder($query): PersonaQueryBuilder
     {
         return new PersonaQueryBuilder($query);
+    }
+
+    /**
+     * Builds the condition that keeps the persone whose nominativo, nome or cognome contain every word of the term,
+     * so that "Davide Neri" and "Neri Davide" both find the persona with nome Davide and cognome Neri.
+     * With $anywhere false a word must match the start of a word of the field, otherwise any part of it.
+     *
+     * @return Closure(Builder<Persona>): void
+     */
+    public static function cercaNomeCompleto(string $term, bool $anywhere = false): Closure
+    {
+        $words = preg_split('/\s+/', mb_trim($term), -1, PREG_SPLIT_NO_EMPTY) ?: [];
+
+        return function (Builder $query) use ($words, $anywhere): void {
+            foreach ($words as $word) {
+                $word = addcslashes($word, '%_\\');
+                $patterns = $anywhere ? ["%{$word}%"] : ["{$word}%", "% {$word}%"];
+
+                $query->where(function (Builder $fields) use ($patterns): void {
+                    foreach (['persone.nominativo', 'persone.nome', 'persone.cognome'] as $column) {
+                        foreach ($patterns as $pattern) {
+                            $fields->orWhere($column, 'like', $pattern);
+                        }
+                    }
+                });
+            }
+        };
     }
     protected function nome(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
@@ -157,7 +197,7 @@ class Persona extends Model
      */
     public function famiglie(): BelongsToMany
     {
-        return $this->belongsToMany(Famiglia::class, 'famiglie_persone', 'persona_id', 'famiglia_id')
+        return $this->belongsToMany(Famiglia::class, FamigliaPersona::class, 'persona_id', 'famiglia_id')
             ->using(FamigliaPersona::class)
             ->withPivot('stato', 'data_entrata');
     }
@@ -168,7 +208,7 @@ class Persona extends Model
             ->wherePivot('stato', '1')
             ->withPivot('posizione_famiglia')
             ->get();
-        if ($famiglia->count() === 0) {
+        if ($famiglia->isEmpty()) {
             // IF null; the person has no a family so it is a single
             return null;
         }

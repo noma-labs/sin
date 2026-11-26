@@ -1,5 +1,7 @@
 @extends("scuola.index")
 
+@section("title", "Elaborati")
+
 @section("content")
   @php
     $link = fn (array $params = []) => route(

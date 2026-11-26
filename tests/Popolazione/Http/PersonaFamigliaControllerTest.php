@@ -37,6 +37,22 @@ it('shows the albero familiare from the genitori to the figli of the famiglia fo
         ->assertSeeInOrder(['Genitori non registrati', 'nonni di Maria', 'Giuseppe', 'genitori di Maria', 'Maria', '1 figlio di Maria', 'Famiglia Propria', 'Luca', 'Famiglia Del Figlio']);
 });
 
+it('shows the avatar of the people in the albero, or their initials without one', function (): void {
+    login();
+    $origine = Famiglia::factory()->coniugi()->create();
+    $padre = Persona::factory()->diEta(80)->maschio()->create(['nome' => 'Arnaldo', 'cognome' => 'Zeni', 'avatar_path' => 'persone/padre.jpg']);
+    $origine->assegnaCapoFamiglia($padre);
+    $persona = Persona::factory()->cinquantenne()->femmina()->create(['nome' => 'Bice', 'cognome' => 'Zeni']);
+    $origine->assegnaFiglioNato($persona);
+
+    $this->get(route('anagrafe.person.families', $persona->id))
+        ->assertOk()
+        ->assertSeeInOrder([
+            '<img src="'.e($padre->avatarUrl()).'"', 'Arnaldo',
+            'persona-avatar persona-avatar-md persona-avatar-f', 'BZ', 'Bice',
+        ], false);
+});
+
 it('shows the percorso of the famiglie d\'origine and draws the albero from the chosen one', function (): void {
     login();
     $persona = Persona::factory()->minorenne()->maschio()->create();

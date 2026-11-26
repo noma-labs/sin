@@ -1,5 +1,7 @@
 @extends("photo.main")
 
+@section("title", "Metadati DBF Enrico")
+
 @section("content")
   <div class="d-print-none">
     <form
