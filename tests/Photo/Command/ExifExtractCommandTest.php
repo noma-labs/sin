@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Photo\Models\ExifData;
 use Illuminate\Support\Facades\File;
 
 it('extracts exif info into a json  with a folder', function (): void {
@@ -39,6 +40,21 @@ it('runs the exiftool binary given with --exiftoolpath instead of the configured
     $this->artisan('exif:extract', ['path' => $folder, '--exiftoolpath' => 'exiftool'])->assertSuccessful();
 
     expect(File::get($folder.'/exif-binary-option.json'))->toContain('BlueSquare.jpg');
+
+    File::deleteDirectory($folder);
+});
+
+it('extracts only the tags read by the import, with the same image hash', function (): void {
+    $folder = storage_path('framework/testing/exif-tags');
+    File::ensureDirectoryExists($folder);
+    File::copy(base_path('tests/Photo/Command/testfile/BlueSquare.jpg'), $folder.'/BlueSquare.jpg');
+
+    $this->artisan('exif:extract', ['path' => $folder])->assertSuccessful();
+
+    $photo = collect(json_decode(File::get($folder.'/exif-tags.json'), true))
+        ->firstWhere('System:FileName', 'BlueSquare.jpg');
+    expect(array_keys($photo))->each->toBeIn(['SourceFile', ...ExifData::EXTRACTED_TAGS])
+        ->and($photo['File:ImageDataHash'])->toBe('759f64681d007051dd64e1a4f9586453');
 
     File::deleteDirectory($folder);
 });

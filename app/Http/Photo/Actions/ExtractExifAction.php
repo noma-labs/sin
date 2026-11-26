@@ -5,22 +5,19 @@ declare(strict_types=1);
 namespace App\Photo\Actions;
 
 use App\Photo\Exif\ExifReader;
+use App\Photo\Models\ExifData;
 
 final class ExtractExifAction
 {
     public function execute(string $path, ?string $exifToolBinPath): string
     {
-        // exiftool -r -n -a -struct -progress1000 -G1 -file:all -xmp:all  -exif:all -iptc:all -ImageDataHash  -json>2000.json 2000
+        // exiftool -r -n -struct -G1 -e -System:FileName ... -XMP-xmp:CreateDate -json>"<path>/<name>.json" -- "<path>"
         $reader = ExifReader::folder($path)
             ->disablePrintConversion()
-            ->allowDuplicates()
             ->enableStructuredInformation()
             ->flatGroup1Tag()
-            ->extractFileInformation()
-            ->extractXMPInformation()
-            ->extractExifInformation()
-            ->extractIPTCInformation()
-            ->extractHashOfTheImage()
+            ->disableCompositeTags()
+            ->extractTags(ExifData::EXTRACTED_TAGS)
             ->setTimeout(null);
         if ($exifToolBinPath) {
             $reader->setExifToolBinary($exifToolBinPath);
