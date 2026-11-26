@@ -1,5 +1,7 @@
 @extends("biblioteca.books.index")
 
+@section("title", "Prestito libro")
+
 @section("content")
   @include("partials.header", ["title" => "Prestito libro"])
   <form

@@ -353,6 +353,10 @@
           <img
             src="{{ route("photos.preview", $photo->id) }}"
             class="img-fluid mb-2"
+            loading="lazy"
+            fetchpriority="low"
+            decoding="async"
+            @if ($photo->image_width && $photo->image_height) width="{{ $photo->image_width }}" height="{{ $photo->image_height }}" @endif
             alt="{{ $photo->file_name }}"
           />
           <div><strong>{{ $photo->file_name ?? "" }}</strong></div>

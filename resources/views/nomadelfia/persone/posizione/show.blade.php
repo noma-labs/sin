@@ -1,5 +1,7 @@
 @extends("nomadelfia.persone.index")
 
+@section("title", $persona->nominativo . " – Posizione")
+
 @section("content")
   @include("partials.header", ["title" => "Gestione Posizione  " . $persona->nominativo])
   <div class="row justify-content-center">

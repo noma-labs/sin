@@ -1,5 +1,7 @@
 @extends("scuola.index")
 
+@section("title", $elaborato->titolo)
+
 @section("content")
   <div class="row g-3">
     <div class="col-lg-4 d-flex flex-column gap-3">

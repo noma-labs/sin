@@ -1,5 +1,7 @@
 @extends("layouts.app")
 
+@section("title", "Accedi")
+
 @section("content")
   <div class="d-flex justify-content-center mt-5">
     <div class="card card-default">

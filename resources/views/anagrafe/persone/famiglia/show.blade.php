@@ -1,5 +1,7 @@
 @extends("nomadelfia.index")
 
+@section("title", "Albero familiare")
+
 @section("content")
   <div class="person-profile">
     <header class="profile-band profile-band-solo rounded-3 mb-3">

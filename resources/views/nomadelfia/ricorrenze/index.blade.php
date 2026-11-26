@@ -1,5 +1,7 @@
 @extends("nomadelfia.index")
 
+@section("title", "Ricorrenze")
+
 @section("content")
   @use("App\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\TipoRicorrenza")
 

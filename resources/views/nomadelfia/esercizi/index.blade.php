@@ -1,5 +1,7 @@
 @extends("nomadelfia.index")
 
+@section("title", "Esercizi spirituali")
+
 @section("content")
   @include("partials.header", ["title" => "Gestione Esercizi Spirituali"])
 

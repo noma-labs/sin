@@ -1,5 +1,7 @@
 @extends("biblioteca.books.index")
 
+@section("title", "Risultati ricerca libri")
+
 @section("content")
   @include("biblioteca.books.search_partial")
   <div class="alert alert-warning alert-dismissible fade show" role="alert">

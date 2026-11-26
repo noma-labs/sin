@@ -1,5 +1,7 @@
 @extends("patente.index")
 
+@section("title", "Elenchi patenti")
+
 @section("content")
   @include("partials.header", ["title" => "Elenchi Patente"])
   @include("patente.elenchi.percategoria")

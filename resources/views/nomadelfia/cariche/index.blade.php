@@ -1,5 +1,7 @@
 @extends("nomadelfia.index")
 
+@section("title", "Cariche costituzionali")
+
 @section("content")
   @include("partials.header", ["title" => "Gestione Cariche costituzionali"])
   <div class="row row-cols-1 row-cols-md-4">

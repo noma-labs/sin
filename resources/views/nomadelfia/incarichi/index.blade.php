@@ -1,5 +1,7 @@
 @extends("nomadelfia.index")
 
+@section("title", "Incarichi")
+
 @section("content")
   @include("partials.header", ["title" => "Gestione Incarichi"])
   @include("nomadelfia.templates.aggiungiIncarico")

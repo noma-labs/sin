@@ -1,5 +1,7 @@
 @extends("layouts.blank")
 
+@section("title", "Slideshow")
+
 @section("content")
   <div class="bg-dark min-vh-100">
     <div

@@ -1,5 +1,7 @@
 @extends("scuola.index")
 
+@section("title", "Aggiungi elaborato di classe")
+
 @section("content")
   @include("partials.header", ["title" => "Aggiungi Elaborato di Classe"])
   <div class="row justify-content-center">

@@ -1,5 +1,7 @@
 @extends("patente.index")
 
+@section("title", "Nuova patente")
+
 @section("content")
   @include("partials.header", ["title" => "Inserisci nuova patente"])
   <form method="POST" action="{{ route("patente.store") }}">

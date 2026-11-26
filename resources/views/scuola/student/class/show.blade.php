@@ -1,5 +1,7 @@
 @extends("scuola.index")
 
+@section("title", "Alunno " . \App\View\Components\PersonaNome::testo($student))
+
 @section("content")
   @include("partials.header", ["title" => "Alunno: " . \App\View\Components\PersonaNome::testo($student)])
   <ul class="nav nav-pills pb-3 flex-column flex-sm-row justify-content-center">

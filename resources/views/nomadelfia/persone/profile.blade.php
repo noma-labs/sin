@@ -1,5 +1,7 @@
 @extends("nomadelfia.index")
 
+@section("title", $persona->nome . " " . $persona->cognome)
+
 @section("content")
   @php
     $nascita = Carbon::parse($persona->data_nascita);
