@@ -17,6 +17,7 @@ final class ExifExtractCommand extends Command
     protected $signature = 'exif:extract
                                     {path : The path (sub folder of the base app path) where the photos are}
                                     {--exiftoolpath= : The path to the exiftool binary (default: null)}
+                                    {--php-hash : Compute File:ImageDataHash in PHP instead of exiftool (faster)}
                                     { --limit=10}';
 
     /**
@@ -40,9 +41,11 @@ final class ExifExtractCommand extends Command
 
         $limit = (int) $this->option('limit');
 
-        $fileName = (new ExtractExifAction)->execute($path, $exifBinPath);
+        $start = microtime(true);
+        $fileName = (new ExtractExifAction)->execute($path, $exifBinPath, (bool) $this->option('php-hash'));
+        $seconds = round(microtime(true) - $start, 1);
 
-        $this->info("Saved into $fileName");
+        $this->info("Saved into $fileName in $seconds s");
 
         return Command::SUCCESS;
 

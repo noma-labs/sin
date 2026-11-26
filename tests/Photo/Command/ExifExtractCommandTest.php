@@ -19,7 +19,7 @@ it('writes the json into storage/app/exif and not inside the scanned folder', fu
     $jsonFile = Storage::disk('local')->path('exif/2025-09-19 AAA A test folder.json');
 
     $this->artisan('exif:extract', ['path' => $folder])
-        ->expectsOutput("Saved into $jsonFile")
+        ->expectsOutputToContain("Saved into $jsonFile")
         ->assertSuccessful();
 
     $photos = json_decode(Storage::disk('local')->get('exif/2025-09-19 AAA A test folder.json'), true);
@@ -57,4 +57,26 @@ it('extracts only the tags read by the import, with the same image hash', functi
     expect($photos)->toHaveCount(1)
         ->and(array_keys($photos[0]))->each->toBeIn(['SourceFile', ...ExifData::EXTRACTED_TAGS])
         ->and($photos[0]['File:ImageDataHash'])->toBe('759f64681d007051dd64e1a4f9586453');
+});
+
+it('writes the same json when the image hash is computed in PHP', function (): void {
+    $folder = 'tests/Photo/Command/testfile';
+
+    $this->artisan('exif:extract', ['path' => $folder])->assertSuccessful();
+    $hashedByExiftool = json_decode(Storage::disk('local')->get('exif/testfile.json'), true);
+
+    $this->artisan('exif:extract', ['path' => $folder, '--php-hash' => true])->assertSuccessful();
+    $hashedInPhp = json_decode(Storage::disk('local')->get('exif/testfile.json'), true);
+
+    expect($hashedInPhp)->toEqual($hashedByExiftool)
+        ->and(array_filter(array_column($hashedInPhp, 'File:ImageDataHash')))->toHaveCount(2);
+});
+
+it('leaves the json empty when exiftool fails and the image hash is computed in PHP', function (): void {
+    config(['services.exiftool.path' => '/missing/exiftool']);
+
+    $this->artisan('exif:extract', ['path' => 'tests/Photo/Command/testfile/BlueSquare.jpg', '--php-hash' => true])
+        ->assertSuccessful();
+
+    expect(Storage::disk('local')->get('exif/BlueSquare.jpg.json'))->toBe('');
 });
