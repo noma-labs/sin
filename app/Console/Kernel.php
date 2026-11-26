@@ -7,6 +7,7 @@ namespace App\Console;
 use App\Console\Commands\CreateDatabaseCommand;
 use App\Console\Commands\DetectPhotoIssuesCommand;
 use App\Console\Commands\EmbeddingsTestCommand;
+use App\Console\Commands\ExifCheckHashCommand;
 use App\Console\Commands\ExifExtractCommand;
 use App\Console\Commands\ExifJsonImportCommand;
 use App\Console\Commands\FamiglieImportAlfaCommand;
@@ -34,6 +35,7 @@ final class Kernel extends ConsoleKernel
         EmbeddingsTestCommand::class,
         ExifExtractCommand::class,
         ExifJsonImportCommand::class,
+        ExifCheckHashCommand::class,
         SynchPeopleOnPhotosCommand::class,
         FamiglieImportAlfaCommand::class,
         PersoneImportAvatarDecessiCommand::class,
