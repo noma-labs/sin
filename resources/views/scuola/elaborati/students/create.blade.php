@@ -1,5 +1,7 @@
 @extends("scuola.index")
 
+@section("title", "Aggiungi alunni a elaborato")
+
 @section("content")
   @include("partials.header", ["title" => "Aggiungi alunni a elaborato"])
   <form

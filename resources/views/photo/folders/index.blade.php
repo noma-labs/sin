@@ -1,5 +1,7 @@
 @extends("photo.main")
 
+@section("title", "Cartelle foto")
+
 @section("content")
   <div class="row row-cols-2 row-cols-md-5 g-3">
     @foreach ($dirTree as $child)

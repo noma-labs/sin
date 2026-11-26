@@ -1,5 +1,7 @@
 @extends("biblioteca.books.index")
 
+@section("title", "Modifica collocazione")
+
 @section("content")
   @include("partials.header", ["title" => "Modifica collocazione"])
   <form

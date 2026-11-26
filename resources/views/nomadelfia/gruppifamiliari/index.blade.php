@@ -1,5 +1,7 @@
 @extends("nomadelfia.index")
 
+@section("title", "Gruppi familiari")
+
 @section("content")
   @include("partials.header", ["title" => "Gestione Gruppi Familiari"])
 

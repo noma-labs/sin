@@ -1,5 +1,7 @@
 @extends("scuola.index")
 
+@section("title", "Classe")
+
 @section("content")
   @include("partials.header", ["title" => "Gestione Classe"])
   <div class="card mb-3">

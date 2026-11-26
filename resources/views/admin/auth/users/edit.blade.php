@@ -1,5 +1,5 @@
 @extends("admin.index")
-@section("title", "| Edit User")
+@section("title", "Edit User")
 
 @section("content")
   @include("partials.header", ["title" => "Modifica utente"])

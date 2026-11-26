@@ -1,5 +1,7 @@
 @extends("nomadelfia.index")
 
+@section("title", "Modifica dati anagrafici")
+
 @section("content")
   @include("partials.header", ["title" => "Modifica Dati anagrafici"])
   <div class="row justify-content-center">

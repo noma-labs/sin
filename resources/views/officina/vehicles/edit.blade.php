@@ -1,5 +1,7 @@
 @extends("officina.index")
 
+@section("title", "Modifica veicolo")
+
 @section("content")
   @include("partials.header", ["title" => "Modifica Veicolo"])
   <div class="row mb-3">

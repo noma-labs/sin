@@ -1,5 +1,7 @@
 @extends("biblioteca.video.index")
 
+@section("title", "Risultati ricerca video")
+
 @section("content")
   @include("biblioteca.video.search_partial")
   <div id="results" class="alert alert-success">

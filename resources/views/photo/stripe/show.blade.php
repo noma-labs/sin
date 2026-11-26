@@ -1,5 +1,7 @@
 @extends("photo.main")
 
+@section("title", "Striscia " . $stripe->datnum)
+
 @section("content")
   <div class="my-3">
     <div class="card mb-3">

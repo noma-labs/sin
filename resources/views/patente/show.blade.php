@@ -1,5 +1,7 @@
 @extends("patente.index")
 
+@section("title", "Modifica patente")
+
 @section("content")
   @include("partials.header", ["title" => "Modifica Patente"])
   <div class="row">

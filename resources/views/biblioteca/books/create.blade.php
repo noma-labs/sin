@@ -1,5 +1,7 @@
 @extends("biblioteca.books.index")
 
+@section("title", "Aggiungi libro")
+
 @section("content")
   @include("partials.header", ["title" => "Aggiungi Libro"])
   <form method="POST" action="{{ route("books.store") }}">

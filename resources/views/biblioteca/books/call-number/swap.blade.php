@@ -1,5 +1,7 @@
 @extends("biblioteca.books.index")
 
+@section("title", "Inverti collocazione")
+
 @section("content")
   @include("partials.header", ["title" => "Inverti collocazione"])
   <div class="row">

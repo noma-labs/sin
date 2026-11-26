@@ -1,5 +1,7 @@
 @extends("nomadelfia.index")
 
+@section("title", "Aggiungi persona")
+
 @section("content")
   @include("partials.header", ["title" => "Aggiungi Persona"])
   <div class="row">

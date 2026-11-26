@@ -1,5 +1,7 @@
 @extends("nomadelfia.index")
 
+@section("title", "Aggiornamento anagrafe")
+
 @section("content")
   @include("partials.header", ["title" => "Aggiornamento Anagrafe"])
   <table class="table table-striped">

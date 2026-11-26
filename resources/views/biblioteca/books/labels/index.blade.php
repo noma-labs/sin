@@ -1,5 +1,7 @@
 @extends("biblioteca.books.index")
 
+@section("title", "Etichette")
+
 @section("content")
   @include("partials.header", ["title" => "Gestione Etichette"])
   <div class="row">

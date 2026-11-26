@@ -1,5 +1,7 @@
 @extends("patente.index")
 
+@section("title", "Scadenze patenti")
+
 @section("content")
   @include("partials.header", ["title" => "Scadenze patenti", "subtitle" => "(numero patenti: " . App\Patente\Models\Patente::count() . ")"])
   <div class="row row-cols-1 row-cols-md-3 g-3 mb-3">

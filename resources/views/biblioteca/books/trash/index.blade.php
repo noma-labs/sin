@@ -1,5 +1,7 @@
 @extends("biblioteca.books.index")
 
+@section("title", "Libri eliminati")
+
 @section("content")
   <div id="results" class="alert alert-success">
     Numero di libri Trovati:

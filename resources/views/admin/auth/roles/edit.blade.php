@@ -1,5 +1,5 @@
 @extends("admin.index")
-@section("title", "| Modifica ruolo")
+@section("title", "Modifica ruolo")
 
 @section("content")
   @include("partials.header", ["title" => "Modifica ruolo"])
