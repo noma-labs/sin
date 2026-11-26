@@ -166,6 +166,30 @@
     font-size: 0.875rem;
   }
 
+  // The avatar just saved, to check it before going on to the next persona of the queue
+  .avatar-attuale {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1rem;
+    border: 1px solid var(--bs-border-color);
+    border-radius: 0.75rem;
+    background: var(--bs-tertiary-bg);
+
+    img {
+      width: 256px;
+      max-width: 100%;
+      height: auto;
+      border-radius: 0.75rem;
+    }
+
+    > div {
+      flex: 1 1 16rem;
+      min-width: 0;
+    }
+  }
+
   // The avatars already saved, in the "Fatte" tab of the persone without a photo
   .avatar-fatte {
     display: grid;

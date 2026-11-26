@@ -69,16 +69,18 @@ it('lists the persone of the photos with an avatar, the last saved first, the on
     expect($fatte)->toBe([$recente->id, $vecchia->id, $senzaData->id]);
 });
 
-it('gives the next persona of the queue, none after the last one', function (): void {
+it('gives the next persona of the queue, also for the one that just got an avatar, none after the last one', function (): void {
     $prima = Persona::factory()->create();
     taggaInFoto($prima, 1);
     $ultima = Persona::factory()->create();
     taggaInFoto($ultima, 1);
-    $fuoriCoda = Persona::factory()->create();
+    $fuoriDalleFoto = Persona::factory()->create();
 
     $coda = resolve(CodaAvatarAction::class);
 
+    expect($coda->prossima($prima))->toBe($ultima->id);
+    $prima->update(['avatar_path' => 'persone/prima.jpg']);
     expect($coda->prossima($prima))->toBe($ultima->id)
         ->and($coda->prossima($ultima))->toBeNull()
-        ->and($coda->prossima($fuoriCoda))->toBeNull();
+        ->and($coda->prossima($fuoriDalleFoto))->toBeNull();
 });

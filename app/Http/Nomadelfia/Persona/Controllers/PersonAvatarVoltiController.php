@@ -20,8 +20,8 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 /**
  * Chooses the avatar of a persona from the photos of the archive: among their tagged faces, or drawing the box around
  * the persona on one of their photos. With coda=1 the page belongs to the queue of the persone without an avatar
- * (CodaAvatarAction) and after the choice it goes on to the next persona. It needs the permission to modify the
- * persona and to see the photos.
+ * (CodaAvatarAction): after the choice it shows the avatar of the same persona to check it, with the way to the next
+ * persona. It needs the permission to modify the persona and to see the photos.
  */
 #[Middleware('auth')]
 #[Middleware('can:popolazione.persona.modifica')]
@@ -78,7 +78,7 @@ final class PersonAvatarVoltiController
     /**
      * Saves the chosen face as the avatar, cut from the original photo: only a face of the persona can be chosen.
      */
-    public function store(Request $request, string $id, VoltiPersonaAction $voltiPersona, SalvaAvatarPersonaAction $salvaAvatar, CodaAvatarAction $coda): RedirectResponse
+    public function store(Request $request, string $id, VoltiPersonaAction $voltiPersona, SalvaAvatarPersonaAction $salvaAvatar): RedirectResponse
     {
         $persona = Persona::query()->findOrFail($id);
         $dati = $request->validate([
@@ -91,7 +91,7 @@ final class PersonAvatarVoltiController
             return back()->withErrors(['volto' => "Questo volto non è di {$persona->nome} {$persona->cognome}."]);
         }
 
-        return $this->salva($request, $persona, $volto->sourceFile, $volto->riquadro(), $salvaAvatar, $coda, 'volto');
+        return $this->salva($request, $persona, $volto->sourceFile, $volto->riquadro(), $salvaAvatar, 'volto');
     }
 
     /**
@@ -125,7 +125,7 @@ final class PersonAvatarVoltiController
      * Saves the box drawn on a photo of the persona as the avatar. The box is normalized to the photo as the browser
      * shows it, rotated by its EXIF orientation, as SalvaAvatarPersonaAction cuts it.
      */
-    public function storeRiquadro(Request $request, string $id, string $photo, VoltiPersonaAction $voltiPersona, SalvaAvatarPersonaAction $salvaAvatar, CodaAvatarAction $coda): RedirectResponse
+    public function storeRiquadro(Request $request, string $id, string $photo, VoltiPersonaAction $voltiPersona, SalvaAvatarPersonaAction $salvaAvatar): RedirectResponse
     {
         $persona = Persona::query()->findOrFail($id);
         $foto = $voltiPersona->foto($persona, (int) $photo);
@@ -152,19 +152,17 @@ final class PersonAvatarVoltiController
             return back()->withErrors(['riquadro' => 'Il riquadro esce dalla foto.']);
         }
 
-        return $this->salva($request, $persona, $foto->source_file, RiquadroVolto::disegnato($x, $y, $larghezza, $altezza), $salvaAvatar, $coda, 'riquadro');
+        return $this->salva($request, $persona, $foto->source_file, RiquadroVolto::disegnato($x, $y, $larghezza, $altezza), $salvaAvatar, 'riquadro');
     }
 
     /**
-     * Cuts the avatar from the original photo, then goes back to the profile or, in the queue, on to the next persona.
+     * Cuts the avatar from the original photo, then goes back to the profile or, in the queue, to the faces of the same
+     * persona, to check the avatar before going on to the next one.
      *
      * @param  string  $campo  the field of the error when the photo can not be read
      */
-    private function salva(Request $request, Persona $persona, string $sourceFile, RiquadroVolto $riquadro, SalvaAvatarPersonaAction $salvaAvatar, CodaAvatarAction $coda, string $campo): RedirectResponse
+    private function salva(Request $request, Persona $persona, string $sourceFile, RiquadroVolto $riquadro, SalvaAvatarPersonaAction $salvaAvatar, string $campo): RedirectResponse
     {
-        // the next one is found before saving, while the persona is still in the queue
-        $prossima = $request->boolean('coda') ? $coda->prossima($persona) : null;
-
         $originali = Storage::disk('photos');
         try {
             if (! $originali->exists($sourceFile)) {
@@ -179,10 +177,8 @@ final class PersonAvatarVoltiController
         if (! $request->boolean('coda')) {
             return to_route('nomadelfia.person.profile', $persona->id)->with('success', $salvata);
         }
-        if ($prossima === null) {
-            return to_route('nomadelfia.person.senza-avatar')->with('success', "{$salvata} Sei arrivato in fondo alla coda.");
-        }
 
-        return to_route('nomadelfia.person.avatar.volti', ['id' => $prossima, 'coda' => 1])->with('success', $salvata);
+        return to_route('nomadelfia.person.avatar.volti', ['id' => $persona->id, 'coda' => 1])
+            ->with('success', "{$salvata} Controllala, poi passa alla prossima persona.");
     }
 }

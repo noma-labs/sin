@@ -31,10 +31,10 @@
       @if ($inCoda)
         @if ($prossima !== null)
           <a
-            class="btn btn-outline-secondary"
+            @class(["btn", "btn-primary" => $persona->avatar_path, "btn-outline-secondary" => ! $persona->avatar_path])
             href="{{ route("nomadelfia.person.avatar.volti", ["id" => $prossima, "coda" => 1]) }}"
           >
-            Salta &rarr;
+            {{ $persona->avatar_path ? "Prossima persona" : "Salta" }} &rarr;
           </a>
         @else
           <a
@@ -46,6 +46,30 @@
         @endif
       @endif
     </div>
+
+    @if ($persona->avatar_path)
+      <div class="avatar-attuale mb-4">
+        <img
+          src="{{ $persona->avatarUrl() }}"
+          alt="La foto attuale di {{ $persona->nome }} {{ $persona->cognome }}"
+          width="256"
+          height="256"
+        />
+        <div>
+          <h2 class="h5 mb-1">Foto attuale</h2>
+          <p class="text-body-secondary mb-0">
+            @if ($persona->avatar_aggiornato_il)
+              Salvata il
+              {{ $persona->avatar_aggiornato_il->format("d/m/Y") }} alle
+              {{ $persona->avatar_aggiornato_il->format("H:i") }}.
+            @endif
+
+            Se non va bene, scegli un altro volto o disegna il riquadro qui
+            sotto: la nuova foto prende il suo posto.
+          </p>
+        </div>
+      </div>
+    @endif
 
     <h2 class="h5 mb-3">Volti taggati</h2>
     @if ($volti === [])

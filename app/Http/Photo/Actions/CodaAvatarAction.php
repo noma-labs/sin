@@ -50,15 +50,26 @@ final class CodaAvatarAction
     }
 
     /**
-     * The id of the persona after $persona in the queue, null when $persona is the last one or not in the queue.
+     * The id of the persona that comes after $persona in the queue, also when $persona has just left it by getting an
+     * avatar: the next one by the order of the queue (more photos, then the id). Null after the last one or when
+     * $persona is not in the photos.
      */
     public function prossima(Persona $persona): ?int
     {
-        $ids = $this->daFare()->get()->modelKeys();
-        $posizione = array_search($persona->id, $ids, true);
-        $prossima = $posizione === false ? null : ($ids[$posizione + 1] ?? null);
+        $numeroFoto = $this->personeNelleFoto()->where('persone.id', $persona->id)->value('foto_persona.numero_foto');
+        if (! is_numeric($numeroFoto)) {
+            return null;
+        }
 
-        return $prossima === null ? null : (int) $prossima;
+        $prossima = $this->daFare()
+            ->where(fn (Builder $dopo) => $dopo
+                ->where('foto_persona.numero_foto', '<', (int) $numeroFoto)
+                ->orWhere(fn (Builder $pari) => $pari
+                    ->where('foto_persona.numero_foto', (int) $numeroFoto)
+                    ->where('persone.id', '>', $persona->id)))
+            ->value('persone.id');
+
+        return is_numeric($prossima) ? (int) $prossima : null;
     }
 
     /**

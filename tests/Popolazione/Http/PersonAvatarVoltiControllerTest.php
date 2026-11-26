@@ -210,17 +210,35 @@ it('does not let the box be drawn on a photo of another persona', function (): v
     $this->assertDatabaseHas('persone', ['id' => $persona->id, 'avatar_path' => null], 'db_nomadelfia');
 });
 
-it('goes on to the next persona of the queue after the choice, back to the queue after the last one', function (): void {
+it('stays on the persona after the choice in the queue, to check the avatar before the next one', function (): void {
     login();
-    $prima = Persona::factory()->create();
-    $fotoPrima = fotoDelVolto($prima, 'ANNA RO');
-    $ultima = Persona::factory()->create();
-    $fotoUltima = fotoDelVolto($ultima, 'PIETRO SA');
+    $persona = Persona::factory()->create(['nome' => 'Anna', 'cognome' => 'Rota']);
+    $foto = fotoDelVolto($persona, 'ANNA RO');
+    $seconda = Persona::factory()->create();
+    fotoDelVolto($seconda, 'PIETRO SA');
 
-    $this->post(route('nomadelfia.person.avatar.volti.store', $prima->id), ['photo_id' => $fotoPrima->id, 'indice' => 0, 'coda' => 1])
+    $this->post(route('nomadelfia.person.avatar.volti.store', $persona->id), ['photo_id' => $foto->id, 'indice' => 0, 'coda' => 1])
+        ->assertRedirect(route('nomadelfia.person.avatar.volti', ['id' => $persona->id, 'coda' => 1]))
+        ->assertSessionHas('success', 'Foto di Anna Rota salvata. Controllala, poi passa alla prossima persona.');
+
+    $this->get(route('nomadelfia.person.avatar.volti', ['id' => $persona->id, 'coda' => 1]))
+        ->assertOk()
+        ->assertSeeInOrder(['Prossima persona', 'Foto attuale'])
+        ->assertSee(route('nomadelfia.person.avatar.volti', ['id' => $seconda->id, 'coda' => 1]));
+});
+
+it('goes back to the queue after the box of the last persona', function (): void {
+    login();
+    $ultima = Persona::factory()->create();
+    $foto = fotoDelVolto($ultima, 'PIETRO SA');
+
+    $this->post(route('nomadelfia.person.avatar.riquadro.store', ['id' => $ultima->id, 'photo' => $foto->id]), ['x' => 0.1, 'y' => 0.1, 'w' => 0.2, 'h' => 0.2, 'coda' => 1])
         ->assertRedirect(route('nomadelfia.person.avatar.volti', ['id' => $ultima->id, 'coda' => 1]));
-    $this->post(route('nomadelfia.person.avatar.riquadro.store', ['id' => $ultima->id, 'photo' => $fotoUltima->id]), ['x' => 0.1, 'y' => 0.1, 'w' => 0.2, 'h' => 0.2, 'coda' => 1])
-        ->assertRedirect(route('nomadelfia.person.senza-avatar'));
+
+    $this->get(route('nomadelfia.person.avatar.volti', ['id' => $ultima->id, 'coda' => 1]))
+        ->assertOk()
+        ->assertSeeInOrder(['Fine della coda', 'Foto attuale'])
+        ->assertDontSee('Prossima persona');
 });
 
 it('skips to the next persona of the queue', function (): void {
