@@ -6,12 +6,21 @@ namespace App\Photo\Actions;
 
 use App\Photo\Exif\ExifReader;
 use App\Photo\Models\ExifData;
+use Illuminate\Support\Facades\Storage;
 
 final class ExtractExifAction
 {
+    /**
+     * Extract the exif of the photos in $path into storage/app/exif/<folder name>.json
+     * and return the path of the JSON.
+     */
     public function execute(string $path, ?string $exifToolBinPath): string
     {
-        // exiftool -r -n -struct -G1 -e -System:FileName ... -XMP-xmp:CreateDate -json>"<path>/<name>.json" -- "<path>"
+        $disk = Storage::disk('local');
+        $disk->makeDirectory('exif');
+        $jsonFile = $disk->path('exif/'.basename($path).'.json');
+
+        // exiftool -r -n -struct -G1 -e -System:FileName ... -XMP-xmp:CreateDate -json>"storage/app/exif/<name>.json" -- "<path>"
         $reader = ExifReader::folder($path)
             ->disablePrintConversion()
             ->enableStructuredInformation()
@@ -23,6 +32,6 @@ final class ExtractExifAction
             $reader->setExifToolBinary($exifToolBinPath);
         }
 
-        return $reader->saveJSON();
+        return $reader->saveJSON($jsonFile);
     }
 }

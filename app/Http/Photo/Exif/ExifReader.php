@@ -231,19 +231,19 @@ final class ExifReader
         echo $output;
     }
 
-    public function saveJSON(?string $fileName = null): string
+    /**
+     * Write the JSON into the given file and return its path. Keep the file outside the
+     * scanned folder, otherwise exiftool reads it as one more file.
+     */
+    public function saveJSON(string $targetFile): string
     {
-        // if not given, it use the name of the source file
-        $name = $fileName ?: pathinfo((string) $this->sourcePath, PATHINFO_FILENAME).'.json';
-
-        $fullName = $this->sourcePath.DIRECTORY_SEPARATOR.$name;
-        $this->exportToJSON($fullName);
+        $this->exportToJSON($targetFile);
 
         $command = $this->createExifToolCommand();
 
         $this->callExifTool($command);
 
-        return $fullName;
+        return $targetFile;
     }
 
     public function savePhpArray(): Collection
